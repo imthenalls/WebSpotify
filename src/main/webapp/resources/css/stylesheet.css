@@ -1,0 +1,298 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 21, 2017, 11:22:29 AM
+    Author     : spike
+*/
+
+body{
+    background-color:#333131;
+    color:white;
+}
+
+ul{
+    list-style-type: none;
+}
+
+a{
+    color:white;
+    text-decoration: none !important;
+}
+
+a:hover{
+    color: #3399ff;
+}
+
+#shuffleSong:hover{
+    
+}
+
+.navbar-brand{
+    color:white;
+}
+
+.navbar-fixed-top{
+    height:52px;
+}
+
+#left-toolbar,#right-toolbar{
+    background-color:#181818;
+}
+
+#left-toolbar{
+    position:fixed;
+    left:0;
+    height:100%;
+    font-weight:bold;
+    overflow-y: scroll;
+    padding-bottom:130px;
+}
+
+#left-toolbar li a:hover{
+    background: #181818;
+}
+
+#left-toolbar li a:focus{
+    background: #181818;
+}
+
+/*
+#left-toolbar::-webkit-scrollbar{
+    background-color:#181818;
+}
+
+#left-toolbar::-webkit-scrollbar-thumb{
+    background-color: #3399ff;
+}
+*/
+
+
+.cat-option{
+    padding: 0 40px;
+}
+
+#main-section{
+    margin-top:52px;
+}
+
+#navPill{
+    background-color: #999999;
+    text-align:center;
+    font-weight:bold;
+}
+
+#navPill li a:hover{
+    background: #337ab7;
+}
+
+.navbar{
+    margin-bottom:0;
+    background: #181818;
+}
+
+#right-toolbar{
+    position:fixed;
+    right:0;
+    height:100%;
+}
+
+.cardRow{
+    text-align:center;
+    padding-bottom:50px;
+}
+
+.card{
+    text-align:center;
+    border-width: 2px;
+    border-style: solid;
+    border-color:black;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 8px;
+    background-color: #181818;
+    width: 23%
+}
+
+.card:hover{
+    opacity: .8;
+}
+
+.card img{
+    height:100px;
+    width:100px;
+}
+
+.mediaPic{
+    height:125px;
+    width:125px;
+}
+
+#bottom-toolbar{
+    padding: 20px 0;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background-color:black;
+    height:92px;
+   
+}
+
+#albumArt{
+    text-align:center;
+}
+
+.fa{
+    font-size:20px;
+    padding: 0 20px;
+    text-decoration: none;
+}
+
+#makePlaylist{
+    font-size: 14px;
+}
+
+#center-pane{
+    /*background: -webkit-linear-gradient(left top, #666666, #cccccc);*/
+    height:100%;
+    text-align:center;
+    padding-bottom:130px;
+}
+
+#mediaInfo{
+    text-align:left;
+}
+
+#featuredAlbum{
+    text-align:right;
+}
+
+#featured-media{
+    padding: 30px 0;
+    background: linear-gradient(blue,grey);
+}
+
+#featuredDetails{
+    text-align:left;
+}
+
+#browse-categories{
+    text-align:center;
+}
+
+#musicPlayer{
+    text-align:center;
+}
+
+#playerSettings{
+    text-align:right;
+}
+
+.songTable{
+    width:95%
+}
+
+#tableContainer{
+    text-align:-webkit-center;
+}
+
+.songTable tr:hover{
+    background-color:grey;
+}
+
+.songEntry{
+    text-align:left;
+}
+
+#mediaPane{
+    padding-bottom:60px;
+}
+
+.list-group li.active a{
+    background-color:grey;
+}
+
+#center-pane{
+    /*background: -webkit-linear-gradient(left top, #666666, #cccccc);*/
+    height:100%;
+    text-align:left;
+    padding-bottom:130px;
+}
+
+#edit-profile-button{
+    background-color:#080808;
+}
+
+#edit-profile-button:hover{
+    color:#3399ff;
+}
+
+.progressRow{
+    margin-top:10px;
+}
+
+.progress{
+    padding-left:0px;
+}
+
+.progress-bar{
+    background-color: #3399ff;
+}
+
+/*
+#progressBar { 
+   border:2px solid #aaa; 
+   color: blue;
+   margin-top:10px;
+   height:20px;
+}
+
+#progress {
+   background-color:red;
+   height:20px;
+   display:inline-block;
+}
+*/
+
+.caption{
+    color:white;
+    background-color:#333131;
+}
+.thumbnail{
+    background-color: #333131;
+    color: white;
+    border: 0 none;
+    box-shadow: none;
+}
+.fa fa-chevron-left{
+    color:white;
+}
+.fa fa-chevron-right{
+    color:white;
+}
+
+/* equal card height */
+.row-equal > div[class*='col-'] {
+    display: flex;
+    flex: 1 0 auto;
+}
+
+.row-equal .card {
+   width: 100%;
+}
+
+/* ensure equal card height inside carousel */
+.carousel-inner>.row-equal.active, 
+.carousel-inner>.row-equal.next, 
+.carousel-inner>.row-equal.prev {
+    display: flex;
+}
+
+/* prevent flicker during transition */
+.carousel-inner>.row-equal.active.left, 
+.carousel-inner>.row-equal.active.right {
+    opacity: 0.5;
+    display: flex;
+}
