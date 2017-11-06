@@ -58,16 +58,16 @@ and open the template in the editor.
         <!-- JAVASCRIPT -->
         
         <!-- jQuery script -->
-        <script src="/resources/js/jquery.min.js"></script>
+        <script src="resources/js/jquery.min.js"></script>
         
         <!-- Bootstrap Javascript -->
-        <script src="/resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/bootstrap.min.js"></script>
         
         <!-- For including HTML Snippets -->
-        <script src="/resources/js/w3.js"></script>
+        <script src="resources/js/w3.js"></script>
         
         <!-- Main Page Script -->
-        <script src="/resources/js/script.js"></script>
+        <script src="resources/js/script.js"></script>
 
     </body>
 </html>

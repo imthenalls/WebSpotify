@@ -36,11 +36,11 @@ public class User implements Serializable{
        this.email = email;
        this.password = password;
     }
-    public String getUserName() {
+    public String getUsername() {
         return this.username;
     }
-    public void setUserName(String userName) {
-        this.username = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public String getEmail() {
         return this.email;

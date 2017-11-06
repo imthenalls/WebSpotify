@@ -45,7 +45,7 @@ public class SpotifyController {
     public ModelAndView loginUser(HttpSession session) {
         
         ModelAndView model;
-        if(null == session.getAttribute("loggedIn")){
+        if(null == session.getAttribute("currentUser")){
             model = new ModelAndView("login");
             return model;    
         }
@@ -58,7 +58,7 @@ public class SpotifyController {
         if(user==null){
             return new ModelAndView("redirect:/");
         }
-        session.setAttribute("loggedIn", user);
+        session.setAttribute("currentUser", user);
         ModelAndView model= new ModelAndView("redirect:/browse");
         return model;   
     }
@@ -66,7 +66,7 @@ public class SpotifyController {
     public ModelAndView signup(HttpSession session) {
         
         ModelAndView model;
-        if(null == session.getAttribute("loggedIn")){
+        if(null == session.getAttribute("currentUser")){
             model = new ModelAndView("signup");
             return model;    
         }

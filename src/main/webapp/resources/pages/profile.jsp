@@ -14,11 +14,11 @@
                     </li>
                     <li>
                         <label for="username">Username:</label>
-                        <p id="username">Username</p>
+                        <p>${currentUser.username}</p>
                     </li>
                     <li>
                         <label for="email">E-Mail:</label>
-                        <p id="email">username@website.com</p>
+                        <p>${currentUser.email}</p>
                     </li>
                     <li>
                         <label for="account-type">Account Type:</label>
