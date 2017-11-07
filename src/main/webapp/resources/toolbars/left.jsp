@@ -31,7 +31,7 @@
             <span style="color:#3399ff;">Your Playlists</span>
         </li>
         <li>
-            <a data-toggle="tab" href="#">Create Playlist
+            <a data-toggle="modal" href="#createPlaylistModal">Create Playlist
                 <i id="makePlaylist" class="fa fa-plus"></i>
             </a>
         </li>
