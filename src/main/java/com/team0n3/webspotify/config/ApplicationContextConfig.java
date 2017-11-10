@@ -18,6 +18,9 @@ import javax.sql.DataSource;
 import com.team0n3.webspotify.dao.UserDAO;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.dao.ArtistDAO;
+import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
+import com.team0n3.webspotify.model.Artist;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +62,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class);
+        sessionBuilder.addAnnotatedClasses(User.class,Artist.class);
         return sessionBuilder.buildSessionFactory();
     }
     
@@ -76,6 +79,11 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
         return new UserDAOHibernateImpl(sessionFactory);
     }
     
+    @Autowired
+    @Bean(name = "artistDao")
+    public ArtistDAO getArtistDao(SessionFactory sessionFactory) {
+        return new ArtistDAOHibernateImpl(sessionFactory);
+    }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");

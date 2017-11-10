@@ -17,6 +17,7 @@
           <div class="" >
               <input type="text" id="artistName" name="artistName" placeholder="ArtistName" class="form-control" required autofocus>
               <button class="btn btn-lg btn-primary btn-block" type="submit">Add Artist</button>
+              
           </div>
         </form>
     </div> <!-- /container -->

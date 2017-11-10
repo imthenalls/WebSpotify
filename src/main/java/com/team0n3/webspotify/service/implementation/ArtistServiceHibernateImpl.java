@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
+import java.util.List;
 
 /**
  *
@@ -41,6 +42,13 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     public void addNewArtist(String artistName) {
         Artist artist = new Artist(artistName);
         artistDao.addArtist(artist);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public List<Artist> listAllArtists()
+    {
+        List<Artist> listArtists = artistDao.listArtists();
+        return listArtists;
     }
     
 }

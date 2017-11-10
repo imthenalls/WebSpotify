@@ -5,6 +5,7 @@
  */
 package com.team0n3.webspotify.service;
 import com.team0n3.webspotify.model.Artist;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,5 @@ import com.team0n3.webspotify.model.Artist;
 public interface ArtistService {
     public Artist getNewArtist(String artistName);
     public void addNewArtist(String artistName); 
-  
+    public List<Artist> listAllArtists();
 }

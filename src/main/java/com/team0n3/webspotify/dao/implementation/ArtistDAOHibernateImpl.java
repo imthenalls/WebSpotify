@@ -36,7 +36,8 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
 
     @Override
     public List<Artist> listArtists(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Artist> artistList = sessionFactory.getCurrentSession().createCriteria(Artist.class).list();
+        return artistList;
     }
 
     @Override

@@ -9,7 +9,6 @@
 
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/stylesheet.css" rel="stylesheet">
@@ -39,6 +38,11 @@
             <div align="center">
                 <span>
                 Don't have an account? Sign up <a href="${pageContext.servletContext.contextPath}/signup" >here</a>
+                </span>
+            </div>
+            <div align="center">
+                <span>
+                Add Artist <a href="${pageContext.servletContext.contextPath}/artistPage" >here</a>
                 </span>
             </div>
         </div>
