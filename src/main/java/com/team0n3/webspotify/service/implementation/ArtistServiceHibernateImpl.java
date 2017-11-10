@@ -48,6 +48,7 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     public List<Artist> listAllArtists()
     {
         List<Artist> listArtists = artistDao.listArtists();
+        
         return listArtists;
     }
     

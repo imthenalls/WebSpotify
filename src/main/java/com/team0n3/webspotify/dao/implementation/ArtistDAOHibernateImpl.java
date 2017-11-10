@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import com.team0n3.webspotify.model.Artist;
 import org.hibernate.Query;
+import java.util.ListIterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
@@ -37,6 +39,11 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Override
     public List<Artist> listArtists(){
         List<Artist> artistList = sessionFactory.getCurrentSession().createCriteria(Artist.class).list();
+        ListIterator<Artist> litr = null;
+        litr=artistList.listIterator();
+         while(litr.hasNext()){
+            System.out.println(litr.next().toString());
+        }
         return artistList;
     }
 

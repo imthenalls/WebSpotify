@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import java.util.ListIterator;
 import com.team0n3.webspotify.dao.UserDAO;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.UserService;
@@ -108,6 +108,7 @@ public class SpotifyController {
     @RequestMapping(value = "/listArtists", method = RequestMethod.GET)
     public ModelAndView listArtists(HttpSession session) {
         List<Artist> listOfArtists = artistService.listAllArtists();
+        System.out.println("helo");
         session.setAttribute("ArtistList", listOfArtists);
         return new ModelAndView("artistPage");
     }
