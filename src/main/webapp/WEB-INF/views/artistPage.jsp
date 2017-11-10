@@ -12,14 +12,20 @@
 </head>
     <body>
       <div class="container" style="text-align:center">
-        <form class="form-artist"action="doAddArtist" method="post">
+        <form class="form-artist" action="doAddArtist" method="post">
           <h2 >Artist Add</h2>
           <div class="" >
               <input type="text" id="artistName" name="artistName" placeholder="ArtistName" class="form-control" required autofocus>
               <button class="btn btn-lg btn-primary btn-block" type="submit">Add Artist</button>
               
           </div>
+         
         </form>
+          <div class="" action="doAddArtist" method="get">
+            <c:forEach items="${ArtistList}" var="artist">
+                ${artist}<br>
+            </c:forEach>
+          </div>
     </div> <!-- /container -->
     </body>
 </html>

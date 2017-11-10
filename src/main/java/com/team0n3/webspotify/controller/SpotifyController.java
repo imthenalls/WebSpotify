@@ -100,8 +100,15 @@ public class SpotifyController {
     }
 
     @RequestMapping(value = "/doAddArtist", method = RequestMethod.POST)
-    public ModelAndView doAddArtist(@RequestParam String artistName) {
+    public ModelAndView doAddArtist(@RequestParam String artistName, HttpSession session) {
         artistService.addNewArtist(artistName);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("artistPage");
+    }
+    
+    @RequestMapping(value = "/listArtists", method = RequestMethod.GET)
+    public ModelAndView listArtists(HttpSession session) {
+        List<Artist> listOfArtists = artistService.listAllArtists();
+        session.setAttribute("ArtistList", listOfArtists);
+        return new ModelAndView("artistPage");
     }
 }
