@@ -14,12 +14,18 @@ package com.team0n3.webspotify.config;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.team0n3.webspotify.dao.PlaylistDAO;
 import javax.sql.DataSource;
 import com.team0n3.webspotify.dao.UserDAO;
+import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
+import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -59,7 +65,11 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class);
+        sessionBuilder.addAnnotatedClasses(User.class,Playlist.class);    
+        /**
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure("hibernate-sqlserver.cfg.xml").build();
+        return sessionBuilder.buildSessionFactory(serviceRegistry);
+        **/
         return sessionBuilder.buildSessionFactory();
     }
     
@@ -74,6 +84,12 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "userDao")
     public UserDAO getUserDao(SessionFactory sessionFactory) {
         return new UserDAOHibernateImpl(sessionFactory);
+    }
+    
+    @Autowired
+    @Bean(name = "playlistDao")
+    public PlaylistDAO getPlaylistDao(SessionFactory sessionFactory){
+        return new PlaylistDAOHibernateImpl(sessionFactory);
     }
     
     @Override

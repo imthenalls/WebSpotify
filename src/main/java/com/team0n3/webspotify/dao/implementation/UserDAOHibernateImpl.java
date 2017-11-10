@@ -45,7 +45,7 @@ public class UserDAOHibernateImpl implements UserDAO{
     }
 
     @Override
-    public void deleteUser(String Username) {
+    public void deleteUser(String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -59,21 +59,23 @@ and open the template in the editor.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Create Playlist</h4>
                                 </div>
+                                <form action="doCreatePlaylist" method="post">
                                 <div class="modal-body">
                                     <div class="row">
-                                        <input type="text" placeholder="New Playlist">
+                                        <input type="text" name="playlistName" placeholder="New Playlist">
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <img src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
-                                            <button type="button" class="row btn btn-default">Change Image</button>
+                                            <input name="imagePath" class="row" type="file" accept="image/*">
                                         </div>
                                         <div class="col-xs-6">
-                                            <input type="text" placeholder="Enter a description for your playlist here.">
+                                            <input type="text" name="description" placeholder="Enter a description for your playlist here.">
                                         </div>
+                                        <input type="submit" value="Submit">
                                     </div>
-
                                 </div>
+                                </form>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default">Create Playlist</button>
                                 </div>

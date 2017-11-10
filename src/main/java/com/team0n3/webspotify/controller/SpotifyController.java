@@ -10,23 +10,18 @@ package com.team0n3.webspotify.controller;
  * @author JSCHA
  */
 
-import java.util.Arrays;
-import java.util.List;
- 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
  
-import com.team0n3.webspotify.dao.UserDAO;
+import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.Model;
 
  
 /**
@@ -36,6 +31,8 @@ import org.springframework.ui.Model;
 public class SpotifyController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PlaylistService playlistService;
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
@@ -82,5 +79,11 @@ public class SpotifyController {
     public ModelAndView browse(HttpSession session) {
         ModelAndView model = new ModelAndView("browse");
         return model;
+    }
+    @RequestMapping(value = "/doCreatePlaylist", method = RequestMethod.POST)
+    public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
+        User currentUser = (User)session.getAttribute("currentUser");
+        Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
+        //session.setAttribute("currentPlaylist", user);  
     }
 }
