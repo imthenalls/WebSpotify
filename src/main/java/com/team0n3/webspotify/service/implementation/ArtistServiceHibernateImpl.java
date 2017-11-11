@@ -30,8 +30,8 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     private SessionFactory sessionFactory;
     
     @Override
-    public Artist getNewArtist(String artistName) {
-        Artist artist = artistDao.getArtist(artistName);
+    public Artist getArtist(int id) {
+        Artist artist = artistDao.getArtist(id);
         if(artist == null)
             return null;
         return artist;

@@ -12,7 +12,7 @@ import java.util.List;
  * @author JSCHA
  */
 public interface ArtistService {
-    public Artist getNewArtist(String artistName);
+    public Artist getArtist(int id);
     public void addNewArtist(String artistName); 
     public List<Artist> listAllArtists();
 }

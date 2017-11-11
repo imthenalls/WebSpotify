@@ -5,11 +5,14 @@
  */
 package com.team0n3.webspotify.model;
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 /**
  *
@@ -27,12 +30,23 @@ public class Album implements Serializable{
     @Column(name="albumName", nullable=false)
     private String albumName;
     
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
+    private Collection<Song> songs;
     
     public Album() {
     }
     
     public Album(String albumName) {
         this.albumName = albumName;
+        this.songs = null;
+    }
+    
+    public Collection<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
     }
     
     public String getAlbumName() {

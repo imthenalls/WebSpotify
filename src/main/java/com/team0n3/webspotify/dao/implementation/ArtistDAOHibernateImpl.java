@@ -32,8 +32,8 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     }
 
     @Override
-    public Artist getArtist(String artistName) {
-        return (Artist)sessionFactory.getCurrentSession().load(Artist.class, artistName);
+    public Artist getArtist(int id) {
+        return (Artist)sessionFactory.getCurrentSession().load(Artist.class, id);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     }
 
     @Override
-    public void deleteArtist(String artistName) {
+    public void deleteArtist(Artist artist) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

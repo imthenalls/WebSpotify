@@ -13,11 +13,11 @@ import com.team0n3.webspotify.model.Artist;
 public interface ArtistDAO {
     public void addArtist(Artist artist);
     
-    public Artist getArtist(String artistName);
+    public Artist getArtist(int id);
     
     public List<Artist> listArtists();
      
     public void updateArtist(Artist artist);
      
-    public void deleteArtist(String artistName);
+    public void deleteArtist(Artist artist);
 }
