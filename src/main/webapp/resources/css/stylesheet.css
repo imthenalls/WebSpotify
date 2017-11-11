@@ -300,3 +300,7 @@ a:hover{
 #modalBackground{
     background-color: #333131;
 }
+
+.modal-body{
+    color:black;
+}

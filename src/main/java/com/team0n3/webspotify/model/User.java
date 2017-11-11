@@ -34,7 +34,7 @@ public class User implements Serializable{
     @Column(name="password", nullable=false)
     private byte[] password;
     
-    @OneToMany(mappedBy="creator")
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
     private Collection<Playlist> createdPlaylists;
 
     public Collection<Playlist> getCreatedPlaylists() {

@@ -45,7 +45,7 @@ public class Playlist implements Serializable{
     private String description;
     
     @ManyToOne
-    @JoinColumn(name="username",nullable=false)
+    @JoinColumn(name="creator",referencedColumnName="username",nullable=false)
     private User creator;
     
     @ManyToMany(mappedBy="followedPlaylists")
@@ -53,7 +53,7 @@ public class Playlist implements Serializable{
     
     @ManyToMany(mappedBy="collabPlaylists")
     private Collection<User> collaborators;
-   
+        
     @Column(name="imagePath")
     private String imagePath;
     
