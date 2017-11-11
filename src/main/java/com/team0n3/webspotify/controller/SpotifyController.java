@@ -68,8 +68,8 @@ public class SpotifyController {
     
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public ModelAndView doLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
-        User user=userService.login(username, password);
-        if(user==null){
+        User user = userService.login(username, password);
+        if(user == null){
             return new ModelAndView("redirect:/");
         }
         session.setAttribute("loggedIn", user);
