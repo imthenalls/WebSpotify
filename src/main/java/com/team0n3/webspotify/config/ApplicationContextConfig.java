@@ -65,7 +65,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class,Artist.class);
+        sessionBuilder.addAnnotatedClasses(User.class,Artist.class,Playlist.class);
         return sessionBuilder.buildSessionFactory();
     }
     
@@ -86,6 +86,12 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "artistDao")
     public ArtistDAO getArtistDao(SessionFactory sessionFactory) {
         return new ArtistDAOHibernateImpl(sessionFactory);
+    }
+    
+    @Autowired
+    @Bean(name = "playlistDao")
+    public PlaylistDAO getPlaylistDao(SessionFactory sessionFactory) {
+        return new PlaylistDAOHibernateImpl(sessionFactory);
     }
     
     @Override
