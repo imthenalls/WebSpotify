@@ -17,10 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- *
- * @author spike
- */
 @Entity
 @Table(name="playlists")
 public class Playlist implements Serializable{

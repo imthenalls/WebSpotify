@@ -12,6 +12,7 @@ import com.team0n3.webspotify.model.Playlist;
  * @author spike
  */
 public interface PlaylistDAO {
+    
     public void addPlaylist(Playlist playlist);
     
     public Playlist getPlaylist(int playlistID);

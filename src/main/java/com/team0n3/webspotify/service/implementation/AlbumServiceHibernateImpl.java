@@ -5,9 +5,9 @@
  */
 package com.team0n3.webspotify.service.implementation;
 
-import com.team0n3.webspotify.dao.ArtistDAO;
-import com.team0n3.webspotify.model.Artist;
-import com.team0n3.webspotify.service.ArtistService;
+import com.team0n3.webspotify.dao.AlbumDAO;
+import com.team0n3.webspotify.model.Album;
+import com.team0n3.webspotify.service.AlbumService;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
@@ -23,34 +23,34 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class ArtistServiceHibernateImpl implements ArtistService{
+public class AlbumServiceHibernateImpl implements AlbumService{
     @Autowired
-    private ArtistDAO artistDao;
+    private AlbumDAO albumDao;
     @Autowired
     private SessionFactory sessionFactory;
     
     @Override
-    public Artist getNewArtist(String artistName) {
-        Artist artist = artistDao.getArtist(artistName);
-        if(artist == null)
+    public Album getNewAlbum(int id) {
+        Album album = albumDao.getAlbum(id);
+        if(album == null)
             return null;
-        return artist;
+        return album;
     }
     
     @Transactional(readOnly = false)
     @Override
-    public void addNewArtist(String artistName) {
-        Artist artist = new Artist(artistName);
-        artistDao.addArtist(artist);
+    public void addNewAlbum(String albumName) {
+        Album album = new Album(albumName);
+        albumDao.addAlbum(album);
     }
     
     @Transactional(readOnly = true)
     @Override
-    public List<Artist> listAllArtists()
+    public List<Album> listAllAlbums()
     {
-        List<Artist> listArtists = artistDao.listArtists();
+        List<Album> listAlbums = albumDao.listAlbums();
         
-        return listArtists;
+        return listAlbums;
     }
     
 }
