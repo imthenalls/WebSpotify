@@ -20,8 +20,12 @@ import javax.persistence.Table;
 public class Artist implements Serializable{
     
     @Id
+    @Column(name="id", nullable=false)
+    @GeneratedValue
+    private int id;
     @Column(name="artistName", nullable=false)
     private String artistName;
+    
     
     public Artist() {
     }

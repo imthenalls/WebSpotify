@@ -1,0 +1,49 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.team0n3.webspotify.dao.implementation;
+
+import com.team0n3.webspotify.dao.SongDAO;
+import com.team0n3.webspotify.model.Song;
+import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ *
+ * @author JSCHA
+ */
+public class SongDAOHibernateImpl implements SongDAO{
+    @Autowired
+    private SessionFactory sessionFactory;
+    public SongDAOHibernateImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+    
+    @Override
+    public void addSong(Song song) {
+        sessionFactory.getCurrentSession().persist(song);
+    }
+
+    @Override
+    public Song getSong(int id) {
+        return (Song)sessionFactory.getCurrentSession().load(Song.class, id);
+    }
+
+    @Override
+    public List<Song> listSongs() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateSong(Song song) {
+        sessionFactory.getCurrentSession().update(song);
+    }
+
+    @Override
+    public void deleteSong(Song song) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
