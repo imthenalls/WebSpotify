@@ -14,9 +14,12 @@ package com.team0n3.webspotify.config;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.team0n3.webspotify.dao.PlaylistDAO;
 import javax.sql.DataSource;
 import com.team0n3.webspotify.dao.UserDAO;
+import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
+import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
@@ -84,8 +87,8 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     public ArtistDAO getArtistDao(SessionFactory sessionFactory) {
         return new ArtistDAOHibernateImpl(sessionFactory);
     }
+    
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
-}

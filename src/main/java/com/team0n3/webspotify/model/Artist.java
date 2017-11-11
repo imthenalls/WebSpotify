@@ -22,7 +22,7 @@ public class Artist implements Serializable{
     @Id
     @Column(name="artistName", nullable=false)
     private String artistName;
-
+    
     public Artist() {
     }
     

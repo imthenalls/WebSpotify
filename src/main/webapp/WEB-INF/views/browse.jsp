@@ -47,6 +47,42 @@ and open the template in the editor.
                         <%@ include file="/resources/pages/profile.jsp" %>
                     </div>
                     
+                    <div class="paneChoice" style="display:none;" id="searchToggle">
+                        <%@ include file="/resources/pages/search_results.jsp" %>
+                    </div>
+                    
+                    <div id="createPlaylistModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                          <!-- Modal content-->
+                            <div class="modal-content" id="modalBackground">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Create Playlist</h4>
+                                </div>
+                                <form action="doCreatePlaylist" method="post">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <input type="text" name="playlistName" placeholder="New Playlist">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <img src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
+                                            <input name="imagePath" class="row" type="file" accept="image/*">
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="text" name="description" placeholder="Enter a description for your playlist here.">
+                                        </div>
+                                        <input type="submit" value="Submit">
+                                    </div>
+                                </div>
+                                </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default">Create Playlist</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- INSERT EVERY POSSIBLE PAGE FOR CENTER PANE -->
                  
                 </div>

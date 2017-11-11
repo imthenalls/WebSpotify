@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ListIterator;
 import com.team0n3.webspotify.dao.UserDAO;
+ 
+import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 
 import com.team0n3.webspotify.dao.ArtistDAO;
@@ -25,12 +28,11 @@ import com.team0n3.webspotify.service.ArtistService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.Model;
 
 /**
  * Handles requests for the application home page.
@@ -42,6 +44,7 @@ public class SpotifyController {
     @Autowired
     private ArtistService artistService;
     
+    private PlaylistService playlistService;
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
@@ -113,4 +116,11 @@ public class SpotifyController {
        
         return new ModelAndView("artistPage");
     }*/
+
+    @RequestMapping(value = "/doCreatePlaylist", method = RequestMethod.POST)
+    public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
+        User currentUser = (User)session.getAttribute("currentUser");
+        Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
+        //session.setAttribute("currentPlaylist", user);  
+    }
 }
