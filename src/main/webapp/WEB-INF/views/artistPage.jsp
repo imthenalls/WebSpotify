@@ -21,11 +21,12 @@
           </div>
          
         </form>
-          <div class="" action="listArtists" method="get">
-            <c:forEach items="${ArtistList}" var="item">
-                ${item}<br>
+          <div class="">
+            <c:forEach items="${ArtistList}" var="Artist">
+                ${Artist.artistName}<br>
             </c:forEach>
           </div>
+          
     </div> <!-- /container -->
     </body>
 </html>
