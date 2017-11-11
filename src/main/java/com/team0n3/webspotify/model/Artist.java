@@ -23,6 +23,7 @@ public class Artist implements Serializable{
     @Column(name="id", nullable=false)
     @GeneratedValue
     private int id;
+    
     @Column(name="artistName", nullable=false)
     private String artistName;
     

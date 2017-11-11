@@ -39,12 +39,16 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class SpotifyController {
+    
     @Autowired
     private UserService userService;
+    
     @Autowired
     private ArtistService artistService;
     
+    @Autowired
     private PlaylistService playlistService;
+    
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
@@ -64,8 +68,8 @@ public class SpotifyController {
     
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public ModelAndView doLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
-        User user=userService.login(username, password);
-        if(user==null){
+        User user = userService.login(username, password);
+        if(user == null){
             return new ModelAndView("redirect:/");
         }
         session.setAttribute("loggedIn", user);
@@ -90,11 +94,13 @@ public class SpotifyController {
         userService.signup(username, password, email);
         return new ModelAndView("redirect:/");
     }
+    
     @RequestMapping(value = "/browse", method = RequestMethod.GET)
     public ModelAndView browse(HttpSession session) {
         ModelAndView model = new ModelAndView("browse");
         return model;
     }
+    
     @RequestMapping(value = "/artistPage", method = RequestMethod.GET)
     public ModelAndView artist(HttpSession session) {
         ModelAndView model;
