@@ -23,11 +23,11 @@ import javax.persistence.Table;
 public class Album implements Serializable{
     
     @Id
-    @Column(name="id", nullable=false)
+    @Column(name="aid", nullable=false)
     @GeneratedValue
-    private int id;
+    private int aid;
     
-    @Column(name="albumName", nullable=false)
+    @Column(name="albumname", nullable=false)
     private String albumName;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
@@ -40,7 +40,14 @@ public class Album implements Serializable{
         this.albumName = albumName;
         this.songs = null;
     }
-    
+    public int getAid()
+    {
+        return aid;
+    }
+    public void setAid()
+    {
+        this.aid = aid;
+    }
     public Collection<Song> getSongs() {
         return songs;
     }

@@ -5,6 +5,7 @@
  */
 package com.team0n3.webspotify.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,38 +22,38 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="songs")
-public class Song {
+public class Song implements Serializable {
     @Id
-    @Column(name="id")
+    @Column(name="songid")
     @GeneratedValue
-    private int id;
+    private int songId;
     
     @Column
     private String title;
     
     @ManyToOne
-    @JoinColumn(name="albumId",referencedColumnName="id",nullable=true)
-    private Collection<Album> album;
+    @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
+    private Album albumId;
     
     public Song() {
     }
     public Song(String title) {
        this.title = title;
-       this.album = null;
+       this.albumId = null;
     }
-    public Collection<Album> getAlbum() {
-        return album;
+    public Album getAlbum() {
+        return albumId;
     }
 
-    public void setAlbum(Collection<Album> album) {
-        this.album = album;
+    public void setAlbum(Album album) {
+        this.albumId = albumId;
     }
     
-    public int getId() {
-        return id;
+    public int getSongId() {
+        return songId;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
     public String getTitle() {
         return this.title;
@@ -62,6 +63,6 @@ public class Song {
     }
     @Override
     public String toString(){
-        return "id="+id+", name="+title;
+        return "id="+songId+", name="+title;
     }
 }

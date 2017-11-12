@@ -76,7 +76,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class,Artist.class, Song.class, Playlist.class, Album.class);
+        sessionBuilder.addAnnotatedClasses(User.class, Artist.class, Song.class, Playlist.class, Album.class);
         return sessionBuilder.buildSessionFactory();
     }
     

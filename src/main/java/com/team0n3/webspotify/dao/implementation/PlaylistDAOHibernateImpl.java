@@ -11,10 +11,6 @@ import com.team0n3.webspotify.model.Playlist;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author spike
- */
 public class PlaylistDAOHibernateImpl implements PlaylistDAO{
     
     @Autowired

@@ -21,7 +21,8 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
-
+import com.team0n3.webspotify.service.SongService;
+import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.service.ArtistService;
@@ -48,6 +49,12 @@ public class SpotifyController {
     
     @Autowired
     private PlaylistService playlistService;
+    
+    @Autowired
+    private SongService songService;
+    
+    @Autowired
+    private SongService albumService;
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
