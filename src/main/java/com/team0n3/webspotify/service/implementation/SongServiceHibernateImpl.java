@@ -25,7 +25,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 @Service
 @Transactional(readOnly = true)
 public class SongServiceHibernateImpl implements SongService{
-    private final static Logger LOGGER = Logger.getLogger("UserService");
     @Autowired
     private SongDAO songDao;
     @Autowired
