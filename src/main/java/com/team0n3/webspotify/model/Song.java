@@ -28,7 +28,7 @@ public class Song implements Serializable {
     @GeneratedValue
     private int songId;
     
-    @Column
+    @Column(name="title")
     private String title;
     
     @ManyToOne
