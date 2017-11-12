@@ -42,7 +42,7 @@
             </div>
             <div align="center">
                 <span>
-                Add Artist <a href="${pageContext.servletContext.contextPath}/artistPage" >here</a>
+                Add Artist <a href="${pageContext.servletContext.contextPath}/testPage" >here</a>
                 </span>
             </div>
         </div>

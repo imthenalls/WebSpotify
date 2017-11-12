@@ -6,9 +6,11 @@
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.SongDAO;
+import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.service.SongService;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,28 @@ public class SongServiceHibernateImpl implements SongService{
     @Autowired
     private SessionFactory sessionFactory;
     
+    @Override
+    public Song getSong(int songId) {
+        Song song = songDao.getSong(songId);
+        if(song == null)
+            return null;
+        return song;
+    }
     
+    @Transactional(readOnly = false)
+    @Override
+    public void addNewSong(String title) {
+        Song song = new Song(title);
+        songDao.addSong(song);
+    }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public List<Song> listAllSongs()
+    {
+        List<Song> listSongs = songDao.listSongs();
+        
+        return listSongs;
+    }
     
 }

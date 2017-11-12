@@ -23,8 +23,14 @@
         </form>
           <div class="">
             <c:forEach items="${ArtistList}" var="Artist">
-                ${Artist.artistName}<br>
+                Artist = ${Artist.artistName}<br>
             </c:forEach>
+            <c:forEach items="${AlbumList}" var="Album">
+                Album = ${Album.albumName}<br>
+            </c:forEach>
+            <c:forEach items="${SongList}" var="Song">
+                Song = ${Song.title}<br>
+            </c:forEach>    
           </div>
           
     </div> <!-- /container -->
