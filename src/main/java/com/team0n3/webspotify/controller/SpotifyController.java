@@ -81,7 +81,8 @@ public class SpotifyController {
         ModelAndView model = new ModelAndView("browse");
         return model;
     }
-    @RequestMapping(value = "/doCreatePlaylist", method = RequestMethod.POST)
+    @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
+    @ResponseBody
     public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
         User currentUser = (User)session.getAttribute("currentUser");
         Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);

@@ -17,37 +17,53 @@ $(document).ready(function(){
         audio.addEventListener("loadedmetadata",function(){
             var duration = audio.duration;
             $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-            
         });
         audio.addEventListener("timeupdate",updateProgress,false);
         //audio.controls=false;
     } 
-    
     var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    
     $(".click").click(function (){
         var link = $(this); // The link that was clicked
         var elem = $(link.attr("href")); // The component that will be potentially shown 
-        console.log(elem);
-
         if(elem[0].style.display === "none"){ // If the element is currently hidden    
             activeToggle[0].style.display = "none"; // Hide the currently shown content
             elem[0].style.display = "block"; // Displays the new content
             activeToggle = elem; // Updates the active pane variable
         }
-  
         return false; // Makes sure that the link isn't followed
     });
+    
+    $("#newPlaylistForm").submit(function(){
+        var playlistName = $("#pName").val();
+        var imagePath = $("#iPath").val();
+        var description = $("#pDesc").val();
+        $.ajax({
+            url: "makePlaylist",
+            type: "POST",
+            //Sends the necessary form parameters to the servlet
+            data:({
+               playlistName: playlistName,
+               imagePath: imagePath,
+               description: description
+            }),
+            success: function(){
+                console.log("Success");
+            },
+            error: function(){
+                console.log("Failure");
+            }
+        });
+        return false;    
+    });
+    
 });
 
 function updateProgress() {
     var progress = $(".progress-bar")[0];
     var value = 0;
-    if (audio.currentTime > 0) {
+    if (audio.currentTime > 0)
         value = Math.floor((100 / audio.duration) * audio.currentTime);
-    }
     progress.style.width = value + "%";
-
     var currTime = $("#currentTime")[0];
     var t = audio.currentTime;  
     var less10="";
@@ -70,6 +86,7 @@ function togglePlayPause() {
       audio.pause();
    }
 }
+
 
 
 
