@@ -22,6 +22,14 @@ a{
     text-decoration: none !important;
 }
 
+.btn:hover{
+    color: #3399ff;
+}
+
+.btn:focus{
+    color: #23527c;
+}
+
 a:hover{
     color: #3399ff;
 }

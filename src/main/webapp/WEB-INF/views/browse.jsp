@@ -66,7 +66,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6">
-                                                <img src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
+                                                <img height="250" width="250" id="playlist-image" src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
                                                 <input id='iPath' name="imagePath" class="row" type="file" accept="image/*">
                                             </div>
                                             <div class="col-xs-6">
@@ -105,5 +105,22 @@ and open the template in the editor.
         <!-- Main Page Script -->
         <script src="resources/js/script.js"></script>
 
+        <!-- Script to display images-->
+        <script>
+          $(function () {
+            $(":file").change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = imageIsLoaded;
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+          });
+          function imageIsLoaded(e) {
+            $('#playlist-image').attr('src', e.target.result);
+          };
+        /** got from http://jsfiddle.net/vacidesign/ja0tyj0f/**/
+        </script>
+        
     </body>
 </html>
