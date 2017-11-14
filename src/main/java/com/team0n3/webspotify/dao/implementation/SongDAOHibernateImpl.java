@@ -10,6 +10,7 @@ import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
 import java.util.List;
 import java.util.ListIterator;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,10 +40,8 @@ public class SongDAOHibernateImpl implements SongDAO{
         List<Song> songList = sessionFactory.getCurrentSession().createCriteria(Song.class).list();
         ListIterator<Song> litr = null;
         litr=songList.listIterator();
-         while(litr.hasNext()){
-            System.out.println(litr.next().toString());
-        }
         return songList;
+
     }
 
     @Override

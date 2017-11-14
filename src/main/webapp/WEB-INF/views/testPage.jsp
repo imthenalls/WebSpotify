@@ -32,7 +32,14 @@
                 
             <c:forEach items="${SongList}" var="Song">
                 Song = ${Song.title}<br>
-            </c:forEach>    
+            </c:forEach>  
+                
+            <c:forEach items="${ConcertList}" var="Concert">
+                Concert = ${Concert.concertName}<br>
+            </c:forEach>  
+            <c:forEach items="${VenueList}" var="Venue">
+                Venue = ${Venue.venueName}<br>
+            </c:forEach>  
           </div>
           
     </div> <!-- /container -->

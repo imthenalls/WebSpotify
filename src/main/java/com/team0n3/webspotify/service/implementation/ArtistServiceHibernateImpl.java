@@ -17,10 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.util.List;
 
-/**
- *
- * @author JSCHA
- */
 @Service
 @Transactional(readOnly = true)
 public class ArtistServiceHibernateImpl implements ArtistService{

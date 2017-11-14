@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package com.team0n3.webspotify.service;
-import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.Venue;
 import java.util.List;
 
-public interface ArtistService {
-    public Artist getArtist(int id);
-    public void addNewArtist(String artistName); 
-    public List<Artist> listAllArtists();
+public interface VenueService {
+    public Venue getVenue(int id);
+    public void addNewVenue(String venueName, String address); 
+    public List<Venue> listAllVenues();
 }

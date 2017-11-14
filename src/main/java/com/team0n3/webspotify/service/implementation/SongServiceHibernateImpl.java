@@ -18,10 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 
-/**
- *
- * @author JSCHA
- */
 @Service
 @Transactional(readOnly = true)
 public class SongServiceHibernateImpl implements SongService{

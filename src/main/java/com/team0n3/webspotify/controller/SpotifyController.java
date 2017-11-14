@@ -22,15 +22,16 @@ import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.Concert;
+import com.team0n3.webspotify.model.Venue;
 
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.SongService;
-
-import com.team0n3.webspotify.dao.ArtistDAO;
-import com.team0n3.webspotify.dao.UserDAO;
+import com.team0n3.webspotify.service.ConcertService;
+import com.team0n3.webspotify.service.VenueService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,6 +61,12 @@ public class SpotifyController {
     
     @Autowired
     private AlbumService albumService;
+    
+    @Autowired
+    private ConcertService concertService;
+    
+    @Autowired
+    private VenueService venueService;
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
@@ -119,11 +126,16 @@ public class SpotifyController {
         List<Artist> listOfArtists = artistService.listAllArtists();
         List<Album> listOfAlbums = albumService.listAllAlbums();
         List<Song> listOfSongs = songService.listAllSongs();
-        //either convert it here or figure something out
+        List<Concert> listOfConcerts = concertService.listAllConcerts();
+        List<Venue> listOfVenues = venueService.listAllVenues();
+        
         session.setAttribute("ArtistList", listOfArtists);
         session.setAttribute("AlbumList", listOfAlbums);
         session.setAttribute("SongList", listOfSongs);
-        model=new ModelAndView("testPage");
+        session.setAttribute("ConcertList", listOfConcerts);
+        session.setAttribute("VenueList", listOfVenues);
+        
+        model = new ModelAndView("testPage");
         return model;
     }
 

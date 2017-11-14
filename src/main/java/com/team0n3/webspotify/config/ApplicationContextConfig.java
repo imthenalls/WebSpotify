@@ -22,18 +22,24 @@ import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.PlaylistDAO;
+import com.team0n3.webspotify.dao.ConcertDAO;
+import com.team0n3.webspotify.dao.VenueDAO;
 
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.model.Concert;
+import com.team0n3.webspotify.model.Venue;
 
 import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.SongDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.AlbumDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.ConcertDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.VenueDAOHibernateImpl;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -76,7 +82,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class, Artist.class, Song.class, Playlist.class, Album.class);
+        sessionBuilder.addAnnotatedClasses(User.class, Artist.class, Playlist.class, Album.class, Song.class, Concert.class,Venue.class);
         return sessionBuilder.buildSessionFactory();
     }
     
@@ -115,6 +121,17 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "albumDao")
     public AlbumDAO getAlbumDao(SessionFactory sessionFactory) {
         return new AlbumDAOHibernateImpl(sessionFactory);
+    }
+    
+    @Autowired
+    @Bean(name = "concertDao")
+    public ConcertDAO getConcertDao(SessionFactory sessionFactory) {
+        return new ConcertDAOHibernateImpl(sessionFactory);
+    }
+     @Autowired
+    @Bean(name = "venueDao")
+    public VenueDAO getVenueDao(SessionFactory sessionFactory) {
+        return new VenueDAOHibernateImpl(sessionFactory);
     }
     
     @Override

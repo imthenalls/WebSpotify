@@ -6,10 +6,7 @@
 package com.team0n3.webspotify.dao;
 import java.util.List;
 import com.team0n3.webspotify.model.Artist;
-/**
- *
- * @author JSCHA
- */
+
 public interface ArtistDAO {
     public void addArtist(Artist artist);
     

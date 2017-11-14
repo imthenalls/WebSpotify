@@ -4,17 +4,13 @@
  * and open the template in the editor.
  */
 package com.team0n3.webspotify.model;
-
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 /**
  *
@@ -24,15 +20,15 @@ import javax.persistence.Table;
 @Table(name="songs")
 public class Song implements Serializable {
     @Id
-    @Column(name="songid")
+    @Column(name="songid",nullable=false)
     @GeneratedValue
     private int songId;
     
-    @Column(name="title")
+    @Column(name="title",nullable=false)
     private String title;
     
     @ManyToOne
-    @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
+    @JoinColumn(name="albumId",referencedColumnName="aid",nullable=true)
     private Album albumId;
     
     public Song() {
@@ -45,7 +41,7 @@ public class Song implements Serializable {
         return albumId;
     }
 
-    public void setAlbum(Album album) {
+    public void setAlbum(Album albumId) {
         this.albumId = albumId;
     }
     
