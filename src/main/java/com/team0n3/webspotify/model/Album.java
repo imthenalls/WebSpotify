@@ -47,6 +47,7 @@ public class Album implements Serializable{
     {
         this.aid = aid;
     }
+    
     public Collection<Song> getSongs() {
         return songs;
     }

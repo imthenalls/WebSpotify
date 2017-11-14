@@ -33,9 +33,8 @@ public class Venue implements Serializable{
     @Column(name="address", nullable=false)
     private String address;
     
-   // @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
-    //private Collection<Song> concerts;
-    
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="venueid")
+    private Collection<Concert> concerts;
     
     public Venue() {
     }

@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 /**
  *
@@ -30,9 +32,9 @@ public class Concert implements Serializable{
     @Column(name="address", nullable=false)
     private String address;
     
-    @Column(name="venueid", nullable=true)
-    private int venueId;
-    
+    @ManyToOne
+    @JoinColumn(name="venueid",referencedColumnName="venueid",nullable=false)
+    private Venue venueId;
     
     public Concert() {
     }
@@ -52,10 +54,6 @@ public class Concert implements Serializable{
     
     public String getConcertAddress(){
         return address;
-    }
-    
-    public int getConcertVenueId(){
-        return venueId;
     }
     
     public void setConcertName(String concertName)
