@@ -1,0 +1,20 @@
+{
+    "teamon3-label": "Team 0n3",
+    "username-label":"Username",
+    "password-label": "Password",
+    "email-label": "E-Mail Adress",
+    "first-name-label": "First Name",
+    "last-name-label": "Last Name",
+    "playlist-label": "Playlist",
+    "submit-label": "Submit",
+    "create-playlist-label": "Create Playlist",
+    "new-playlist-label": "New Playlist",
+    "login-label": "Login",
+    "browse-label": "Browse",
+    "radio-label": "Radio",
+    "songs-label": "Songs",
+    "albums-label": "Album",
+    "artists-label": "Artists",
+    "search-label": "Search",
+    "enter-description-label": "Enter a description for your playlist here."
+}

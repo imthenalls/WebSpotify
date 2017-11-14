@@ -57,12 +57,12 @@ and open the template in the editor.
                             <div class="modal-content" id="modalBackground">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Create Playlist</h4>
+                                    <h4 id="createPlaylistModal" class="modal-title">Create Playlist</h4>
                                 </div>
                                 <form id="newPlaylistForm">
                                     <div class="modal-body">
                                         <div class="row">
-                                            <input id='pName' type="text" name="playlistName" placeholder="New Playlist">
+                                            <input id='pName' type="text" name="playlistName" placeholder="">
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6">
@@ -72,7 +72,7 @@ and open the template in the editor.
                                             <div class="col-xs-6">
                                                 <input id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here.">
                                             </div>
-                                            <input type="submit" value="Submit">
+                                            <input id="pSubmit" type="submit"  value="">
                                         </div>
                                     </div>
                                 </form>
@@ -121,6 +121,19 @@ and open the template in the editor.
           };
         /** got from http://jsfiddle.net/vacidesign/ja0tyj0f/**/
         </script>
-        
+        <!-- Script to load labels -->
+        <script>
+            $(document).ready(function(){
+                $.getJSON("resources/json/labels.json",
+                function(json){
+                    
+                    
+                    /** For the create playlist modal*/
+                    $("#pName").attr("placeholder",json['new-playlist-label']);
+                    $("#pDesc").attr("placeholder",json['enter-description-label']);
+                    $("#pSubmit").attr("value",json['submit-label']);
+                });
+            });
+        </script>
     </body>
 </html>

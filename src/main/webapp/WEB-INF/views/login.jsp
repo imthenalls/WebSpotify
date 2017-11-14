@@ -23,8 +23,8 @@
       <form class="form-signin" action="doLogin" method="post">
         <h2 >Please log in</h2>
         <div class="" align="center">
-            <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
-            <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
+            <input type="text" id="username" name="username" placeholder="" class="form-control" required autofocus>
+            <input type="password" id="password" name="password" placeholder="" class="form-control"  required>
             <div class="checkbox">
                 <!-- Rounded switch -->
                 <label>
@@ -35,7 +35,7 @@
                     Remember me 
                 </label> 
        		</div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <button id="login" class="btn btn-lg btn-primary btn-block" type="submit"></button>
             <div align="center">
                 <span>
                 Don't have an account? Sign up <a href="${pageContext.servletContext.contextPath}/signup" >here</a>
@@ -45,5 +45,16 @@
       </form>
 
     </div> <!-- /container -->
+    <!-- load labels -->
+    <script>
+        $(document).ready(function(){
+            $.getJSON("resources/json/labels.json",
+            function(json){
+                $("#username").attr("placeholder",json['username-label']);
+                $("#password").attr("placeholder",json['password-label']);
+                $("#login").html(json['login-label']);
+            });
+        });
+    </script>
   </body>
 </html>

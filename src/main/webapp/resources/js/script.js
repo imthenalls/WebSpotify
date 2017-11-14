@@ -53,6 +53,7 @@ $(document).ready(function(){
                 console.log("Failure");
             }
         });
+        $("#createPlaylistModal").modal('hide');
         return false;    
     });
     
