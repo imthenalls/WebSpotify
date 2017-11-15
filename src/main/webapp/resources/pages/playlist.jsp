@@ -9,17 +9,17 @@
             </div>
             <div class="row">
                 <a href="#">
-                    <h3 class="mediaName">Concrete and Gold</h3>    
+                    <h3 class="mediaName">${currentPlaylist.playlistName}</h3>    
                 </a>
             </div>
             <div class="row">
                 <a href="#">
-                    <span class="mediaCreator">Foo Fighters</span>    
+                    <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
                 </a>
             </div>
             <div class="row" id="mediaSpecs">
                 <span>
-                    Info here
+                    ${currentPlaylist.description}
                 </span>
             </div>
         </div>
@@ -32,50 +32,14 @@
             <th>Artist</th> 
             <th>Duration</th>
         </tr>
-        <tr class="songEntry">
-          <td>Song 1</td>
-          <td>Artist1</td>
-          <td>5:31</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 2</td>
-          <td>Artist 2</td>
-          <td>4:18</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 3</td>
-          <td>Artist 3</td>
-          <td>3:05</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 1</td>
-          <td>Artist1</td>
-          <td>5:31</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 2</td>
-          <td>Artist 2</td>
-          <td>4:18</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 3</td>
-          <td>Artist 3</td>
-          <td>3:05</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 1</td>
-          <td>Artist1</td>
-          <td>5:31</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 2</td>
-          <td>Artist 2</td>
-          <td>4:18</td>
-        </tr>
-        <tr class="songEntry">
-          <td>Song 3</td>
-          <td>Artist 3</td>
-          <td>3:05</td>
-        </tr>        
+        <!--
+        <c:forEach items="${Playlist.songs}" var="Song">
+            <tr class="songEntry">
+                <td>${Song.songName}</td>
+                <td>${Song.artistName}</td>
+                <td>${Song.duration}</td>
+            </tr>
+        </c:forEach>
+        -->
     </table>
 </div>

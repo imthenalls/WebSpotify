@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="nav navbar-right">
-            <p><a class="click" href="#profileToggle">User Name</a></p>
+            <p><a class="click" href="#profileToggle">${currentUser.username}</a></p>
         </div>
     </div>
 </nav>

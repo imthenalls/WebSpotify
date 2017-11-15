@@ -16,8 +16,10 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +39,8 @@ public class SpotifyController {
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
+        List<Playlist> listOfPlaylists = playlistService.listAllPlaylists();
+        session.setAttribute("PlaylistList",listOfPlaylists);
         return model;
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -87,5 +91,11 @@ public class SpotifyController {
         User currentUser = (User)session.getAttribute("currentUser");
         Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
         //session.setAttribute("currentPlaylist", user);  
+    }
+    @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
+    @ResponseBody
+    public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
+        Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        session.setAttribute("currentPlaylist",playlist);
     }
 }

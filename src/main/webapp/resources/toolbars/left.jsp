@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="col-xs-2" id="left-toolbar">
     <ul class ="nav list-group">
         <li class="activeToolbar">
@@ -35,24 +36,12 @@
                 <i id="makePlaylist" class="fa fa-plus"></i>
             </a>
         </li>
-        <li> 
-            <a class="click" data-toggle="tab" href="#playlistToggle">Playlist 1</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Playlist 2</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Playlist 3</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Playlist 4</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Playlist 5</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Playlist 6</a>
-        </li>
+        
         <!-- Fill with user's playlist -->
+        <c:forEach items="${PlaylistList}" var="Playlist">
+            <li>
+                <a id="p${Playlist.playlistID}" class="click playlistItem" data-toggle="tab" href="#playlistToggle">${Playlist.playlistName}</a>
+            </li>   
+        </c:forEach>           
     </ul>
 </div>

@@ -32,24 +32,6 @@ and open the template in the editor.
                 <%@include file="/resources/toolbars/left.jsp" %>
                 
                 <div class="col-xs-10 col-xs-offset-2" id="center-pane">
-                    <div class="paneChoice" style="display:block;" id="browseToggle">
-                        <%@ include file="/resources/pages/browsePage.jsp" %>
-                    </div>
-                    <div class="paneChoice" style="display:none;" id="radioToggle"">
-                        <%@ include file="/resources/pages/radio.jsp" %>
-                    </div>
-                    
-                    <div class="paneChoice" style="display:none;" id="playlistToggle">
-                        <%@ include file="/resources/pages/playlist.jsp" %>
-                    </div>
-                    
-                    <div class="paneChoice" style="display:none;" id="profileToggle">
-                        <%@ include file="/resources/pages/profile.jsp" %>
-                    </div>
-                    
-                    <div class="paneChoice" style="display:none;" id="searchToggle">
-                        <%@ include file="/resources/pages/search_results.jsp" %>
-                    </div>
                     
                     <div id="createPlaylistModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">

@@ -9,6 +9,7 @@ import com.team0n3.webspotify.dao.PlaylistDAO;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
+import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,17 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
         Playlist playlist = new Playlist(playlistName,imagePath,description,currentUser);
         playlistDao.addPlaylist(playlist);
         return playlist;
+    }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public List<Playlist> listAllPlaylists(){
+        return playlistDao.listPlaylists();
+    }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public Playlist getPlaylistByID(int playlistID){
+        return playlistDao.getPlaylist(playlistID);
     }
 }
