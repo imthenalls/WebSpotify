@@ -14,7 +14,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.codec.digest.DigestUtils;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 
 /**
  *
@@ -32,18 +35,40 @@ public class UserServiceHibernateImpl implements UserService{
     @Override
     public User login(String username, String password) {
         User user= userDao.getUser(username);
-        if(user==null || !Arrays.equals(user.getPassword(), DigestUtils.sha256(password))){
-            LOGGER.info("invalid credentials");
+        if(user==null){
             return null;
         }
-        LOGGER.info("Successful login");
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UserServiceHibernateImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        md.update(user.getSalt());
+        md.update(password.getBytes());
+        byte hashedPass[] = md.digest();
+        if(!Arrays.equals(user.getPassword(), hashedPass)){
+            return null;
+        }
         return user;
     }
     
     @Transactional(readOnly = false)
     @Override
     public void signup(String username, String password, String email) {
-        User user= new User(username, email, DigestUtils.sha256(password));
+        SecureRandom random = new SecureRandom();
+        byte salt[] = new byte[12];
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UserServiceHibernateImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        random.nextBytes(salt);
+        md.update(salt);
+        md.update(password.getBytes());
+        byte hashedPass[]=md.digest();
+        User user= new User(username, email, hashedPass, salt);
         userDao.addUser(user);
     }
     

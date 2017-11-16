@@ -70,7 +70,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addProperties(hibernateProperties());
+
         sessionBuilder.addAnnotatedClasses(User.class,Playlist.class);
         return sessionBuilder.buildSessionFactory();
     }
@@ -81,16 +81,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
         HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
         return transactionManager;
     }
-    
-    final Properties hibernateProperties() {
-        final Properties hibernateProperties = new Properties();
 
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-
-        return hibernateProperties;
-    }
     
     @Autowired
     @Bean(name = "userDao")

@@ -39,8 +39,8 @@ public class SpotifyController {
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
-        List<Playlist> listOfPlaylists = playlistService.listAllPlaylists();
-        session.setAttribute("PlaylistList",listOfPlaylists);
+        //List<Playlist> listOfPlaylists = playlistService.listAllPlaylists();
+        //session.setAttribute("PlaylistList",listOfPlaylists);
         return model;
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
