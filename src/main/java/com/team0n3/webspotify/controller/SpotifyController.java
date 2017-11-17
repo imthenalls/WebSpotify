@@ -82,7 +82,12 @@ public class SpotifyController {
     }
     @RequestMapping(value = "/browse", method = RequestMethod.GET)
     public ModelAndView browse(HttpSession session) {
-        ModelAndView model = new ModelAndView("browse");
+        ModelAndView model;
+        if(null == session.getAttribute("currentUser")){
+             model = new ModelAndView("login");
+             return model;
+        }
+        model = new ModelAndView("browse");
         return model;
     }
     @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
