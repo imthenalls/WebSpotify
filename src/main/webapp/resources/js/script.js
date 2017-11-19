@@ -2,7 +2,7 @@ var audio;
 
 $(document).ready(function(){
     $("#center-pane").load("/resources/pages/browsePage.jsp");
-    w3.includeHTML(playBack);
+    //w3.includeHTML(playBack);
     $('#myCarousel').carousel({
 	    interval: 10000
 	})
@@ -82,6 +82,28 @@ $(document).ready(function(){
         return false;    
     });
     
+    $("#newSongToPlaylistForm").submit(function(){
+        var playlistId = $("#playlistId").val();
+        var songId = $("#songId").val();
+        $.ajax({
+            url: "doAddSongToPlaylist",
+            type: "POST",
+            //Sends the necessary form parameters to the servlet
+            data:({
+               playlistId: playlistId,
+               songId: songId,
+            }),
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(){
+                console.log("Success");
+            },
+            error: function(){
+                console.log("Failure");
+            }
+        });
+        return false;    
+    });
 });
 
 function updateProgress() {

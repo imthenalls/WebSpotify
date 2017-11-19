@@ -41,6 +41,11 @@
                 Don't have an account? Sign up <a href="${pageContext.servletContext.contextPath}/signup" >here</a>
                 </span>
             </div>
+                <div align="center">
+                <span>
+                testpage <a href="${pageContext.servletContext.contextPath}/testPage" >here</a>
+                </span>
+            </div>
         </div>
       </form>
 

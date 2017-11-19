@@ -58,9 +58,8 @@ public class Playlist implements Serializable{
     @Column(name="imagePath")
     private String imagePath;
     
-    /** Song class doesn't exist yet
+    @ManyToMany(mappedBy="containedInPlaylists")
     private Collection<Song> songs;
-    **/
     
     public Playlist(){}
     
@@ -156,6 +155,13 @@ public class Playlist implements Serializable{
         this.collaborators = collaborators;
     }
 
+     public Collection<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
+    }
     public Collection<User> getFollowers() {
         return followers;
     }

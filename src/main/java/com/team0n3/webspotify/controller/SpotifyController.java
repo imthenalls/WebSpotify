@@ -14,8 +14,10 @@ import javax.servlet.http.HttpSession;
  
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
+import com.team0n3.webspotify.service.SongService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ public class SpotifyController {
     private UserService userService;
     @Autowired
     private PlaylistService playlistService;
+    @Autowired
+    private SongService songService;
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
@@ -85,6 +89,23 @@ public class SpotifyController {
         ModelAndView model = new ModelAndView("browse");
         return model;
     }
+    
+    @RequestMapping(value = "/testPage", method = RequestMethod.GET)
+    public ModelAndView artist(HttpSession session) {
+        ModelAndView model;
+        List<Song> listOfSongs = songService.listAllSongs();
+        session.setAttribute("SongList", listOfSongs);
+        model = new ModelAndView("testPage");
+        return model;
+    }
+    
+    @RequestMapping(value = "/doAddSongToPlaylist", method = RequestMethod.POST)
+    @ResponseBody
+    public void doAddSongToPlaylist(@RequestParam int songId,@RequestParam int playlistId, HttpSession session) {
+      //  playlistService.AddSongToPlaylist(songId, playlistId);
+        songService.AddPlaylistToSong(songId, playlistId);
+    }
+    
     @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
     @ResponseBody
     public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){

@@ -6,7 +6,7 @@
 package com.team0n3.webspotify.dao;
 import java.util.List;
 import com.team0n3.webspotify.model.Playlist;
-
+import com.team0n3.webspotify.model.Song;
 /**
  *
  * @author spike
@@ -19,4 +19,6 @@ public interface PlaylistDAO {
     public List<Playlist> listPlaylists();
     
     public void deletePlaylist(Playlist playlist);
+    
+    public void updatePlaylist(Playlist playlist);
 }

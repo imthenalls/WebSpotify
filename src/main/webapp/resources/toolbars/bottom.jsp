@@ -39,7 +39,7 @@
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
         </div>
-        <audio id="audio" src="/resources/audio/kryptonite.mp3">Your browser does not support the <code>audio</code> element.</audio>
+        <audio id="audio" src="resources/audio/kryptonite.mp3">Your browser does not support the <code>audio</code> element.</audio>
         
         <div class="row" id="progressRow">
             <div class="col-xs-3" id="currentTime">

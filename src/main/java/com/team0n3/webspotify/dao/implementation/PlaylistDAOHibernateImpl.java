@@ -8,6 +8,7 @@ package com.team0n3.webspotify.dao.implementation;
 import java.util.List;
 import com.team0n3.webspotify.dao.PlaylistDAO;
 import com.team0n3.webspotify.model.Playlist;
+import com.team0n3.webspotify.model.Song;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +45,11 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
     @Override
     public void deletePlaylist(Playlist playlist){
         sessionFactory.getCurrentSession().delete(playlist);
+    }
+    
+    @Override
+    public void updatePlaylist(Playlist playlist){
+        System.out.println("hello");
+        sessionFactory.getCurrentSession().update(playlist);
     }
 }
