@@ -28,64 +28,62 @@ and open the template in the editor.
         <div>
             <%@include file="/resources/toolbars/top.jsp" %>
             
-            <div id="main-section">
-                <%@include file="/resources/toolbars/left.jsp" %>
-                
-                <div class="col-xs-10 col-xs-offset-2" id="center-pane">
-                    
-                    <div id="createPlaylistModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                          <!-- Modal content-->
-                            <div class="modal-content" id="modalBackground">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Create Playlist</h4>
-                                </div>
-                                <form id="newPlaylistForm">
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <input id='pName' type="text" name="playlistName" placeholder="New Playlist">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <img height="250" width="250" id="playlist-image" src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
-                                                <input id='iPath' name="imagePath" class="row" type="file" accept="image/*">
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <input id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here.">
-                                            </div>
-                                            <input type="submit" value="Submit">
-                                        </div>
+                                    <div id="createPlaylistModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                              <!-- Modal content-->
+                                <div class="modal-content" id="modalBackground">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Create Playlist</h4>
                                     </div>
-                                </form>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default">Create Playlist</button>
+                                    <form id="newPlaylistForm">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <input id='pName' type="text" name="playlistName" placeholder="New Playlist">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <img height="250" width="250" id="playlist-image" src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
+                                                    <input id='iPath' name="imagePath" class="row" type="file" accept="image/*">
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <input id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here.">
+                                                </div>
+                                                <input type="submit" value="Submit">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="close btn btn-default">Cancel</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- INSERT EVERY POSSIBLE PAGE FOR CENTER PANE -->
-                 
+            
+            <div id="main-section">
+                <div id="leftTool">
+                    <%@include file="/resources/toolbars/left.jsp" %>
+                </div>
+                <div class="col-xs-10 col-xs-offset-2" id="center-pane">
+                    <!-- JQUERY LOADS COMPONENTS HERE -->
                 </div>
             </div>
-            
             <%@include file="/resources/toolbars/bottom.jsp" %>
         </div>
         
         <!-- JAVASCRIPT -->
         
         <!-- jQuery script -->
-        <script src="resources/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
         
         <!-- Bootstrap Javascript -->
-        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
         
         <!-- For including HTML Snippets -->
-        <script src="resources/js/w3.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/w3.js"></script>
         
         <!-- Main Page Script -->
-        <script src="resources/js/script.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 
         <!-- Script to display images-->
         <script>

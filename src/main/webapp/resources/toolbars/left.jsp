@@ -33,7 +33,7 @@
         </li>
         <li>
             <a data-toggle="modal" href="#createPlaylistModal">Create Playlist
-                <i id="makePlaylist" class="fa fa-plus"></i>
+                <i id="playlistButton" class="fa fa-plus"></i>
             </a>
         </li>
         

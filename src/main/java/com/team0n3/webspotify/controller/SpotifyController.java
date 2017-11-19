@@ -16,10 +16,10 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,10 +36,15 @@ public class SpotifyController {
     private UserService userService;
     @Autowired
     private PlaylistService playlistService;
+    private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
-        List<Playlist> listOfPlaylists = playlistService.listAllPlaylists();
+        listOfPlaylists = playlistService.listAllPlaylists();
+        for(Playlist p:listOfPlaylists){
+            if(p.getCreator()==(User)session.getAttribute("currentUser"))
+                listOfPlaylists.remove(p);
+        }
         session.setAttribute("PlaylistList",listOfPlaylists);
         return model;
     }
@@ -90,7 +95,8 @@ public class SpotifyController {
     public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
         User currentUser = (User)session.getAttribute("currentUser");
         Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
-        //session.setAttribute("currentPlaylist", user);  
+        listOfPlaylists.add(playlist);
+        session.setAttribute("PlaylistList", listOfPlaylists);  
     }
     @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
     @ResponseBody
