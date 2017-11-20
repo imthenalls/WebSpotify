@@ -15,9 +15,11 @@ import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
+import com.team0n3.webspotify.service.AlbumService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,9 @@ public class SpotifyController {
     private PlaylistService playlistService;
     @Autowired
     private SongService songService;
+    @Autowired
+    private AlbumService albumService;
+    
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
@@ -94,6 +99,7 @@ public class SpotifyController {
     public ModelAndView artist(HttpSession session) {
         ModelAndView model;
         List<Song> listOfSongs = songService.listAllSongs();
+        List<Album> listOfAlbums = albumService.listAllAlbums();
         session.setAttribute("SongList", listOfSongs);
         model = new ModelAndView("testPage");
         return model;

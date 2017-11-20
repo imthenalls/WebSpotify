@@ -103,6 +103,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     public SongDAO getSongDao(SessionFactory sessionFactory){
         return new SongDAOHibernateImpl(sessionFactory);
     }
+    
     @Autowired
     @Bean(name = "albumDao")
     public AlbumDAO getAlbumDao(SessionFactory sessionFactory){

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.util.List;
 
-@Service
+@Service("albumService")
 @Transactional(readOnly = true)
 public class AlbumServiceHibernateImpl implements AlbumService{
     @Autowired
