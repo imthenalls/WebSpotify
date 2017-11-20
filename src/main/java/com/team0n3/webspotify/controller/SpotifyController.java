@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.util.Collection;
  
 /**
  * Handles requests for the application home page.
@@ -99,8 +99,9 @@ public class SpotifyController {
     public ModelAndView artist(HttpSession session) {
         ModelAndView model;
         List<Song> listOfSongs = songService.listAllSongs();
-        List<Album> listOfAlbums = albumService.listAllAlbums();
+        List<Song> albumSongs = albumService.getAllSongsInAlbum(5);
         session.setAttribute("SongList", listOfSongs);
+        session.setAttribute("albumSongs",albumSongs );
         model = new ModelAndView("testPage");
         return model;
     }

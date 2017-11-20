@@ -6,6 +6,7 @@
 package com.team0n3.webspotify.model;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class Album implements Serializable{
     private String albumName;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
-    private Collection<Song> songs;
+    private List<Song> songs;
     
     public Album() {
     }
@@ -48,11 +49,11 @@ public class Album implements Serializable{
         this.aid = aid;
     }
     
-    public Collection<Song> getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(Collection<Song> songs) {
+    public void setSongs(List<Song> songs) {
         this.songs = songs;
     }
     

@@ -24,10 +24,13 @@
             <c:forEach items="${SongList}" var="Song">
                 Song = ${Song.title}<br>
             </c:forEach>
-            <%--    
-            <c:forEach items="${AlbumList}" var="Album">
-                Album = ${Album.albumName}<br>
+            
+            <c:forEach items="${albumSongs}" var="Song">
+                Album = ${Song.title}<br>
             </c:forEach>
+            
+            <%--    
+            
                 
             <c:forEach items="${SongList}" var="Song">
                 Song = ${Song.title}<br>

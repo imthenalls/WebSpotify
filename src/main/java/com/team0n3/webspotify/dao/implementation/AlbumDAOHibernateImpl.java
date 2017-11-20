@@ -29,7 +29,7 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
     
     @Override
     public Album getAlbum(int albumId){
-        Album a = (Album)sessionFactory.getCurrentSession().load(Album.class,albumId);
+        Album a = (Album)sessionFactory.getCurrentSession().get(Album.class,albumId);
         return a;
     }
     

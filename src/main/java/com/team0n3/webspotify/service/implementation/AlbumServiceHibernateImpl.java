@@ -7,14 +7,13 @@ package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.model.Album;
+import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.service.AlbumService;
-import java.util.Arrays;
-import java.util.logging.Logger;
+import java.util.Collection;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.codec.digest.DigestUtils;
 import java.util.List;
 
 @Service("albumService")
@@ -26,13 +25,12 @@ public class AlbumServiceHibernateImpl implements AlbumService{
     private SessionFactory sessionFactory;
     
     @Override
-    public Album getNewAlbum(int id) {
-        Album album = albumDao.getAlbum(id);
+    public Album getAlbum(int albumId) {
+        Album album = albumDao.getAlbum(albumId);
         if(album == null)
             return null;
         return album;
     }
-    
     @Transactional(readOnly = false)
     @Override
     public void addNewAlbum(String albumName) {
@@ -48,5 +46,18 @@ public class AlbumServiceHibernateImpl implements AlbumService{
         
         return listAlbums;
     }
-    
+    @Transactional(readOnly = true)
+    @Override
+    public List<Song> getAllSongsInAlbum(int albumId)
+    {
+        Album album = albumDao.getAlbum(albumId);
+        if(album == null)
+            return null;
+        System.out.println();
+        List<Song> SongsInAlbum = album.getSongs();
+        for(Song model : SongsInAlbum) {
+            //System.out.println(model.getTitle());
+        }
+        return SongsInAlbum;
+    }
 }
