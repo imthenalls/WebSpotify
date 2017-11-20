@@ -17,28 +17,25 @@ $(document).ready(function(){
     function playBack(){
         progress = document.getElementById("progress");
         songbar = document.getElementById("songBar");
-        
         audio = document.getElementById("audio");
         audio.addEventListener("loadedmetadata",function(){
             var duration = audio.duration;
-            $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-            
+            $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);    
         });  
         //for firefox
         var duration = audio.duration;
         $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
         audio.addEventListener("timeupdate",updateProgress,false);
-        
         progress.addEventListener('click', scrub, false);
-        //audio.controls=false;
     } 
+    
     function scrub(event){
         if(!audio.ended){
             var mousex  = event.pageX - (progress.offsetLeft*3);
             var newtime = mousex * (audio.duration/$(progress).width());
             audio.currentTime = newtime;
+            //audio.setAttribute('currentTime', newtime);
             songbar.style.width = parseInt(newtime/audio.duration) + "%";
-            
         }
     }
     var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
