@@ -31,19 +31,29 @@ public class Song implements Serializable {
     @Column(name="title",nullable=false)
     private String title;
     
+   // @Column(name="artistId",nullable=false)
+    //private int artistId;
+    
+   // @Column(name="albumId",nullable=false)
+   // private int albumId;
+    
+    @ManyToOne
+    @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
+    private Album albumId;
+    
     @ManyToMany(cascade ={CascadeType.ALL })
     @JoinTable(
             name="songplaylist",
             joinColumns= {@JoinColumn(name="songid")},
             inverseJoinColumns = {@JoinColumn(name="playlistID")}
-    )
+    ) 
     private Collection<Playlist> containedInPlaylists;
     
     public Song() {
     }
+    
     public Song(String title) {
        this.title = title;
-      
     }
     
     public Collection<Playlist> getContainedInPlaylists(){
@@ -57,15 +67,35 @@ public class Song implements Serializable {
     public int getSongId() {
         return songId;
     }
+    
     public void setSongId(int songId) {
         this.songId = songId;
     }
+    
+  /*  public int getArtistId() {
+        return artistId;
+    }
+    
+    public void setArtistId(int artistId) {
+        this.artistId = artistId;
+    }*/
+    
+    public Album getAlbumId() {
+        return albumId;
+    }
+    
+    public void setAlbumId(Album albumId) {
+        this.albumId = albumId;
+    }
+    
     public String getTitle() {
         return this.title;
     }
+    
     public void setTitle(String title) {
         this.title = title;
     }
+    
     @Override
     public String toString(){
         return "id="+songId+", name="+title;
