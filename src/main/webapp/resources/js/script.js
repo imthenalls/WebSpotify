@@ -1,4 +1,6 @@
 var audio;
+var progress = document.getElementById("progress");
+var songbar = document.getElementById("songBar");
 
 $(document).ready(function(){
     w3.includeHTML(playBack);
@@ -13,14 +15,32 @@ $(document).ready(function(){
     });
     
     function playBack(){
-        audio = $("#audio")[0];
+        progress = document.getElementById("progress");
+        songbar = document.getElementById("songBar");
+        
+        audio = document.getElementById("audio");
         audio.addEventListener("loadedmetadata",function(){
             var duration = audio.duration;
             $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-        });
+            
+        });  
+        //for firefox
+        var duration = audio.duration;
+        $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
         audio.addEventListener("timeupdate",updateProgress,false);
+        
+        progress.addEventListener('click', scrub, false);
         //audio.controls=false;
     } 
+    function scrub(event){
+        if(!audio.ended){
+            var mousex  = event.pageX - (progress.offsetLeft*3);
+            var newtime = mousex * (audio.duration/$(progress).width());
+            audio.currentTime = newtime;
+            songbar.style.width = parseInt(newtime/audio.duration) + "%";
+            
+        }
+    }
     var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
     $(".click").click(function (){
         var link = $(this); // The link that was clicked
@@ -57,6 +77,21 @@ $(document).ready(function(){
         return false;    
     });
     
+});
+
+$("#printInfo").click(function(){
+    $.ajax({
+        url: "printInfo",
+        type: "GET",
+        data:({}),
+        success: function(){
+            console.log("Success");
+        },
+        error: function(){
+            console.log("Failure");
+        }
+    });
+    return false;
 });
 
 function updateProgress() {

@@ -29,8 +29,8 @@
             <a href="#">
                 <i id="prevButton" class="fa fa-step-backward"></i>
             </a>
-            <a href="#" id="playPause" onClick="togglePlayPause()">
-                <i id="playPauseIcon" class="fa fa-play"></i>
+            <a href="#"  id="playPause">
+                <i id="playPauseIcon" onclick="togglePlayPause()" class="fa fa-play"></i>
             </a>
             <a href="#">
                 <i id="nextButton" class="fa fa-step-forward"></i>
@@ -45,18 +45,19 @@
             <div class="col-xs-3" id="currentTime">
                 0:00
             </div>
-            <div class="progress col-xs-6">
-                <div class="progress-bar" role="progressbar" aria-valuenow="0"
-                aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            <div id='progress' class="progress col-xs-6">
+                <div id="songBar" class="progress-bar" role="progressbar" aria-valuenow="0"
+                aria-valuemin="0" aria-valuemax="100" style="">
                   <span class="sr-only"></span>
                 </div>
-
             </div>
+            <!--<canvas class="song-bar" id="canvas" width="500" height="20">
+                canvas not supported
+            </canvas>-->
             <div class="col-xs-3" id="songDuration">
                 
             </div>            
         </div>
-
     </div>
     
     <div class="col-xs-3" id="playerSettings">

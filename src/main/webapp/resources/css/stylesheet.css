@@ -236,13 +236,18 @@ a:hover{
 #edit-profile-button:hover{
     color:#3399ff;
 }
-
+.song-bar{
+    background-color: white;
+    color:#3399ff;
+}
 .progressRow{
     margin-top:10px;
 }
 
 .progress{
     padding-left:0px;
+    padding-right:0px;
+    position:static;
 }
 
 .progress-bar{
