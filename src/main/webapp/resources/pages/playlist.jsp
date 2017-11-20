@@ -22,10 +22,18 @@
                     ${currentPlaylist.description}
                 </span>
             </div>
+            <div class="row">
+                <div class="dropdown">
+                    <button class="btn btn-primary" id="playlistPlayButton">Play</button>
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
+                        <span class="fa fa-chevron-circle-down"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12">
-
     </div>
 </div>
 <div class="row" id="tableContainer">

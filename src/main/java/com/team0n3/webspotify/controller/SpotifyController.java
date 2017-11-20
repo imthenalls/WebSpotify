@@ -111,22 +111,22 @@ public class SpotifyController {
     }
     @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
     @ResponseBody
-    public void deletePlaylist(@RequestParam int playlistID, HttpSession session){
-        Playlist playlist = playlistService.getPlaylistByID(playlistID);
+    public void deletePlaylist(HttpSession session){
+        Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
+        //Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        System.out.println("before: " + listOfPlaylists.size());
+        for(Playlist p:listOfPlaylists){
+            if(p.getPlaylistID()== playlist.getPlaylistID()){
+                listOfPlaylists.remove(p);
+                break;
+            }
+        }
+        System.out.println("after: " + listOfPlaylists.size());
         playlistService.deletePlaylist(playlist);
-        listOfPlaylists.remove(playlist);
         session.setAttribute("PlaylistList",listOfPlaylists);
     }
-    /**
-    @RequestMapping(value="/doLogOut", method = RequestMethod.GET)
-    public ModelAndView doLogOut(HttpSession session){
-        session.invalidate();
-        ModelAndView model = new ModelAndView("redirect:/login");
-        return model;
-    }**/
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
-        System.out.println("loginoutdude");
         request.getSession().invalidate();
         return "login";
     }

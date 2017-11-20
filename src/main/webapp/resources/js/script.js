@@ -23,29 +23,6 @@ $(document).ready(function(){
         //audio.controls=false;
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    $(".click").mouseup(function(clickType){
-        var link = $(this); // The link that was clicked
-        if(link.hasClass("playlistItem")){
-            var id = link.attr("id").substring(1,);
-            $.ajax({
-                url: "viewPlaylist",
-                type: "GET",
-                data: ({
-                    playlistID: id
-                }),
-                success:function(){
-                    console.log("View success");
-                    $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                        console.log("Loaded new playlist info into center pane!");
-                    });
-                },
-                error: function(){
-                    console.log("View error");
-                }
-            });
-        }
-        return false; // Makes sure that the link isn't followed
-    });
     
     $("#newPlaylistForm").submit(function(){
         var playlistName = $("#pName").val();
@@ -63,7 +40,7 @@ $(document).ready(function(){
             success: function(){
                 console.log("Success creating playlist");
                 $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    console.log("Reloaded playlist sidebar");
+                    console.log("Reloaded playlist sidebar after add");
                 });
             },
             error: function(){
@@ -73,23 +50,6 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
         return false;    
     });
-    /**
-    $("#logOutButton").click(function(){
-        $.ajax({
-            url: "doLogOut",
-            type: "GET",
-            data:({ }),
-            success: function(){
-                console.log("Success logging out");
-            },
-            error: function(){
-                console.log("Failure logging out");
-            }
-        });
-        return false;    
-    });
-    **/
-    
 });
 
 function updateProgress() {
@@ -121,7 +81,44 @@ function togglePlayPause() {
    }
 }
 
+function viewPlaylist(link){
+    console.log("Viewing?");
+    var id = link.substring(1,);
+    $.ajax({
+        url: "viewPlaylist",
+        type: "GET",
+        data: ({
+            playlistID: id
+        }),
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+                console.log("Loaded new playlist info into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
 
-
-
-
+function deletePlaylist(){
+    console.log("Deleting..");
+    $.ajax({
+        url: "deletePlaylist",
+        type: "POST",
+        data: ({}),
+        success: function(){
+            console.log("Success deleting playlist");
+            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                console.log("Reloaded playlist sidebar after delete");
+                $("#center-pane").load("/resources/pages/browsePage.jsp");
+            });
+        },
+        error: function(){
+            console.log("Failure deleting playlist");
+        }
+    })
+    return false;
+};
