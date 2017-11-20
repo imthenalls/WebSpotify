@@ -15,7 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
-import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author JSCHA

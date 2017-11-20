@@ -19,4 +19,6 @@ public interface PlaylistService {
     public List<Playlist> listAllPlaylists();
     
     public Playlist getPlaylistByID(int playlistID);
+    
+    public void deletePlaylist(Playlist p);
 }

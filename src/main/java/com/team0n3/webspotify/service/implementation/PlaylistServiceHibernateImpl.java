@@ -46,4 +46,10 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     public Playlist getPlaylistByID(int playlistID){
         return playlistDao.getPlaylist(playlistID);
     }
+    
+    @Override
+    @Transactional(readOnly=false)
+    public void deletePlaylist(Playlist p){
+        playlistDao.deletePlaylist(p);
+    }
 }

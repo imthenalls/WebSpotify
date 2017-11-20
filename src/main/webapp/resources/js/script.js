@@ -13,10 +13,6 @@ $(document).ready(function(){
         $("#myCarousel").carousel("next");
     });
     
-    $('body').on('hidden.bs.modal', '.modal', function () {
-        $(this).removeData('bs.modal');
-    });
-    
     function playBack(){
         audio = $("#audio")[0];
         audio.addEventListener("loadedmetadata",function(){
@@ -26,41 +22,33 @@ $(document).ready(function(){
         audio.addEventListener("timeupdate",updateProgress,false);
         //audio.controls=false;
     } 
-    var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
+    //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
     $(".click").mouseup(function(clickType){
         var link = $(this); // The link that was clicked
         if(link.hasClass("playlistItem")){
             var id = link.attr("id").substring(1,);
-            console.log(id);
-            if(clickType.which == 1){ //Left click
-                console.log("Left click");
-                $.ajax({
-                    url: "viewPlaylist",
-                    type: "GET",
-                    data: ({
-                        playlistID: id
-                    }),
-                    success:function(){
-                        console.log("View success");
-                        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                            console.log("Loaded new playlist info into center pane!");
-                        });
-                    },
-                    error: function(){
-                        console.log("View error");
-                    }
-                });
-            }
-            else if (clickType.which == 3){ //Right click
-                console.log("Right click");
-            }
+            $.ajax({
+                url: "viewPlaylist",
+                type: "GET",
+                data: ({
+                    playlistID: id
+                }),
+                success:function(){
+                    console.log("View success");
+                    $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+                        console.log("Loaded new playlist info into center pane!");
+                    });
+                },
+                error: function(){
+                    console.log("View error");
+                }
+            });
         }
         return false; // Makes sure that the link isn't followed
     });
     
     $("#newPlaylistForm").submit(function(){
         var playlistName = $("#pName").val();
-        console.log("Pname: ",playlistName);
         var imagePath = $("#iPath").val();
         var description = $("#pDesc").val();
         $.ajax({
@@ -83,9 +71,24 @@ $(document).ready(function(){
             }
         });
         $("#createPlaylistModal").modal('hide');
-        
         return false;    
     });
+    /**
+    $("#logOutButton").click(function(){
+        $.ajax({
+            url: "doLogOut",
+            type: "GET",
+            data:({ }),
+            success: function(){
+                console.log("Success logging out");
+            },
+            error: function(){
+                console.log("Failure logging out");
+            }
+        });
+        return false;    
+    });
+    **/
     
 });
 

@@ -5,7 +5,7 @@
         </div>
         <div id="mediaInfo" class="col-xs-8">
             <div class="row">
-                <span class="mediaType">Playlist</span> <!-- Album, Playlist, or Radio -->
+                <span class="mediaType">Playlist</span>
             </div>
             <div class="row">
                 <a href="#">
@@ -23,6 +23,9 @@
                 </span>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12">
+
     </div>
 </div>
 <div class="row" id="tableContainer">

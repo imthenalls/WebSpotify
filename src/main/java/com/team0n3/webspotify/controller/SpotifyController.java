@@ -18,6 +18,7 @@ import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,12 +41,6 @@ public class SpotifyController {
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
-        listOfPlaylists = playlistService.listAllPlaylists();
-        for(Playlist p:listOfPlaylists){
-            if(p.getCreator()==(User)session.getAttribute("currentUser"))
-                listOfPlaylists.remove(p);
-        }
-        session.setAttribute("PlaylistList",listOfPlaylists);
         return model;
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -65,7 +60,17 @@ public class SpotifyController {
         if(user==null){
             return new ModelAndView("redirect:/");
         }
+        listOfPlaylists = playlistService.listAllPlaylists();
+        for(int i = 0;i<listOfPlaylists.size();i++){
+            String listElem = listOfPlaylists.get(i).getCreator().getUsername();
+            System.out.println("ListElem: " + listElem + "i: " + i);
+            System.out.println("User: " + user.getUsername());
+            if(!listElem.equals(user.getUsername())){
+                listOfPlaylists.remove(i);
+            }
+        }
         session.setAttribute("currentUser", user);
+        session.setAttribute("PlaylistList",listOfPlaylists);
         ModelAndView model= new ModelAndView("redirect:/browse");
         return model;   
     }
@@ -103,5 +108,26 @@ public class SpotifyController {
     public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
         Playlist playlist = playlistService.getPlaylistByID(playlistID);
         session.setAttribute("currentPlaylist",playlist);
+    }
+    @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
+    @ResponseBody
+    public void deletePlaylist(@RequestParam int playlistID, HttpSession session){
+        Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        playlistService.deletePlaylist(playlist);
+        listOfPlaylists.remove(playlist);
+        session.setAttribute("PlaylistList",listOfPlaylists);
+    }
+    /**
+    @RequestMapping(value="/doLogOut", method = RequestMethod.GET)
+    public ModelAndView doLogOut(HttpSession session){
+        session.invalidate();
+        ModelAndView model = new ModelAndView("redirect:/login");
+        return model;
+    }**/
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        System.out.println("loginoutdude");
+        request.getSession().invalidate();
+        return "login";
     }
 }
