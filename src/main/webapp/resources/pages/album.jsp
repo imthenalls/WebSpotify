@@ -6,22 +6,17 @@
         </div>
         <div id="mediaInfo" class="col-xs-8">
             <div class="row">
-                <span class="mediaType">Playlist</span>
+                <span class="mediaType">Album</span>
             </div>
             <div class="row">
                 <a href="#">
-                    <h3 class="mediaName">${currentPlaylist.playlistName}</h3>    
+                    <h3 class="mediaName">${currentAlbum.albumName}</h3>    
                 </a>
             </div>
             <div class="row">
                 <a href="#">
-                    <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
+                    <span class="mediaCreator">Put Artist Here</span>    
                 </a>
-            </div>
-            <div class="row" id="mediaSpecs">
-                <span>
-                    ${currentPlaylist.description}
-                </span>
             </div>
             <div class="row">
                 <div class="dropdown">
@@ -29,9 +24,6 @@
                     <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
                         <span class="fa fa-chevron-circle-down"></span>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -45,11 +37,11 @@
             <th>Album</th> 
             <th>Duration</th>
         </tr>
-        <c:forEach items="${songList}" var="Song">
+        <c:forEach items="${albumSongs}" var="Song">
             <tr>
                 <td>${Song.title}</td>
                 <td>Artist</td>
-                <td>${Song.albumId.albumName}</td>
+                <td>${currentAlbum.albumName}</td>
                 <td>Duration</td>
             </tr>
         </c:forEach> 

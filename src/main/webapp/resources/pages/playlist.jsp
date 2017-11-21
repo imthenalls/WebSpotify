@@ -49,7 +49,7 @@
             <tr>
                 <td>${Song.title}</td>
                 <td>Artist</td>
-                <td>${Song.albumId.albumName}</td>
+                <td><a href="#" id="album${Song.albumId.aid}" onclick="viewAlbum(this.id)">${Song.albumId.albumName}</a></td>
                 <td>Duration</td>
             </tr>
         </c:forEach> 
