@@ -9,6 +9,7 @@ import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.service.AlbumService;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +51,13 @@ public class AlbumServiceHibernateImpl implements AlbumService{
     @Override
     public List<Song> getAllSongsInAlbum(int albumId)
     {
+        
         Album album = albumDao.getAlbum(albumId);
         if(album == null)
             return null;
-        System.out.println();
-        List<Song> SongsInAlbum = album.getSongs();
-        for(Song model : SongsInAlbum) {
-            //System.out.println(model.getTitle());
-        }
-        return SongsInAlbum;
+        Collection<Song> SongsInAlbum = album.getSongs();
+         List<Song> songList = new ArrayList(SongsInAlbum);
+        
+        return songList;
     }
 }

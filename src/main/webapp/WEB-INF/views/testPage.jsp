@@ -24,13 +24,9 @@
             <c:forEach items="${SongList}" var="Song">
                 Song = ${Song.title}<br>
             </c:forEach>
-            
-            <c:forEach items="${albumSongs}" var="Song">
-                Album = ${Song.title}<br>
-            </c:forEach>
-                
+                    
             <c:forEach items="${playlistSongs}" var="playlist">
-                playlist = ${playlist.playlistName}<br>
+                Playlist = ${playlist.title}<br>
             </c:forEach>
             <%--    
             

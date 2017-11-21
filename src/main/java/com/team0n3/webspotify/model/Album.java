@@ -31,7 +31,7 @@ public class Album implements Serializable{
     private String albumName;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
-    private List<Song> songs;
+    private Collection<Song> songs;
     
     public Album() {
     }
@@ -49,11 +49,11 @@ public class Album implements Serializable{
         this.aid = aid;
     }
     
-    public List<Song> getSongs() {
+    public Collection<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(Collection<Song> songs) {
         this.songs = songs;
     }
     

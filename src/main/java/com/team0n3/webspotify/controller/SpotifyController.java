@@ -99,13 +99,13 @@ public class SpotifyController {
     public ModelAndView artist(HttpSession session) {
         ModelAndView model;
         List<Song> listOfSongs = songService.listAllSongs();
-        List<Song> albumSongs = albumService.getAllSongsInAlbum(5);
+        List<Song> albumSongs = albumService.getAllSongsInAlbum(1);
         //List<Playlist> playlists = playlistService.listAllPlaylists();
-        List<Song> playlistSongs = playlistService.getSongsInPlaylist(8);
+        List<Song> playlistSongs = playlistService.getSongsInPlaylists(1);
+        System.out.println("helklko");
         session.setAttribute("SongList", listOfSongs);
         session.setAttribute("albumSongs",albumSongs );
-        session.setAttribute("playlistSongs",playlistSongs );
-        //session.setAttribute("playlists",playlists );
+        session.setAttribute("playlistSongs",playlistSongs);
         model = new ModelAndView("testPage");
         return model;
     }

@@ -55,13 +55,13 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     
     @Override
     @Transactional(readOnly=true)
-    public List<Song> getSongsInPlaylist(int playlistId){
+    public List<Song> getSongsInPlaylists(int playlistId){
         Playlist playlist = playlistDao.getPlaylist(playlistId);
+        if(playlist == null)
+            return null;
         Collection<Song> sondsInPlaylist = playlist.getSongs();
         List<Song> songList = new ArrayList(sondsInPlaylist);
-        for(Song model : songList) {
-            System.out.println(model.getTitle());
-        }
+       
         return songList;
     }
     
@@ -75,5 +75,6 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
         playlist.setSongs(songsInPlaylist);
         playlistDao.updatePlaylist(playlist);
         return playlist;
+        
     }
 }
