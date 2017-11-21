@@ -165,6 +165,29 @@ function viewPlaylist(link){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewAlbum(link){
+    console.log("Trying to view album");
+    var id = link.substring(5,);
+    console.log("albumid: ",id);
+    $.ajax({
+        url: "viewAlbum",
+        type: "GET",
+        data: ({
+            albumID: id
+        }),
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("/resources/pages/album.jsp",function(){
+                console.log("Loaded new album into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function deletePlaylist(){
     console.log("Deleting..");
     $.ajax({

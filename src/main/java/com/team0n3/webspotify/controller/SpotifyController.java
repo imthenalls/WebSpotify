@@ -15,10 +15,12 @@ import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.Album;
 
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
+import com.team0n3.webspotify.service.AlbumService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,9 +46,9 @@ public class SpotifyController {
     @Autowired
     private PlaylistService playlistService;
     @Autowired
-    private PlaylistService songService;
+    private SongService songService;
     @Autowired
-    private PlaylistService albumService;
+    private AlbumService albumService;
     private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
@@ -135,6 +137,14 @@ public class SpotifyController {
         playlistService.deletePlaylist(playlist);
         session.setAttribute("PlaylistList",listOfPlaylists);
     }
+    @RequestMapping(value = "/viewAlbum", method= RequestMethod.GET)
+    @ResponseBody
+    public void viewAlbum(@RequestParam int albumID, HttpSession session){
+        Album album = albumService.getAlbum(albumID);
+        List<Song> albumSongs = albumService.getAllSongsInAlbum(albumID);
+        session.setAttribute("currentAlbum",album);
+        session.setAttribute("albumSongs",albumSongs);
+    }    
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
