@@ -33,14 +33,14 @@
         </li>
         <li>
             <a data-toggle="modal" href="#createPlaylistModal">Create Playlist
-                <i id="makePlaylist" class="fa fa-plus"></i>
+                <i id="playlistButton" class="fa fa-plus"></i>
             </a>
         </li>
         
         <!-- Fill with user's playlist -->
         <c:forEach items="${PlaylistList}" var="Playlist">
             <li>
-                <a id="p${Playlist.playlistID}" class="click playlistItem" data-toggle="tab" href="#playlistToggle">${Playlist.playlistName}</a>
+                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach>           
     </ul>
