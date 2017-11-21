@@ -17,6 +17,7 @@ import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,6 @@ public class SpotifyController {
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginUser(HttpSession session) {
-        
         ModelAndView model;
         if(null == session.getAttribute("currentUser")){
             model = new ModelAndView("login");
@@ -61,12 +61,13 @@ public class SpotifyController {
             return new ModelAndView("redirect:/");
         }
         listOfPlaylists = playlistService.listAllPlaylists();
-        for(int i = 0;i<listOfPlaylists.size();i++){
-            String listElem = listOfPlaylists.get(i).getCreator().getUsername();
-            System.out.println("ListElem: " + listElem + "i: " + i);
+        for(Iterator<Playlist> iterator = listOfPlaylists.iterator(); iterator.hasNext();){
+            Playlist p = iterator.next();
+            String listElem = p.getCreator().getUsername();
+            System.out.println("ListElem: " + listElem);
             System.out.println("User: " + user.getUsername());
             if(!listElem.equals(user.getUsername())){
-                listOfPlaylists.remove(i);
+                iterator.remove();
             }
         }
         session.setAttribute("currentUser", user);
