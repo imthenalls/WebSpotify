@@ -21,6 +21,7 @@ import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -116,7 +117,9 @@ public class SpotifyController {
     @ResponseBody
     public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
         Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        List<Song> songsInPlaylist = playlistService.getSongsInPlaylists(playlistID);
         session.setAttribute("currentPlaylist",playlist);
+        session.setAttribute("songList",songsInPlaylist);
     }
     @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
     @ResponseBody

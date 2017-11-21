@@ -43,14 +43,12 @@
             <th>Artist</th> 
             <th>Duration</th>
         </tr>
-        <!--
-        <c:forEach items="${Playlist.songs}" var="Song">
+        <c:forEach items="${songList}" var="Song">
             <tr class="songEntry">
                 <td>${Song.songName}</td>
                 <td>${Song.artistName}</td>
                 <td>${Song.duration}</td>
             </tr>
         </c:forEach>
-        -->
     </table>
 </div>
