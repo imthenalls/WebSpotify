@@ -22,4 +22,6 @@ public interface PlaylistService {
     public Playlist getPlaylistByID(int playlistID);
     
     public Playlist AddSongToPlaylist(int songId, int playlistId);
+    
+    public List<Song> getSongsInPlaylist(int playlistId);
 }

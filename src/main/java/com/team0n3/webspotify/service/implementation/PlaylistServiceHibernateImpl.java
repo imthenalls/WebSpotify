@@ -11,6 +11,7 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.hibernate.SessionFactory;
@@ -50,6 +51,18 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     @Transactional(readOnly=true)
     public Playlist getPlaylistByID(int playlistID){
         return playlistDao.getPlaylist(playlistID);
+    }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public List<Song> getSongsInPlaylist(int playlistId){
+        Playlist playlist = playlistDao.getPlaylist(playlistId);
+        Collection<Song> sondsInPlaylist = playlist.getSongs();
+        List<Song> songList = new ArrayList(sondsInPlaylist);
+        for(Song model : songList) {
+            System.out.println(model.getTitle());
+        }
+        return songList;
     }
     
     @Override

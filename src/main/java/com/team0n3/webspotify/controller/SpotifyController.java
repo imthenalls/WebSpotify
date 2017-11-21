@@ -100,8 +100,12 @@ public class SpotifyController {
         ModelAndView model;
         List<Song> listOfSongs = songService.listAllSongs();
         List<Song> albumSongs = albumService.getAllSongsInAlbum(5);
+        //List<Playlist> playlists = playlistService.listAllPlaylists();
+        List<Song> playlistSongs = playlistService.getSongsInPlaylist(8);
         session.setAttribute("SongList", listOfSongs);
         session.setAttribute("albumSongs",albumSongs );
+        session.setAttribute("playlistSongs",playlistSongs );
+        //session.setAttribute("playlists",playlists );
         model = new ModelAndView("testPage");
         return model;
     }
