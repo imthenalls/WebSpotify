@@ -13,11 +13,12 @@ import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
+
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +42,7 @@ public class SpotifyController {
     private AlbumService albumService;
     @Autowired
     private ArtistService artistService;
+
     private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
@@ -156,5 +158,26 @@ public class SpotifyController {
         Playlist playlist = playlistService.getPlaylistByID(playlistID);
         System.out.println();
         session.setAttribute("currentPlaylist",playlist);
+    }
+    @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
+    @ResponseBody
+    public void deletePlaylist(HttpSession session){
+        Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
+        //Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        System.out.println("before: " + listOfPlaylists.size());
+        for(Playlist p:listOfPlaylists){
+            if(p.getPlaylistID()== playlist.getPlaylistID()){
+                listOfPlaylists.remove(p);
+                break;
+            }
+        }
+        System.out.println("after: " + listOfPlaylists.size());
+        playlistService.deletePlaylist(playlist);
+        session.setAttribute("PlaylistList",listOfPlaylists);
+    }
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "login";
     }
 }

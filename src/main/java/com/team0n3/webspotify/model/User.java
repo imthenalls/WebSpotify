@@ -14,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Entity
 @Table(name="users")
 public class User implements Serializable{

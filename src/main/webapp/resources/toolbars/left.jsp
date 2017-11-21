@@ -40,7 +40,7 @@
         <!-- Fill with user's playlist -->
         <c:forEach items="${PlaylistList}" var="Playlist">
             <li>
-                <a href="" id="${Playlist.playlistID}" onclick="viewPlaylists(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
+                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach>           
     </ul>

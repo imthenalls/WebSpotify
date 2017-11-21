@@ -82,7 +82,7 @@ function togglePlayPause() {
    }
 }
 
-function viewPlaylists(link){
+function viewPlaylist(link){
     console.log("Viewing?");
     var id = link.substring(1,);
     $.ajax({
