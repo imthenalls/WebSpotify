@@ -15,10 +15,6 @@ $(document).ready(function(){
         $("#myCarousel").carousel("next");
     });
     
-    $('body').on('hidden.bs.modal', '.modal', function () {
-        $(this).removeData('bs.modal');
-    });
-    
     function playBack(){
         progress = document.getElementById("progress");
         songbar = document.getElementById("songBar");
@@ -77,7 +73,6 @@ $(document).ready(function(){
     
     $("#newPlaylistForm").submit(function(){
         var playlistName = $("#pName").val();
-        console.log("Pname: ",playlistName);
         var imagePath = $("#iPath").val();
         var description = $("#pDesc").val();
         $.ajax({
@@ -92,7 +87,7 @@ $(document).ready(function(){
             success: function(){
                 console.log("Success creating playlist");
                 $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    console.log("Reloaded playlist sidebar");
+                    console.log("Reloaded playlist sidebar after add");
                 });
             },
             error: function(){
@@ -100,10 +95,8 @@ $(document).ready(function(){
             }
         });
         $("#createPlaylistModal").modal('hide');
-        
         return false;    
     });
-    
 });
 
 $("#printInfo").click(function(){
@@ -150,7 +143,44 @@ function togglePlayPause() {
    }
 }
 
+function viewPlaylist(link){
+    console.log("Viewing?");
+    var id = link.substring(1,);
+    $.ajax({
+        url: "viewPlaylist",
+        type: "GET",
+        data: ({
+            playlistID: id
+        }),
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+                console.log("Loaded new playlist info into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
 
-
-
-
+function deletePlaylist(){
+    console.log("Deleting..");
+    $.ajax({
+        url: "deletePlaylist",
+        type: "POST",
+        data: ({}),
+        success: function(){
+            console.log("Success deleting playlist");
+            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                console.log("Reloaded playlist sidebar after delete");
+                $("#center-pane").load("/resources/pages/browsePage.jsp");
+            });
+        },
+        error: function(){
+            console.log("Failure deleting playlist");
+        }
+    })
+    return false;
+};

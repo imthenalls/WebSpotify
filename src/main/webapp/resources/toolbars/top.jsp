@@ -12,6 +12,11 @@
             </form>
         </div>
         <div class="nav navbar-right">
+            <div>
+                <a href="/logout"><i class="fa fa-power-off"></i></a>
+            </div>
+        </div>
+        <div class="nav navbar-right">
             <div id="user-icon">
                 <i id="user-icon-img" class="fa fa-user"></i>
             </div>
