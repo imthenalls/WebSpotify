@@ -14,9 +14,15 @@ import javax.servlet.http.HttpSession;
  
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.model.Song;
+
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
+import com.team0n3.webspotify.service.SongService;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +43,10 @@ public class SpotifyController {
     private UserService userService;
     @Autowired
     private PlaylistService playlistService;
+    @Autowired
+    private PlaylistService songService;
+    @Autowired
+    private PlaylistService albumService;
     private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
@@ -45,7 +55,6 @@ public class SpotifyController {
     }
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginUser(HttpSession session) {
-        
         ModelAndView model;
         if(null == session.getAttribute("currentUser")){
             model = new ModelAndView("login");
@@ -61,12 +70,11 @@ public class SpotifyController {
             return new ModelAndView("redirect:/");
         }
         listOfPlaylists = playlistService.listAllPlaylists();
-        for(int i = 0;i<listOfPlaylists.size();i++){
-            String listElem = listOfPlaylists.get(i).getCreator().getUsername();
-            System.out.println("ListElem: " + listElem + "i: " + i);
-            System.out.println("User: " + user.getUsername());
+        for(Iterator<Playlist> iterator = listOfPlaylists.iterator(); iterator.hasNext();){
+            Playlist p = iterator.next();
+            String listElem = p.getCreator().getUsername();
             if(!listElem.equals(user.getUsername())){
-                listOfPlaylists.remove(i);
+                iterator.remove();
             }
         }
         session.setAttribute("currentUser", user);
@@ -107,7 +115,9 @@ public class SpotifyController {
     @ResponseBody
     public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
         Playlist playlist = playlistService.getPlaylistByID(playlistID);
+        List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
         session.setAttribute("currentPlaylist",playlist);
+        session.setAttribute("songList",playlistSongs);
     }
     @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
     @ResponseBody

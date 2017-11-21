@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
     <div class="col-xs-12">
         <div class="col-xs-2">
@@ -40,17 +41,17 @@
     <table class="table songTable">
         <tr>
             <th>Title</th>
-            <th>Artist</th> 
+            <th>Artist</th>
+            <th>Album</th> 
             <th>Duration</th>
         </tr>
-        <!--
-        <c:forEach items="${Playlist.songs}" var="Song">
-            <tr class="songEntry">
-                <td>${Song.songName}</td>
-                <td>${Song.artistName}</td>
-                <td>${Song.duration}</td>
+        <c:forEach items="${songList}" var="Song">
+            <tr>
+                <td>${Song.title}</td>
+                <td>Artist</td>
+                <td>${Song.albumId.albumName}</td>
+                <td>Duration</td>
             </tr>
-        </c:forEach>
-        -->
+        </c:forEach> 
     </table>
 </div>

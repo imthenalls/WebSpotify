@@ -6,6 +6,7 @@
 package com.team0n3.webspotify.service;
 
 import com.team0n3.webspotify.model.Playlist;
+import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface PlaylistService {
     public Playlist getPlaylistByID(int playlistID);
     
     public void deletePlaylist(Playlist p);
+    
+    public List<Song> getSongsInPlaylists(int playlistId);
 }

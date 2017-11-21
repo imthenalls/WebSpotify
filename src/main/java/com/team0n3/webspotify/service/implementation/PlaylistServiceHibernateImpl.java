@@ -7,8 +7,11 @@ package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.PlaylistDAO;
 import com.team0n3.webspotify.model.Playlist;
+import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +54,16 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     @Transactional(readOnly=false)
     public void deletePlaylist(Playlist p){
         playlistDao.deletePlaylist(p);
+    }
+    
+    @Override
+    @Transactional(readOnly=true)
+    public List<Song> getSongsInPlaylists(int playlistId){
+        Playlist playlist = playlistDao.getPlaylist(playlistId);
+        if(playlist == null)
+            return null;
+        Collection<Song> sondsInPlaylist = playlist.getSongs();
+        List<Song> songList = new ArrayList(sondsInPlaylist);
+        return songList;
     }
 }
