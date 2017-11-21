@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.model;
 
 import java.io.Serializable;
@@ -18,10 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author spike
- */
 @Entity
 @Table(name="playlists")
 public class Playlist implements Serializable{

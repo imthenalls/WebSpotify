@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.dao.implementation;
 
 import com.team0n3.webspotify.dao.AlbumDAO;
@@ -11,11 +7,8 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author Kevin
- */
 public class AlbumDAOHibernateImpl implements AlbumDAO{
+    
     @Autowired
     private SessionFactory sessionFactory;
     public AlbumDAOHibernateImpl(SessionFactory sessionFactory){
@@ -46,7 +39,6 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
     
     @Override
     public void updateAlbum(Album album){
-        System.out.println("hello");
         sessionFactory.getCurrentSession().update(album);
     }
     

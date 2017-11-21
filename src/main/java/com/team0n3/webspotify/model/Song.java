@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.model;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.CascadeType;
@@ -16,10 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-/**
- *
- * @author JSCHA
- */
+
 @Entity
 @Table(name="songs")
 public class Song implements Serializable {
@@ -27,15 +21,10 @@ public class Song implements Serializable {
     @Column(name="songid",nullable=false)
     @GeneratedValue
     private int songId;
-    
     @Column(name="title",nullable=false)
     private String title;
-    
-   // @Column(name="artistId",nullable=false)
+    //@Column(name="artistId",nullable=false)
     //private int artistId;
-    
-   // @Column(name="albumId",nullable=false)
-   // private int albumId;
     
     @ManyToOne
     @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)

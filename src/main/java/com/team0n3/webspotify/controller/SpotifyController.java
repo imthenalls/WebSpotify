@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.team0n3.webspotify.controller;
 
-/**
- *
- * @author JSCHA
- */
+package com.team0n3.webspotify.controller;
 
 import javax.servlet.http.HttpSession;
  
@@ -36,6 +27,7 @@ import java.util.Collection;
  */
 @Controller
 public class SpotifyController {
+    
     @Autowired
     private UserService userService;
     @Autowired
@@ -52,6 +44,7 @@ public class SpotifyController {
         session.setAttribute("PlaylistList",listOfPlaylists);
         return model;
     }
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginUser(HttpSession session) {
         
@@ -63,6 +56,7 @@ public class SpotifyController {
         model=new ModelAndView("browse");
         return model;
     }
+    
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public ModelAndView doLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
         User user=userService.login(username, password);
@@ -73,6 +67,7 @@ public class SpotifyController {
         ModelAndView model= new ModelAndView("redirect:/browse");
         return model;   
     }
+    
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView signup(HttpSession session) {
         
@@ -84,11 +79,13 @@ public class SpotifyController {
         model=new ModelAndView("browse");
         return model;
     }
+    
     @RequestMapping(value = "/doSignup", method = RequestMethod.POST)
     public ModelAndView saveUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
         userService.signup(username, password, email);
         return new ModelAndView("redirect:/");
     }
+    
     @RequestMapping(value = "/browse", method = RequestMethod.GET)
     public ModelAndView browse(HttpSession session) {
         ModelAndView model = new ModelAndView("browse");
@@ -124,6 +121,7 @@ public class SpotifyController {
         Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
         //session.setAttribute("currentPlaylist", user);  
     }
+    
     @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
     @ResponseBody
     public void viewPlaylist(@RequestParam int playlistID, HttpSession session){

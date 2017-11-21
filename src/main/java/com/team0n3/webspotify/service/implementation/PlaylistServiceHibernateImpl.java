@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.PlaylistDAO;
@@ -19,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author spike
- */
 @Service
 @Transactional(readOnly = true)
 public class PlaylistServiceHibernateImpl implements PlaylistService{
+    
     @Autowired
     private PlaylistDAO playlistDao;
     @Autowired
@@ -61,7 +54,6 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
             return null;
         Collection<Song> sondsInPlaylist = playlist.getSongs();
         List<Song> songList = new ArrayList(sondsInPlaylist);
-       
         return songList;
     }
     

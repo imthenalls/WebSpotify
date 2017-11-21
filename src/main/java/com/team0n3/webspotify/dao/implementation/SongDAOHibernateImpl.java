@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.dao.implementation;
 
 import com.team0n3.webspotify.dao.SongDAO;
@@ -13,11 +9,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author JSCHA
- */
 public class SongDAOHibernateImpl implements SongDAO{
+    
     @Autowired
     private SessionFactory sessionFactory;
     public SongDAOHibernateImpl(SessionFactory sessionFactory) {
@@ -40,7 +33,6 @@ public class SongDAOHibernateImpl implements SongDAO{
         ListIterator<Song> litr = null;
         litr=songList.listIterator();
         return songList;
-
     }
 
     @Override

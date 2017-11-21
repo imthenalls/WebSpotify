@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.SongDAO;
@@ -24,6 +20,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 @Service
 @Transactional(readOnly = true)
 public class SongServiceHibernateImpl implements SongService{
+    
     @Autowired
     private SongDAO songDao;
     @Autowired
@@ -51,9 +48,9 @@ public class SongServiceHibernateImpl implements SongService{
     public List<Song> listAllSongs()
     {
         List<Song> listSongs = songDao.listSongs();
-        
         return listSongs;
     }
+    
     @Transactional(readOnly = false)
     @Override
     public Song AddPlaylistToSong(int songId, int playlistId) {

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.AlbumDAO;
@@ -20,6 +16,7 @@ import java.util.List;
 @Service("albumService")
 @Transactional(readOnly = true)
 public class AlbumServiceHibernateImpl implements AlbumService{
+    
     @Autowired
     private AlbumDAO albumDao;
     @Autowired
@@ -32,6 +29,7 @@ public class AlbumServiceHibernateImpl implements AlbumService{
             return null;
         return album;
     }
+    
     @Transactional(readOnly = false)
     @Override
     public void addNewAlbum(String albumName) {
@@ -44,9 +42,9 @@ public class AlbumServiceHibernateImpl implements AlbumService{
     public List<Album> listAllAlbums()
     {
         List<Album> listAlbums = albumDao.listAlbums();
-        
         return listAlbums;
     }
+    
     @Transactional(readOnly = true)
     @Override
     public List<Song> getAllSongsInAlbum(int albumId)
