@@ -57,9 +57,8 @@ public class Playlist implements Serializable{
     @Column(name="imagePath")
     private String imagePath;
     
-    /** Song class doesn't exist yet
+    @ManyToMany(mappedBy="containedInPlaylists")
     private Collection<Song> songs;
-    **/
     
     public Playlist(){}
     
@@ -82,7 +81,14 @@ public class Playlist implements Serializable{
     public void setPlaylistID(int playlistID) {
         this.playlistID = playlistID;
     }
+    
+    public Collection<Song> getSongs() {
+        return songs;
+    }
 
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
+    }
     public String getPlaylistName() {
         return playlistName;
     }
