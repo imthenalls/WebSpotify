@@ -17,10 +17,16 @@ package com.team0n3.webspotify.config;
 import com.team0n3.webspotify.dao.PlaylistDAO;
 import javax.sql.DataSource;
 import com.team0n3.webspotify.dao.UserDAO;
+import com.team0n3.webspotify.dao.SongDAO;
+import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.SongDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.AlbumDAOHibernateImpl;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.Album;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +68,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(User.class,Playlist.class);    
+        sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class);    
         /**
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure("hibernate-sqlserver.cfg.xml").build();
         return sessionBuilder.buildSessionFactory(serviceRegistry);
@@ -87,6 +93,17 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     @Bean(name = "playlistDao")
     public PlaylistDAO getPlaylistDao(SessionFactory sessionFactory){
         return new PlaylistDAOHibernateImpl(sessionFactory);
+    }
+    @Autowired
+    @Bean(name = "songDao")
+    public SongDAO getSongDao(SessionFactory sessionFactory){
+        return new SongDAOHibernateImpl(sessionFactory);
+    }
+    
+    @Autowired
+    @Bean(name = "albumDao")
+    public AlbumDAO getAlbumDao(SessionFactory sessionFactory){
+        return new AlbumDAOHibernateImpl(sessionFactory);
     }
     
     @Override
