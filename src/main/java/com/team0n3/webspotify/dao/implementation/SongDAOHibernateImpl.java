@@ -5,13 +5,14 @@ import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Song;
 import java.util.List;
 import java.util.ListIterator;
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SongDAOHibernateImpl implements SongDAO{    
+public class SongDAOHibernateImpl implements SongDAO{   
+  
   @Autowired
   private SessionFactory sessionFactory;
+  
   public SongDAOHibernateImpl(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
@@ -41,6 +42,6 @@ public class SongDAOHibernateImpl implements SongDAO{
 
   @Override
   public void deleteSong(Song song) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    throw new UnsupportedOperationException("Not supported yet."); 
   }
 }

@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.model;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Column;
@@ -15,10 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
-/**
- *
- * @author JSCHA
- */
+
 @Entity
 @Table(name="users")
 public class User implements Serializable{
@@ -71,15 +65,19 @@ public class User implements Serializable{
   public String getUsername() {
     return this.username;
   }
+  
   public void setUsername(String username) {
     this.username = username;
   }
+  
   public String getEmail() {
     return this.email;
   } 
+  
   public void setEmail(String email) {
     this.email = email;
   }
+  
   public byte[] getPassword() {
     return this.password;
   }

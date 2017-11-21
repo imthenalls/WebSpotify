@@ -3,19 +3,15 @@ package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Playlist;
-//import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.codec.digest.DigestUtils;
 
 @Service
 @Transactional(readOnly = true)

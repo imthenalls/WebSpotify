@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.config;
 
 import com.team0n3.webspotify.dao.PlaylistDAO;
@@ -37,6 +33,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("com.team0n3.webspotify")
 @EnableTransactionManagement
 public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
+  
   @Bean(name = "viewResolver")
   public InternalResourceViewResolver getViewResolver() {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

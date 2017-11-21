@@ -5,6 +5,7 @@ import com.team0n3.webspotify.model.Song;
 import java.util.List;
 
 public interface SongDAO {
+  
   public void addSong(Song song);
 
   public Song getSong(int id);

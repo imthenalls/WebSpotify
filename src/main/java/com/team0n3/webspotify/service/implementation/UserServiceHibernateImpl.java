@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.UserDAO;
@@ -24,13 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author JSCHA
- */
 @Service("userService")
 @Transactional(readOnly = true)
 public class UserServiceHibernateImpl implements UserService{
+  
   @Autowired
   private UserDAO userDao;
   @Autowired
@@ -64,7 +57,6 @@ public class UserServiceHibernateImpl implements UserService{
     byte salt[] = new byte[12];
     MessageDigest md = null;
     if(null!=userDao.getUser(username)){
-      System.out.println("broken name");
       return null;
     }
    try{
@@ -97,5 +89,4 @@ public class UserServiceHibernateImpl implements UserService{
     List<Playlist> created = new ArrayList(play);
     return created;
   }
-  
 }

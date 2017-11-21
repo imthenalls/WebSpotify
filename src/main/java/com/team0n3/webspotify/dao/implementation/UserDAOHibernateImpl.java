@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.dao.implementation;
+
 import java.util.List;
 import com.team0n3.webspotify.dao.UserDAO;
 import org.hibernate.Criteria;
@@ -14,10 +11,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-/**
- *
- * @author JSCHA
- */
+
 public class UserDAOHibernateImpl implements UserDAO{
     
   @Autowired
@@ -41,7 +35,7 @@ public class UserDAOHibernateImpl implements UserDAO{
 
   @Override
   public List<User> listUsers() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
@@ -51,7 +45,7 @@ public class UserDAOHibernateImpl implements UserDAO{
 
   @Override
   public void deleteUser(String username) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override
@@ -64,6 +58,5 @@ public class UserDAOHibernateImpl implements UserDAO{
     }
     User user = (User) results.get(0);
     return user;
-  }
-    
+  } 
 }
