@@ -7,10 +7,12 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
+import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
+import com.team0n3.webspotify.service.ArtistService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ public class SpotifyController {
     private SongService songService;
     @Autowired
     private AlbumService albumService;
+    @Autowired
+    private ArtistService artistService;
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
@@ -96,6 +100,7 @@ public class SpotifyController {
     public ModelAndView artist(HttpSession session) {
         ModelAndView model;
         List<Song> listOfSongs = songService.listAllSongs();
+        List<Artist> listArtist = artistService.listAllArtists();
         List<Song> albumSongs = albumService.getAllSongsInAlbum(1);
         //List<Playlist> playlists = playlistService.listAllPlaylists();
         List<Song> playlistSongs = playlistService.getSongsInPlaylists(1);
@@ -103,6 +108,7 @@ public class SpotifyController {
         session.setAttribute("SongList", listOfSongs);
         session.setAttribute("albumSongs",albumSongs );
         session.setAttribute("playlistSongs",playlistSongs);
+        session.setAttribute("listArtist",listArtist);
         model = new ModelAndView("testPage");
         return model;
     }

@@ -28,6 +28,10 @@
             <c:forEach items="${playlistSongs}" var="playlist">
                 Playlist = ${playlist.title}<br>
             </c:forEach>
+                
+            <c:forEach items="${listArtist}" var="artist">
+                Artist = ${artist.artistName}<br>
+            </c:forEach>
             <%--    
             
                 
