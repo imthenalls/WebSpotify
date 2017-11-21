@@ -11,13 +11,15 @@ import com.team0n3.webspotify.model.User;
  * @author JSCHA
  */
 public interface UserDAO {
-    public void addUser(User user);
-    
-    public User getUser(String username);
-    
-    public List<User> listUsers();
-     
-    public void updateUser(User user);
-     
-    public void deleteUser(String Username);
+  public void addUser(User user);
+
+  public User getUser(String username);
+
+  public List<User> listUsers();
+
+  public void updateUser(User user);
+
+  public void deleteUser(String username);
+
+  public User findByEmail(String email);
 }

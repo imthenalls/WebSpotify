@@ -15,52 +15,52 @@ import javax.persistence.Table;
 @Entity
 @Table(name="albums")
 public class Album implements Serializable{
-    
-    @Id
-    @Column(name="aid", nullable=false)
-    @GeneratedValue
-    private int aid;
-    
-    @Column(name="albumname", nullable=false)
-    private String albumName;
-    
-    @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
-    private Collection<Song> songs;
-    
-    public Album() {
-    }
-    
-    public Album(String albumName) {
-        this.albumName = albumName;
-        this.songs = null;
-    }
-    public int getAid()
-    {
-        return aid;
-    }
-    public void setAid(int aid)
-    {
-        this.aid = aid;
-    }
-    
-    public Collection<Song> getSongs() {
-        return songs;
-    }
 
-    public void setSongs(Collection<Song> songs) {
-        this.songs = songs;
-    }
-    
-    public String getAlbumName() {
-        return this.albumName;
-    }
-    
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
-    
-    @Override
-    public String toString(){
-        return "Album = "+albumName;
-    }
+  @Id
+  @Column(name="aid", nullable=false)
+  @GeneratedValue
+  private int albumId;
+
+  @Column(name="albumname", nullable=false)
+  private String albumName;
+
+  @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
+  private Collection<Song> songs;
+
+  public Album() {
+  }
+
+  public Album(String albumName) {
+    this.albumName = albumName;
+    this.songs = null;
+  }
+  public int getAlbumId()
+  {
+    return albumId;
+  }
+  public void setAlbumId(int albumId)
+  {
+    this.albumId = albumId;
+  }
+
+  public Collection<Song> getSongs() {
+    return songs;
+  }
+
+  public void setSongs(Collection<Song> songs) {
+    this.songs = songs;
+  }
+
+  public String getAlbumName() {
+    return this.albumName;
+  }
+
+  public void setAlbumName(String albumName) {
+    this.albumName = albumName;
+  }
+
+  @Override
+  public String toString(){
+    return "Album = "+albumName;
+  }
 }

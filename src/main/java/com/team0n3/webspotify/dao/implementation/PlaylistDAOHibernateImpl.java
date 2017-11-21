@@ -17,32 +17,32 @@ import org.springframework.transaction.annotation.Transactional;
  * @author spike
  */
 public class PlaylistDAOHibernateImpl implements PlaylistDAO{
-    
-    @Autowired
-    private SessionFactory sessionFactory;
-    public PlaylistDAOHibernateImpl(SessionFactory sessionFactory){
-        this.sessionFactory=sessionFactory;
-    }
-    
-    @Override
-    public void addPlaylist(Playlist playlist){
-        sessionFactory.getCurrentSession().persist(playlist);
-    }
-    
-    @Override
-    public Playlist getPlaylist(int playlistID){
-        Playlist p = (Playlist)sessionFactory.getCurrentSession().get(Playlist.class,playlistID);
-        return p;
-    }
-    
-    @Override
-    public List<Playlist> listPlaylists(){
-        List<Playlist> playlistList = sessionFactory.getCurrentSession().createCriteria(Playlist.class).list();
-        return playlistList;
-    }
-    
-    @Override
-    public void deletePlaylist(Playlist playlist){
-        sessionFactory.getCurrentSession().delete(playlist);
-    }
+  @Autowired
+  private SessionFactory sessionFactory;
+  
+  public PlaylistDAOHibernateImpl(SessionFactory sessionFactory){
+    this.sessionFactory=sessionFactory;
+  }
+
+  @Override
+  public void addPlaylist(Playlist playlist){
+    sessionFactory.getCurrentSession().persist(playlist);
+  }
+
+  @Override
+  public Playlist getPlaylist(int playlistID){
+    Playlist p = (Playlist)sessionFactory.getCurrentSession().get(Playlist.class,playlistID);
+    return p;
+  }
+
+  @Override
+  public List<Playlist> listPlaylists(){
+    List<Playlist> playlistList = sessionFactory.getCurrentSession().createCriteria(Playlist.class).list();
+    return playlistList;
+  }
+
+  @Override
+  public void deletePlaylist(Playlist playlist){
+    sessionFactory.getCurrentSession().delete(playlist);
+  }
 }

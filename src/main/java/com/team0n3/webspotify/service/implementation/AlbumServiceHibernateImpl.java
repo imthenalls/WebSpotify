@@ -16,46 +16,44 @@ import java.util.List;
 @Service("albumService")
 @Transactional(readOnly = true)
 public class AlbumServiceHibernateImpl implements AlbumService{
-    
-    @Autowired
-    private AlbumDAO albumDao;
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Override
-    public Album getAlbum(int albumId) {
-        Album album = albumDao.getAlbum(albumId);
-        if(album == null)
-            return null;
-        return album;
-    }
-    
-    @Transactional(readOnly = false)
-    @Override
-    public void addNewAlbum(String albumName) {
-        Album album = new Album(albumName);
-        albumDao.addAlbum(album);
-    }
-    
-    @Transactional(readOnly = true)
-    @Override
-    public List<Album> listAllAlbums()
-    {
-        List<Album> listAlbums = albumDao.listAlbums();
-        return listAlbums;
-    }
-    
-    @Transactional(readOnly = true)
-    @Override
-    public List<Song> getAllSongsInAlbum(int albumId)
-    {
-        
-        Album album = albumDao.getAlbum(albumId);
-        if(album == null)
-            return null;
-        Collection<Song> SongsInAlbum = album.getSongs();
-         List<Song> songList = new ArrayList(SongsInAlbum);
-        
-        return songList;
-    }
+
+  @Autowired
+  private AlbumDAO albumDao;
+  @Autowired
+  private SessionFactory sessionFactory;
+
+  @Override
+  public Album getAlbum(int albumId) {
+    Album album = albumDao.getAlbum(albumId);
+    if(album == null)
+      return null;
+    return album;
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public void addNewAlbum(String albumName) {
+    Album album = new Album(albumName);
+    albumDao.addAlbum(album);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public List<Album> listAllAlbums()
+  {
+    List<Album> listAlbums = albumDao.listAlbums();
+    return listAlbums;
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public List<Song> getAllSongsInAlbum(int albumId)
+  {
+    Album album = albumDao.getAlbum(albumId);
+    if(album == null)
+      return null;
+    Collection<Song> SongsInAlbum = album.getSongs();
+    List<Song> songList = new ArrayList(SongsInAlbum);
+    return songList;
+  }
 }

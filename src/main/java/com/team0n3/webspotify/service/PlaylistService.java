@@ -15,13 +15,13 @@ import java.util.List;
  * @author spike
  */
 public interface PlaylistService {
-    public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser);
-    
-    public List<Playlist> listAllPlaylists();
-    
-    public Playlist getPlaylistByID(int playlistID);
-    
-    public void deletePlaylist(Playlist p);
-    
-    public List<Song> getSongsInPlaylists(int playlistId);
+  public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser);
+
+  public List<Playlist> listAllPlaylists();
+
+  public Playlist getPlaylistByID(int playlistID);
+
+  public void deletePlaylist(Playlist p);
+
+  public List<Song> getSongsInPlaylists(int playlistId);
 }

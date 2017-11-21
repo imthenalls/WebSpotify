@@ -23,91 +23,105 @@ import javax.persistence.JoinColumn;
 @Table(name="users")
 public class User implements Serializable{
 
-    @Id
-    @Column(name="username", nullable=false)
-    private String username;
-    @Column(name="email", nullable=false)
-    private String email;
-    @Column(name="password", nullable=false)
-    private byte[] password;
-    
-    @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
-    private Collection<Playlist> createdPlaylists;
+  @Id
+  @Column(name="username", nullable=false)
+  private String username;
 
-    public Collection<Playlist> getCreatedPlaylists() {
-        return createdPlaylists;
-    }
+  @Column(name="email", nullable=false)
+  private String email;
 
-    public void setCreatedPlaylists(Collection<Playlist> createdPlaylists) {
-        this.createdPlaylists = createdPlaylists;
-    }
+  @Column(name="password", nullable=false)
+  private byte[] password;
+  
+  @Column(name="salt")
+  private byte[] salt;
 
-    public Collection<Playlist> getFollowedPlaylists() {
-        return followedPlaylists;
-    }
+  @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
+  private Collection<Playlist> createdPlaylists;
 
-    public void setFollowedPlaylists(Collection<Playlist> followedPlaylists) {
-        this.followedPlaylists = followedPlaylists;
-    }
+  @ManyToMany(cascade ={CascadeType.ALL })
+  @JoinTable(
+    name="FollowPlaylist",
+    joinColumns= {@JoinColumn(name="username")},
+    inverseJoinColumns = {@JoinColumn(name="playlistID")}
+  )
+  private Collection<Playlist> followedPlaylists;
 
-    public Collection<Playlist> getCollabPlaylists() {
-        return collabPlaylists;
-    }
+  @ManyToMany(cascade ={CascadeType.ALL })
+  @JoinTable(
+    name="CollabPlaylist",
+    joinColumns= {@JoinColumn(name="username")},
+    inverseJoinColumns = {@JoinColumn(name="playlistID")}
+  )
+  private Collection<Playlist> collabPlaylists;
 
-    public void setCollabPlaylists(Collection<Playlist> collabPlaylists) {
-        this.collabPlaylists = collabPlaylists;
-    }
-    
-    @ManyToMany(cascade ={CascadeType.ALL })
-    @JoinTable(
-            name="FollowPlaylist",
-            joinColumns= {@JoinColumn(name="username")},
-            inverseJoinColumns = {@JoinColumn(name="playlistID")}
-    )
-    private Collection<Playlist> followedPlaylists;
-   
-    @ManyToMany(cascade ={CascadeType.ALL })
-    @JoinTable(
-            name="CollabPlaylist",
-            joinColumns= {@JoinColumn(name="username")},
-            inverseJoinColumns = {@JoinColumn(name="playlistID")}
-    )
-    private Collection<Playlist> collabPlaylists;
-    
-    
-    public User() {
-    }
+  public User() {
+  }
 
-    public User(String username, String email, byte[] password) {
-       this.username = username;
-       this.email = email;
-       this.password = password;
-       createdPlaylists=null;
-       followedPlaylists=null;
-       collabPlaylists=null;
-    }
-    
-    public String getUsername() {
-        return this.username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getEmail() {
-        return this.email;
-    } 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public byte[] getPassword() {
-        return this.password;
-    }
-    
-    public void setHashedPassword(byte[] password) {
-        this.password = password;
-    }
-    @Override
-    public String toString(){
-        return "username="+username+", email="+email;
-    }
+  public User(String username, String email, byte[] password, byte[] salt) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.salt = salt;
+    createdPlaylists=null;
+    followedPlaylists=null;
+    collabPlaylists=null;
+  }
+
+  public String getUsername() {
+    return this.username;
+  }
+  public void setUsername(String username) {
+    this.username = username;
+  }
+  public String getEmail() {
+    return this.email;
+  } 
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public byte[] getPassword() {
+    return this.password;
+  }
+
+  public void setPassword(byte[] password) {
+    this.password = password;
+  }
+
+  public byte[] getSalt() {
+    return salt;
+  }
+
+  public void setSalt(byte[] salt) {
+    this.salt = salt;
+  }
+  
+  public Collection<Playlist> getCreatedPlaylists() {
+    return createdPlaylists;
+  }
+
+  public void setCreatedPlaylists(Collection<Playlist> createdPlaylists) {
+    this.createdPlaylists = createdPlaylists;
+  }
+
+  public Collection<Playlist> getFollowedPlaylists() {
+    return followedPlaylists;
+  }
+
+  public void setFollowedPlaylists(Collection<Playlist> followedPlaylists) {
+    this.followedPlaylists = followedPlaylists;
+  }
+
+  public Collection<Playlist> getCollabPlaylists() {
+    return collabPlaylists;
+  }
+
+  public void setCollabPlaylists(Collection<Playlist> collabPlaylists) {
+    this.collabPlaylists = collabPlaylists;
+  }
+
+  @Override
+  public String toString(){
+    return "username="+username+", email="+email;
+  }
 }

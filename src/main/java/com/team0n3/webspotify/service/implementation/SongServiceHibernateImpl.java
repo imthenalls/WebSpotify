@@ -20,46 +20,48 @@ import org.apache.commons.codec.digest.DigestUtils;
 @Service
 @Transactional(readOnly = true)
 public class SongServiceHibernateImpl implements SongService{
-    
-    @Autowired
-    private SongDAO songDao;
-    @Autowired
-    private PlaylistService playlistService;
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Override
-    public Song getSong(int songId) {
-        Song song = songDao.getSong(songId);
-        if(song == null)
-            return null;
-        return song;
-    }
-    
-    @Transactional(readOnly = false)
-    @Override
-    public void addNewSong(String title) {
-        Song song = new Song(title);
-        songDao.addSong(song);
-    }
-    
-    @Transactional(readOnly = true)
-    @Override
-    public List<Song> listAllSongs()
-    {
-        List<Song> listSongs = songDao.listSongs();
-        return listSongs;
-    }
-    
-    @Transactional(readOnly = false)
-    @Override
-    public Song AddPlaylistToSong(int songId, int playlistId) {
-       Song song = getSong(songId);
-       Playlist playlist = playlistService.getPlaylistByID(playlistId);
-       Collection<Playlist> contains = song.getContainedInPlaylists();
-       contains.add(playlist);
-       song.setContainedInPlaylists(contains);
-       songDao.updateSong(song);
-       return song;
-    }
+
+  @Autowired
+  private SongDAO songDao;
+  
+  @Autowired
+  private PlaylistService playlistService;
+  
+  @Autowired
+  private SessionFactory sessionFactory;
+
+  @Override
+  public Song getSong(int songId) {
+    Song song = songDao.getSong(songId);
+    if(song == null)
+        return null;
+    return song;
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public void addNewSong(String title) {
+    Song song = new Song(title);
+    songDao.addSong(song);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public List<Song> listAllSongs()
+  {
+    List<Song> listSongs = songDao.listSongs();
+    return listSongs;
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public Song AddSongToPlaylist(int songId, int playlistId) {
+    Song song = getSong(songId);
+    Playlist playlist = playlistService.getPlaylistByID(playlistId);
+    Collection<Playlist> contains = song.getContainedInPlaylists();
+    contains.add(playlist);
+    song.setContainedInPlaylists(contains);
+    songDao.updateSong(song);
+    return song;
+  }
 }

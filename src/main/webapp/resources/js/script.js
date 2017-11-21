@@ -50,6 +50,7 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
         return false;    
     });
+    
 });
 
 function updateProgress() {
@@ -126,6 +127,61 @@ function viewAlbum(link){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewSong(link){
+    console.log("Viewing?");
+    var id = link.substring(1,);
+    $.ajax({
+        url: "viewSongs",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("/resources/pages/song.jsp",function(){
+                console.log("Loaded new playlist info into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+};
+
+function deletePlaylist(){
+    console.log("Deleting..");
+    $.ajax({
+        url: "deletePlaylist",
+        type: "POST",
+        data: ({}),
+        success: function(){
+            console.log("Success deleting playlist");
+            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                console.log("Reloaded playlist sidebar after delete");
+                $("#center-pane").load("/resources/pages/browsePage.jsp");
+            });
+        },
+        error: function(){
+            console.log("Failure deleting playlist");
+        }
+    })
+    return false;
+};
+function addToPlaylist(playlist, song) {
+  $.ajax({
+    url: "addToPlaylist",
+    type: "POST",
+    data: ({
+      playlist: playlist,
+      song: song
+    }),
+    success:function(){
+      console.log("Success adding song");
+    },
+    error: function(){
+            console.log("Failure adding song");
+    }
+  });
+  return false;
+};
 function deletePlaylist(){
     console.log("Deleting..");
     $.ajax({

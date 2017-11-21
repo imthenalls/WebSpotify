@@ -10,12 +10,7 @@
       </div>
       <div class="row">
         <a href="#">
-          <h3 class="mediaName">${currentPlaylist.playlistName}</h3>    
-        </a>
-      </div>
-      <div class="row">
-        <a href="#">
-          <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
+          <h3 class="mediaName">Songs</h3>    
         </a>
       </div>
       <div class="row" id="mediaSpecs">
@@ -23,22 +18,10 @@
           ${currentPlaylist.description}
         </span>
       </div>
-      <div class="row">
-        <div class="dropdown">
-          <button class="btn btn-primary" id="playlistPlayButton">Play</button>
-          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
-            <span class="fa fa-chevron-circle-down"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </div>
 <div class="row" id="tableContainer">
-<div contextmenu="myMenu">Right-Click Me</div>
   <table class="table songTable">
     <tr>
       <th>Title</th>
@@ -48,10 +31,24 @@
     </tr>
     <c:forEach items="${songList}" var="Song">
       <tr>
-        <td>${Song.title}</td>
+        <td>${Song.title}</a></td>
         <td>Artist</td>
         <td><a href="#" id="album${Song.albumId.albumId}" onclick="viewAlbum(this.id)">${Song.albumId.albumName}</a></td>
         <td>Duration</td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+              Add to
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <c:forEach items="${PlaylistList}" var="Play">
+                <li><a href="#" id="pl${play.playlistName}" onclick="addToPlaylist(${Play.playlistID}, ${Song.songId})">${Play.playlistName}</a></li>
+              </c:forEach>
+            </ul>
+          </div>
+        </td>
+
       </tr>
     </c:forEach> 
   </table>

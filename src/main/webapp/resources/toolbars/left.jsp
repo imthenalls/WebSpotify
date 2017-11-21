@@ -17,7 +17,7 @@
             <a data-toggle="tab" href="#">Recently Played</a>
         </li>
         <li> 
-             <a data-toggle="tab" href="#">Songs</a>
+          <a data-toggle="tab" href="#" id="followedSongs" onclick="viewSong(this.id)">Songs</a>
         </li>
         <li> 
             <a data-toggle="tab" href="#">Albums</a>

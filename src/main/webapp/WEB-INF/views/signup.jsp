@@ -23,13 +23,12 @@
       <form class="form-signin"action="doSignup" method="post">
         <h2 >Signup</h2>
         <div class="" >
-            <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
-            <input type="text" id="email" name="email" placeholder="Email" class="form-control" required>
-            <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+          <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
+          <input type="text" id="email" name="email" placeholder="Email" class="form-control" required>
+          <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
         </div>
       </form>
-
     </div> <!-- /container -->
   </body>
 </html>

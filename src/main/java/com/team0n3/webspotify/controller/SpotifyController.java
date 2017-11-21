@@ -52,33 +52,26 @@ public class SpotifyController {
     private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
-        ModelAndView model = new ModelAndView("redirect:/login");
+        ModelAndView model = new ModelAndView("login");
         return model;
     }
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView loginUser(HttpSession session) {
-        ModelAndView model;
-        if(null == session.getAttribute("currentUser")){
-            model = new ModelAndView("login");
-            return model;    
-        }
-        model=new ModelAndView("browse");
-        return model;
-    }
+    
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     public ModelAndView doLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
         User user=userService.login(username, password);
         if(user==null){
             return new ModelAndView("redirect:/");
         }
-        listOfPlaylists = playlistService.listAllPlaylists();
+        /*listOfPlaylists = playlistService.listAllPlaylists();
         for(Iterator<Playlist> iterator = listOfPlaylists.iterator(); iterator.hasNext();){
             Playlist p = iterator.next();
             String listElem = p.getCreator().getUsername();
             if(!listElem.equals(user.getUsername())){
                 iterator.remove();
             }
-        }
+        }*/
+        listOfPlaylists=(List<Playlist>) user.getCreatedPlaylists();
+            //userService.getCreated(username);
         session.setAttribute("currentUser", user);
         session.setAttribute("PlaylistList",listOfPlaylists);
         ModelAndView model= new ModelAndView("redirect:/browse");
@@ -97,13 +90,18 @@ public class SpotifyController {
     }
     @RequestMapping(value = "/doSignup", method = RequestMethod.POST)
     public ModelAndView saveUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        userService.signup(username, password, email);
+        User user = userService.signup(username, password, email);
+        if(user==null){
+          return new ModelAndView("signup");
+        }
         return new ModelAndView("redirect:/");
     }
     @RequestMapping(value = "/browse", method = RequestMethod.GET)
     public ModelAndView browse(HttpSession session) {
-        ModelAndView model = new ModelAndView("browse");
-        return model;
+        if(session.getAttribute("currentUser")==null){
+          return new ModelAndView("login");
+        }
+        return new ModelAndView("browse");
     }
     @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
     @ResponseBody
@@ -137,14 +135,26 @@ public class SpotifyController {
         playlistService.deletePlaylist(playlist);
         session.setAttribute("PlaylistList",listOfPlaylists);
     }
+    @RequestMapping(value="/addToPlaylist", method=RequestMethod.POST)
+    @ResponseBody
+    public void addToPlaylist(@RequestParam int playlist, @RequestParam int song, HttpSession session){
+        songService.AddSongToPlaylist(song, playlist);
+        //session.setAttribute("PlaylistList",listOfPlaylists);
+    }
     @RequestMapping(value = "/viewAlbum", method= RequestMethod.GET)
     @ResponseBody
     public void viewAlbum(@RequestParam int albumID, HttpSession session){
         Album album = albumService.getAlbum(albumID);
-        List<Song> albumSongs = albumService.getAllSongsInAlbum(albumID);
+        List<Song> albumSongs = (List<Song>) album.getSongs();
         session.setAttribute("currentAlbum",album);
         session.setAttribute("albumSongs",albumSongs);
     }    
+    @RequestMapping(value = "/viewSongs", method= RequestMethod.GET)
+    @ResponseBody
+    public void viewSongs(HttpSession session){
+        List<Song> followSongs = songService.listAllSongs();
+        session.setAttribute("songList",followSongs);
+    }
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();

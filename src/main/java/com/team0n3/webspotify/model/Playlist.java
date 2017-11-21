@@ -24,162 +24,169 @@ import javax.persistence.Table;
 @Entity
 @Table(name="playlists")
 public class Playlist implements Serializable{
-    
-    @Id
-    @Column(name="playlistID",nullable=false)
-    @GeneratedValue
-    private int playlistID;
-    @Column(name="playlistName",nullable=false)
-    private String playlistName;
-    @Column(name="songCount",nullable=false)
-    private int songCount;
-    @Column(name="isPublic",nullable=false)
-    private boolean isPublic;
-    @Column(name="numFollowers",nullable=false)
-    private int numFollowers;
-    @Column(name="dateCreated",nullable=false)
-    private Date dateCreated;
-    @Column(name="isCollaborative",nullable=false)
-    private boolean isCollaborative;
-    @Column(name="description",nullable=false)
-    private String description;
-    
-    @ManyToOne
-    @JoinColumn(name="creator",referencedColumnName="username",nullable=false)
-    private User creator;
-    
-    @ManyToMany(mappedBy="followedPlaylists")
-    private Collection<User> followers;
-    
-    @ManyToMany(mappedBy="collabPlaylists")
-    private Collection<User> collaborators;
-        
-    @Column(name="imagePath")
-    private String imagePath;
-    
-    @ManyToMany(mappedBy="containedInPlaylists")
-    private Collection<Song> songs;
-    
-    public Playlist(){}
-    
-    public Playlist(String playlistName, String imagePath, String description, User creator){
-        this.playlistName=playlistName;
-        songCount=0;
-        isPublic=false;
-        numFollowers=1;
-        dateCreated=new Date();
-        isCollaborative=false;
-        this.description=description;
-        this.creator = creator;
-        this.imagePath = imagePath;
-    }
 
-    public int getPlaylistID() {
-        return playlistID;
-    }
+  @Id
+  @Column(name="playlistID",nullable=false)
+  @GeneratedValue
+  private int playlistID;
+  
+  @Column(name="playlistName",nullable=false)
+  private String playlistName;
+  
+  @Column(name="songCount",nullable=false)
+  private int songCount;
+  
+  @Column(name="isPublic",nullable=false)
+  private boolean isPublic;
+  
+  @Column(name="numFollowers",nullable=false)
+  private int numFollowers;
+  
+  @Column(name="dateCreated",nullable=false)
+  private Date dateCreated;
+  
+  @Column(name="isCollaborative",nullable=false)
+  private boolean isCollaborative;
+  
+  @Column(name="description",nullable=false)
+  private String description;
 
-    public void setPlaylistID(int playlistID) {
-        this.playlistID = playlistID;
-    }
-    
-    public Collection<Song> getSongs() {
-        return songs;
-    }
+  @ManyToOne
+  @JoinColumn(name="creator",referencedColumnName="username",nullable=false)
+  private User creator;
 
-    public void setSongs(Collection<Song> songs) {
-        this.songs = songs;
-    }
-    public String getPlaylistName() {
-        return playlistName;
-    }
+  @ManyToMany(mappedBy="followedPlaylists")
+  private Collection<User> followers;
 
-    public void setPlaylistName(String playlistName) {
-        this.playlistName = playlistName;
-    }
+  @ManyToMany(mappedBy="collabPlaylists")
+  private Collection<User> collaborators;
 
-    public int getSongCount() {
-        return songCount;
-    }
+  @Column(name="imagePath")
+  private String imagePath;
 
-    public void setSongCount(int songCount) {
-        this.songCount = songCount;
-    }
+  @ManyToMany(mappedBy="containedInPlaylists")
+  private Collection<Song> songs;
 
-    public boolean isIsPublic() {
-        return isPublic;
-    }
+  public Playlist(){}
 
-    public void setIsPublic(boolean isPublic) {
-        this.isPublic = isPublic;
-    }
+  public Playlist(String playlistName, String imagePath, String description, User creator){
+    this.playlistName=playlistName;
+    songCount=0;
+    isPublic=false;
+    numFollowers=1;
+    dateCreated=new Date();
+    isCollaborative=false;
+    this.description=description;
+    this.creator = creator;
+    this.imagePath = imagePath;
+  }
 
-    public int getNumFollowers() {
-        return numFollowers;
-    }
+  public int getPlaylistID() {
+    return playlistID;
+  }
 
-    public void setNumFollowers(int numFollowers) {
-        this.numFollowers = numFollowers;
-    }
+  public void setPlaylistID(int playlistID) {
+    this.playlistID = playlistID;
+  }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+  public Collection<Song> getSongs() {
+    return songs;
+  }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+  public void setSongs(Collection<Song> songs) {
+    this.songs = songs;
+  }
+  public String getPlaylistName() {
+    return playlistName;
+  }
 
-    public boolean isIsCollaborative() {
-        return isCollaborative;
-    }
+  public void setPlaylistName(String playlistName) {
+    this.playlistName = playlistName;
+  }
 
-    public void setIsCollaborative(boolean isCollaborative) {
-        this.isCollaborative = isCollaborative;
-    }
+  public int getSongCount() {
+    return songCount;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setSongCount(int songCount) {
+    this.songCount = songCount;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public boolean isIsPublic() {
+    return isPublic;
+  }
 
-    public User getCreator() {
-        return creator;
-    }
+  public void setIsPublic(boolean isPublic) {
+    this.isPublic = isPublic;
+  }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
+  public int getNumFollowers() {
+    return numFollowers;
+  }
 
-    public Collection<User> getCollaborators() {
-        return collaborators;
-    }
+  public void setNumFollowers(int numFollowers) {
+    this.numFollowers = numFollowers;
+  }
 
-    public void setCollaborators(Collection<User> collaborators) {
-        this.collaborators = collaborators;
-    }
+  public Date getDateCreated() {
+    return dateCreated;
+  }
 
-    public Collection<User> getFollowers() {
-        return followers;
-    }
+  public void setDateCreated(Date dateCreated) {
+    this.dateCreated = dateCreated;
+  }
 
-    public void setFollowers(Collection<User> followers) {
-        this.followers = followers;
-    }
+  public boolean isIsCollaborative() {
+    return isCollaborative;
+  }
 
-    public String getImagePath() {
-        return imagePath;
-    }
+  public void setIsCollaborative(boolean isCollaborative) {
+    this.isCollaborative = isCollaborative;
+  }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-    
-    @Override
-    public String toString(){
-        return "Playlist = " + playlistID;
-    }
-    
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public User getCreator() {
+    return creator;
+  }
+
+  public void setCreator(User creator) {
+    this.creator = creator;
+  }
+
+  public Collection<User> getCollaborators() {
+    return collaborators;
+  }
+
+  public void setCollaborators(Collection<User> collaborators) {
+    this.collaborators = collaborators;
+  }
+
+  public Collection<User> getFollowers() {
+    return followers;
+  }
+
+  public void setFollowers(Collection<User> followers) {
+    this.followers = followers;
+  }
+
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
+  }
+
+  @Override
+  public String toString(){
+    return "Playlist = " + playlistID;
+  }
+
 }
