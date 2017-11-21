@@ -7,13 +7,13 @@
             <div class="row">
                 <span class="mediaType">Playlist</span>
             </div>
-            <div class="row">
-                <a href="#">
+            <div class="row"> 
+                <a href="">
                     <h3 class="mediaName">${currentPlaylist.playlistName}</h3>    
                 </a>
             </div>
             <div class="row">
-                <a href="#">
+                <a href="">
                     <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
                 </a>
             </div>
@@ -43,14 +43,13 @@
             <th>Artist</th> 
             <th>Duration</th>
         </tr>
-        <!--
-        <c:forEach items="${Playlist.songs}" var="Song">
+        
+        <c:forEach items="${playlistSongs}" var="Song">
             <tr class="songEntry">
-                <td>${Song.songName}</td>
-                <td>${Song.artistName}</td>
-                <td>${Song.duration}</td>
+                <td>${Song.title}</td>
+                
             </tr>
         </c:forEach>
-        -->
+        
     </table>
 </div>

@@ -102,18 +102,5 @@ and open the template in the editor.
         /** got from http://jsfiddle.net/vacidesign/ja0tyj0f/**/
         </script>
         <!-- Script to load labels -->
-        <script>
-            $(document).ready(function(){
-                $.getJSON("resources/json/labels.json",
-                function(json){
-                    
-                    
-                    /** For the create playlist modal*/
-                    $("#pName").attr("placeholder",json['new-playlist-label']);
-                    $("#pDesc").attr("placeholder",json['enter-description-label']);
-                    $("#pSubmit").attr("value",json['submit-label']);
-                });
-            });
-        </script>
     </body>
 </html>

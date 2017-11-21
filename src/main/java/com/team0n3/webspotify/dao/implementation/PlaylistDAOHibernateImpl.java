@@ -24,7 +24,7 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
     
     @Override
     public Playlist getPlaylist(int playlistID){
-        Playlist p = (Playlist)sessionFactory.getCurrentSession().load(Playlist.class,playlistID);
+        Playlist p = (Playlist)sessionFactory.getCurrentSession().get(Playlist.class,playlistID);
         return p;
     }
     
