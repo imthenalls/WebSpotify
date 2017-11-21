@@ -73,8 +73,6 @@ public class SpotifyController {
         for(Iterator<Playlist> iterator = listOfPlaylists.iterator(); iterator.hasNext();){
             Playlist p = iterator.next();
             String listElem = p.getCreator().getUsername();
-            System.out.println("ListElem: " + listElem);
-            System.out.println("User: " + user.getUsername());
             if(!listElem.equals(user.getUsername())){
                 iterator.remove();
             }
@@ -117,9 +115,9 @@ public class SpotifyController {
     @ResponseBody
     public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
         Playlist playlist = playlistService.getPlaylistByID(playlistID);
-        List<Song> songsInPlaylist = playlistService.getSongsInPlaylists(playlistID);
+        List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
         session.setAttribute("currentPlaylist",playlist);
-        session.setAttribute("songList",songsInPlaylist);
+        session.setAttribute("songList",playlistSongs);
     }
     @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
     @ResponseBody
