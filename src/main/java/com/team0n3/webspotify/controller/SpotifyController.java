@@ -40,7 +40,7 @@ public class SpotifyController {
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
-        listOfPlaylists = playlistService.listAllPlaylists();
+        //listOfPlaylists = playlistService.listAllPlaylists();
         for(Playlist p:listOfPlaylists){
             if(p.getCreator()==(User)session.getAttribute("currentUser"))
                 listOfPlaylists.remove(p);
@@ -66,8 +66,15 @@ public class SpotifyController {
             return new ModelAndView("redirect:/");
         }
         session.setAttribute("currentUser", user);
+        listOfPlaylists=(List<Playlist>) user.getCreatedPlaylists();
         ModelAndView model= new ModelAndView("redirect:/browse");
         return model;   
+    }
+    @RequestMapping(value="/doLogout", method = RequestMethod.GET)
+    public ModelAndView doLogout(HttpSession session){
+        session.invalidate();
+        ModelAndView model= new ModelAndView("redirect:/login");
+        return model;
     }
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView signup(HttpSession session) {
@@ -82,12 +89,20 @@ public class SpotifyController {
     }
     @RequestMapping(value = "/doSignup", method = RequestMethod.POST)
     public ModelAndView saveUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        userService.signup(username, password, email);
+        User user = userService.signup(username, password, email);
+        if(user==null){
+            return new ModelAndView("signup");
+        }
         return new ModelAndView("redirect:/");
     }
     @RequestMapping(value = "/browse", method = RequestMethod.GET)
     public ModelAndView browse(HttpSession session) {
-        ModelAndView model = new ModelAndView("browse");
+        ModelAndView model;
+        if(null == session.getAttribute("currentUser")){
+             model = new ModelAndView("login");
+             return model;
+        }
+        model = new ModelAndView("browse");
         return model;
     }
     @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)

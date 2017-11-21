@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import org.hibernate.annotations.Type;
 import org.springframework.transaction.annotation.Transactional;
 /**
  *
@@ -29,8 +31,11 @@ public class User implements Serializable{
     private String username;
     @Column(name="email", nullable=false)
     private String email;
-    @Column(name="password", nullable=false)
+    @Column(name="password")
     private byte[] password;
+    
+    @Column(name="salt")
+    private byte[] salt;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
     private Collection<Playlist> createdPlaylists;
@@ -79,10 +84,11 @@ public class User implements Serializable{
     public User() {
     }
 
-    public User(String username, String email, byte[] password) {
+    public User(String username, String email, byte[] password, byte[] salt) {
        this.username = username;
        this.email = email;
        this.password = password;
+       this.salt=salt;
        createdPlaylists=null;
        followedPlaylists=null;
        collabPlaylists=null;
@@ -106,6 +112,12 @@ public class User implements Serializable{
     
     public void setHashedPassword(byte[] password) {
         this.password = password;
+    }
+    public byte[] getSalt() {
+        return salt;
+    }
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
     @Override
     public String toString(){

@@ -16,6 +16,9 @@
                 <i id="user-icon-img" class="fa fa-user"></i>
             </div>
         </div>
+        <div><span>
+                Don't have an account? Sign up <a href="<c:url value="/doLogout" />">Logout</a>
+                </span></div>
         <div class="nav navbar-right">
             <p><a class="click" href="#profileToggle">${currentUser.username}</a></p>
         </div>

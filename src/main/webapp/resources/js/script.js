@@ -86,6 +86,11 @@ $(document).ready(function(){
         
         return false;    
     });
+    var email = document.getElementById("email"); 
+    email.addEventListener("blur", function(){
+        console.log("hello");
+    });
+    
     
 });
 
