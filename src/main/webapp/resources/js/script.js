@@ -3,6 +3,7 @@ var progress = document.getElementById("progress");
 var songbar = document.getElementById("songBar");
 
 $(document).ready(function(){
+    $("#center-pane").load("/resources/pages/browsePage.jsp");
     w3.includeHTML(playBack);
     $('#myCarousel').carousel({
 	    interval: 10000
@@ -12,6 +13,10 @@ $(document).ready(function(){
     });
     $(".prev").click(function(){
         $("#myCarousel").carousel("next");
+    });
+    
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        $(this).removeData('bs.modal');
     });
     
     function playBack(){
@@ -39,19 +44,40 @@ $(document).ready(function(){
         }
     }
     var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    $(".click").click(function (){
+    $(".click").mouseup(function(clickType){
         var link = $(this); // The link that was clicked
-        var elem = $(link.attr("href")); // The component that will be potentially shown 
-        if(elem[0].style.display === "none"){ // If the element is currently hidden    
-            activeToggle[0].style.display = "none"; // Hide the currently shown content
-            elem[0].style.display = "block"; // Displays the new content
-            activeToggle = elem; // Updates the active pane variable
+        if(link.hasClass("playlistItem")){
+            var id = link.attr("id").substring(1,);
+            console.log(id);
+            if(clickType.which == 1){ //Left click
+                console.log("Left click");
+                $.ajax({
+                    url: "viewPlaylist",
+                    type: "GET",
+                    data: ({
+                        playlistID: id
+                    }),
+                    success:function(){
+                        console.log("View success");
+                        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+                            console.log("Loaded new playlist info into center pane!");
+                        });
+                    },
+                    error: function(){
+                        console.log("View error");
+                    }
+                });
+            }
+            else if (clickType.which == 3){ //Right click
+                console.log("Right click");
+            }
         }
         return false; // Makes sure that the link isn't followed
     });
     
     $("#newPlaylistForm").submit(function(){
         var playlistName = $("#pName").val();
+        console.log("Pname: ",playlistName);
         var imagePath = $("#iPath").val();
         var description = $("#pDesc").val();
         $.ajax({
@@ -64,13 +90,17 @@ $(document).ready(function(){
                description: description
             }),
             success: function(){
-                console.log("Success");
+                console.log("Success creating playlist");
+                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                    console.log("Reloaded playlist sidebar");
+                });
             },
             error: function(){
-                console.log("Failure");
+                console.log("Failure creating playlist");
             }
         });
         $("#createPlaylistModal").modal('hide');
+        
         return false;    
     });
     

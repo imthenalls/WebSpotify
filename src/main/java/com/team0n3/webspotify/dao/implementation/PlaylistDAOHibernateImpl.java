@@ -10,6 +10,7 @@ import com.team0n3.webspotify.dao.PlaylistDAO;
 import com.team0n3.webspotify.model.Playlist;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -30,12 +31,14 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
     
     @Override
     public Playlist getPlaylist(int playlistID){
-        return (Playlist)sessionFactory.getCurrentSession().load(Playlist.class,playlistID);
+        Playlist p = (Playlist)sessionFactory.getCurrentSession().get(Playlist.class,playlistID);
+        return p;
     }
     
     @Override
     public List<Playlist> listPlaylists(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Playlist> playlistList = sessionFactory.getCurrentSession().createCriteria(Playlist.class).list();
+        return playlistList;
     }
     
     @Override
