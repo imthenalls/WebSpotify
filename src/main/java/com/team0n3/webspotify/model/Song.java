@@ -28,6 +28,10 @@ public class Song implements Serializable {
     @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
     private Album albumId;
     
+    @ManyToOne
+    @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
+    private Artist artistId;
+    
     @ManyToMany(cascade ={CascadeType.ALL })
     @JoinTable(
             name="songplaylist",
@@ -59,6 +63,13 @@ public class Song implements Serializable {
         this.songId = songId;
     }
     
+    public Artist getArtistId() {
+        return artistId;
+    }
+
+    public void setArtistId(Artist artistId) {
+        this.artistId = artistId;
+    }
     
     
     public Album getAlbumId() {

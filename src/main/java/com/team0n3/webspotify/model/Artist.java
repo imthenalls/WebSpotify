@@ -30,7 +30,9 @@ public class Artist implements Serializable{
     @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Album> albums;
 
-    
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
+    private Collection<Song> songs;
+
     
     public Artist() {
     }
@@ -71,8 +73,15 @@ public class Artist implements Serializable{
     public void setTotalPlays(int totalPlays) {
         this.totalPlays = totalPlays;
     }
+    
+    public Collection<Song> getSongs() {
+        return songs;
+    }
 
-
+    public void setSongs(Collection<Song> songs) {
+        this.songs = songs;
+    }
+    
     @Override
     public String toString(){
         return "Artist = "+artistName;

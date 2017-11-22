@@ -30,7 +30,7 @@ public class Album implements Serializable{
     private Collection<Song> songs;
     
     @ManyToOne
-    @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
+    @JoinColumn(name="creatorId",referencedColumnName="artistId",nullable=false)
     private Artist artistId;
     
     public Album() {
