@@ -23,8 +23,6 @@ public class Song implements Serializable {
     private int songId;
     @Column(name="title",nullable=false)
     private String title;
-    //@Column(name="artistId",nullable=false)
-    //private int artistId;
     
     @ManyToOne
     @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
@@ -61,13 +59,7 @@ public class Song implements Serializable {
         this.songId = songId;
     }
     
-  /*  public int getArtistId() {
-        return artistId;
-    }
     
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }*/
     
     public Album getAlbumId() {
         return albumId;

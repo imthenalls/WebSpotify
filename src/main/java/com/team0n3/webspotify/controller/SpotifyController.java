@@ -16,12 +16,12 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
-
+import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
-
+import com.team0n3.webspotify.service.ArtistService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -49,7 +49,10 @@ public class SpotifyController {
     private SongService songService;
     @Autowired
     private AlbumService albumService;
+    @Autowired
+    private ArtistService artistService;
     private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
+    
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView handleRequest(HttpSession session) {
         ModelAndView model = new ModelAndView("redirect:/login");
