@@ -20,7 +20,7 @@
           <a data-toggle="tab" href="#" id="followedSongs" onclick="viewSong(this.id)">Songs</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#">Albums</a>
+            <a data-toggle="tab" href="#" id="followedAlbums" onclick="viewFollowedAlbums(this.id)">Albums</a>
         </li>
         <li> 
             <a data-toggle="tab" href="#">Artists</a>

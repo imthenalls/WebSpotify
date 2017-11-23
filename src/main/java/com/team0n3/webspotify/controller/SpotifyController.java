@@ -140,7 +140,14 @@ public class SpotifyController {
     List<Song> followSongs = songService.listAllSongs();
     session.setAttribute("songList",followSongs);
   }
-
+  
+  @RequestMapping(value = "/viewFollowedAlbums", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewFollowedAlbums(HttpSession session){
+    List<Album> followAlbum = albumService.listAllAlbums();
+    session.setAttribute("followAlbum",followAlbum);
+  }
+  
   @RequestMapping("/logout")
   public String logout(HttpServletRequest request){
     request.getSession().invalidate();

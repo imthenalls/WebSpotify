@@ -126,7 +126,24 @@ function viewAlbum(link){
     });
     return false; // Makes sure that the link isn't followed
 }
-
+function viewFollowedAlbums(link){
+    console.log("Trying to view followed albums");
+    var id = link.substring(5,);
+    $.ajax({
+        url: "viewFollowedAlbums",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("/resources/pages/followedAlbums.jsp",function(){
+                console.log("Loaded new album into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
 function viewSong(link){
     console.log("Viewing?");
     var id = link.substring(1,);
