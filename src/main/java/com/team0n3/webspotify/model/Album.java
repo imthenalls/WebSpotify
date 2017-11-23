@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,6 +29,10 @@ public class Album implements Serializable{
   @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
   private Collection<Song> songs;
 
+  @ManyToOne
+  @JoinColumn(name="creatorId",referencedColumnName="artistId",nullable=false)
+  private Artist artistId;
+  
   public Album() {
   }
 
@@ -59,6 +65,14 @@ public class Album implements Serializable{
     this.albumName = albumName;
   }
 
+  public Artist getArtistId() {
+      return artistId;
+  }
+  
+  public void setArtistId(Artist artistId) {
+      this.artistId = artistId;
+  }
+  
   @Override
   public String toString(){
     return "Album = "+albumName;
