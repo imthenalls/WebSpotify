@@ -30,7 +30,7 @@
     <c:forEach items="${allPlaylists}" var="Playlist">
       <tr>
         <td><a href="#" onclick=viewPlaylist(${Playlist.playlistID})>${Playlist.playlistName}</a></td>
-        <td>artist</td>
+        <td>${Playlist.creator.username}</td>
         <td>
            <button type="button" onclick="followPlaylist(${Playlist.playlistID})" class="btn btn-primary btn-sm">Follow</button>
              
