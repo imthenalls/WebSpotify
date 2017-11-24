@@ -82,6 +82,18 @@ function togglePlayPause() {
    }
 }
 
+function viewBrowse(){
+    $("#center-pane").load("/resources/pages/browsePage.jsp");
+}
+
+function viewEditProfile(){
+    $("#center-pane").load("/resources/pages/editProfile.jsp");
+}
+
+function viewUpgradePage(){
+    $("#center-pane").load("/resources/pages/upgrade.jsp");
+}
+
 function viewProfile(){
   $("#center-pane").load("/resources/pages/profile.jsp");
 }
@@ -165,13 +177,12 @@ function viewFollowedSongs(){
         url: "viewSongs",
         type: "GET",
         success:function(){
-            console.log("View success");
             $("#center-pane").load("/resources/pages/song.jsp",function(){
-                console.log("Loaded new playlist info into center pane!");
+              
             });
         },
         error: function(){
-            console.log("View error");
+            console.log("Error viewing followed songs");
         }
     });
     return false; // Makes sure that the link isn't followed

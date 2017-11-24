@@ -2,7 +2,7 @@
 <div class="col-xs-2" id="left-toolbar">
     <ul class ="nav list-group">
         <li class="activeToolbar">
-            <a class="click" data-toggle="tab" href="#browseToggle">Browse</a>
+            <a href="#" onClick="viewBrowse()">Browse</a>
         </li>
         <li>
              <a class="click" data-toggle="tab" href="#radioToggle">Radio</a>

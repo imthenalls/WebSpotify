@@ -233,6 +233,10 @@ a:hover{
     background-color:#080808;
 }
 
+.upgradeButton{
+    background-color:#080808;
+}
+
 #edit-profile-button:hover{
     color:#3399ff;
 }
@@ -311,5 +315,21 @@ a:hover{
 
 .modal-body{
     color:black;
+}
+
+.playShow{
+    display: none;
+}
+
+.songTable{
+    table-layout: fixed;
+}
+
+.tableRow:hover .playHide{
+    display:none;
+}
+
+.tableRow:hover .playShow{
+    display: block;
 }
 
