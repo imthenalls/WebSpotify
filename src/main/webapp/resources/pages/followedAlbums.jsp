@@ -31,7 +31,6 @@
       <tr>
         <td><a href="#" id="album${Album.albumId}" onclick="viewAlbum(this.id)">${Album.albumName}</a></td>
         <td>artist</td>
-        
       </tr>
     </c:forEach> 
   </table>

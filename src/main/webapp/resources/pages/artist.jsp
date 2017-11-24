@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
@@ -5,41 +6,40 @@
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Playlist</span> <!-- Album, Playlist, or Radio -->
+        <span class="mediaType">Artist</span>
       </div>
       <div class="row">
         <a href="#">
-          <h3 class="mediaName">${currentPlaylist.playlistName}</h3>    
+          <h2 class="mediaName">${currentArtist.artistName}</h2>    
         </a>
-      </div>
-      <div class="row">
-        <a href="#">
-          <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
-        </a>
-      </div>
-      <div class="row" id="mediaSpecs">
-        <span>
-          ${currentPlaylist.description}
-        </span>
       </div>
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
-  <table class="table songTable">
-    <tr>
-      <th>Title</th>
-      <th>Artist</th> 
-      <th>Duration</th>
-    </tr>
-    <!--
-    <c:forEach items="${Playlist.songs}" var="Song">
-      <tr class="songEntry">
-        <td>${Song.songName}</td>
-        <td>${Song.artistName}</td>
-        <td>${Song.duration}</td>
-      </tr>
-    </c:forEach>
-    -->
-  </table>
+<div class="row">
+  <div class="col-md-8">
+      <h3>Popular</h3>
+      <table class="table songTable">
+      <c:forEach begin="0" end="10" items="${artistSongs}" var="Song">
+        <tr>
+            <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
+          <td>Duration</td>
+        </tr>
+      </c:forEach> 
+      </table>
+  </div>
+  <div class="col-md-4">
+    
+  </div> 
+</div>
+
+<div>
+  <h3>Albums</h3>
+  <c:forEach items="${artistAlbums}" var="Album">
+    <div class="col-md-3">
+       <a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
+      <a href="#" onclick="viewAlbum(${Album.albumId})"><img src="http://placehold.it/350x350" alt="Image" class="img-responsive"></a>
+      <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
+    </div>
+  </c:forEach>
 </div>

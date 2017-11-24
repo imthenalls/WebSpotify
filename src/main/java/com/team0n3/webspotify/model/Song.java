@@ -40,6 +40,9 @@ public class Song implements Serializable {
     ) 
     private Collection<Playlist> containedInPlaylists;
     
+    @Column(name="duration",nullable=false)
+    private int duration;
+    
     public Song() {
     }
     
@@ -85,6 +88,14 @@ public class Song implements Serializable {
     
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public int getDuration(){
+        return duration;
+    }
+    
+    public void setDuration(int duration){
+        this.duration=duration;
     }
     
     @Override

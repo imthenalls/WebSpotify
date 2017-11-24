@@ -24,7 +24,8 @@ public class SongDAOHibernateImpl implements SongDAO{
 
   @Override
   public Song getSong(int id) {
-    return (Song)sessionFactory.getCurrentSession().load(Song.class, id);
+    Song song = (Song)sessionFactory.getCurrentSession().get(Song.class,id);
+    return song;
   }
 
   @Override

@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="nav navbar-right">
-            <p><a class="click" href="#profileToggle">${currentUser.username}</a></p>
+            <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
         </div>
     </div>
 </nav>

@@ -3,6 +3,7 @@ package com.team0n3.webspotify.dao.implementation;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.model.Artist;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,8 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Override
     public Artist getArtist(int artistId){
         Artist artist = (Artist)sessionFactory.getCurrentSession().get(Artist.class,artistId);
+        Hibernate.initialize(artist.getAlbums());
+        Hibernate.initialize(artist.getSongs());
         return artist;
     }
     
