@@ -127,7 +127,14 @@ public class SpotifyController {
   public void addToPlaylist(@RequestParam int playlist, @RequestParam int song, HttpSession session){
     songService.AddSongToPlaylist(song, playlist);
   }
-
+  
+  @RequestMapping(value="/followPlaylist", method=RequestMethod.POST)
+  @ResponseBody
+  public void followPlaylist(@RequestParam int playlist, HttpSession session){
+      User currentUser = (User)session.getAttribute("currentUser");
+      userService.addPlaylistToFollow(currentUser.getUsername(), playlist);
+  }
+  
   @RequestMapping(value = "/viewAlbum", method= RequestMethod.GET)
   @ResponseBody
   public void viewAlbum(@RequestParam int albumID, HttpSession session){
@@ -149,6 +156,14 @@ public class SpotifyController {
   public void viewFollowedAlbums(HttpSession session){
     List<Album> followAlbum = albumService.listAllAlbums();
     session.setAttribute("followAlbum",followAlbum);
+  }
+  
+  @RequestMapping(value = "/viewAllPlaylists", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewAllPlaylists(HttpSession session){
+    List<Playlist> allPlaylists = playlistService.listAllPlaylists();
+    System.out.println(allPlaylists.get(0));
+    session.setAttribute("allPlaylists",allPlaylists);
   }
   
   @RequestMapping("/logout")

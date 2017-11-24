@@ -144,6 +144,24 @@ function viewFollowedAlbums(link){
     });
     return false; // Makes sure that the link isn't followed
 }
+
+function viewAllPlaylists(){
+    $.ajax({
+        url: "viewAllPlaylists",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/follwedPlaylists.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function viewSong(link){
     console.log("Viewing?");
     var id = link.substring(1,);
@@ -182,6 +200,24 @@ function deletePlaylist(){
     })
     return false;
 };
+
+function followPlaylist(playlist) {
+  $.ajax({
+    url: "followPlaylist",
+    type: "POST",
+    data: ({
+      playlist: playlist,
+    }),
+    success:function(){
+      console.log("Success following playlist");
+    },
+    error: function(){
+            console.log("Failure following playlist");
+    }
+  });
+  return false;
+};
+
 function addToPlaylist(playlist, song) {
   $.ajax({
     url: "addToPlaylist",

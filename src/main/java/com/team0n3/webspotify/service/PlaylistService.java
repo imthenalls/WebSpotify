@@ -17,4 +17,5 @@ public interface PlaylistService {
   public void deletePlaylist(Playlist p);
 
   public List<Song> getSongsInPlaylists(int playlistId);
+  
 }

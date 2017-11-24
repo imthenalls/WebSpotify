@@ -2,6 +2,7 @@
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.PlaylistDAO;
+import com.team0n3.webspotify.dao.UserDAO;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
@@ -20,6 +21,9 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   
   @Autowired
   private PlaylistDAO playlistDao;
+  
+  @Autowired
+  private UserDAO userDao;
   
   @Autowired
   private SessionFactory sessionFactory;
@@ -49,7 +53,8 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   public void deletePlaylist(Playlist p){
     playlistDao.deletePlaylist(p);
   }
-
+ 
+  
   @Override
   @Transactional(readOnly=true)
   public List<Song> getSongsInPlaylists(int playlistId){

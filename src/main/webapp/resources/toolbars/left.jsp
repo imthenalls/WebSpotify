@@ -28,6 +28,9 @@
         <li> 
             <a data-toggle="tab" href="#">Stations</a>
         </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">followed playlists</a>
+        </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>
