@@ -39,7 +39,9 @@ public class SpotifyController {
   private AlbumService albumService;
   @Autowired
   private ArtistService artistService;
+  
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
+  private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
 
   @RequestMapping(value="/", method=RequestMethod.GET)
   public ModelAndView handleRequest(HttpSession session) {
@@ -53,9 +55,11 @@ public class SpotifyController {
     if(user==null){
         return new ModelAndView("redirect:/");
     }
-    listOfPlaylists=(List<Playlist>) user.getCreatedPlaylists();
+    listOfPlaylists.addAll(user.getCreatedPlaylists());
+    followedPlaylists.addAll(user.getFollowedPlaylists());
     session.setAttribute("currentUser", user);
     session.setAttribute("PlaylistList",listOfPlaylists);
+    session.setAttribute("FollowedPlaylists", followedPlaylists);
     ModelAndView model= new ModelAndView("redirect:/browse");
     return model;   
   }
@@ -132,7 +136,26 @@ public class SpotifyController {
   @ResponseBody
   public void followPlaylist(@RequestParam int playlist, HttpSession session){
       User currentUser = (User)session.getAttribute("currentUser");
+      followedPlaylists.add(playlistService.getPlaylistByID(playlist));
       userService.addPlaylistToFollow(currentUser.getUsername(), playlist);
+  }
+  
+  @RequestMapping(value="/unfollowPlaylist", method=RequestMethod.POST)
+  @ResponseBody
+  public void unfollowPlaylist(@RequestParam int playlist, HttpSession session){
+    boolean found=false;
+    for(Playlist p:followedPlaylists){
+      if(p.getPlaylistID()== playlist){
+        followedPlaylists.remove(p);
+        found=true;
+        break;
+      }
+    }
+    if(found){
+      User currentUser = (User)session.getAttribute("currentUser");
+      //followedPlaylists.remove(playlistService.getPlaylistByID(playlist));
+      userService.unfollowPlaylist(currentUser.getUsername(), playlist);
+    }
   }
   
   @RequestMapping(value = "/viewAlbum", method= RequestMethod.GET)

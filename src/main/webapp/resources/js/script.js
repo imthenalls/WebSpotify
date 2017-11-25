@@ -209,7 +209,28 @@ function followPlaylist(playlist) {
       playlist: playlist,
     }),
     success:function(){
-      console.log("Success following playlist");
+      $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                console.log("Reloaded playlist sidebar after delete");
+            });
+    },
+    error: function(){
+            console.log("Failure following playlist");
+    }
+  });
+  return false;
+};
+
+function unfollowPlaylist(playlist) {
+  $.ajax({
+    url: "unfollowPlaylist",
+    type: "POST",
+    data: ({
+      playlist: playlist,
+    }),
+    success:function(){
+      $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                console.log("Reloaded playlist sidebar after delete");
+            });
     },
     error: function(){
             console.log("Failure following playlist");

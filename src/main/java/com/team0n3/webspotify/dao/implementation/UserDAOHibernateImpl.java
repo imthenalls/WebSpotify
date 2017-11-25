@@ -30,6 +30,7 @@ public class UserDAOHibernateImpl implements UserDAO{
   public User getUser(String username) {
     User user = (User)sessionFactory.getCurrentSession().get(User.class, username);
     Hibernate.initialize(user.getCreatedPlaylists());
+    Hibernate.initialize(user.getFollowedPlaylists());
     return user;
   }
 
