@@ -6,6 +6,7 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
+import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
@@ -42,7 +43,7 @@ public class SpotifyController {
   
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
-
+  private SongPlayer songPlayer;
   @RequestMapping(value="/", method=RequestMethod.GET)
   public ModelAndView handleRequest(HttpSession session) {
     ModelAndView model = new ModelAndView("login");
@@ -108,6 +109,11 @@ public class SpotifyController {
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
+    int firstSong = playlistSongs.get(0).getSongId();
+    
+    songPlayer = new SongPlayer(playlist,firstSong);
+   // songPlayer.getNextSong();
+    songPlayer.getPrevSong();
   }
 
   @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
