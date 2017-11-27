@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Album implements Serializable{
 
   @Id
-  @Column(name="aid", nullable=false)
+  @Column(name="albumId", nullable=false)
   @GeneratedValue
   private int albumId;
 
@@ -30,7 +30,7 @@ public class Album implements Serializable{
   private Collection<Song> songs;
 
   @ManyToOne
-  @JoinColumn(name="creatorId",referencedColumnName="artistId",nullable=false)
+  @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
   private Artist artistId;
   
   public Album() {

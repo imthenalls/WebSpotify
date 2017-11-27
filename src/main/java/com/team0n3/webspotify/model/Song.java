@@ -25,7 +25,7 @@ public class Song implements Serializable {
     private String title;
     
     @ManyToOne
-    @JoinColumn(name="albumId",referencedColumnName="aid",nullable=false)
+    @JoinColumn(name="albumId",referencedColumnName="albumId",nullable=false)
     private Album albumId;
     
     @ManyToOne
