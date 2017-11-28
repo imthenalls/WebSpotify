@@ -1,6 +1,7 @@
 
 package com.team0n3.webspotify.service.implementation;
 
+import com.team0n3.webspotify.dao.PlaylistDAO;
 import com.team0n3.webspotify.dao.UserDAO;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
@@ -26,6 +27,9 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Autowired
   private UserDAO userDao;
+  @Autowired
+  private PlaylistDAO playlistDao;
+  
   @Autowired
   private SessionFactory sessionFactory;
 
@@ -81,7 +85,29 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.addUser(user);
     return user;
   }
-
+  
+  @Override
+  @Transactional(readOnly=false)
+  public void addPlaylistToFollow(String userId, int playlistId){
+    Playlist playlist = playlistDao.getPlaylist(playlistId);
+    User user = userDao.getUser(userId);
+    Collection<Playlist> followed = user.getFollowedPlaylists();
+    followed.add(playlist);
+    user.setFollowedPlaylists(followed);
+    userDao.updateUser(user);
+  }
+  
+  @Override
+  @Transactional(readOnly=false)
+  public void unfollowPlaylist(String userId, int playlistId){
+    Playlist playlist = playlistDao.getPlaylist(playlistId);
+    User user = userDao.getUser(userId);
+    Collection<Playlist> followed = user.getFollowedPlaylists();
+    followed.remove(playlist);
+    user.setFollowedPlaylists(followed);
+    userDao.updateUser(user);
+  }
+  
   @Override
   public List<Playlist> getCreated(String username) {
     User user= userDao.getUser(username);

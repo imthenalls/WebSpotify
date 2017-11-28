@@ -12,4 +12,8 @@ public interface UserService {
   public User signup(String username, String password, String email);
   
   public List<Playlist> getCreated(String username);
+  
+  public void addPlaylistToFollow(String userId, int playlistId);
+  
+  public void unfollowPlaylist(String userId, int playlistId);
 }

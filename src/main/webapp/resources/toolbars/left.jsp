@@ -28,6 +28,9 @@
         <li> 
             <a data-toggle="tab" href="#">Stations</a>
         </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">followed playlists</a>
+        </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>
@@ -42,6 +45,12 @@
             <li>
                 <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
-        </c:forEach>           
+        </c:forEach>  
+            
+        <c:forEach items="${FollowedPlaylists}" var="Playlist">
+            <li>
+                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
+            </li>   
+        </c:forEach> 
     </ul>
 </div>
