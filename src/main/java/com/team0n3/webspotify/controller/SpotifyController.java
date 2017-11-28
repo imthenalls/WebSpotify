@@ -44,6 +44,7 @@ public class SpotifyController {
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
   private SongPlayer songPlayer;
+  //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
   public ModelAndView handleRequest(HttpSession session) {
     ModelAndView model = new ModelAndView("login");
@@ -109,13 +110,35 @@ public class SpotifyController {
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
-    int firstSong = playlistSongs.get(0).getSongId();
-    
-    songPlayer = new SongPlayer(playlist,firstSong);
-   // songPlayer.getNextSong();
-    songPlayer.getPrevSong();
+   // playlistService.renamePlaylist(playlist.getPlaylistID(),"kevin");
+   //  session.setAttribute("currentPlaylist",playlist);
+    // songPlayer.getNextSong();
+    //songPlayer.getPrevSong();
   }
-
+  
+  @RequestMapping(value = "/renamePlaylist", method= RequestMethod.POST)
+  @ResponseBody
+  public void renamePlaylist(@RequestParam String playlistName, HttpSession session){ 
+      System.out.println("HELLO");
+    Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
+    playlistService.renamePlaylist(playlist.getPlaylistID(),playlistName);
+   
+  }
+  
+  /*
+  @RequestMapping(value = "/playPlaylist", method= RequestMethod.GET)
+  @ResponseBody
+  public void playPlaylist(@RequestParam int playlistID, HttpSession session){
+    Playlist playlist = playlistService.getPlaylistByID(playlistID);
+    List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
+    int firstSong = playlistSongs.get(0).getSongId();
+    session.setAttribute("currentPlayedSong",currentPlayedSong);
+    songPlayer = new SongPlayer(playlist,firstSong);
+    songPlayer.play();
+  }
+  */
+  //how do we know what page we are on?
+  //need 
   @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void deletePlaylist(HttpSession session){

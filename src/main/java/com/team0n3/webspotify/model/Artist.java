@@ -24,8 +24,8 @@ public class Artist implements Serializable{
     @Column(name="artistName", nullable=false)
     private String artistName;
     
-    @Column(name="totalPlays", nullable=true)
-    private int totalPlays;
+   // @Column(name="totalPlays", nullable=true)
+   // private int totalPlays;
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Album> albums;
@@ -64,7 +64,7 @@ public class Artist implements Serializable{
         this.artistName = artistName;
     }
 
-   
+   /*
     public int getTotalPlays() {
         return totalPlays;
     }
@@ -72,7 +72,7 @@ public class Artist implements Serializable{
     public void setTotalPlays(int totalPlays) {
         this.totalPlays = totalPlays;
     }
-
+*/
     public Collection<Song> getSongs() {
         return songs;
     }

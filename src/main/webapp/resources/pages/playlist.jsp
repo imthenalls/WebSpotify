@@ -23,7 +23,9 @@
           ${currentPlaylist.description}
         </span>
       </div>
+ 
       <div class="row">
+        
         <div class="dropdown">
           <button class="btn btn-primary" id="playlistPlayButton">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options

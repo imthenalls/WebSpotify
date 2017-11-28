@@ -54,7 +54,6 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     playlistDao.deletePlaylist(p);
   }
  
-  
   @Override
   @Transactional(readOnly=true)
   public List<Song> getSongsInPlaylists(int playlistId){
@@ -65,4 +64,15 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     List<Song> songList = new ArrayList(sondsInPlaylist);
     return songList;
   }
+  
+  @Override
+  @Transactional(readOnly=false)
+  public void renamePlaylist(int playlistId, String playlistName){
+      Playlist playlist = playlistDao.getPlaylist(playlistId);
+       System.out.println("pre helo rename "+playlist.getPlaylistName());
+      playlist.setPlaylistName( playlistName);
+      playlistDao.updatePlaylist( playlist);
+      System.out.println("hello rename "+playlist.getPlaylistName());
+  }
+  
 }
