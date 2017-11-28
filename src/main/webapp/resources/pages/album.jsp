@@ -2,7 +2,7 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
+      <img class="mediaPic" src=${currentAlbum.imagePath}>
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
