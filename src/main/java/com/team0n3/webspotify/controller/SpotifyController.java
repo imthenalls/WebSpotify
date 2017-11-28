@@ -266,4 +266,14 @@ public class SpotifyController {
         creditCompany,address);
     session.setAttribute("currentUser",user);
   }
+  
+  @RequestMapping(value="/cancel",method=RequestMethod.POST)
+  @ResponseBody
+  public void cancel(HttpSession session){
+    System.out.println("In cancel function");
+    User user = (User)session.getAttribute("currentUser");
+    PaymentInfo paymentInfo = user.getPaymentInfo();
+    user = paymentInfoService.deletePayment(user, paymentInfo);
+    session.setAttribute("currentUser",user);
+  }
 }

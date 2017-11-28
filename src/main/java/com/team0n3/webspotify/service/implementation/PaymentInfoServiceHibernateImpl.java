@@ -63,8 +63,10 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
     ccvMd.update(ccv.getBytes());
     byte[] hashCard = cardMd.digest();
     byte[] hashCCV = ccvMd.digest();
+    int cardLength = cardNumber.length();
+    String lastFour = cardNumber.substring(cardLength-4);
     PaymentInfo paymentInfo = new PaymentInfo(hashCard,cardHolder,hashCCV,expirationMonth,expirationYear,
-    creditCompany,address);
+    creditCompany,address,lastFour);
     paymentDao.addPayment(paymentInfo);
     user.setPaymentInfo(paymentInfo);
     user.setAccountType(AccountType.Premium);
@@ -74,7 +76,10 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
   
   @Override
   @Transactional(readOnly=false)
-  public void deletePayment(PaymentInfo paymentInfo){
+  public User deletePayment(User user,PaymentInfo paymentInfo){
     paymentDao.deletePayment(paymentInfo);
+    user.setAccountType(AccountType.Free);
+    userDao.updateUser(user);
+    return user;
   }
 }

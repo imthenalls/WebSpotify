@@ -50,8 +50,6 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
         return false;    
     });
-    
-
 });
 
 function upgradeToPremium(){
@@ -128,7 +126,7 @@ function viewEditProfile(){
 
 function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp",function(){
-        console.log('${currentUser.accountType}');    
+     
     });
 }
 
@@ -338,3 +336,20 @@ function deleteFromPlaylist(playlistId, songId){
     });
     return false;
 };
+
+function cancelPremium(){
+    $.ajax({
+       url: "cancel",
+       type: "POST",
+       data:({}),
+       success:function(){
+           $("#center-pane").load("/resources/pages/profile.jsp",function(){
+               console.log("success cancelling");
+           });
+       },
+       error:function(){
+           console.log("failure cancelling");
+       }
+    });
+    return false;    
+}
