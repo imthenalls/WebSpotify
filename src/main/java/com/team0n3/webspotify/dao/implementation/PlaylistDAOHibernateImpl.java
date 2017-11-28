@@ -41,4 +41,10 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
   public void deletePlaylist(Playlist playlist){
     sessionFactory.getCurrentSession().delete(playlist);
   }
+  
+  @Override
+  public void updatePlaylist(Playlist playlist) {
+    sessionFactory.getCurrentSession().update(playlist);
+  }
+  
 }

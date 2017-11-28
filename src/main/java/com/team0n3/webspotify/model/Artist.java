@@ -67,15 +67,20 @@ public class Artist implements Serializable{
         this.artistName = artistName;
     }
 
+   /*
+    public int getTotalPlays() {
+        return totalPlays;
+=======
    
     public int getPopularity() {
         return popularity;
+>>>>>>> origin/master
     }
 
     public void setPopularity(int Popularity) {
         this.popularity = popularity;
     }
-
+*/
     public Collection<Song> getSongs() {
         return songs;
     }

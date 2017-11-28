@@ -14,9 +14,7 @@
         </a>
       </div>
       <div class="row">
-        <a href="#">
-          <span class="mediaCreator">Put Artist Here</span>    
-        </a>
+        <a href="#" onclick="viewArtist(${currentAlbum.artistId.artistId})">By ${currentAlbum.artistId.artistName}</a>
       </div>
       <div class="row">
         <div class="dropdown">
@@ -32,17 +30,22 @@
 <div class="row" id="tableContainer">
   <table class="table songTable">
     <tr>
+      <th>#</th>
       <th>Title</th>
-      <th>Artist</th>
-      <th>Album</th> 
       <th>Duration</th>
     </tr>
-    <c:forEach items="${albumSongs}" var="Song">
-      <tr>
+    <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
+      <tr class="tableRow">
+        <td class="">
+            <a class="playHide">
+                ${loop.index+1}
+            </a>        
+          <a href="#">
+            <i class="playShow fa fa-play fa-fw"></i>
+          </a>
+        </td>
         <td>${Song.title}</td>
-        <td>Artist</td>
-        <td>${currentAlbum.albumName}</td>
-        <td>Duration</td>
+        <td class="durationColumn">${Song.duration}</td>
       </tr>
     </c:forEach> 
   </table>

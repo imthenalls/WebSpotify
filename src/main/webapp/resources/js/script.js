@@ -51,7 +51,43 @@ $(document).ready(function(){
         return false;    
     });
     
+
 });
+
+function upgradeToPremium(){
+    console.log("trying to upgrade");
+    var cardHold = $("#cardHold").val();
+    var cardNum = $("#cardNum").val();
+    var ccv = $("#ccv").val();
+    var month = parseInt($("#month").val());
+    var year = parseInt($("#year").val());
+    var creditCompany = $("#creditCompany").val();
+    var address = $("#address").val();
+    console.log(typeof month);
+    $.ajax({
+       url: "upgrade",
+       type: "POST",
+       data:({
+           cardNumber: cardNum,
+           cardHolder: cardHold,
+           ccv: ccv,
+           expirationMonth: month,
+           expirationYear: year,
+           creditCompany: creditCompany,
+           address: address
+       }),
+       success:function(){
+           $("#center-pane").load("/resources/pages/profile.jsp",function(){
+               console.log("success upgrading");
+           });
+           
+       },
+       error:function(){
+           console.log("failure upgrading");
+       }
+    });
+    return false;
+}
 
 function updateProgress() {
     var progress = $(".progress-bar")[0];
@@ -82,9 +118,25 @@ function togglePlayPause() {
    }
 }
 
-function viewPlaylist(link){
-    console.log("Viewing?");
-    var id = link.substring(1,);
+function viewBrowse(){
+    $("#center-pane").load("/resources/pages/browsePage.jsp");
+}
+
+function viewEditProfile(){
+    $("#center-pane").load("/resources/pages/editProfile.jsp");
+}
+
+function viewUpgradePage(){
+    $("#center-pane").load("/resources/pages/upgrade.jsp",function(){
+        console.log('${currentUser.accountType}');    
+    });
+}
+
+function viewProfile(){
+  $("#center-pane").load("/resources/pages/profile.jsp");
+}
+
+function viewPlaylist(id){
     $.ajax({
         url: "viewPlaylist",
         type: "GET",
@@ -92,22 +144,38 @@ function viewPlaylist(link){
             playlistID: id
         }),
         success:function(){
-            console.log("View success");
             $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                console.log("Loaded new playlist info into center pane!");
+               
             });
         },
         error: function(){
-            console.log("View error");
+            console.log("Error viewing playlist");
         }
     });
     return false; // Makes sure that the link isn't followed
 }
 
-function viewAlbum(link){
-    console.log("Trying to view album");
-    var id = link.substring(5,);
-    console.log("albumid: ",id);
+function viewArtist(id){
+  $.ajax({
+    url: "viewArtist",
+    type: "GET",
+    data: ({
+      artistID: id
+    }),
+    success:function(){
+      console.log("View success");
+      $("#center-pane").load("/resources/pages/artist.jsp",function(){
+        console.log("Loaded new artist info into center pane!");
+      });
+    },
+    error: function(){
+      console.log("View error");
+    }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
+function viewAlbum(id){
     $.ajax({
         url: "viewAlbum",
         type: "GET",
@@ -115,31 +183,28 @@ function viewAlbum(link){
             albumID: id
         }),
         success:function(){
-            console.log("View success");
             $("#center-pane").load("/resources/pages/album.jsp",function(){
-                console.log("Loaded new album into center pane!");
+                
             });
         },
         error: function(){
-            console.log("View error");
+            console.log("Error viewing album");
         }
     });
     return false; // Makes sure that the link isn't followed
 }
-function viewFollowedAlbums(link){
-    console.log("Trying to view followed albums");
-    var id = link.substring(5,);
+
+function viewFollowedAlbums(){
     $.ajax({
         url: "viewFollowedAlbums",
         type: "GET",
         success:function(){
-            console.log("View success");
             $("#center-pane").load("/resources/pages/followedAlbums.jsp",function(){
-                console.log("Loaded new album into center pane!");
+               
             });
         },
         error: function(){
-            console.log("View error");
+            console.log("Error viewing followed albums");
         }
     });
     return false; // Makes sure that the link isn't followed
@@ -169,20 +234,18 @@ function viewSong(link){
         url: "viewSongs",
         type: "GET",
         success:function(){
-            console.log("View success");
             $("#center-pane").load("/resources/pages/song.jsp",function(){
-                console.log("Loaded new playlist info into center pane!");
+              
             });
         },
         error: function(){
-            console.log("View error");
+            console.log("Error viewing followed songs");
         }
     });
     return false; // Makes sure that the link isn't followed
-};
+}
 
 function deletePlaylist(){
-    console.log("Deleting..");
     $.ajax({
         url: "deletePlaylist",
         type: "POST",
@@ -251,27 +314,27 @@ function addToPlaylist(playlist, song) {
       console.log("Success adding song");
     },
     error: function(){
-            console.log("Failure adding song");
+      console.log("Failure adding song");
     }
   });
   return false;
-};
-function deletePlaylist(){
-    console.log("Deleting..");
+}
+
+function deleteFromPlaylist(playlistId, songId){
     $.ajax({
-        url: "deletePlaylist",
-        type: "POST",
-        data: ({}),
-        success: function(){
-            console.log("Success deleting playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                console.log("Reloaded playlist sidebar after delete");
-                $("#center-pane").load("/resources/pages/browsePage.jsp");
-            });
-        },
-        error: function(){
-            console.log("Failure deleting playlist");
-        }
-    })
+      url: "deleteFromPlaylist",
+      type: "POST",
+      data: ({
+        playlistId: playlistId,
+        songId: songId
+      }),
+      success: function(){
+        console.log("Success deleting song");
+          $("#center-pane").load("/resources/pages/playlist.jsp");
+      },
+      error: function(){
+        console.log("Failure deleting song");
+      }
+    });
     return false;
 };

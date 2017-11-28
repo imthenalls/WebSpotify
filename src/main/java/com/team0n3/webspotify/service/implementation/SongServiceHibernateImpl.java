@@ -60,4 +60,15 @@ public class SongServiceHibernateImpl implements SongService{
     songDao.updateSong(song);
     return song;
   }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void deleteSongFromPlaylist(int playlistId, int songId){
+    Song song = getSong(songId);
+    Playlist playlist = playlistService.getPlaylistByID(playlistId);
+    Collection<Playlist> contains = song.getContainedInPlaylists();
+    contains.remove(playlist);
+    song.setContainedInPlaylists(contains);
+    songDao.updateSong(song);
+  }
 }

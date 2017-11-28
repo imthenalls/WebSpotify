@@ -8,16 +8,19 @@ import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.dao.ArtistDAO;
+import com.team0n3.webspotify.dao.PaymentDAO;
 import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.SongDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.AlbumDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.PaymentDAOHibernateImpl;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.PaymentInfo;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +63,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
   @Bean(name = "sessionFactory")
   public SessionFactory getSessionFactory(DataSource dataSource) {
     LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class);    
+    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class,PaymentInfo.class);    
     return sessionBuilder.buildSessionFactory();
   }
 
@@ -99,6 +102,12 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
   public ArtistDAO getArtistDao(SessionFactory sessionFactory){
     return new ArtistDAOHibernateImpl(sessionFactory);
   }    
+  
+  @Autowired
+  @Bean(name="paymentDao")
+  public PaymentDAO getPaymentDao(SessionFactory sessionFactory){
+    return new PaymentDAOHibernateImpl(sessionFactory);
+  }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
