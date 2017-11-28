@@ -24,8 +24,11 @@ public class Artist implements Serializable{
     @Column(name="artistName", nullable=false)
     private String artistName;
     
-   // @Column(name="totalPlays", nullable=true)
-   // private int totalPlays;
+    @Column(name="popularity", nullable=true)
+    private int popularity;
+    
+    @Column(name="imagePath", nullable=true)
+    private String imagePath; 
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Album> albums;
@@ -67,10 +70,15 @@ public class Artist implements Serializable{
    /*
     public int getTotalPlays() {
         return totalPlays;
+=======
+   
+    public int getPopularity() {
+        return popularity;
+>>>>>>> origin/master
     }
 
-    public void setTotalPlays(int totalPlays) {
-        this.totalPlays = totalPlays;
+    public void setPopularity(int Popularity) {
+        this.popularity = popularity;
     }
 */
     public Collection<Song> getSongs() {
@@ -81,6 +89,14 @@ public class Artist implements Serializable{
         this.songs=songs;
     }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
+    
+    public void setImagePath(String imagePath){
+        this.imagePath = imagePath;
+    }
+    
     @Override
     public String toString(){
         return "Artist = "+artistName;

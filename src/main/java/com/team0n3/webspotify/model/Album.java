@@ -28,7 +28,16 @@ public class Album implements Serializable{
 
   @OneToMany(cascade=CascadeType.ALL,mappedBy="albumId")
   private Collection<Song> songs;
-
+  
+  @Column(name="duration", nullable=true)
+  private int duration;
+          
+  @Column(name="popularity", nullable=true)
+  private int popularity;
+  
+  @Column(name="imagePath", nullable=true)
+  private String imagePath;
+  
   @ManyToOne
   @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
   private Artist artistId;
@@ -71,6 +80,30 @@ public class Album implements Serializable{
   
   public void setArtistId(Artist artistId) {
       this.artistId = artistId;
+  }
+  
+  public int getPopularity(){
+      return this.popularity;
+  }
+  
+  public void setPopularity(int popularity){
+      this.popularity = popularity;
+  }
+
+  public String getImagePath() {
+      return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+      this.imagePath = imagePath;
+  }
+
+  public int getDuration() {
+      return duration;
+  }
+
+  public void setDuration(int duration) {
+      this.duration = duration;
   }
   
   @Override
