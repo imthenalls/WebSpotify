@@ -1,6 +1,7 @@
 
 package com.team0n3.webspotify.model;
 
+import com.team0n3.webspotify.enums.AccountType;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Column;
@@ -11,7 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name="users")
@@ -48,6 +52,14 @@ public class User implements Serializable{
     inverseJoinColumns = {@JoinColumn(name="playlistID")}
   )
   private Collection<Playlist> collabPlaylists;
+  
+  @ManyToOne
+  @JoinColumn(name="paymentId",referencedColumnName="paymentId")
+  private PaymentInfo paymentInfo;
+  
+  @Column(name="accountType",nullable=false)
+  @Enumerated(EnumType.STRING)
+  private AccountType accountType;
 
   public User() {
   }
@@ -60,6 +72,8 @@ public class User implements Serializable{
     createdPlaylists=null;
     followedPlaylists=null;
     collabPlaylists=null;
+    paymentInfo=null;
+    accountType=AccountType.Free;
   }
 
   public String getUsername() {
@@ -117,7 +131,23 @@ public class User implements Serializable{
   public void setCollabPlaylists(Collection<Playlist> collabPlaylists) {
     this.collabPlaylists = collabPlaylists;
   }
-
+  
+  public PaymentInfo getPaymentInfo(){
+    return paymentInfo;
+  }
+  
+  public void setPaymentInfo(PaymentInfo paymentInfo){
+    this.paymentInfo = paymentInfo;
+  }
+  
+  public AccountType getAccountType(){
+    return accountType;
+  }
+  
+  public void setAccountType(AccountType accountType){
+    this.accountType = accountType;
+  }
+  
   @Override
   public String toString(){
     return "username="+username+", email="+email;

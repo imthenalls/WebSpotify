@@ -1,19 +1,23 @@
 
 package com.team0n3.webspotify.controller;
 
+import com.team0n3.webspotify.enums.AccountType;
 import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.PaymentInfo;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
+import com.team0n3.webspotify.service.PaymentInfoService;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,8 @@ public class SpotifyController {
   private AlbumService albumService;
   @Autowired
   private ArtistService artistService;
+  @Autowired
+  private PaymentInfoService paymentInfoService;
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
 
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -181,5 +187,17 @@ public class SpotifyController {
   public String logout(HttpServletRequest request){
     request.getSession().invalidate();
     return "login";
+  }
+  
+  @RequestMapping(value="/upgrade",method=RequestMethod.POST)
+  @ResponseBody
+  public void upgrade(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
+      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, HttpSession session)
+  {
+    System.out.println("madeit");
+    User user = (User)session.getAttribute("currentUser");
+    user = paymentInfoService.addPayment(user, cardNumber,cardHolder,ccv,expirationMonth,expirationYear,
+        creditCompany,address);
+    session.setAttribute("currentUser",user);
   }
 }

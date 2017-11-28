@@ -22,7 +22,7 @@
           </li>
           <li>
             <label for="account-type">Account Type:</label>
-            <p id="account-type">Premium</p>
+            <p id="account-type">${currentUser.accountType}</p>
           </li>
         </ul>
         <button id="edit-profile-button" class="btn" onclick="viewEditProfile()">Edit Profile</button>

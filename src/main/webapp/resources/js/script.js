@@ -53,6 +53,41 @@ $(document).ready(function(){
     
 });
 
+function upgradeToPremium(){
+    console.log("trying to upgrade");
+    var cardHold = $("#cardHold").val();
+    var cardNum = $("#cardNum").val();
+    var ccv = $("#ccv").val();
+    var month = parseInt($("#month").val());
+    var year = parseInt($("#year").val());
+    var creditCompany = $("#creditCompany").val();
+    var address = $("#address").val();
+    console.log(typeof month);
+    $.ajax({
+       url: "upgrade",
+       type: "POST",
+       data:({
+           cardNumber: cardNum,
+           cardHolder: cardHold,
+           ccv: ccv,
+           expirationMonth: month,
+           expirationYear: year,
+           creditCompany: creditCompany,
+           address: address
+       }),
+       success:function(){
+           $("#center-pane").load("/resources/pages/profile.jsp",function(){
+               console.log("success upgrading");
+           });
+           
+       },
+       error:function(){
+           console.log("failure upgrading");
+       }
+    });
+    return false;
+}
+
 function updateProgress() {
     var progress = $(".progress-bar")[0];
     var value = 0;
@@ -91,7 +126,9 @@ function viewEditProfile(){
 }
 
 function viewUpgradePage(){
-    $("#center-pane").load("/resources/pages/upgrade.jsp");
+    $("#center-pane").load("/resources/pages/upgrade.jsp",function(){
+        console.log('${currentUser.accountType}');    
+    });
 }
 
 function viewProfile(){

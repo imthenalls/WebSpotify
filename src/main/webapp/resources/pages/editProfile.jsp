@@ -5,7 +5,7 @@
       <div class="col-xs-8">
           <div class="col-xs-6">
             <label for="account-type">Account Type:</label>
-            <p id="account-type">Premium</p>
+            <p id="account-type">${currentUser.accountType}</p>
             <!-- <p id="account-type">{currentUser.accountType} </p> -->
           </div>
           <div class="col-xs-6">
