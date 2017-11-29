@@ -15,4 +15,6 @@ public interface AlbumDAO {
   public void deleteAlbum(Album album);
 
   public void updateAlbum(Album album);
+  
+  public List<Album> search(String keyword);
 }

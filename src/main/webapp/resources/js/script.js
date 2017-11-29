@@ -53,6 +53,26 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
         return false;    
     });
+    $("#searchForm").submit(function(){
+      var keyword = $("#keyword").val();
+      $.ajax({
+        url: "search",
+        type: "GET",
+        data:({
+               keyword: keyword
+            }),
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/search_results.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; 
+    });
 });
 
 function upgradeToPremium(){
@@ -366,4 +386,20 @@ function playSong(songId){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp");
     }
   })
+}
+function viewUsers(){
+    $.ajax({
+        url: "viewUsers",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/users.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
 }

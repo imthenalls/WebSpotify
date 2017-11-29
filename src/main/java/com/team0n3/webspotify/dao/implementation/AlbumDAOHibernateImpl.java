@@ -4,8 +4,10 @@ package com.team0n3.webspotify.dao.implementation;
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.model.Album;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AlbumDAOHibernateImpl implements AlbumDAO{
@@ -43,6 +45,13 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
   @Override
   public void updateAlbum(Album album){
     sessionFactory.getCurrentSession().update(album);
+  }
+  
+    @Override
+  public List<Album> search(String keyword){
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Album.class);
+    c.add(Restrictions.like("albumName", "%"+keyword+"%"));
+    return c.list();
   }
 
 }

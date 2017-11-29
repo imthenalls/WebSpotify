@@ -71,4 +71,13 @@ public class SongServiceHibernateImpl implements SongService{
     song.setContainedInPlaylists(contains);
     songDao.updateSong(song);
   }
+  
+    @Transactional(readOnly = true)
+  @Override
+  public List<Song> search(String keyword)
+  {
+    List<Song> listSongs = songDao.search(keyword);
+    return listSongs;
+  }
+
 }

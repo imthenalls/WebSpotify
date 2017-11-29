@@ -56,4 +56,11 @@ public class AlbumServiceHibernateImpl implements AlbumService{
     List<Song> songList = new ArrayList(SongsInAlbum);
     return songList;
   }
+  
+  @Transactional(readOnly = true)
+  @Override
+  public List<Album> search(String keyword){
+      List<Album> listAlbums = albumDao.search(keyword);
+      return listAlbums;
+  }
 }

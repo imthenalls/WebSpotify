@@ -282,4 +282,25 @@ public class SpotifyController {
     Song song = songService.getSong(songId);
     session.setAttribute("currentSong",song);
   }
+
+  @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewUsers(HttpSession session){
+    /** CURRENTLY VIEWS ALL SONGS **/
+    List<User> followUsers = userService.listAllUsers();
+    session.setAttribute("userList",followUsers);
+  }
+  
+  @RequestMapping(value = "/search", method= RequestMethod.GET)
+  @ResponseBody
+  public void search(String keyword, HttpSession session){
+    List<User> searchUsers = userService.search(keyword);
+    List<Album> searchAlbums = albumService.search(keyword);
+    List<Artist> searchArtists = artistService.search(keyword);
+    List<Song> searchSongs = songService.search(keyword);
+    session.setAttribute("userList",searchUsers);
+    session.setAttribute("albumList",searchAlbums);
+    session.setAttribute("artistList",searchArtists);
+    session.setAttribute("songList",searchSongs);
+  }
 }

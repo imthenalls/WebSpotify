@@ -31,6 +31,9 @@
         <li> 
             <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">Followed Playlists</a>
         </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewUsers()">Users</a>
+        </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>
