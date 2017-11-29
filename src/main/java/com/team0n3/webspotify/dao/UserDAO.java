@@ -17,4 +17,6 @@ public interface UserDAO {
   public void deleteUser(String username);
 
   public User findByEmail(String email);
+  
+  public List<User> search(String keyword);
 }
