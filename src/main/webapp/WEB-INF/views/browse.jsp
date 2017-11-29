@@ -61,7 +61,9 @@ and open the template in the editor.
               <!-- JQUERY LOADS COMPONENTS HERE -->
         </div>
       </div>
-      <%@include file="/resources/toolbars/bottom.jsp" %>
+      <div id="bottomTool">
+        <%@include file="/resources/toolbars/bottom.jsp" %>
+      </div>
     </div>
 
     <!-- JAVASCRIPT -->

@@ -1,6 +1,7 @@
 var audio;
 
 $(document).ready(function(){
+  
     $("#center-pane").load("/resources/pages/browsePage.jsp");
     w3.includeHTML(playBack);
     $('#myCarousel').carousel({
@@ -12,6 +13,8 @@ $(document).ready(function(){
     $(".prev").click(function(){
         $("#myCarousel").carousel("next");
     });
+    
+    $('[data-toggle="tooltip"]').tooltip();
     
     function playBack(){
         audio = $("#audio")[0];
@@ -225,9 +228,7 @@ function viewAllPlaylists(){
     return false; // Makes sure that the link isn't followed
 }
 
-function viewSong(link){
-    console.log("Viewing?");
-    var id = link.substring(1,);
+function viewFollowedSongs(){
     $.ajax({
         url: "viewSongs",
         type: "GET",
@@ -352,4 +353,17 @@ function cancelPremium(){
        }
     });
     return false;    
+}
+
+function playSong(songId){
+  $.ajax({
+    url: "playSong",
+    type: "GET",
+    data: ({
+      songId: songId
+    }),
+    success: function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp");
+    }
+  })
 }

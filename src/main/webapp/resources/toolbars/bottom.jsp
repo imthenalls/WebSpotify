@@ -1,20 +1,14 @@
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
         <div id="albumArt" class="col-xs-3">
-            <a href='#"'>
-                <img src="/resources/img/foo.jpg" alt="Foo" height="50" width="50">
-            </a>
+            <a href='#"'onclick="viewAlbum(${currentSong.albumId.albumId})"><img src=${currentSong.albumId.imagePath} height="50" width="50"></a>
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <a href="#">
-                    <span id="songName">Run</span>    
-                </a>
+                <a href="#" onclick="viewAlbum(${currentSong.albumId.albumId})">${currentSong.title}</a>
             </div>
             <div class="row">
-                <a href="#">
-                    <span id="artistName">Foo Fighters</span>    
-                </a>
+                <a href="#" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
             </div>
         </div>
         <a href="#">

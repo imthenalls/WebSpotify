@@ -2,11 +2,11 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
-      <img class="mediaPic" src="${currentArtist.imagePath}" height="100" width="100">
+      <img class="mediaPic" src="/resources/img/foo.jpg">
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Artist</span>
+        <span class="mediaType">User</span>
       </div>
       <div class="row">
         <a href="#">
@@ -23,7 +23,7 @@
       <c:forEach begin="0" end="10" items="${artistSongs}" var="Song">
         <tr>
             <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
-            <td class="durationColumn">${Song.duration}</td>
+          <td>Duration</td>
         </tr>
       </c:forEach> 
       </table>
@@ -35,14 +35,11 @@
 
 <div>
   <h3>Albums</h3>
-  <div class="container-fluid">
-    <c:forEach items="${artistAlbums}" var="Album">
-      <div class="col-md-3" style="height:380px;">
-        <div class="albumCard">
-          <a class="albumPic" href="#" onclick="viewAlbum(${Album.albumId})"><img src="${Album.imagePath}" alt="Image" class="img-responsive"></a>
-          <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
-        </div>
-        </div>
-    </c:forEach>
-  </div>
+  <c:forEach items="${artistAlbums}" var="Album">
+    <div class="col-md-3">
+       <a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
+      <a href="#" onclick="viewAlbum(${Album.albumId})"><img src="http://placehold.it/350x350" alt="Image" class="img-responsive"></a>
+      <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
+    </div>
+  </c:forEach>
 </div>
