@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
@@ -45,7 +46,11 @@
           </a>
         </td>
         <td>${Song.title}</td>
-        <td class="durationColumn">${Song.duration}</td>
+        <td class="durationColumn">
+            <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
+            :
+            <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+        </td>
       </tr>
     </c:forEach> 
   </table>
