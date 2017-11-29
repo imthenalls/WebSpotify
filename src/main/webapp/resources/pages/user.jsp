@@ -6,15 +6,12 @@
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Artist</span>
+        <span class="mediaType">User</span>
       </div>
       <div class="row">
         <a href="#">
-          <h2 id="artistHeader" class="mediaName">${currentArtist.artistName}</h2>    
+          <h2 class="mediaName">${currentArtist.artistName}</h2>    
         </a>
-      </div>
-      <div id="artistBio">
-          <p id="summary"></p>
       </div>
     </div>
   </div>
@@ -46,4 +43,3 @@
     </div>
   </c:forEach>
 </div>
-<script src="${pageContext.request.contextPath}/resources/artist_bio.js"></script>

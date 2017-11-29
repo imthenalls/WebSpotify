@@ -270,13 +270,19 @@ public class SpotifyController {
   @RequestMapping(value="/cancel",method=RequestMethod.POST)
   @ResponseBody
   public void cancel(HttpSession session){
-    System.out.println("In cancel function");
     User user = (User)session.getAttribute("currentUser");
     PaymentInfo paymentInfo = user.getPaymentInfo();
     user = paymentInfoService.deletePayment(user, paymentInfo);
     session.setAttribute("currentUser",user);
   }
   
+  @RequestMapping(value="/playSong",method=RequestMethod.GET)
+  @ResponseBody
+  public void playSong(@RequestParam int songId, HttpSession session){
+    Song song = songService.getSong(songId);
+    session.setAttribute("currentSong",song);
+  }
+
   @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
   @ResponseBody
   public void viewUsers(HttpSession session){

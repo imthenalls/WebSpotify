@@ -52,6 +52,7 @@
 <div contextmenu="myMenu">Right-Click Me</div>
   <table class="table songTable">
     <tr>
+      <th></th>
       <th>Title</th>
       <th>Artist</th>
       <th>Album</th> 
@@ -59,7 +60,15 @@
       <th></th>
     </tr>
     <c:forEach items="${songList}" var="Song">
-      <tr>
+      <tr class="tableRow">
+        <td>
+          <a class="playHide">
+            
+          </a>
+          <a href="#" onclick="playSong(${Song.songId})">
+            <i class="playShow fa fa-play fa-fw"></i>
+          </a>
+        </td>
         <td>${Song.title}</td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
