@@ -146,7 +146,6 @@ public class SpotifyController {
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
-    //System.out.println("song duration:"+playlistSongs.get(0).getDuration());
    // playlistService.renamePlaylist(playlist.getPlaylistID(),"kevin");
    //  session.setAttribute("currentPlaylist",playlist);
     // songPlayer.getNextSong();

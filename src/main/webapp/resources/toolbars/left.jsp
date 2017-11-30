@@ -52,7 +52,7 @@
             
         <c:forEach items="${FollowedPlaylists}" var="Playlist">
             <li>
-                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
+                 <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach> 
     </ul>
