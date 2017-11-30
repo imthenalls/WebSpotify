@@ -19,6 +19,7 @@ import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,7 @@ public class SpotifyController {
   private PaymentInfoService paymentInfoService;
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
- // private List<Artist> followedPlaylists = new ArrayList<Playlist>();
+//  /private List<Artist> followedArtists = new ArrayList<Artist>();
   private SongPlayer songPlayer;
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -118,6 +119,7 @@ public class SpotifyController {
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
+    //System.out.println("song duration:"+playlistSongs.get(0).getDuration());
    // playlistService.renamePlaylist(playlist.getPlaylistID(),"kevin");
    //  session.setAttribute("currentPlaylist",playlist);
     // songPlayer.getNextSong();
@@ -180,13 +182,30 @@ public class SpotifyController {
     songService.deleteSongFromPlaylist(playlistId,songId);
     session.setAttribute("songList",playlistSongs);
   }
+  
   @RequestMapping(value="/followArtist", method=RequestMethod.POST)
   @ResponseBody
   public void followArtist(@RequestParam int artistId, HttpSession session){
-      User currentUser = (User)session.getAttribute("currentUser");
-     // Collection<Artist> followedArtists = currentUser.getFollowedArtists();
-      (currentUser.getFollowedArtists()).add(artistService.getArtist(artistId));
-      userService.followArtist(currentUser.getUsername(), artistId);
+    User currentUser = (User)session.getAttribute("currentUser");
+    (currentUser.getFollowedArtists()).add(artistService.getArtist(artistId));
+    userService.followArtist(currentUser.getUsername(), artistId);
+  }
+  
+  @RequestMapping(value="/unfollowArtist", method=RequestMethod.POST)
+  @ResponseBody
+  public void unfollowArtist(@RequestParam int artistId, HttpSession session){
+    boolean found = false;
+    User currentUser = (User)session.getAttribute("currentUser");
+    Collection<Artist> followedArtists = currentUser.getFollowedArtists();
+    for(Artist a:followedArtists){
+      if(a.getArtistId() == artistId){
+        followedArtists.remove(a);
+        found = true;
+        break;
+      }
+    }
+    if(found)
+      userService.unfollowArtist(currentUser.getUsername(), artistId);
   }
   
   @RequestMapping(value="/followPlaylist", method=RequestMethod.POST)

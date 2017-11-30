@@ -123,6 +123,16 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.updateUser(user);
   }
   
+  @Override
+  @Transactional(readOnly=false)
+  public void unfollowArtist(String userId, int artistId){
+    Artist artist = artistDao.getArtist(artistId);
+    User user = userDao.getUser(userId);
+    Collection<Artist> followed = user.getFollowedArtists();
+    followed.remove(artist);
+    user.setFollowedArtists(followed);
+    userDao.updateUser(user);
+  }
   
   
   @Override
