@@ -52,7 +52,23 @@ public class User implements Serializable{
     inverseJoinColumns = {@JoinColumn(name="artistId")}
   )
   private Collection<Artist> followedArtists;
-
+  
+  @ManyToMany(cascade ={CascadeType.ALL })
+  @JoinTable(
+    name="followsong",
+    joinColumns= {@JoinColumn(name="username")},
+    inverseJoinColumns = {@JoinColumn(name="songId")}
+  )
+  private Collection<Song> followedSongs;
+  
+  @ManyToMany(cascade ={CascadeType.ALL })
+  @JoinTable(
+    name="followalbum",
+    joinColumns= {@JoinColumn(name="username")},
+    inverseJoinColumns = {@JoinColumn(name="albumId")}
+  )
+  private Collection<Album> followedAlbums;
+  
   @ManyToMany(cascade ={CascadeType.ALL })
   @JoinTable(
     name="CollabPlaylist",
@@ -84,6 +100,24 @@ public class User implements Serializable{
     accountType=AccountType.Free;
   }
 
+    public Collection<Song> getFollowedSongs() {
+        return followedSongs;
+    }
+
+    public void setFollowedSongs(Collection<Song> followedSongs) {
+        this.followedSongs = followedSongs;
+    }
+
+    public Collection<Album> getFollowedAlbums() {
+        return followedAlbums;
+    }
+
+    public void setFollowedAlbums(Collection<Album> followedAlbums) {
+        this.followedAlbums = followedAlbums;
+    }
+
+  
+  
   public String getUsername() {
     return this.username;
   }

@@ -73,8 +73,30 @@ $(document).ready(function(){
     });
     return false; 
     });
+    
 });
-
+function addArtistAdmin(){
+     var artistName = $("#artistName").val();
+           var popularity = $("#popularity").val();
+           var imagePath = $("imagePath").val();
+           $.ajax({
+               url: "addArtistAdmin",
+               type: "POST",
+               data:({
+                  artistName: artistName,
+                  popularity: popularity,
+                  imagePath: imagePath,
+               }),
+               
+               success: function(){
+                   console.log("Success");
+               },
+               error: function(){
+                   console.log("Failure");
+               }
+           });
+           return false;    
+}
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();

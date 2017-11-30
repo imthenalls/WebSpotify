@@ -22,4 +22,9 @@ public interface UserService {
   public List<User> search(String keyword);
   public void followArtist(String userId, int artistId);
   public void unfollowArtist(String userId, int artistId);
+   public void followSong(String userId, int songId);
+    public void unfollowSong(String userId, int songId);
+  public void followAlbum(String userId, int albumId);
+  public void unfollowAlbum(String userId, int albumId);
+  public void AddArtistAdmin(String username, String artistName,int popularity, String imagePath);
 }

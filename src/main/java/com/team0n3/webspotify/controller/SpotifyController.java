@@ -62,9 +62,15 @@ public class SpotifyController {
 
   @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
   public ModelAndView doLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
-    User user=userService.login(username, password);
+    User user = userService.login(username, password);
     if(user==null){
         return new ModelAndView("redirect:/");
+    }
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        session.setAttribute("currentUser", user);
+        ModelAndView model= new ModelAndView("redirect:/admin_browse");
+        return model;   
     }
     listOfPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
@@ -102,7 +108,15 @@ public class SpotifyController {
     }
     return new ModelAndView("browse");
   }
-
+  
+  @RequestMapping(value = "/admin_browse", method = RequestMethod.GET)
+  public ModelAndView admin_browse(HttpSession session) {
+    if(session.getAttribute("currentUser")==null){
+      return new ModelAndView("login");
+    }
+    return new ModelAndView("admin_browse");
+  }
+  
   @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
   @ResponseBody
   public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
@@ -322,7 +336,7 @@ public class SpotifyController {
   
   @RequestMapping(value = "/search", method= RequestMethod.GET)
   @ResponseBody
-  public void search(String keyword, HttpSession session){
+  public void search(@RequestParam String keyword, HttpSession session){
     List<User> searchUsers = userService.search(keyword);
     List<Album> searchAlbums = albumService.search(keyword);
     List<Artist> searchArtists = artistService.search(keyword);
@@ -331,5 +345,18 @@ public class SpotifyController {
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
+  }
+  
+  @RequestMapping( value = "/addArtistAdmin", method = RequestMethod.POST)
+  @ResponseBody
+  public void addArtistAdmin(@RequestParam String artistName, @RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        System.out.println(user.toString());
+        userService.AddArtistAdmin( user.getUsername(),  artistName, popularity,  imagePath);
+    }
   }
 }
