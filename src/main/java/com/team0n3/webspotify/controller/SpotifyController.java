@@ -222,6 +222,56 @@ public class SpotifyController {
       userService.unfollowArtist(currentUser.getUsername(), artistId);
   }
   
+  @RequestMapping(value="/followSong", method=RequestMethod.POST)
+  @ResponseBody
+  public void followSong(@RequestParam int songId, HttpSession session){
+    User currentUser = (User)session.getAttribute("currentUser");
+    (currentUser.getFollowedSongs()).add(songService.getSong(songId));
+    userService.followSong(currentUser.getUsername(), songId);
+  }
+  
+  @RequestMapping(value="/unfollowSong", method=RequestMethod.POST)
+  @ResponseBody
+  public void unfollowSong(@RequestParam int songId, HttpSession session){
+    boolean found = false;
+    User currentUser = (User)session.getAttribute("currentUser");
+    Collection<Song> followedSongs = currentUser.getFollowedSongs();
+    for(Song s:followedSongs){
+      if(s.getSongId() == songId){
+        followedSongs.remove(s);
+        found = true;
+        break;
+      }
+    }
+    if(found)
+      userService.unfollowSong(currentUser.getUsername(), songId);
+  }
+  
+  @RequestMapping(value="/followAlbum", method=RequestMethod.POST)
+  @ResponseBody
+  public void followAlbum(@RequestParam int albumId, HttpSession session){
+    User currentUser = (User)session.getAttribute("currentUser");
+    (currentUser.getFollowedAlbums()).add(albumService.getAlbum(albumId));
+    userService.followAlbum(currentUser.getUsername(), albumId);
+  }
+  
+  @RequestMapping(value="/unfollowAlbum", method=RequestMethod.POST)
+  @ResponseBody
+  public void unfollowAlbum(@RequestParam int albumId, HttpSession session){
+    boolean found = false;
+    User currentUser = (User)session.getAttribute("currentUser");
+    Collection<Album> followedAlbums = currentUser.getFollowedAlbums();
+    for(Album a:followedAlbums){
+      if(a.getAlbumId() == albumId){
+        followedAlbums.remove(a);
+        found = true;
+        break;
+      }
+    }
+    if(found)
+      userService.unfollowAlbum(currentUser.getUsername(), albumId);
+  }
+  
   @RequestMapping(value="/followPlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void followPlaylist(@RequestParam int playlist, HttpSession session){
