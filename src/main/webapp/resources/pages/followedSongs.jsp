@@ -35,7 +35,7 @@
             </button>
             <ul class="dropdown-menu">
               <c:forEach items="${PlaylistList}" var="Playlist">
-                <li><a href="#" onclick="addToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
               </c:forEach>
             </ul>
           </div>

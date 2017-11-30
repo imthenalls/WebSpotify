@@ -38,21 +38,21 @@
 
 <div class="tab-content">
   <div id="overview" class="tab-pane fade active in">
-    <%@include file="/resources/pages/browse/overview.jsp" %>
+    <%@include file="/resources/pages/browseTabs/overview.jsp" %>
   </div>
   <div id="charts" class="tab-pane fade">
-    <%@include file="/resources/pages/browse/charts.jsp" %>
+    <%@include file="/resources/pages/browseTabs/charts.jsp" %>
   </div>
   <div id="genres" class="tab-pane fade">
-    <%@include file="/resources/pages/browse/new.jsp" %>
+    <%@include file="/resources/pages/browseTabs/new.jsp" %>
   </div>
   <div id="new" class="tab-pane fade">
-    <%@include file="/resources/pages/browse/new.jsp" %>
+    <%@include file="/resources/pages/browseTabs/new.jsp" %>
   </div>                    
   <div id="discover" class="tab-pane fade">
-    <%@include file="/resources/pages/browse/discover.jsp" %>
+    <%@include file="/resources/pages/browseTabs/discover.jsp" %>
   </div>
   <div id="concerts" class="tab-pane fade">
-    <%@include file="/resources/pages/browse/concerts.jsp" %>
+    <%@include file="/resources/pages/browseTabs/concerts.jsp" %>
   </div>                          
 </div>

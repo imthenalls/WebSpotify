@@ -80,7 +80,7 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="#" onclick="deleteFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
+                <li><a href="#" onclick="deleteSongFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
             </ul>
           </div>
         </td>

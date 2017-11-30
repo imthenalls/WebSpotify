@@ -2,7 +2,7 @@ var audio;
 
 $(document).ready(function(){
   
-    $("#center-pane").load("/resources/pages/browsePage.jsp");
+    $("#center-pane").load("/resources/pages/center.jsp");
     w3.includeHTML(playBack);
     $('#myCarousel').carousel({
 	    interval: 10000
@@ -32,7 +32,7 @@ $(document).ready(function(){
         var imagePath = $("#iPath").val();
         var description = $("#pDesc").val();
         $.ajax({
-            url: "makePlaylist",
+            url: "createPlaylist",
             type: "POST",
             //Sends the necessary form parameters to the servlet
             data:({
@@ -102,7 +102,7 @@ function upgradeToPremium(){
     var address = $("#address").val();
     console.log(typeof month);
     $.ajax({
-       url: "upgrade",
+       url: "upgradeToPremium",
        type: "POST",
        data:({
            cardNumber: cardNum,
@@ -156,7 +156,7 @@ function togglePlayPause() {
 }
 
 function viewBrowse(){
-    $("#center-pane").load("/resources/pages/browsePage.jsp");
+    $("#center-pane").load("/resources/pages/center.jsp");
 }
 
 function viewEditProfile(){
@@ -253,7 +253,7 @@ function viewAllPlaylists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/follwedPlaylists.jsp",function(){
+            $("#center-pane").load("resources/pages/followedPlaylists.jsp",function(){
                 console.log("Loaded playlists into center pane!");
             });
         },
@@ -266,10 +266,10 @@ function viewAllPlaylists(){
 
 function viewFollowedSongs(){
     $.ajax({
-        url: "viewSongs",
+        url: "viewFollowedSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/song.jsp",function(){
+            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
               
             });
         },
@@ -289,7 +289,7 @@ function deletePlaylist(){
             console.log("Success deleting playlist");
             $("#leftTool").load("/resources/toolbars/left.jsp",function(){
                 console.log("Reloaded playlist sidebar after delete");
-                $("#center-pane").load("/resources/pages/browsePage.jsp");
+                $("#center-pane").load("/resources/pages/center.jsp");
             });
         },
         error: function(){
@@ -337,9 +337,9 @@ function unfollowPlaylist(playlist) {
   return false;
 };
 
-function addToPlaylist(playlist, song) {
+function addSongToPlaylist(playlist, song) {
   $.ajax({
-    url: "addToPlaylist",
+    url: "addSongToPlaylist",
     type: "POST",
     data: ({
       playlist: playlist,
@@ -355,9 +355,9 @@ function addToPlaylist(playlist, song) {
   return false;
 }
 
-function deleteFromPlaylist(playlistId, songId){
+function deleteSongFromPlaylist(playlistId, songId){
     $.ajax({
-      url: "deleteFromPlaylist",
+      url: "deleteSongFromPlaylist",
       type: "POST",
       data: ({
         playlistId: playlistId,
@@ -376,7 +376,7 @@ function deleteFromPlaylist(playlistId, songId){
 
 function cancelPremium(){
     $.ajax({
-       url: "cancel",
+       url: "cancelPremium",
        type: "POST",
        data:({}),
        success:function(){

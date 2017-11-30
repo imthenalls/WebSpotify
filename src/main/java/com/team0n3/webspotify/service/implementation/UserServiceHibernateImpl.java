@@ -46,8 +46,8 @@ public class UserServiceHibernateImpl implements UserService{
 
   @Override
   public User login(String username, String password) {
-    User user= userDao.getUser(username);
-    if(user==null){
+    User user = userDao.getUser(username);
+    if(user == null){
       return null;
     }
     MessageDigest md = null;
@@ -71,7 +71,7 @@ public class UserServiceHibernateImpl implements UserService{
     SecureRandom random = new SecureRandom();
     byte salt[] = new byte[12];
     MessageDigest md = null;
-    if(null!=userDao.getUser(username)){
+    if(null != userDao.getUser(username)){
       return null;
     }
    try{
@@ -186,7 +186,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  public List<Playlist> getCreated(String username) {
+  public List<Playlist> getCreatedPlaylists(String username) {
     User user= userDao.getUser(username);
     Collection<Playlist> play = user.getCreatedPlaylists();
     List<Playlist> created = new ArrayList(play);
@@ -209,7 +209,7 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Transactional(readOnly = false)
   @Override
-  public void AddArtistAdmin(String username, String artistName,int popularity, String imagePath){
+  public void adminAddArtist(String username, String artistName,int popularity, String imagePath){
       User user = userDao.getUser(username);
       if(user.getAccountType() == AccountType.Admin)
       {

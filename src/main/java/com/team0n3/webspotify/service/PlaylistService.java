@@ -9,7 +9,7 @@ import java.util.List;
 public interface PlaylistService {
   public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser);
   public List<Playlist> listAllPlaylists();
-  public Playlist getPlaylistByID(int playlistID);
+  public Playlist getPlaylist(int playlistID);
   public void deletePlaylist(Playlist p);
   public List<Song> getSongsInPlaylists(int playlistId);
   public void renamePlaylist(int playlistId, String playlistName);

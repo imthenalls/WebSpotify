@@ -20,7 +20,7 @@
 </head>
   <body>
     <div class="container" style="text-align:center">
-      <form class="form-signin" action="doLogin" method="post">
+      <form class="form-signin" action="loginUser" method="post">
         <span hidden="true">Incorrect Username or password</span>
         <h2 >Please log in</h2>
         <div class="" align="center">
@@ -39,7 +39,7 @@
           <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
           <div align="center">
             <span>
-            Don't have an account? Sign up <a href="${pageContext.servletContext.contextPath}/signup" >here</a>
+            Don't have an account? Sign up <a href="${pageContext.servletContext.contextPath}/viewSignup" >here</a>
             </span>
           </div>
         </div>

@@ -28,7 +28,7 @@ and open the template in the editor.
           <%@include file="/resources/toolbars/left.jsp" %>
         </div>
         <div class="container" style="text-align:center">
-             <form class="form-artist" action="addArtistAdmin" method="post" >
+             <form class="form-artist" action="adminAddArtist" method="post" >
                 <h2 >Add an Artist </h2>
                 <div class="" >
                     <input type="text" id="artistName" name="artistName" placeholder="artistName" class="form-control" required autofocus>

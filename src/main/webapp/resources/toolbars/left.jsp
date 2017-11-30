@@ -50,7 +50,7 @@
             </li>   
         </c:forEach>  
             
-        <c:forEach items="${FollowedPlaylists}" var="Playlist">
+        <c:forEach items="${followedPlaylists}" var="Playlist">
             <li>
                 <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
