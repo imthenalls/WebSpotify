@@ -1,6 +1,7 @@
 var audio;
 
 $(document).ready(function(){
+  
     $("#center-pane").load("/resources/pages/browsePage.jsp");
     w3.includeHTML(playBack);
     $('#myCarousel').carousel({
@@ -12,6 +13,8 @@ $(document).ready(function(){
     $(".prev").click(function(){
         $("#myCarousel").carousel("next");
     });
+    
+    $('[data-toggle="tooltip"]').tooltip();
     
     function playBack(){
         audio = $("#audio")[0];
@@ -50,8 +53,26 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
         return false;    
     });
-    
-
+    $("#searchForm").submit(function(){
+      var keyword = $("#keyword").val();
+      $.ajax({
+        url: "search",
+        type: "GET",
+        data:({
+               keyword: keyword
+            }),
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/search_results.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; 
+    });
 });
 
 function upgradeToPremium(){
@@ -128,7 +149,7 @@ function viewEditProfile(){
 
 function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp",function(){
-        console.log('${currentUser.accountType}');    
+     
     });
 }
 
@@ -227,9 +248,7 @@ function viewAllPlaylists(){
     return false; // Makes sure that the link isn't followed
 }
 
-function viewSong(link){
-    console.log("Viewing?");
-    var id = link.substring(1,);
+function viewFollowedSongs(){
     $.ajax({
         url: "viewSongs",
         type: "GET",
@@ -338,3 +357,49 @@ function deleteFromPlaylist(playlistId, songId){
     });
     return false;
 };
+
+function cancelPremium(){
+    $.ajax({
+       url: "cancel",
+       type: "POST",
+       data:({}),
+       success:function(){
+           $("#center-pane").load("/resources/pages/profile.jsp",function(){
+               console.log("success cancelling");
+           });
+       },
+       error:function(){
+           console.log("failure cancelling");
+       }
+    });
+    return false;    
+}
+
+function playSong(songId){
+  $.ajax({
+    url: "playSong",
+    type: "GET",
+    data: ({
+      songId: songId
+    }),
+    success: function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp");
+    }
+  })
+}
+function viewUsers(){
+    $.ajax({
+        url: "viewUsers",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/users.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}

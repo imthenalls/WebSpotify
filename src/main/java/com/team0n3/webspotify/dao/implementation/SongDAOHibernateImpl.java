@@ -5,7 +5,9 @@ import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Song;
 import java.util.List;
 import java.util.ListIterator;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SongDAOHibernateImpl implements SongDAO{   
@@ -44,5 +46,13 @@ public class SongDAOHibernateImpl implements SongDAO{
   @Override
   public void deleteSong(Song song) {
     throw new UnsupportedOperationException("Not supported yet."); 
+  }
+  
+    
+    @Override
+  public List<Song> search(String keyword){
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
+    c.add(Restrictions.like("title", "%"+keyword+"%"));
+    return c.list();
   }
 }

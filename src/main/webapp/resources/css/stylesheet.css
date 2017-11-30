@@ -59,15 +59,6 @@ a:hover{
     padding-bottom:130px;
 }
 
-#left-toolbar li a:hover{
-    background: #181818;
-}
-
-#left-toolbar li a:focus{
-    background: #181818;
-}
-
-/*
 #left-toolbar::-webkit-scrollbar{
     background-color:#181818;
 }
@@ -75,8 +66,14 @@ a:hover{
 #left-toolbar::-webkit-scrollbar-thumb{
     background-color: #3399ff;
 }
-*/
 
+#left-toolbar li a:hover{
+    background: #181818;
+}
+
+#left-toolbar li a:focus{
+    background: #181818;
+}
 
 .cat-option{
     padding: 0 40px;
@@ -325,11 +322,24 @@ a:hover{
     table-layout: fixed;
 }
 
+.albumCard{
+  padding-bottom: 2.5em;
+  vertical-align:baseline;
+}
+
+.albumPic:hover{
+  opacity: .5;
+}
+
 .tableRow:hover .playHide{
     display:none;
 }
 
 .tableRow:hover .playShow{
     display: block;
+}
+
+.durationColumn{
+  text-align:right;
 }
 

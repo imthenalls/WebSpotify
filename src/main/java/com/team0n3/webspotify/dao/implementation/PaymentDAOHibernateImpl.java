@@ -34,6 +34,7 @@ public class PaymentDAOHibernateImpl implements PaymentDAO{
     return paymentInfo;
   }
   
+  @Override
   public void deletePayment(PaymentInfo paymentInfo){
     sessionFactory.getCurrentSession().delete(paymentInfo);
   }

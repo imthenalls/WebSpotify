@@ -38,12 +38,13 @@ public class UserDAOHibernateImpl implements UserDAO{
 
   @Override
   public List<User> listUsers() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    List<User> userList = sessionFactory.getCurrentSession().createCriteria(User.class).list();
+    return userList;
   }
 
   @Override
   public void updateUser(User user) {
-    sessionFactory.getCurrentSession().update(user);
+    sessionFactory.getCurrentSession().merge(user);
   }
 
   @Override
@@ -62,4 +63,11 @@ public class UserDAOHibernateImpl implements UserDAO{
     User user = (User) results.get(0);
     return user;
   } 
+  
+  @Override
+  public List<User> search(String keyword){
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(User.class);
+    c.add(Restrictions.like("username", "%"+keyword+"%"));
+    return c.list();
+  }
 }

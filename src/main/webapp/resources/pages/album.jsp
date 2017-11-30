@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
+      <img class="mediaPic" src=${currentAlbum.imagePath}>
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
@@ -40,12 +41,16 @@
             <a class="playHide">
                 ${loop.index+1}
             </a>        
-          <a href="#">
+          <a href="#" onclick="playSong(${Song.songId})">
             <i class="playShow fa fa-play fa-fw"></i>
           </a>
         </td>
         <td>${Song.title}</td>
-        <td class="durationColumn">${Song.duration}</td>
+        <td class="durationColumn">
+            <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
+            :
+            <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+        </td>
       </tr>
     </c:forEach> 
   </table>
