@@ -18,10 +18,6 @@ $(document).ready(function(){
     
     function playBack(){
         audio = $("#audio")[0];
-        audio.addEventListener("loadedmetadata",function(){
-            var duration = audio.duration;
-            $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-        });
         audio.addEventListener("timeupdate",updateProgress,false);
         //audio.controls=false;
     } 
@@ -391,17 +387,64 @@ function cancelPremium(){
     return false;    
 }
 
-function playSong(songId){
+function playSong(songId,setType,songIndex){
   $.ajax({
     url: "playSong",
     type: "GET",
     data: ({
-      songId: songId
+      songId: songId,
+      setType: setType,
+      songIndex: songIndex
     }),
     success: function(){
-      $("#bottomTool").load("/resources/toolbars/bottom.jsp");
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure: function(){
+      console.log("Failure playing song");
     }
-  })
+  });
+  return false;
+}
+
+function playNext(){
+  $.ajax({
+    url:"playNext",
+    type:"GET",
+    data:({
+      
+    }),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing next song");
+    }
+  });
+  return false;
+}
+
+function playPrev(){
+  $.ajax({
+    url:"playPrev",
+    type:"GET",
+    data:({}),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing prev song");
+    }
+  });
+  return false;
 }
 
 function viewUsers(){

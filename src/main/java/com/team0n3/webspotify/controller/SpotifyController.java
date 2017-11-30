@@ -7,7 +7,6 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
-import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.PaymentInfo;
@@ -18,9 +17,7 @@ import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +48,10 @@ public class SpotifyController {
   private PaymentInfoService paymentInfoService;
   private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
+  
+  private SongPlayer player;
 //  /private List<Artist> followedArtists = new ArrayList<Artist>();
-  private SongPlayer songPlayer;
+ 
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
   public ModelAndView handleRequest(HttpSession session) {
@@ -79,6 +78,7 @@ public class SpotifyController {
     }
     createdPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
+    player = new SongPlayer();
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);
@@ -382,9 +382,33 @@ public class SpotifyController {
   
   @RequestMapping(value="/playSong",method=RequestMethod.GET)
   @ResponseBody
-  public void playSong(@RequestParam int songId, HttpSession session){
+  public void playSong(@RequestParam int songId, @RequestParam String setType, @RequestParam int songIndex, HttpSession session){
     Song song = songService.getSong(songId);
+    if(setType.equals("album")){
+      Album currentAlbum = (Album)session.getAttribute("currentAlbum");
+      Collection<Song> albumSongs = currentAlbum.getSongs();
+      player.setQueue(albumSongs,songIndex);
+    }
+    else if(setType.equals("playlist")){
+      Playlist currentPlaylist = (Playlist)session.getAttribute("currentPlaylist");
+      Collection<Song> playlistSongs = currentPlaylist.getSongs();
+      player.setQueue(playlistSongs,songIndex);
+    }
     session.setAttribute("currentSong",song);
+  }
+  
+  @RequestMapping(value="/playNext",method=RequestMethod.GET)
+  @ResponseBody
+  public void playNext(HttpSession session){
+    Song nextSong = player.getNextSong();
+    session.setAttribute("currentSong",nextSong);
+  }
+  
+  @RequestMapping(value="/playPrev",method=RequestMethod.GET)
+  @ResponseBody
+  public void playPrev(HttpSession session){
+    Song prevSong = player.getPrevSong();
+    session.setAttribute("currentSong",prevSong);
   }
 
   @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
