@@ -17,5 +17,8 @@ public interface UserService {
   
   public void unfollowPlaylist(String userId, int playlistId);
   
+  public List<User> listAllUsers();
+
+  public List<User> search(String keyword);
   public void followArtist(String userId, int artistId);
 }

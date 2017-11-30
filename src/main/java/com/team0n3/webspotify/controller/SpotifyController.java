@@ -1,6 +1,7 @@
 
 package com.team0n3.webspotify.controller;
 
+import com.team0n3.webspotify.enums.AccountType;
 import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
@@ -8,13 +9,17 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.SongPlayer;
+import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.PaymentInfo;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
+import com.team0n3.webspotify.service.PaymentInfoService;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +46,8 @@ public class SpotifyController {
   private AlbumService albumService;
   @Autowired
   private ArtistService artistService;
-  
+  @Autowired
+  private PaymentInfoService paymentInfoService;
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
  // private List<Artist> followedPlaylists = new ArrayList<Playlist>();
@@ -145,14 +151,12 @@ public class SpotifyController {
   @ResponseBody
   public void deletePlaylist(HttpSession session){
     Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
-    System.out.println("before: " + listOfPlaylists.size());
     for(Playlist p:listOfPlaylists){
       if(p.getPlaylistID()== playlist.getPlaylistID()){
         listOfPlaylists.remove(p);
         break;
       }
     }
-    System.out.println("after: " + listOfPlaylists.size());
     playlistService.deletePlaylist(playlist);
     session.setAttribute("PlaylistList",listOfPlaylists);
   }
@@ -161,6 +165,20 @@ public class SpotifyController {
   @ResponseBody
   public void addToPlaylist(@RequestParam int playlist, @RequestParam int song, HttpSession session){
     songService.AddSongToPlaylist(song, playlist);
+  }
+  
+  @RequestMapping(value="/deleteFromPlaylist", method=RequestMethod.POST)
+  @ResponseBody
+  public void deleteFromPlaylist(@RequestParam int playlistId, @RequestParam int songId, HttpSession session){
+    List<Song> playlistSongs = (List<Song>)session.getAttribute("songList");
+    for(Song s:playlistSongs){
+      if(s.getSongId()==songId){
+        playlistSongs.remove(s);
+        break;
+      }
+    }
+    songService.deleteSongFromPlaylist(playlistId,songId);
+    session.setAttribute("songList",playlistSongs);
   }
   @RequestMapping(value="/followArtist", method=RequestMethod.POST)
   @ResponseBody
@@ -205,10 +223,22 @@ public class SpotifyController {
     session.setAttribute("currentAlbum",album);
     session.setAttribute("albumSongs",albumSongs);
   }    
+  
+  @RequestMapping(value = "/viewArtist", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewArtist(@RequestParam int artistID, HttpSession session){
+      Artist artist = artistService.getArtist(artistID);
+      List<Album> artistAlbums = (List<Album>) artist.getAlbums();
+      List<Song> artistSongs = (List<Song>) artist.getSongs();
+      session.setAttribute("currentArtist",artist);
+      session.setAttribute("artistSongs",artistSongs);
+      session.setAttribute("artistAlbums",artistAlbums);
+  }
 
   @RequestMapping(value = "/viewSongs", method= RequestMethod.GET)
   @ResponseBody
   public void viewSongs(HttpSession session){
+    /** CURRENTLY VIEWS ALL SONGS **/
     List<Song> followSongs = songService.listAllSongs();
     session.setAttribute("songList",followSongs);
   }
@@ -216,6 +246,7 @@ public class SpotifyController {
   @RequestMapping(value = "/viewFollowedAlbums", method= RequestMethod.GET)
   @ResponseBody
   public void viewFollowedAlbums(HttpSession session){
+    /** CURRENTLY VIEWS ALL ALBUMS **/
     List<Album> followAlbum = albumService.listAllAlbums();
     session.setAttribute("followAlbum",followAlbum);
   }
@@ -232,5 +263,54 @@ public class SpotifyController {
   public String logout(HttpServletRequest request){
     request.getSession().invalidate();
     return "login";
+  }
+  
+  @RequestMapping(value="/upgrade",method=RequestMethod.POST)
+  @ResponseBody
+  public void upgrade(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
+      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, HttpSession session)
+  {
+    System.out.println("madeit");
+    User user = (User)session.getAttribute("currentUser");
+    user = paymentInfoService.addPayment(user, cardNumber,cardHolder,ccv,expirationMonth,expirationYear,
+        creditCompany,address);
+    session.setAttribute("currentUser",user);
+  }
+  
+  @RequestMapping(value="/cancel",method=RequestMethod.POST)
+  @ResponseBody
+  public void cancel(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    PaymentInfo paymentInfo = user.getPaymentInfo();
+    user = paymentInfoService.deletePayment(user, paymentInfo);
+    session.setAttribute("currentUser",user);
+  }
+  
+  @RequestMapping(value="/playSong",method=RequestMethod.GET)
+  @ResponseBody
+  public void playSong(@RequestParam int songId, HttpSession session){
+    Song song = songService.getSong(songId);
+    session.setAttribute("currentSong",song);
+  }
+
+  @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewUsers(HttpSession session){
+    /** CURRENTLY VIEWS ALL SONGS **/
+    List<User> followUsers = userService.listAllUsers();
+    session.setAttribute("userList",followUsers);
+  }
+  
+  @RequestMapping(value = "/search", method= RequestMethod.GET)
+  @ResponseBody
+  public void search(String keyword, HttpSession session){
+    List<User> searchUsers = userService.search(keyword);
+    List<Album> searchAlbums = albumService.search(keyword);
+    List<Artist> searchArtists = artistService.search(keyword);
+    List<Song> searchSongs = songService.search(keyword);
+    session.setAttribute("userList",searchUsers);
+    session.setAttribute("albumList",searchAlbums);
+    session.setAttribute("artistList",searchArtists);
+    session.setAttribute("songList",searchSongs);
   }
 }

@@ -21,6 +21,7 @@
   <body>
     <div class="container" style="text-align:center">
       <form class="form-signin" action="doLogin" method="post">
+        <span hidden="true">Incorrect Username or password</span>
         <h2 >Please log in</h2>
         <div class="" align="center">
           <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>

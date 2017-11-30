@@ -1,38 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
-    <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
-    </div>
     <div id="mediaInfo" class="col-xs-8">
-      <div class="row">
-        <span class="mediaType">Playlist</span>
-      </div>
-      <div class="row">
-        <a href="#">
-          <h3 class="mediaName">Songs</h3>    
-        </a>
-      </div>
+          <h1 class="mediaName">Albums in Your Library</h1>   
       <div class="row" id="mediaSpecs">
-        <span>
-          ${currentPlaylist.description}
-        </span>
+        <!-- Insert Play Button -->
       </div>
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
-  <table class="table albumTable">
-    <tr>
-      <th>Title</th>
-      <th>Artist</th>
-    </tr>
+<div>
+  <div class="container-fluid">
     <c:forEach items="${followAlbum}" var="Album">
-      <tr>
-        <td><a href="#" id="album${Album.albumId}" onclick="viewAlbum(this.id)">${Album.albumName}</a></td>
-        <td>artist</td>
-        
-      </tr>
-    </c:forEach> 
-  </table>
+      <div class="col-md-3" style="height:380px;">
+        <div class="albumCard">
+          <a class="albumPic" href="#" onclick="viewAlbum(${Album.albumId})"><img src="${Album.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive"></a>
+          <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
+        </div>
+        </div>
+    </c:forEach>
+  </div>
 </div>

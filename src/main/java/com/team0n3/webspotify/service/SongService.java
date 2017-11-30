@@ -13,4 +13,8 @@ public interface SongService {
   public List<Song> listAllSongs();
   
   public Song AddSongToPlaylist(int songId, int playlistId);
+  
+  public void deleteSongFromPlaylist(int playlistId, int songId);
+  
+  public List<Song> search(String keyword);
 }

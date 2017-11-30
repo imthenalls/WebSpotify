@@ -52,17 +52,38 @@
 <div contextmenu="myMenu">Right-Click Me</div>
   <table class="table songTable">
     <tr>
+      <th></th>
       <th>Title</th>
       <th>Artist</th>
       <th>Album</th> 
       <th>Duration</th>
+      <th></th>
     </tr>
     <c:forEach items="${songList}" var="Song">
-      <tr>
+      <tr class="tableRow">
+        <td>
+          <a class="playHide">
+            
+          </a>
+          <a href="#" onclick="playSong(${Song.songId})">
+            <i class="playShow fa fa-play fa-fw"></i>
+          </a>
+        </td>
         <td>${Song.title}</td>
-        <td>Artist</td>
-        <td><a href="#" id="album${Song.albumId.albumId}" onclick="viewAlbum(this.id)">${Song.albumId.albumName}</a></td>
-        <td>Duration</td>
+        <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
+        <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
+        <td>${Song.duration}</td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+              Options
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="deleteFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
+            </ul>
+          </div>
+        </td>
       </tr>
     </c:forEach> 
   </table>

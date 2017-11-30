@@ -2,7 +2,7 @@
 <div class="col-xs-2" id="left-toolbar">
     <ul class ="nav list-group">
         <li class="activeToolbar">
-            <a class="click" data-toggle="tab" href="#browseToggle">Browse</a>
+            <a href="#" onClick="viewBrowse()">Browse</a>
         </li>
         <li>
              <a class="click" data-toggle="tab" href="#radioToggle">Radio</a>
@@ -17,10 +17,10 @@
             <a data-toggle="tab" href="#">Recently Played</a>
         </li>
         <li> 
-          <a data-toggle="tab" href="#" id="followedSongs" onclick="viewSong(this.id)">Songs</a>
+          <a data-toggle="tab" href="#" onclick="viewFollowedSongs()">Songs</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#" id="followedAlbums" onclick="viewFollowedAlbums(this.id)">Albums</a>
+            <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
         </li>
         <li> 
             <a data-toggle="tab" href="#">Artists</a>
@@ -29,7 +29,10 @@
             <a data-toggle="tab" href="#">Stations</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">followed playlists</a>
+            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">Followed Playlists</a>
+        </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewUsers()">Users</a>
         </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
@@ -43,7 +46,7 @@
         <!-- Fill with user's playlist -->
         <c:forEach items="${PlaylistList}" var="Playlist">
             <li>
-                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
+                <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach>  
             

@@ -3,7 +3,10 @@ package com.team0n3.webspotify.dao.implementation;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.model.Artist;
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ArtistDAOHibernateImpl implements ArtistDAO{
@@ -22,6 +25,8 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Override
     public Artist getArtist(int artistId){
         Artist artist = (Artist)sessionFactory.getCurrentSession().get(Artist.class,artistId);
+        Hibernate.initialize(artist.getAlbums());
+        Hibernate.initialize(artist.getSongs());
         return artist;
     }
     
@@ -40,5 +45,11 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     public void updateArtist(Artist artist){
         sessionFactory.getCurrentSession().update(artist);
     }
-    
+      @Override
+  public List<Artist> search(String keyword){
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
+    c.add(Restrictions.like("artistName", "%"+keyword+"%"));
+    return c.list();
+  }
+
 }

@@ -4,9 +4,9 @@
             <a class="navbar-brand click" href="#browseToggle" style='color:#3399ff'>
                 Team 0n3
             </a>
-            <form class="navbar-form navbar-left" action="/resources/pages/search_results.jsp" role="search">
+            <form class="navbar-form navbar-left" action="/resources/pages/search_results.jsp" role="search" id="searchForm">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" id="keyword" placeholder="Search">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="nav navbar-right">
-            <p><a class="click" href="#profileToggle">${currentUser.username}</a></p>
+            <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
         </div>
     </div>
 </nav>

@@ -132,4 +132,18 @@ public class UserServiceHibernateImpl implements UserService{
     List<Playlist> created = new ArrayList(play);
     return created;
   }
+  
+  @Transactional(readOnly = true)
+  @Override
+  public List<User> listAllUsers(){
+      List<User> listArtists = userDao.listUsers();
+      return listArtists;
+  }
+    
+  @Transactional(readOnly = true)
+  @Override
+  public List<User> search(String keyword){
+      List<User> listUsers = userDao.search(keyword);
+      return listUsers;
+  }
 }
