@@ -43,6 +43,14 @@ public class User implements Serializable{
 
   @ManyToMany(cascade ={CascadeType.ALL })
   @JoinTable(
+    name="followartist",
+    joinColumns= {@JoinColumn(name="username")},
+    inverseJoinColumns = {@JoinColumn(name="artistId")}
+  )
+  private Collection<Artist> followedArtists;
+
+  @ManyToMany(cascade ={CascadeType.ALL })
+  @JoinTable(
     name="CollabPlaylist",
     joinColumns= {@JoinColumn(name="username")},
     inverseJoinColumns = {@JoinColumn(name="playlistID")}
@@ -117,7 +125,12 @@ public class User implements Serializable{
   public void setCollabPlaylists(Collection<Playlist> collabPlaylists) {
     this.collabPlaylists = collabPlaylists;
   }
-
+  public Collection<Artist> getFollowedArtists() {
+        return followedArtists;
+  }
+  public void setFollowedArtists(Collection<Artist> followedArtists) {
+        this.followedArtists = followedArtists;
+  }
   @Override
   public String toString(){
     return "username="+username+", email="+email;

@@ -13,7 +13,9 @@ public interface UserService {
   
   public List<Playlist> getCreated(String username);
   
-  public void addPlaylistToFollow(String userId, int playlistId);
+  public void followPlaylist(String userId, int playlistId);
   
   public void unfollowPlaylist(String userId, int playlistId);
+  
+  public void followArtist(String userId, int artistId);
 }

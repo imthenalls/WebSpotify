@@ -6,6 +6,7 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
+import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.UserService;
@@ -43,6 +44,7 @@ public class SpotifyController {
   
   private List<Playlist> listOfPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
+ // private List<Artist> followedPlaylists = new ArrayList<Playlist>();
   private SongPlayer songPlayer;
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -160,15 +162,23 @@ public class SpotifyController {
   public void addToPlaylist(@RequestParam int playlist, @RequestParam int song, HttpSession session){
     songService.AddSongToPlaylist(song, playlist);
   }
+  @RequestMapping(value="/followArtist", method=RequestMethod.POST)
+  @ResponseBody
+  public void followArtist(@RequestParam int artistId, HttpSession session){
+      User currentUser = (User)session.getAttribute("currentUser");
+     // Collection<Artist> followedArtists = currentUser.getFollowedArtists();
+      (currentUser.getFollowedArtists()).add(artistService.getArtist(artistId));
+      userService.followArtist(currentUser.getUsername(), artistId);
+  }
   
   @RequestMapping(value="/followPlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void followPlaylist(@RequestParam int playlist, HttpSession session){
       User currentUser = (User)session.getAttribute("currentUser");
       followedPlaylists.add(playlistService.getPlaylistByID(playlist));
-      userService.addPlaylistToFollow(currentUser.getUsername(), playlist);
+      userService.followPlaylist(currentUser.getUsername(), playlist);
   }
-  
+
   @RequestMapping(value="/unfollowPlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void unfollowPlaylist(@RequestParam int playlist, HttpSession session){
