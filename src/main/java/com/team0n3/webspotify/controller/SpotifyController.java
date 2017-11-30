@@ -71,6 +71,11 @@ public class SpotifyController {
         session.setAttribute("currentUser", user);
         ModelAndView model= new ModelAndView("redirect:/admin_browse");
         return model;   
+    }else if(user.getAccountType() == AccountType.Artist)
+    {
+        session.setAttribute("currentUser", user);
+        ModelAndView model= new ModelAndView("redirect:/browse");
+        return model;   
     }
     listOfPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
@@ -116,7 +121,15 @@ public class SpotifyController {
     }
     return new ModelAndView("admin_browse");
   }
-  
+  /*
+  @RequestMapping(value = "/artist_browse", method = RequestMethod.GET)
+  public ModelAndView artist_browse(HttpSession session) {
+    if(session.getAttribute("currentUser")==null){
+      return new ModelAndView("login");
+    }
+    return new ModelAndView("");
+  }
+  */
   @RequestMapping(value = "/makePlaylist", method = RequestMethod.POST)
   @ResponseBody
   public void doCreatePlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
