@@ -80,7 +80,7 @@ public class SpotifyController {
     listOfPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
     session.setAttribute("currentUser", user);
-    session.setAttribute("PlaylistList",listOfPlaylists);
+    session.setAttribute("createdPlaylists",listOfPlaylists);
     session.setAttribute("FollowedPlaylists", followedPlaylists);
     ModelAndView model= new ModelAndView("redirect:/browse");
     return model;   
@@ -136,7 +136,7 @@ public class SpotifyController {
     User currentUser = (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
     listOfPlaylists.add(playlist);
-    session.setAttribute("PlaylistList", listOfPlaylists);  
+    session.setAttribute("createdPlaylists", listOfPlaylists);  
   }
 
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
@@ -159,7 +159,6 @@ public class SpotifyController {
       System.out.println("HELLO");
     Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
     playlistService.renamePlaylist(playlist.getPlaylistID(),playlistName);
-   
   }
   
   /*
@@ -187,7 +186,7 @@ public class SpotifyController {
       }
     }
     playlistService.deletePlaylist(playlist);
-    session.setAttribute("PlaylistList",listOfPlaylists);
+    session.setAttribute("createdPlaylists",listOfPlaylists);
   }
 
   @RequestMapping(value="/addToPlaylist", method=RequestMethod.POST)

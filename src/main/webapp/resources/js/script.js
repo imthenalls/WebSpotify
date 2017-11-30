@@ -42,9 +42,7 @@ $(document).ready(function(){
             }),
             success: function(){
                 console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    console.log("Reloaded playlist sidebar after add");
-                });
+                $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
             },
             error: function(){
                 console.log("Failure creating playlist");
@@ -63,9 +61,7 @@ $(document).ready(function(){
             }),
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/search_results.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/search_results.jsp",function(){});
         },
         error: function(){
             console.log("View error");
@@ -88,9 +84,7 @@ function addArtistAdmin(){
                   imagePath: imagePath,
                }),
                
-               success: function(){
-                   console.log("Success");
-               },
+               success: function(){},
                error: function(){
                    console.log("Failure");
                }
@@ -314,8 +308,8 @@ function followPlaylist(playlist) {
     }),
     success:function(){
       $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                console.log("Reloaded playlist sidebar after delete");
-            });
+        console.log("Success following playlist");
+      });
     },
     error: function(){
             console.log("Failure following playlist");
@@ -409,6 +403,7 @@ function playSong(songId){
     }
   })
 }
+
 function viewUsers(){
     $.ajax({
         url: "viewUsers",

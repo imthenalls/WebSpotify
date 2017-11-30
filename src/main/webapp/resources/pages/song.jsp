@@ -23,7 +23,10 @@
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td>${Song.duration}</td>
+        <td>            
+          <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
+          :
+          <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
         <td>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
