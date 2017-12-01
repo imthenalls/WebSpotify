@@ -13,7 +13,7 @@
         </div>
         <div class="nav navbar-right">
             <div>
-                <a href="/logout"><i class="fa fa-power-off"></i></a>
+                <a href="/logoutUser"><i class="fa fa-power-off"></i></a>
             </div>
         </div>
         <div class="nav navbar-right">

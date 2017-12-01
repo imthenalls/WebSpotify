@@ -37,14 +37,14 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
   private SessionFactory sessionFactory;
   
   @Override
-  public PaymentInfo getPaymentById(int paymentId){
+  public PaymentInfo getPayment(int paymentId){
     PaymentInfo paymentInfo = paymentDao.getPayment(paymentId);
     return paymentInfo;
   }
   
   @Override
   @Transactional(readOnly=false)
-  public User addPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
+  public User addNewPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
     int expirationYear, String creditCompany, String address){
     SecureRandom cardRandom = new SecureRandom(),ccvRandom = new SecureRandom();
     byte[] cardSalt=new byte[12], ccvSalt = new byte[12];

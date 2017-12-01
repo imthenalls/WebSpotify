@@ -42,7 +42,11 @@ public class Artist implements Serializable{
     public Artist(String artistName) {
         this.artistName = artistName;
     }
-
+    public Artist(String artistName, int popularity, String imagePath) {
+        this.artistName = artistName;
+        this.popularity = popularity;
+        this.imagePath = imagePath;
+    }
     public Collection<Album> getAlbums() {
         return albums;
     }

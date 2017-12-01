@@ -33,8 +33,7 @@ public class SongDAOHibernateImpl implements SongDAO{
   @Override
   public List<Song> listSongs() {
     List<Song> songList = sessionFactory.getCurrentSession().createCriteria(Song.class).list();
-    ListIterator<Song> litr = null;
-    litr=songList.listIterator();
+    
     return songList;
   }
 

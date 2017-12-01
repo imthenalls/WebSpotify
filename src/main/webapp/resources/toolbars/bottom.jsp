@@ -1,7 +1,8 @@
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
         <div id="albumArt" class="col-xs-3">
-            <a href='#"'onclick="viewAlbum(${currentSong.albumId.albumId})"><img src=${currentSong.albumId.imagePath} height="50" width="50"></a>
+            <a href='#"'onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
         </div>
         <div class="col-xs-4">
             <div class="row">
@@ -20,20 +21,20 @@
             <a href="#">
                 <i id="shuffleSong" class="fa fa-random"></i>
             </a>
-            <a href="#">
+            <a href="#" onclick="playPrev()">
                 <i id="prevButton" class="fa fa-step-backward"></i>
             </a>
             <a href="#" id="playPause" onClick="togglePlayPause()">
                 <i id="playPauseIcon" class="fa fa-play"></i>
             </a>
-            <a href="#">
+            <a href="#" onclick='playNext()'>
                 <i id="nextButton" class="fa fa-step-forward"></i>
             </a>
             <a href="#">
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
         </div>
-        <audio id="audio" src="/resources/audio/kryptonite.mp3">Your browser does not support the <code>audio</code> element.</audio>
+        <audio id="audio" src="${currentSong.audioPath}">Your browser does not support the <code>audio</code> element.</audio>
         
         <div class="row" id="progressRow">
             <div class="col-xs-3" id="currentTime">
@@ -47,7 +48,9 @@
 
             </div>
             <div class="col-xs-3" id="songDuration">
-                
+              <fmt:formatNumber value="${currentSong.duration/60}" maxFractionDigits="0"/>
+              :
+              <fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
             </div>            
         </div>
 

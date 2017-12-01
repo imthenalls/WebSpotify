@@ -2,7 +2,7 @@ var audio;
 
 $(document).ready(function(){
   
-    $("#center-pane").load("/resources/pages/browsePage.jsp");
+    $("#center-pane").load("/resources/pages/center.jsp");
     w3.includeHTML(playBack);
     $('#myCarousel').carousel({
 	    interval: 10000
@@ -18,10 +18,6 @@ $(document).ready(function(){
     
     function playBack(){
         audio = $("#audio")[0];
-        audio.addEventListener("loadedmetadata",function(){
-            var duration = audio.duration;
-            $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-        });
         audio.addEventListener("timeupdate",updateProgress,false);
         //audio.controls=false;
     } 
@@ -32,7 +28,7 @@ $(document).ready(function(){
         var imagePath = $("#iPath").val();
         var description = $("#pDesc").val();
         $.ajax({
-            url: "makePlaylist",
+            url: "createPlaylist",
             type: "POST",
             //Sends the necessary form parameters to the servlet
             data:({
@@ -42,9 +38,7 @@ $(document).ready(function(){
             }),
             success: function(){
                 console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    console.log("Reloaded playlist sidebar after add");
-                });
+                $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
             },
             error: function(){
                 console.log("Failure creating playlist");
@@ -63,9 +57,7 @@ $(document).ready(function(){
             }),
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/search_results.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/search_results.jsp",function(){});
         },
         error: function(){
             console.log("View error");
@@ -73,8 +65,28 @@ $(document).ready(function(){
     });
     return false; 
     });
+    
 });
-
+function addArtistAdmin(){
+     var artistName = $("#artistName").val();
+           var popularity = $("#popularity").val();
+           var imagePath = $("imagePath").val();
+           $.ajax({
+               url: "addArtistAdmin",
+               type: "POST",
+               data:({
+                  artistName: artistName,
+                  popularity: popularity,
+                  imagePath: imagePath,
+               }),
+               
+               success: function(){},
+               error: function(){
+                   console.log("Failure");
+               }
+           });
+           return false;    
+}
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
@@ -86,7 +98,7 @@ function upgradeToPremium(){
     var address = $("#address").val();
     console.log(typeof month);
     $.ajax({
-       url: "upgrade",
+       url: "upgradeToPremium",
        type: "POST",
        data:({
            cardNumber: cardNum,
@@ -140,7 +152,7 @@ function togglePlayPause() {
 }
 
 function viewBrowse(){
-    $("#center-pane").load("/resources/pages/browsePage.jsp");
+    $("#center-pane").load("/resources/pages/center.jsp");
 }
 
 function viewEditProfile(){
@@ -237,7 +249,7 @@ function viewAllPlaylists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/follwedPlaylists.jsp",function(){
+            $("#center-pane").load("resources/pages/followedPlaylists.jsp",function(){
                 console.log("Loaded playlists into center pane!");
             });
         },
@@ -250,10 +262,10 @@ function viewAllPlaylists(){
 
 function viewFollowedSongs(){
     $.ajax({
-        url: "viewSongs",
+        url: "viewFollowedSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/song.jsp",function(){
+            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
               
             });
         },
@@ -273,7 +285,7 @@ function deletePlaylist(){
             console.log("Success deleting playlist");
             $("#leftTool").load("/resources/toolbars/left.jsp",function(){
                 console.log("Reloaded playlist sidebar after delete");
-                $("#center-pane").load("/resources/pages/browsePage.jsp");
+                $("#center-pane").load("/resources/pages/center.jsp");
             });
         },
         error: function(){
@@ -292,8 +304,8 @@ function followPlaylist(playlist) {
     }),
     success:function(){
       $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                console.log("Reloaded playlist sidebar after delete");
-            });
+        console.log("Success following playlist");
+      });
     },
     error: function(){
             console.log("Failure following playlist");
@@ -321,9 +333,9 @@ function unfollowPlaylist(playlist) {
   return false;
 };
 
-function addToPlaylist(playlist, song) {
+function addSongToPlaylist(playlist, song) {
   $.ajax({
-    url: "addToPlaylist",
+    url: "addSongToPlaylist",
     type: "POST",
     data: ({
       playlist: playlist,
@@ -339,9 +351,9 @@ function addToPlaylist(playlist, song) {
   return false;
 }
 
-function deleteFromPlaylist(playlistId, songId){
+function deleteSongFromPlaylist(playlistId, songId){
     $.ajax({
-      url: "deleteFromPlaylist",
+      url: "deleteSongFromPlaylist",
       type: "POST",
       data: ({
         playlistId: playlistId,
@@ -360,7 +372,7 @@ function deleteFromPlaylist(playlistId, songId){
 
 function cancelPremium(){
     $.ajax({
-       url: "cancel",
+       url: "cancelPremium",
        type: "POST",
        data:({}),
        success:function(){
@@ -375,18 +387,66 @@ function cancelPremium(){
     return false;    
 }
 
-function playSong(songId){
+function playSong(songId,setType,songIndex){
   $.ajax({
     url: "playSong",
     type: "GET",
     data: ({
-      songId: songId
+      songId: songId,
+      setType: setType,
+      songIndex: songIndex
     }),
     success: function(){
-      $("#bottomTool").load("/resources/toolbars/bottom.jsp");
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure: function(){
+      console.log("Failure playing song");
     }
-  })
+  });
+  return false;
 }
+
+function playNext(){
+  $.ajax({
+    url:"playNext",
+    type:"GET",
+    data:({
+      
+    }),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing next song");
+    }
+  });
+  return false;
+}
+
+function playPrev(){
+  $.ajax({
+    url:"playPrev",
+    type:"GET",
+    data:({}),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing prev song");
+    }
+  });
+  return false;
+}
+
 function viewUsers(){
     $.ajax({
         url: "viewUsers",

@@ -51,9 +51,9 @@ public class SongServiceHibernateImpl implements SongService{
 
   @Transactional(readOnly = false)
   @Override
-  public Song AddSongToPlaylist(int songId, int playlistId) {
+  public Song addSongToPlaylist(int songId, int playlistId) {
     Song song = getSong(songId);
-    Playlist playlist = playlistService.getPlaylistByID(playlistId);
+    Playlist playlist = playlistService.getPlaylist(playlistId);
     Collection<Playlist> contains = song.getContainedInPlaylists();
     contains.add(playlist);
     song.setContainedInPlaylists(contains);
@@ -65,7 +65,7 @@ public class SongServiceHibernateImpl implements SongService{
   @Override
   public void deleteSongFromPlaylist(int playlistId, int songId){
     Song song = getSong(songId);
-    Playlist playlist = playlistService.getPlaylistByID(playlistId);
+    Playlist playlist = playlistService.getPlaylist(playlistId);
     Collection<Playlist> contains = song.getContainedInPlaylists();
     contains.remove(playlist);
     song.setContainedInPlaylists(contains);

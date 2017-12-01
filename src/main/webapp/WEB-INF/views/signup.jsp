@@ -20,7 +20,7 @@
 </head>
   <body  >
     <div class="container" style="text-align:center">
-      <form class="form-signin"action="doSignup" method="post">
+      <form class="form-signin"action="signupUser" method="post">
         <h2 >Signup</h2>
         <div class="" >
           <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>

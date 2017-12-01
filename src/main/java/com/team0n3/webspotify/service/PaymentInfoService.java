@@ -13,9 +13,9 @@ import com.team0n3.webspotify.model.User;
  * @author spike
  */
 public interface PaymentInfoService {
-  public PaymentInfo getPaymentById(int paymentId);
+  public PaymentInfo getPayment(int paymentId);
   
-  public User addPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
+  public User addNewPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
     int expirationYear, String creditCompany, String address);
   
   public User deletePayment(User user, PaymentInfo paymentInfo);

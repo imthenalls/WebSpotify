@@ -43,6 +43,9 @@ public class Song implements Serializable {
     @Column(name="duration",nullable=false)
     private int duration;
     
+    @Column(name="audioPath")
+    private String audioPath;
+    
     public Song() {
     }
     
@@ -96,6 +99,14 @@ public class Song implements Serializable {
     
     public void setDuration(int duration){
         this.duration=duration;
+    }
+    
+    public String getAudioPath(){
+      return audioPath;
+    }
+    
+    public void setAudioPath(String audioPath){
+      this.audioPath=audioPath;
     }
     
     @Override

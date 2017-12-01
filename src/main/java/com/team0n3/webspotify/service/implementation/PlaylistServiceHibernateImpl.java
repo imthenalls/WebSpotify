@@ -44,7 +44,7 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
 
   @Override
   @Transactional(readOnly=true)
-  public Playlist getPlaylistByID(int playlistID){
+  public Playlist getPlaylist(int playlistID){
     return playlistDao.getPlaylist(playlistID);
   }
 
@@ -60,8 +60,8 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     if(playlist == null)
       return null;
-    Collection<Song> sondsInPlaylist = playlist.getSongs();
-    List<Song> songList = new ArrayList(sondsInPlaylist);
+    Collection<Song> songsInPlaylist = playlist.getSongs();
+    List<Song> songList = new ArrayList(songsInPlaylist);
     return songList;
   }
   

@@ -10,8 +10,11 @@
       </div>
       <div class="row">
         <a href="#">
-          <h2 class="mediaName">${currentArtist.artistName}</h2>    
+          <h2 id="artistHeader" class="mediaName">${currentArtist.artistName}</h2>    
         </a>
+      </div>
+      <div id="artistBio">
+          <p id="summary"></p>
       </div>
     </div>
   </div>
@@ -46,3 +49,4 @@
     </c:forEach>
   </div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/artist_bio.js"></script>

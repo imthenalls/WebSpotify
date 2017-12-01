@@ -44,15 +44,15 @@
         </li>
         
         <!-- Fill with user's playlist -->
-        <c:forEach items="${PlaylistList}" var="Playlist">
+        <c:forEach items="${createdPlaylists}" var="Playlist">
             <li>
                 <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach>  
             
-        <c:forEach items="${FollowedPlaylists}" var="Playlist">
+        <c:forEach items="${followedPlaylists}" var="Playlist">
             <li>
-                <a href="#" id="p${Playlist.playlistID}" onclick="viewPlaylist(this.id)" data-toggle="tab">${Playlist.playlistName}</a>
+                <a href="#" onclick="viewPlaylist(${Playlist.playlistID})" data-toggle="tab">${Playlist.playlistName}</a>
             </li>   
         </c:forEach> 
     </ul>
