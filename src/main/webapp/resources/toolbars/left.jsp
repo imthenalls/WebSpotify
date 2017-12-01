@@ -17,7 +17,10 @@
             <a data-toggle="tab" href="#">Recently Played</a>
         </li>
         <li> 
-          <a data-toggle="tab" href="#" onclick="viewFollowedSongs()">Songs</a>
+          <a data-toggle="tab" href="#" onclick="viewAllSongs()">Songs</a>
+        </li>
+        <li> 
+          <a data-toggle="tab" href="#" onclick="viewAllArtists()">All Artists</a>
         </li>
         <li> 
             <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>

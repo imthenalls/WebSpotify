@@ -18,10 +18,6 @@ $(document).ready(function(){
     
     function playBack(){
         audio = $("#audio")[0];
-        audio.addEventListener("loadedmetadata",function(){
-            var duration = audio.duration;
-            $('#songDuration')[0].innerHTML= Math.floor(duration/60) + ":" + Math.floor(duration % 60);
-        });
         audio.addEventListener("timeupdate",updateProgress,false);
         //audio.controls=false;
     } 
@@ -91,6 +87,7 @@ function addArtistAdmin(){
            });
            return false;    
 }
+
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
@@ -247,6 +244,23 @@ function viewFollowedAlbums(){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewAllArtists(){
+    $.ajax({
+        url: "viewAllArtists",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function viewAllPlaylists(){
     $.ajax({
         url: "viewAllPlaylists",
@@ -264,13 +278,12 @@ function viewAllPlaylists(){
     return false; // Makes sure that the link isn't followed
 }
 
-function viewFollowedSongs(){
+function viewAllSongs(){
     $.ajax({
-        url: "viewFollowedSongs",
+        url: "viewAllSongs",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
-              
             });
         },
         error: function(){
@@ -391,17 +404,82 @@ function cancelPremium(){
     return false;    
 }
 
-function playSong(songId){
+function playSong(songId,setType,songIndex){
   $.ajax({
     url: "playSong",
     type: "GET",
     data: ({
-      songId: songId
+      songId: songId,
+      setType: setType,
+      songIndex: songIndex
     }),
     success: function(){
-      $("#bottomTool").load("/resources/toolbars/bottom.jsp");
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure: function(){
+      console.log("Failure playing song");
     }
-  })
+  });
+  return false;
+}
+
+function playNext(){
+  $.ajax({
+    url:"playNext",
+    type:"GET",
+    data:({
+      
+    }),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing next song");
+    }
+  });
+  return false;
+}
+
+function playPrev(){
+  $.ajax({
+    url:"playPrev",
+    type:"GET",
+    data:({}),
+    success:function(){
+      $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
+        audio = $("#audio")[0];
+        audio.play();
+      });
+    },
+    failure:function(){
+      console.log("Failure playing prev song");
+    }
+  });
+  return false;
+}
+
+function adminRemoveArtist(artistId){
+    $.ajax({
+        url: "adminRemoveArtist",
+        type: "POST",
+        data: ({
+          artistId: artistId,
+        }),
+        success:function(){
+          console.log("Success deleting artist");
+              $("#center-pane").load("/resources/pages/allArtists.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting artist");
+        }
+    });
+    return false;
 }
 
 function viewUsers(){
@@ -420,3 +498,5 @@ function viewUsers(){
     });
     return false; // Makes sure that the link isn't followed
 }
+
+

@@ -218,4 +218,42 @@ public class UserServiceHibernateImpl implements UserService{
           artistDao.addArtist(artist);
       }
   }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemoveArtist(String username, int artistId){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Artist artist = artistDao.getArtist(artistId);
+          System.out.println(artist.toString());
+          artistDao.deleteArtist(artist);
+          //delete it from songs and albusm too?
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminAddPlaylist( String username, String playlistName,String imagePath, String description){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Playlist playlist = new Playlist(playlistName, imagePath, description, user);
+          System.out.println(playlist.toString());
+          playlistDao.addPlaylist(playlist);
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemovePlaylist(String username, int playlistId){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Playlist playlist = playlistDao.getPlaylist(playlistId);
+          System.out.println(playlist.toString());
+          playlistDao.deletePlaylist(playlist);
+          //delete it from songs and albusm too?
+      }
+  }
 }
