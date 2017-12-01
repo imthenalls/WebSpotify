@@ -52,7 +52,7 @@ public class SpotifyController {
   private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
 //  /private List<Artist> followedArtists = new ArrayList<Artist>();
-  private SongPlayer songPlayer;
+  private SongPlayer songPlayer = new SongPlayer();
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
   public ModelAndView handleRequest(HttpSession session) {
@@ -386,7 +386,14 @@ public class SpotifyController {
     Song song = songService.getSong(songId);
     session.setAttribute("currentSong",song);
   }
-
+  
+  @RequestMapping(value="/playNextSong",method=RequestMethod.GET)
+  @ResponseBody
+  public void playNextSong( HttpSession session){
+    //Song song = songPlayer.getNextSong();
+    //session.setAttribute("currentSong",song);
+  }
+  
   @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
   @ResponseBody
   public void viewUsers(HttpSession session){

@@ -2,8 +2,8 @@
 package com.team0n3.webspotify.model;
 
 import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.List;
-
 public class SongPlayer {
     //album in it, or playlist
     //current song
@@ -11,16 +11,15 @@ public class SongPlayer {
     private Album currentAlbum;
     private Playlist currentPlaylist;
     private int currentPlaylistPos;
-    public SongPlayer(){
-        
-    }
+   // private CircularArrayList queue = new CircularArrayList():
+    public SongPlayer(){}
     
     public SongPlayer( Playlist currentPlaylist, int currentSongId){
         this.currentPlaylist = currentPlaylist;
         this.currentSongId = currentSongId;
         currentPlaylistPos = 0;
     }
-
+    
     public void getNextSong(){
         Playlist playlist = currentPlaylist;
         List<Song> playlistSongs = new ArrayList( playlist.getSongs());
@@ -35,6 +34,8 @@ public class SongPlayer {
             System.out.println("current pos in catch last song"+currentPlaylistPos);
             setCurrentSongId(currentSongId);
         }
+        //should return a song
+        
     }
 
     public void getPrevSong(){
@@ -75,7 +76,5 @@ public class SongPlayer {
 
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
-    }
-   
-    
+    }  
 }
