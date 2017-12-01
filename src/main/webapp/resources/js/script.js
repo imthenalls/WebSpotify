@@ -399,6 +399,7 @@ function playSong(songId,setType,songIndex){
     success: function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        audio.addEventListener("timeupdate",updateProgress,false);
         audio.play();
       });
     },
@@ -420,6 +421,7 @@ function playNext(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
         audio.play();
+        audio.addEventListener("timeupdate",updateProgress,false);
       });
     },
     failure:function(){
@@ -437,6 +439,7 @@ function playPrev(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        audio.addEventListener("timeupdate",updateProgress,false);
         audio.play();
       });
     },
