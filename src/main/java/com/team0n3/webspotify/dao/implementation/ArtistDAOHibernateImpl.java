@@ -45,8 +45,9 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     public void updateArtist(Artist artist){
         sessionFactory.getCurrentSession().update(artist);
     }
-      @Override
-  public List<Artist> search(String keyword){
+    
+    @Override
+    public List<Artist> search(String keyword){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
     c.add(Restrictions.like("artistName", "%"+keyword+"%"));
     return c.list();

@@ -87,6 +87,7 @@ function addArtistAdmin(){
            });
            return false;    
 }
+
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
@@ -243,6 +244,23 @@ function viewFollowedAlbums(){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewAllArtists(){
+    $.ajax({
+        url: "viewAllArtists",
+        type: "GET",
+        success:function(){
+            console.log("View success");
+            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
+                console.log("Loaded playlists into center pane!");
+            });
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function viewAllPlaylists(){
     $.ajax({
         url: "viewAllPlaylists",
@@ -260,13 +278,12 @@ function viewAllPlaylists(){
     return false; // Makes sure that the link isn't followed
 }
 
-function viewFollowedSongs(){
+function viewAllSongs(){
     $.ajax({
-        url: "viewFollowedSongs",
+        url: "viewAllSongs",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
-              
             });
         },
         error: function(){
@@ -450,6 +467,24 @@ function playPrev(){
   return false;
 }
 
+function adminRemoveArtist(artistId){
+    $.ajax({
+        url: "adminRemoveArtist",
+        type: "POST",
+        data: ({
+          artistId: artistId,
+        }),
+        success:function(){
+          console.log("Success deleting artist");
+              $("#center-pane").load("/resources/pages/allArtists.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting artist");
+        }
+    });
+    return false;
+}
+
 function viewUsers(){
     $.ajax({
         url: "viewUsers",
@@ -466,3 +501,5 @@ function viewUsers(){
     });
     return false; // Makes sure that the link isn't followed
 }
+
+

@@ -27,4 +27,7 @@ public interface UserService {
   public void followAlbum(String userId, int albumId);
   public void unfollowAlbum(String userId, int albumId);
   public void adminAddArtist(String username, String artistName,int popularity, String imagePath);
+  public void adminRemoveArtist(String username, int artistId);
+  public void adminAddPlaylist( String username, String playlistName,String imagePath, String description);
+  public void adminRemovePlaylist(String username, int artistId);
 }

@@ -2,6 +2,7 @@
 package com.team0n3.webspotify.model;
 
 import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.List;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,6 +15,9 @@ public class SongPlayer {
     
     private Album currentAlbum;
     private Playlist currentPlaylist;
+    private int currentPlaylistPos;
+   // private CircularArrayList queue = new CircularArrayList():
+    public SongPlayer(){}
     
     private int position;
     
@@ -30,16 +34,28 @@ public class SongPlayer {
     
     private int tailIndex;
     
-    public SongPlayer(){
-        
-    }
-    
     public SongPlayer( Playlist currentPlaylist, int currentSongId){
         this.currentPlaylist = currentPlaylist;
         this.currentSongId = currentSongId;
         position = 0;
     }
 
+    /*
+    public void getNextSong(){
+        Playlist playlist = currentPlaylist;
+        List<Song> playlistSongs = new ArrayList( playlist.getSongs());
+        System.out.println("current pos "+currentPlaylistPos);
+        try{
+            currentPlaylistPos++;
+            int nextSongId = playlistSongs.get(currentPlaylistPos).getSongId();   
+            setCurrentSongId(nextSongId);
+            System.out.println("current pos "+currentPlaylistPos);
+        }catch(IndexOutOfBoundsException e){
+            currentPlaylistPos--;
+            System.out.println("current pos in catch last song"+currentPlaylistPos);
+            setCurrentSongId(currentSongId);
+        }}
+*/
     public Song getNextSong(){
       if(isRepeatSong) //if repeat is toggled, send back the same song
         return (Song)queue.get(position);
@@ -96,8 +112,7 @@ public class SongPlayer {
 
     public void setCurrentPlaylist(Playlist currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
-    }
-   
+    }  
     public Queue getQueue(){
       return queue;
     }
