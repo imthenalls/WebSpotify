@@ -41,10 +41,13 @@ public class SongDAOHibernateImpl implements SongDAO{
   public void updateSong(Song song) {
     sessionFactory.getCurrentSession().update(song);
   }
-
+@Override
+  public void mergeSong(Song song) {
+    sessionFactory.getCurrentSession().merge(song);
+  }
   @Override
   public void deleteSong(Song song) {
-    throw new UnsupportedOperationException("Not supported yet."); 
+    sessionFactory.getCurrentSession().delete(song);
   }
   
     

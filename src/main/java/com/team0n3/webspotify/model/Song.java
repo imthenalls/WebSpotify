@@ -32,7 +32,8 @@ public class Song implements Serializable {
     @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
     private Artist artistId;
     
-    @ManyToMany(cascade ={CascadeType.ALL })
+    @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
     @JoinTable(
             name="songplaylist",
             joinColumns= {@JoinColumn(name="songid")},
@@ -52,6 +53,8 @@ public class Song implements Serializable {
     public Song(String title) {
        this.title = title;
     }
+    
+    
     
     public Collection<Playlist> getContainedInPlaylists(){
         return containedInPlaylists;

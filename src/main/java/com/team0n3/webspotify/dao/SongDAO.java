@@ -16,5 +16,7 @@ public interface SongDAO {
   
   public void deleteSong(Song song);
   
+  public void mergeSong(Song song);
+  
   public List<Song> search(String keyword);
 }
