@@ -33,7 +33,7 @@
             <a href="#" id="repeatTag" onclick="toggleRepeat()">
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
-            <a id="lyrics">Lyrics</a>
+            <a id="lyrics" >Get Lyrics</a>
         </div>
         <audio id="audio" src="${currentSong.audioPath}">Your browser does not support the <code>audio</code> element.</audio>
         
