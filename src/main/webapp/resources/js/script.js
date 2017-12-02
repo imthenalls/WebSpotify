@@ -16,13 +16,37 @@ $(document).ready(function(){
     
     $('[data-toggle="tooltip"]').tooltip();
     
+    $('#progress').bind('mousedown', scrub);
+    
+    //for the search links
+    $(document).on('click', '.album-card-search', function(){
+        viewAlbum($(this).attr("albumId"));
+    });
+    
+    $(document).on('click', '.artist-card-search', function(){
+        viewArtist($(this).attr("artistId"));
+    });
+    
+    $(document).on('click', '.song-row-search', function(){
+        viewAlbum($(this).attr("albumId"));
+    });
     function playBack(){
         audio = $("#audio")[0];
         audio.addEventListener("timeupdate",updateProgress,false);
+        console.log("hmm");
         //audio.controls=false;
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    
+    function scrub(event){
+        console.log("yay");
+        if(!audio.ended){
+            var mousex  = event.pageX - (progress.offsetLeft*3);
+            var newtime = mousex * (audio.duration/$(progress).width());
+            audio.currentTime = newtime;
+            //audio.setAttribute('currentTime', newtime);
+            songbar.style.width = parseInt(newtime/audio.duration) + "%";
+        }
+    }
   $("#newPlaylistForm").submit(function(){
       var playlistName = $("#pName").val();
       var imagePath = $("#iPath").val();

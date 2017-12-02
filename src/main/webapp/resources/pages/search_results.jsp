@@ -4,12 +4,12 @@
     <div id="artist-search-results" class="row">
     <div id="artist-search-results-header"><h3>Artists</h3></div>
     <c:forEach items="${artistList}" var="artist">
-    <div class="card artist-card">
+    <div artistId = "${artist.artistId}"class="card artist-card artist-card-search">
         <img class="card-img" src="${artist.imagePath}">
         <div class="card-block">
             <p class="card-text">${artist.artistName}</p>
         </div>
-        </div>
+    </div>
     </c:forEach>
     </div>
     <div id="album-search-results" class="row">
@@ -17,7 +17,7 @@
     </div>
     <div id="album-search-results-row" class="row">
       <c:forEach items="${albumList}" var="album">
-        <div class="col-xs-2 card">
+        <div albumId ="${album.albumId}" class="col-xs-2 card album-card-search">
           <img class="card-img" src="${album.imagePath}">
           <div class="card-block">
               <p class="card-text">${album.albumName}</p>
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
               <c:forEach items="${songList}" var="song">
-                <tr>
+                <tr class="song-row-search" albumId="${song.albumId.albumId}">
                     <td>${song.title}</td>
                     <td>${song.artistId.artistName}</td>
                     <td>${song.duration}</td>
