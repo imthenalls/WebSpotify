@@ -277,10 +277,7 @@ public class UserServiceHibernateImpl implements UserService{
               lock2.unlock();
           }
           lock3.lock();
-          try {
-              
-              
-              
+          try {  
               List<Album> allAlbums = albumDao.listAlbums();
               for(Album a:allAlbums){
                   if(a.getArtistId().getArtistId() == artist.getArtistId()){
@@ -306,9 +303,6 @@ public class UserServiceHibernateImpl implements UserService{
           userDao.getUser(username).setFollowedArtists(userArtists);
           userDao.updateUser(userDao.getUser(username));
           artistDao.deleteArtist(artist);
-          
-         
-
           //delete it from songs and albusm too?
       }
   }
