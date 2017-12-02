@@ -24,9 +24,8 @@
         </span>
       </div>
  
-      <div class="row">
+      
         
-        <div class="dropdown">
           <button class="btn btn-primary" id="playlistPlayButton">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
@@ -37,14 +36,19 @@
                 <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
               </ul>
             </c:when>
-            <c:otherwise>
+            <c:when test = "${currentPlaylist.hasFollower(currentUser)}">
               <ul class="dropdown-menu">
                 <li><a href="#" onclick="unfollowPlaylist(${currentPlaylist.playlistID})">Unfollow</a></li>
               </ul>
+            </c:when>
+            <c:otherwise>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="followPlaylist(${currentPlaylist.playlistID})">Follow</a></li>
+              </ul> 
             </c:otherwise>
           </c:choose>
-        </div>
-      </div>
+        
+      
     </div>
   </div>
 </div>
