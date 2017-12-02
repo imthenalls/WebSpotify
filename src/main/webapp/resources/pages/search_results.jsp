@@ -39,7 +39,7 @@
               <c:forEach items="${songList}" var="song">
                 <tr>
                     <td>${song.title}</td>
-                    <td>${song.artistId.artistName}</td>
+                    <td><a href="#" onclick="viewArtist(${song.artistId})">${song.artistId.artistName}</a></td>
                     <td>${song.duration}</td>
                 </tr>
               </c:forEach>

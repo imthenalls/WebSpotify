@@ -423,10 +423,12 @@ public class SpotifyController {
     List<Album> searchAlbums = albumService.search(keyword);
     List<Artist> searchArtists = artistService.search(keyword);
     List<Song> searchSongs = songService.search(keyword);
+    List<Playlist> searchPlaylists = playlistService.search(keyword);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
+    session.setAttribute("playlistList",searchPlaylists);
   }
   
   @RequestMapping( value = "/adminAddArtist", method = RequestMethod.POST)

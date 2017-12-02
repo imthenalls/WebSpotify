@@ -12,4 +12,5 @@ public interface PlaylistDAO {
   public List<Playlist> listPlaylists();
   public void deletePlaylist(Playlist playlist);
   public void updatePlaylist(Playlist playlist);
+  public List<Playlist> search(String keyword);
 }

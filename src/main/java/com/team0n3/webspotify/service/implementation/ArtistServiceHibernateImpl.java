@@ -48,7 +48,7 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     @Override
     public List<Artist> search(String keyword)
     {
-        List<Artist> listArtists = artistDao.search(keyword);
-        return listArtists;
+      List<Artist> listArtists = artistDao.search(keyword);
+      return listArtists;
     }
 }

@@ -6,14 +6,19 @@ import com.team0n3.webspotify.model.Song;
 import java.util.List;
 import java.util.ListIterator;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class SongDAOHibernateImpl implements SongDAO{   
   
   @Autowired
   private SessionFactory sessionFactory;
+  
+  @Value("${song.maxResult}")
+  private int maxResults;
   
   public SongDAOHibernateImpl(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
@@ -27,6 +32,7 @@ public class SongDAOHibernateImpl implements SongDAO{
   @Override
   public Song getSong(int id) {
     Song song = (Song)sessionFactory.getCurrentSession().get(Song.class,id);
+    Hibernate.initialize(song.getAlbumId());
     return song;
   }
 
@@ -51,10 +57,11 @@ public class SongDAOHibernateImpl implements SongDAO{
   }
   
     
-    @Override
+  @Override
   public List<Song> search(String keyword){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
     c.add(Restrictions.like("title", "%"+keyword+"%"));
+    c.setMaxResults(maxResults);
     return c.list();
   }
 }
