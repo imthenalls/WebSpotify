@@ -12,6 +12,7 @@ import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.hibernate.SessionFactory;
@@ -41,6 +44,8 @@ public class UserServiceHibernateImpl implements UserService{
   private SongDAO songDao;
   @Autowired
   private AlbumDAO albumDao;
+  @Autowired
+  private SongService songService;
   @Autowired
   private SessionFactory sessionFactory;
 
@@ -226,8 +231,84 @@ public class UserServiceHibernateImpl implements UserService{
       if(user.getAccountType() == AccountType.Admin)
       {
           Artist artist = artistDao.getArtist(artistId);
-          System.out.println(artist.toString());
+          List<Song> allSongs = songDao.listSongs();
+          Lock lock = new ReentrantLock();
+          Lock lock2 = new ReentrantLock();
+          Lock lock3 = new ReentrantLock();
+          
+          lock.lock();
+          try {
+              
+              for(Song s:allSongs){
+                  if((s.getArtistId().getArtistId() == artist.getArtistId())){
+                      Collection<Playlist> contains = s.getContainedInPlaylists();
+                      contains.removeAll(contains);
+                      s.setContainedInPlaylists(contains);
+                      songDao.mergeSong(s);
+                  }
+              }
+          } finally {
+              lock.unlock();
+          }
+          lock2.lock();
+          try {
+              allSongs = songDao.listSongs();
+              for(Song s:allSongs){
+                  if(s.getArtistId().getArtistId() == artist.getArtistId()){
+                      
+                      Collection<Song> albumSongs = s.getAlbumId().getSongs();
+                      albumSongs.remove(s);
+                      s.getAlbumId().setSongs(albumSongs);
+                      albumDao.updateAlbum(s.getAlbumId());
+                      
+                      Collection<Song> artistSongs = s.getArtistId().getSongs();
+                      artistSongs.remove(s);
+                      s.getArtistId().setSongs(artistSongs);
+                      artistDao.updateArtist(s.getArtistId());
+                      
+                      Collection<Song> userSongs = userDao.getUser(username).getFollowedSongs();
+                      userSongs.remove(s);
+                      userDao.getUser(username).setFollowedSongs(userSongs);
+                      userDao.updateUser(userDao.getUser(username));
+                      songDao.deleteSong(s);
+                  }
+              }
+          } finally {
+              lock2.unlock();
+          }
+          lock3.lock();
+          try {
+              
+              
+              
+              List<Album> allAlbums = albumDao.listAlbums();
+              for(Album a:allAlbums){
+                  if(a.getArtistId().getArtistId() == artist.getArtistId()){
+                      Collection<Album> userAlbums = userDao.getUser(username).getFollowedAlbums();
+                      userAlbums.remove(a);
+                      userDao.getUser(username).setFollowedAlbums(userAlbums);
+                      userDao.updateUser(userDao.getUser(username));
+                      
+                      Collection<Album> artistAlbums = artist.getAlbums();
+                      artistAlbums.remove(a);
+                      artist.setAlbums(artistAlbums);
+                      artistDao.updateArtist(artist);
+                      
+                      albumDao.deleteAlbum(a);
+                  }
+              }
+              
+          } finally {
+              lock3.unlock();
+          }
+          Collection<Artist> userArtists = userDao.getUser(username).getFollowedArtists();
+          userArtists.remove(artist);
+          userDao.getUser(username).setFollowedArtists(userArtists);
+          userDao.updateUser(userDao.getUser(username));
           artistDao.deleteArtist(artist);
+          
+         
+
           //delete it from songs and albusm too?
       }
   }
@@ -255,5 +336,73 @@ public class UserServiceHibernateImpl implements UserService{
           playlistDao.deletePlaylist(playlist);
           //delete it from songs and albusm too?
       }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminAddSong( String username, String title ){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Song song = new Song(title);
+          System.out.println(song.toString());
+          songDao.addSong(song);
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemoveSong(String username, int songId){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Song song = songDao.getSong(songId);
+          System.out.println(song.toString());
+          songDao.deleteSong(song);
+          //delete it from songs and albusm too?
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminAddAlbum( String username, String albumName, int popularity, String imagePath ){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Album album = new Album(albumName,popularity,imagePath);
+          System.out.println(album.toString());
+          albumDao.addAlbum(album);
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemoveAlbum(String username, int albumId){
+      User user = userDao.getUser(username);
+      if(user.getAccountType() == AccountType.Admin)
+      {
+          Album album = albumDao.getAlbum(albumId);
+          System.out.println(album.toString());
+          albumDao.deleteAlbum(album);
+          //delete it from songs and albusm too?
+      }
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminEditArtistBio(String username, int artistId){
+      
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void artistCheckSongMetrics(String username, int artistId){
+      
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void artistCheckRoyalties(String username, int artistId){
+      
   }
 }

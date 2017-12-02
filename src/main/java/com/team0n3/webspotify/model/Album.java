@@ -49,6 +49,13 @@ public class Album implements Serializable{
     this.albumName = albumName;
     this.songs = null;
   }
+  
+  public Album(String albumName, int popularity, String imagePath) {
+    this.albumName = albumName;
+    this.popularity = popularity;
+    this.imagePath = imagePath;
+    this.songs = null;
+  }
   public int getAlbumId()
   {
     return albumId;

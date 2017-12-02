@@ -478,7 +478,69 @@ public class SpotifyController {
     if(found){
       User currentUser = (User)session.getAttribute("currentUser");
       userService.adminRemovePlaylist(currentUser.getUsername(), playlistId);
-      session.setAttribute("allArtists",allPlaylists);
+      session.setAttribute("allPlaylists",allPlaylists);
+    }
+  }
+  
+  @RequestMapping( value = "/adminAddSong", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminAddSong(@RequestParam String title, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        userService.adminAddSong(user.getUsername(), title);    
+    }
+  }
+  
+  @RequestMapping( value = "/adminRemoveSong", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminRemoveSong(@RequestParam int songId, HttpSession session){
+    List<Song> allSongs = songService.listAllSongs();
+    boolean found = false;
+    for(Song s : allSongs){
+      if(s.getSongId() == songId){
+        allSongs.remove(s);
+        found = true;
+        break;
+      }
+    }
+    if(found){
+      User currentUser = (User)session.getAttribute("currentUser");
+      userService.adminRemoveSong(currentUser.getUsername(), songId);
+      session.setAttribute("allSongs",allSongs);
+    }
+  }
+  
+  @RequestMapping( value = "/adminAddAlbum", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminAddAlbum(@RequestParam String albumName,@RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        userService.adminAddAlbum(user.getUsername(),albumName,  popularity,  imagePath);    
+    }
+  }
+  
+  @RequestMapping( value = "/adminRemoveAlbum", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminRemoveAlbum(@RequestParam int albumId, HttpSession session){
+    List<Album> allAlbums = albumService.listAllAlbums();
+    boolean found = false;
+    for(Album a : allAlbums){
+      if(a.getAlbumId() == albumId){
+        allAlbums.remove(a);
+        found = true;
+        break;
+      }
+    }
+    if(found){
+      User currentUser = (User)session.getAttribute("currentUser");
+      userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
+      session.setAttribute("allAlbums",allAlbums);
     }
   }
   

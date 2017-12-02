@@ -37,7 +37,8 @@ public class User implements Serializable{
   @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
   private Collection<Playlist> createdPlaylists;
 
-  @ManyToMany(cascade ={CascadeType.ALL })
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
   @JoinTable(
     name="FollowPlaylist",
     joinColumns= {@JoinColumn(name="username")},
@@ -45,7 +46,8 @@ public class User implements Serializable{
   )
   private Collection<Playlist> followedPlaylists;
 
-  @ManyToMany(cascade ={CascadeType.ALL })
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
   @JoinTable(
     name="followartist",
     joinColumns= {@JoinColumn(name="username")},
@@ -53,7 +55,8 @@ public class User implements Serializable{
   )
   private Collection<Artist> followedArtists;
   
-  @ManyToMany(cascade ={CascadeType.ALL })
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
   @JoinTable(
     name="followsong",
     joinColumns= {@JoinColumn(name="username")},
@@ -61,7 +64,8 @@ public class User implements Serializable{
   )
   private Collection<Song> followedSongs;
   
-  @ManyToMany(cascade ={CascadeType.ALL })
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
   @JoinTable(
     name="followalbum",
     joinColumns= {@JoinColumn(name="username")},
@@ -69,7 +73,8 @@ public class User implements Serializable{
   )
   private Collection<Album> followedAlbums;
   
-  @ManyToMany(cascade ={CascadeType.ALL })
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE })
   @JoinTable(
     name="CollabPlaylist",
     joinColumns= {@JoinColumn(name="username")},
