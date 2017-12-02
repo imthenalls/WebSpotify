@@ -16,10 +16,14 @@ import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +53,8 @@ public class SpotifyController {
   private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
   
-  private SongPlayer player;
+  private SongPlayer player = new SongPlayer();
 //  /private List<Artist> followedArtists = new ArrayList<Artist>();
-  private SongPlayer songPlayer = new SongPlayer();
  
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -79,7 +82,6 @@ public class SpotifyController {
     }
     createdPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
-    player = new SongPlayer();
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);
@@ -398,10 +400,10 @@ public class SpotifyController {
     session.setAttribute("currentSong",song);
   }
   
-  @RequestMapping(value="/playNextSong",method=RequestMethod.GET)
+  @RequestMapping(value="/playNext",method=RequestMethod.GET)
   @ResponseBody
-  public void playNextSong( HttpSession session){
-    Song song = songPlayer.getNextSong();
+  public void playNext( HttpSession session){
+    Song song = player.getNextSong();
     session.setAttribute("currentSong",song);
   }
   /*
@@ -509,5 +511,17 @@ public class SpotifyController {
       userService.adminRemovePlaylist(currentUser.getUsername(), playlistId);
       session.setAttribute("allArtists",allPlaylists);
     }
+  }
+  
+  @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
+  @ResponseBody
+  public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
+      String baseUrl = "http://lyrics.wikia.com/wiki/";
+      artistName = artistName.replace(' ', '_');
+      songName = songName.replace(' ', '_'); 
+      String url = baseUrl + artistName + ":"+ songName;
+      Document page = Jsoup.connect(url).timeout(6000).get();
+      Element lyrics = page.select("div.lyricbox").first();
+      return lyrics.toString();
   }
 }
