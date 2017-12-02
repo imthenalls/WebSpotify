@@ -437,8 +437,8 @@ function playNext(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
-        audio.play();
         audio.addEventListener("timeupdate",updateProgress,false);
+        audio.play();
       });
     },
     failure:function(){
