@@ -277,10 +277,7 @@ public class UserServiceHibernateImpl implements UserService{
               lock2.unlock();
           }
           lock3.lock();
-          try {
-              
-              
-              
+          try {  
               List<Album> allAlbums = albumDao.listAlbums();
               for(Album a:allAlbums){
                   if(a.getArtistId().getArtistId() == artist.getArtistId()){
