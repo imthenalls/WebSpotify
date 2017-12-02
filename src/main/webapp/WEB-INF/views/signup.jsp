@@ -21,6 +21,12 @@
   <body  >
     <div class="container" style="text-align:center">
       <form class="form-signin"action="signupUser" method="post">
+        <c:if test="${duplicate}">
+          <span>An account already exists with that username or email</span>
+        </c:if>
+        <c:if test="${invalidEmail}">
+          <span>Invalid email address</span>
+        </c:if>
         <h2 >Signup</h2>
         <div class="" >
           <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
