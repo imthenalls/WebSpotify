@@ -16,7 +16,7 @@ $(document).ready(function(){
     
     $('[data-toggle="tooltip"]').tooltip();
     
-    $('#progress').bind('mousedown', scrub);
+    $(document).on('mousedown','#progress', scrub);
     
     //for the search links
     $(document).on('click', '.album-card-search', function(){
