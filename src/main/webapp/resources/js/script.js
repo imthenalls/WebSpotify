@@ -454,6 +454,7 @@ function playNext(){
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.play();
         audio.addEventListener("timeupdate",updateProgress,false);
+        audio.play();
       });
     },
     failure:function(){

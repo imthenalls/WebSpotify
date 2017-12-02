@@ -2,14 +2,14 @@
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
         <div id="albumArt" class="col-xs-3">
-            <a href='#"'onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
+            <a href='#"' onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <a href="#" onclick="viewAlbum(${currentSong.albumId.albumId})">${currentSong.title}</a>
+                <a href="#" id="albumSongNamePlayer"onclick="viewAlbum(${currentSong.albumId.albumId})">${currentSong.title}</a>
             </div>
             <div class="row">
-                <a href="#" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
+                <a href="#" id="artistNamePlayer" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
             </div>
         </div>
         <a href="#">
@@ -33,6 +33,7 @@
             <a href="#" id="repeatTag" onclick="toggleRepeat()">
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
+            <a id="lyrics">Lyrics</a>
         </div>
         <audio id="audio" src="${currentSong.audioPath}">Your browser does not support the <code>audio</code> element.</audio>
         

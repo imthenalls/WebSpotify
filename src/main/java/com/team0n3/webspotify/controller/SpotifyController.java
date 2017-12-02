@@ -1,4 +1,3 @@
-
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
@@ -16,10 +15,14 @@ import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -554,5 +557,17 @@ public class SpotifyController {
   @ResponseBody
   public void toggleShuffle(HttpSession session){
     player.toggleShuffle();
+  }
+  
+  @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
+  @ResponseBody
+  public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
+      String baseUrl = "http://lyrics.wikia.com/wiki/";
+      artistName = artistName.replace(' ', '_');
+      songName = songName.replace(' ', '_'); 
+      String url = baseUrl + artistName + ":"+ songName;
+      Document page = Jsoup.connect(url).timeout(6000).get();
+      Element lyrics = page.select("div.lyricbox").first();
+      return lyrics.toString();
   }
 }
