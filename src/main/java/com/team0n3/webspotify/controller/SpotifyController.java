@@ -54,7 +54,6 @@ public class SpotifyController {
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
   
   private SongPlayer player = new SongPlayer();
-//  /private List<Artist> followedArtists = new ArrayList<Artist>();
  
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -149,10 +148,6 @@ public class SpotifyController {
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
-   // playlistService.renamePlaylist(playlist.getPlaylistID(),"kevin");
-   //  session.setAttribute("currentPlaylist",playlist);
-    // songPlayer.getNextSong();
-    //songPlayer.getPrevSong();
   }
   
   @RequestMapping(value = "/renamePlaylist", method= RequestMethod.POST)
@@ -163,20 +158,6 @@ public class SpotifyController {
     playlistService.renamePlaylist(playlist.getPlaylistID(),playlistName);
   }
   
-  /*
-  @RequestMapping(value = "/playPlaylist", method= RequestMethod.GET)
-  @ResponseBody
-  public void playPlaylist(@RequestParam int playlistID, HttpSession session){
-    Playlist playlist = playlistService.getPlaylistByID(playlistID);
-    List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
-    int firstSong = playlistSongs.get(0).getSongId();
-    session.setAttribute("currentPlayedSong",currentPlayedSong);
-    songPlayer = new SongPlayer(playlist,firstSong);
-    songPlayer.play();
-  }
-  */
-  //how do we know what page we are on?
-  //need 
   @RequestMapping(value="/deletePlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void deletePlaylist(HttpSession session){
@@ -367,7 +348,6 @@ public class SpotifyController {
   public void upgradeToPremium(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
       @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, HttpSession session)
   {
-    System.out.println("madeit");
     User user = (User)session.getAttribute("currentUser");
     user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder,ccv,expirationMonth,expirationYear,
         creditCompany,address);
@@ -390,12 +370,12 @@ public class SpotifyController {
     if(setType.equals("album")){
       Album currentAlbum = (Album)session.getAttribute("currentAlbum");
       Collection<Song> albumSongs = currentAlbum.getSongs();
-      player.setQueue(albumSongs,songIndex);
+      player.setQueues(albumSongs,songIndex);
     }
     else if(setType.equals("playlist")){
       Playlist currentPlaylist = (Playlist)session.getAttribute("currentPlaylist");
       Collection<Song> playlistSongs = currentPlaylist.getSongs();
-      player.setQueue(playlistSongs,songIndex);
+      player.setQueues(playlistSongs,songIndex);
     }
     session.setAttribute("currentSong",song);
   }
@@ -407,13 +387,16 @@ public class SpotifyController {
     session.setAttribute("currentSong",song);
   }
   /*
+=======
+
+>>>>>>> origin/master
   @RequestMapping(value="/playNext",method=RequestMethod.GET)
   @ResponseBody
   public void playNext(HttpSession session){
     Song nextSong = player.getNextSong();
     session.setAttribute("currentSong",nextSong);
   }
-  */
+  
   @RequestMapping(value="/playPrev",method=RequestMethod.GET)
   @ResponseBody
   public void playPrev(HttpSession session){
@@ -509,10 +492,11 @@ public class SpotifyController {
     if(found){
       User currentUser = (User)session.getAttribute("currentUser");
       userService.adminRemovePlaylist(currentUser.getUsername(), playlistId);
-      session.setAttribute("allArtists",allPlaylists);
+      session.setAttribute("allPlaylists",allPlaylists);
     }
   }
   
+<<<<<<< HEAD
   @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
   @ResponseBody
   public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
@@ -523,5 +507,78 @@ public class SpotifyController {
       Document page = Jsoup.connect(url).timeout(6000).get();
       Element lyrics = page.select("div.lyricbox").first();
       return lyrics.toString();
+=======
+  @RequestMapping( value = "/adminAddSong", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminAddSong(@RequestParam String title, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        userService.adminAddSong(user.getUsername(), title);    
+    }
+  }
+  
+  @RequestMapping( value = "/adminRemoveSong", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminRemoveSong(@RequestParam int songId, HttpSession session){
+    List<Song> allSongs = songService.listAllSongs();
+    boolean found = false;
+    for(Song s : allSongs){
+      if(s.getSongId() == songId){
+        allSongs.remove(s);
+        found = true;
+        break;
+      }
+    }
+    if(found){
+      User currentUser = (User)session.getAttribute("currentUser");
+      userService.adminRemoveSong(currentUser.getUsername(), songId);
+      session.setAttribute("allSongs",allSongs);
+    }
+  }
+  
+  @RequestMapping( value = "/adminAddAlbum", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminAddAlbum(@RequestParam String albumName,@RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+        userService.adminAddAlbum(user.getUsername(),albumName,  popularity,  imagePath);    
+    }
+  }
+  
+  @RequestMapping( value = "/adminRemoveAlbum", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminRemoveAlbum(@RequestParam int albumId, HttpSession session){
+    List<Album> allAlbums = albumService.listAllAlbums();
+    boolean found = false;
+    for(Album a : allAlbums){
+      if(a.getAlbumId() == albumId){
+        allAlbums.remove(a);
+        found = true;
+        break;
+      }
+    }
+    if(found){
+      User currentUser = (User)session.getAttribute("currentUser");
+      userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
+      session.setAttribute("allAlbums",allAlbums);
+    }
+  }
+  
+  @RequestMapping( value = "/toggleRepeat", method = RequestMethod.GET)
+  @ResponseBody
+  public void toggleRepeat(@RequestParam String setting, HttpSession session){
+    player.toggleRepeat(setting);
+  }
+  
+  @RequestMapping(value="/toggleShuffle",method=RequestMethod.GET)
+  @ResponseBody
+  public void toggleShuffle(HttpSession session){
+    player.toggleShuffle();
   }
 }

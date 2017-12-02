@@ -4,6 +4,7 @@ package com.team0n3.webspotify.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -68,6 +69,7 @@ public class Playlist implements Serializable{
     numFollowers=1;
     dateCreated=new Date();
     isCollaborative=false;
+   // songs = null;
     this.description=description;
     this.creator = creator;
     this.imagePath = imagePath;
