@@ -34,10 +34,6 @@ a:hover{
     color: #3399ff;
 }
 
-#shuffleSong:hover{
-    
-}
-
 .navbar-brand{
     color:white;
 }
@@ -341,5 +337,13 @@ a:hover{
 
 .durationColumn{
   text-align:right;
+}
+
+.repeatSet{
+  color: #3399ff;
+}
+
+.shuffleOn{
+  color: #3399ff;
 }
 

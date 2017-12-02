@@ -23,50 +23,51 @@ $(document).ready(function(){
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
     
-    $("#newPlaylistForm").submit(function(){
-        var playlistName = $("#pName").val();
-        var imagePath = $("#iPath").val();
-        var description = $("#pDesc").val();
-        $.ajax({
-            url: "createPlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-               playlistName: playlistName,
-               imagePath: imagePath,
-               description: description
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-        });
-        $("#createPlaylistModal").modal('hide');
-        return false;    
-    });
-    $("#searchForm").submit(function(){
-      var keyword = $("#keyword").val();
+  $("#newPlaylistForm").submit(function(){
+      var playlistName = $("#pName").val();
+      var imagePath = $("#iPath").val();
+      var description = $("#pDesc").val();
       $.ajax({
-        url: "search",
-        type: "GET",
-        data:({
-               keyword: keyword
-            }),
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/search_results.jsp",function(){});
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; 
-    });
+          url: "createPlaylist",
+          type: "POST",
+          //Sends the necessary form parameters to the servlet
+          data:({
+             playlistName: playlistName,
+             imagePath: imagePath,
+             description: description
+          }),
+          success: function(){
+              console.log("Success creating playlist");
+              $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
+          },
+          error: function(){
+              console.log("Failure creating playlist");
+          }
+      });
+      $("#createPlaylistModal").modal('hide');
+      return false;    
+  });
     
+  $("#searchForm").submit(function(){
+    var keyword = $("#keyword").val();
+    $.ajax({
+      url: "search",
+      type: "GET",
+      data:({
+             keyword: keyword
+          }),
+      success:function(){
+          console.log("View success");
+          $("#center-pane").load("resources/pages/search_results.jsp",function(){});
+      },
+      error: function(){
+          console.log("View error");
+      }
+  });
+  return false; 
+  });
 });
+
 function addArtistAdmin(){
      var artistName = $("#artistName").val();
            var popularity = $("#popularity").val();
@@ -405,6 +406,8 @@ function cancelPremium(){
 }
 
 function playSong(songId,setType,songIndex){
+  var repeatTag = $("#repeatTag");
+  var shuffleTag = $("#shuffleTag");
   $.ajax({
     url: "playSong",
     type: "GET",
@@ -416,6 +419,11 @@ function playSong(songId,setType,songIndex){
     success: function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        var icon = $("#playPauseIcon")[0];
+        $(icon).removeClass("fa-play");
+        $(icon).addClass("fa-pause");
+        $("#repeatTag").replaceWith(repeatTag);
+        $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
         audio.play();
       });
@@ -428,6 +436,8 @@ function playSong(songId,setType,songIndex){
 }
 
 function playNext(){
+   var repeatTag = $("#repeatTag");
+   var shuffleTag = $("#shuffleTag");
   $.ajax({
     url:"playNext",
     type:"GET",
@@ -437,6 +447,11 @@ function playNext(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        var icon = $("#playPauseIcon")[0];
+        $(icon).removeClass("fa-play");
+        $(icon).addClass("fa-pause");
+        $("#repeatTag").replaceWith(repeatTag);
+        $("#shuffleTag").replaceWith(shuffleTag);
         audio.play();
         audio.addEventListener("timeupdate",updateProgress,false);
       });
@@ -449,6 +464,8 @@ function playNext(){
 }
 
 function playPrev(){
+   var repeatTag = $("#repeatTag");
+   var shuffleTag = $("#shuffleTag");
   $.ajax({
     url:"playPrev",
     type:"GET",
@@ -456,6 +473,11 @@ function playPrev(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        var icon = $("#playPauseIcon")[0];
+        $(icon).removeClass("fa-play");
+        $(icon).addClass("fa-pause");
+        $("#repeatTag").replaceWith(repeatTag);
+        $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
         audio.play();
       });
@@ -502,4 +524,50 @@ function viewUsers(){
     return false; // Makes sure that the link isn't followed
 }
 
+function toggleRepeat(){
+  var repeatTag = $("#repeatTag")[0];
+  var repeatIcon = $("#repeatButton")[0];
+  var setting;
+  if($(repeatTag).hasClass("repeatSet")){
+    if ($(repeatTag).hasClass("repeatSong") ){ //turning off repeat
+      repeatIcon.innerHTML="";
+      $(repeatTag).removeClass("repeatSet");
+      $(repeatTag).removeClass("repeatSong");
+      setting="repeatOff";
+    }
+    else{ //turning on repeat song
+      $(repeatTag).addClass("repeatSong");
+      repeatIcon.innerHTML=" - 1";
+      setting="repeatSong";
+    }
+  }
+  else{ //turning on repeat
+    $(repeatTag).addClass("repeatSet");
+    setting="repeatSet"
+  }
+  $.ajax({
+    url: "toggleRepeat",
+    type: "GET",
+    data: ({
+      setting: setting
+    }),
+    error: function(){
+      console.log("Couldn't change toggle");
+    } 
+  });
+  return false;
+}
+
+function toggleShuffle(){
+  var shuffleTag = $("#shuffleTag")[0];
+  if($(shuffleTag).hasClass("shuffleOn"))
+    $(shuffleTag).removeClass("shuffleOn");
+  else
+    $(shuffleTag).addClass("shuffleOn");
+  $.ajax({
+    url: "toggleShuffle",
+    type: "GET"
+  });
+  return false;
+}
 

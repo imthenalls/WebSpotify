@@ -18,7 +18,7 @@
     </div>
     <div class="col-xs-6" id="musicPlayer">
         <div class="row" id="musicControl">
-            <a href="#">
+            <a href="#" id="shuffleTag" onclick="toggleShuffle()">
                 <i id="shuffleSong" class="fa fa-random"></i>
             </a>
             <a href="#" onclick="playPrev()">
@@ -30,7 +30,7 @@
             <a href="#" onclick='playNext()'>
                 <i id="nextButton" class="fa fa-step-forward"></i>
             </a>
-            <a href="#">
+            <a href="#" id="repeatTag" onclick="toggleRepeat()">
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
         </div>
