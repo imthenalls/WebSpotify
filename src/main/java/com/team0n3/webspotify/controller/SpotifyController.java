@@ -1,4 +1,3 @@
-
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
@@ -379,17 +378,7 @@ public class SpotifyController {
     }
     session.setAttribute("currentSong",song);
   }
-  
-  @RequestMapping(value="/playNext",method=RequestMethod.GET)
-  @ResponseBody
-  public void playNext( HttpSession session){
-    Song song = player.getNextSong();
-    session.setAttribute("currentSong",song);
-  }
-  /*
-=======
 
->>>>>>> origin/master
   @RequestMapping(value="/playNext",method=RequestMethod.GET)
   @ResponseBody
   public void playNext(HttpSession session){
@@ -496,18 +485,6 @@ public class SpotifyController {
     }
   }
   
-<<<<<<< HEAD
-  @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
-  @ResponseBody
-  public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
-      String baseUrl = "http://lyrics.wikia.com/wiki/";
-      artistName = artistName.replace(' ', '_');
-      songName = songName.replace(' ', '_'); 
-      String url = baseUrl + artistName + ":"+ songName;
-      Document page = Jsoup.connect(url).timeout(6000).get();
-      Element lyrics = page.select("div.lyricbox").first();
-      return lyrics.toString();
-=======
   @RequestMapping( value = "/adminAddSong", method = RequestMethod.POST)
   @ResponseBody
   public void adminAddSong(@RequestParam String title, HttpSession session)
@@ -580,5 +557,17 @@ public class SpotifyController {
   @ResponseBody
   public void toggleShuffle(HttpSession session){
     player.toggleShuffle();
+  }
+  
+  @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
+  @ResponseBody
+  public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
+      String baseUrl = "http://lyrics.wikia.com/wiki/";
+      artistName = artistName.replace(' ', '_');
+      songName = songName.replace(' ', '_'); 
+      String url = baseUrl + artistName + ":"+ songName;
+      Document page = Jsoup.connect(url).timeout(6000).get();
+      Element lyrics = page.select("div.lyricbox").first();
+      return lyrics.toString();
   }
 }
