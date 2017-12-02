@@ -27,6 +27,10 @@ and open the template in the editor.
         <div id="leftTool">
           <%@include file="/resources/toolbars/left.jsp" %>
         </div>
+        <div class="col-xs-10 col-xs-offset-2" id="center-pane">
+              <!-- JQUERY LOADS COMPONENTS HERE -->
+        </div>
+        <!--
         <div class="container" style="text-align:center">
              <form class="form-artist" action="adminAddArtist" method="post" >
                 <h2 >Add an Artist </h2>
@@ -38,6 +42,7 @@ and open the template in the editor.
                 </div>
           </form>
         </div>
+        -->
       </div>
       <div id="bottomTool">
         <%@include file="/resources/toolbars/bottom.jsp" %>

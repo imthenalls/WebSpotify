@@ -2,110 +2,170 @@
 package com.team0n3.webspotify.model;
 
 import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.List;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class SongPlayer {
-    //album in it, or playlist
-    //current song
-    private int currentSongId;
+    private Song currentSong;
+  
+    public SongPlayer(){}
     
-    private Album currentAlbum;
-    private Playlist currentPlaylist;
+    private int position, shuffledPosition;
     
-    private int position;
+    private List<Song> queue = new ArrayList();
+    private List<Song> shuffledQueue = new ArrayList();
     
-    //get next song returns next song in queue
-    //spotify controller sets that as current song
-    //javascript reloads bottom toolbar with new information
-    //on succes, plays current song
-    
-    private LinkedList queue = new LinkedList<Song>();
-    private Queue shuffledQueue = new LinkedList<Song>();
-    
-    private boolean isRepeatSet;
-    private boolean isRepeatSong;
+    private boolean isRepeatSet=false;
+    private boolean isRepeatSong=false;
+    private boolean isShuffle=false;
     
     private int tailIndex;
-    
-    public SongPlayer(){
-        
-    }
-    
-    public SongPlayer( Playlist currentPlaylist, int currentSongId){
-        this.currentPlaylist = currentPlaylist;
-        this.currentSongId = currentSongId;
-        position = 0;
-    }
 
     public Song getNextSong(){
-      if(isRepeatSong) //if repeat is toggled, send back the same song
-        return (Song)queue.get(position);
-      
-      if(position == tailIndex){ //currently at last element of queue
-        if(isRepeatSet){
-          position = 0;
-          return (Song)queue.get(position);
+      if(isShuffle){
+        if(isRepeatSong){
+          currentSong = shuffledQueue.get(shuffledPosition);
+          return currentSong;
         }
-        else
-          return null;
+        if(shuffledPosition == tailIndex){
+          if(isRepeatSet){
+            shuffledPosition=0;
+            currentSong = shuffledQueue.get(shuffledPosition);
+            return currentSong;
+          }
+          else
+            return null;
+        }
+        else{
+          shuffledPosition++;
+          currentSong = shuffledQueue.get(shuffledPosition);
+          return currentSong;
+        }
       }
-      else{ //simply moving to next song in queue
-        position++;
-        return (Song)queue.get(position);
+      else{
+        if(isRepeatSong) //if repeat is toggled, send back the same song
+          return (Song)queue.get(position); 
+        if(position == tailIndex){ //currently at last element of queue
+          if(isRepeatSet){
+            position = 0;
+            currentSong = queue.get(position);
+            return currentSong;
+          }
+          else
+            return null;
+        }
+        else{ //simply moving to next song in queue
+          position++;
+          currentSong = queue.get(position);
+          return currentSong;
+        } 
       }
     }
 
     public Song getPrevSong(){
-      if(position == 0){ //if current song is first in set
-        if(isRepeatSet){ //if repeat is enabled, go to last song
-          position = tailIndex;
-          return (Song)queue.get(position);
+      if(isShuffle){
+        if(shuffledPosition == 0){
+          if(isRepeatSet){
+            shuffledPosition = tailIndex;
+            currentSong = shuffledQueue.get(shuffledPosition);
+            return currentSong;
+          }
+          else{
+            currentSong = shuffledQueue.get(shuffledPosition);
+            return currentSong;
+          }
         }
         else{
-          return (Song)queue.get(position); //restart song
+          shuffledPosition--;
+          currentSong = shuffledQueue.get(shuffledPosition);
+          return currentSong;
         }
       }
-      else{ //simply moving to prev song
-        position--;
-        return (Song)queue.get(position);
+      else{
+        if(position == 0){ //if current song is first in set
+          if(isRepeatSet){ //if repeat is enabled, go to last song
+            position = tailIndex;
+            currentSong = queue.get(position);
+            return currentSong;
+          }
+          else{
+            currentSong = queue.get(position);
+            return currentSong; //restart song
+          }
+        }
+        else{ //simply moving to prev song
+          position--;
+          currentSong = queue.get(position);
+          return currentSong;
+        }        
       }
     }
     
-    public int getCurrentSongId() {
-        return currentSongId;
+    public Song getCurrentSong() {
+        return currentSong;
     }
 
-    public void setCurrentSongId(int currentSongId) {
-        this.currentSongId = currentSongId;
+    public void setCurrentSong(Song currentSong) {
+        this.currentSong = currentSong;
     }
 
-    public Album getCurrentAlbum() {
-        return currentAlbum;
-    }
-
-    public void setCurrentAlbum(Album currentAlbum) {
-        this.currentAlbum = currentAlbum;
-    }
-
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
-    }
-
-    public void setCurrentPlaylist(Playlist currentPlaylist) {
-        this.currentPlaylist = currentPlaylist;
-    }
-   
-    public Queue getQueue(){
-      return queue;
+    public List<Song> getCorrectQueue(){
+      if(isShuffle)
+        return shuffledQueue;
+      else
+        return queue;
     }
     
-    public void setQueue(Collection<Song> songs,int songIndex){
-     queue.clear();
-     queue.addAll(songs);
-     tailIndex = queue.size()-1;
-     position = songIndex;
+    public void setQueues(Collection<Song> songs,int songIndex){
+      if(!queue.isEmpty()){
+        queue.clear();
+        shuffledQueue.clear(); 
+      }
+      queue.addAll(songs);
+      tailIndex = queue.size()-1;
+      position = songIndex;
+     
+      currentSong = queue.get(songIndex); //song that's about to be played
+    
+      shuffledQueue.addAll(songs);
+      Collections.shuffle(shuffledQueue);
+      System.out.println("Original shuffled queue" + shuffledQueue);
+      if(isShuffle){
+        int shift = shuffledQueue.indexOf(currentSong);
+        Collections.rotate(shuffledQueue,-shift);
+        System.out.println("Shifted shuffle" + shuffledQueue);
+      }
+      shuffledPosition=0;
     }
+
+  public void toggleRepeat(String setting) {
+    if(setting.equals("repeatOff")){
+      isRepeatSet=false;
+      isRepeatSong=false;
+    }
+    else if (setting.equals("repeatSong"))
+      isRepeatSong=true;
+    else //turning on repeat
+      isRepeatSet=true;
+  }
+  
+  public void toggleShuffle(){
+    isShuffle = !isShuffle;
+    
+    if(isShuffle){ //turning shuffle on
+      int shift = shuffledQueue.indexOf(currentSong);
+      shuffledPosition = 0;
+      System.out.println(currentSong.getTitle() + " " + shift);
+      Collections.rotate(shuffledQueue,-shift);
+      System.out.println("After toggle and shift" + shuffledQueue);
+    }
+    else{ //turning shuffle off
+      position = queue.indexOf(currentSong); //update the position in the queue
+      System.out.println("position" + position);
+    }
+  }
 }

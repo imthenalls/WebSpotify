@@ -19,7 +19,7 @@
       </div>
       <div class="row">
         <div class="dropdown">
-          <button class="btn btn-primary" id="playlistPlayButton">Play</button>
+          <button class="btn btn-primary" id="playlistPlayButton" onclick="playSong(${albumSongs[0].songId},'album',0)">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
           </button>
@@ -31,13 +31,13 @@
 <div class="row" id="tableContainer">
   <table class="table songTable">
     <tr>
-      <th>#</th>
-      <th>Title</th>
-      <th>Duration</th>
+      <th class="col-md-2">#</th>
+      <th class="col-md-8">Title</th>
+      <th class="col-md-2 durationColumn">Duration</th>
     </tr>
     <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
-        <td class="">
+        <td>
             <a class="playHide">
                 ${loop.index+1}
             </a>        
@@ -47,7 +47,7 @@
         </td>
         <td>${Song.title}</td>
         <td class="durationColumn">
-            <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
+            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>
             :
             <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
