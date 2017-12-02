@@ -25,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,8 +66,10 @@ public class SpotifyController {
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
     if(user==null){
+        session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
     }
+    
     if(user.getAccountType() == AccountType.Admin)
     {
         session.setAttribute("currentUser", user);
@@ -99,9 +102,21 @@ public class SpotifyController {
   }
 
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
-  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-    User user = userService.signup(username, password, email);
-    if(user==null){
+  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password,HttpSession session) {
+    String errorMessage = userService.signup(username, password, email);
+    if(errorMessage.equals("duplicate")){
+      session.setAttribute("duplicate",true);
+      session.setAttribute("invalidEmail",false);
+      return new ModelAndView("signup");
+    }
+    if(errorMessage.equals("invalidEmail")){
+      session.setAttribute("invalidEmail",true);
+      session.setAttribute("duplicate",false);
+      return new ModelAndView("signup");
+    }
+    if(errorMessage.equals("hashing")){
+      session.setAttribute("invalidEmail",false);
+      session.setAttribute("duplicate",false);
       return new ModelAndView("signup");
     }
     return new ModelAndView("redirect:/");

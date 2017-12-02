@@ -72,26 +72,26 @@ public class UserServiceHibernateImpl implements UserService{
 
   @Transactional(readOnly = false)
   @Override
-  public User signup(String username, String password, String email) {
+  public String signup(String username, String password, String email) {
     SecureRandom random = new SecureRandom();
     byte salt[] = new byte[12];
     MessageDigest md = null;
-    if(null != userDao.getUser(username)){
-      return null;
+    if(null != userDao.getUser(username)){  //account already exists with that email
+      return "duplicate";
     }
    try{
       InternetAddress internetAddress = new InternetAddress(email);
       internetAddress.validate();
-    }catch(Exception e){
-      return null;
+    }catch(Exception e){ //invalid email
+      return "invalidEmail";
     }
-    if(userDao.findByEmail(email)!=null){
-      return null;
+    if(userDao.findByEmail(email)!=null){ //account already exists with that email
+      return "duplicate";
     }
     try {
         md = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException ex) {
-      return null;
+      return "hashing";
     }
     random.nextBytes(salt);
     md.update(salt);
@@ -99,7 +99,7 @@ public class UserServiceHibernateImpl implements UserService{
     byte hashedPass[]=md.digest();
     User user= new User(username, email, hashedPass, salt);
     userDao.addUser(user);
-    return user;
+    return "noError";
   }
   
   @Override
