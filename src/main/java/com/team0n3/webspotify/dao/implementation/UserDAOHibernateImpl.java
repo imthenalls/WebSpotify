@@ -32,6 +32,9 @@ public class UserDAOHibernateImpl implements UserDAO{
     if(user!=null){
       Hibernate.initialize(user.getCreatedPlaylists());
       Hibernate.initialize(user.getFollowedPlaylists());
+      Hibernate.initialize(user.getFollowedAlbums());
+      Hibernate.initialize(user.getFollowedArtists());
+      Hibernate.initialize(user.getFollowedSongs());
     }
     return user;
   }

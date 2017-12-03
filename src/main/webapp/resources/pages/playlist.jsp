@@ -23,9 +23,7 @@
           ${currentPlaylist.description}
         </span>
       </div>
- 
-      
-        
+        <div class="dropdown">
           <button class="btn btn-primary" id="playlistPlayButton">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
@@ -47,8 +45,7 @@
               </ul> 
             </c:otherwise>
           </c:choose>
-        
-      
+        </div>
     </div>
   </div>
 </div>

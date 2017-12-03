@@ -28,7 +28,7 @@ $(document).ready(function(){
       var imagePath = $("#iPath").val();
       var description = $("#pDesc").val();
       $.ajax({
-          url: "createPlaylist",
+          url: "playlist/createPlaylist",
           type: "POST",
           //Sends the necessary form parameters to the servlet
           data:({
@@ -73,7 +73,7 @@ function addArtistAdmin(){
            var popularity = $("#popularity").val();
            var imagePath = $("imagePath").val();
            $.ajax({
-               url: "addArtistAdmin",
+               url: "artist/addArtistAdmin",
                type: "POST",
                data:({
                   artistName: artistName,
@@ -162,9 +162,7 @@ function viewEditProfile(){
 }
 
 function viewUpgradePage(){
-    $("#center-pane").load("/resources/pages/upgrade.jsp",function(){
-     
-    });
+    $("#center-pane").load("/resources/pages/upgrade.jsp");
 }
 
 function viewProfile(){
@@ -173,7 +171,7 @@ function viewProfile(){
 
 function viewPlaylist(id){
     $.ajax({
-        url: "viewPlaylist",
+        url: "playlist/viewPlaylist",
         type: "GET",
         data: ({
             playlistID: id
@@ -192,7 +190,7 @@ function viewPlaylist(id){
 
 function viewArtist(id){
   $.ajax({
-    url: "viewArtist",
+    url: "artist/viewArtist",
     type: "GET",
     data: ({
       artistID: id
@@ -212,7 +210,7 @@ function viewArtist(id){
 
 function viewAlbum(id){
     $.ajax({
-        url: "viewAlbum",
+        url: "album/viewAlbum",
         type: "GET",
         data: ({
             albumID: id
@@ -230,24 +228,12 @@ function viewAlbum(id){
 }
 
 function viewFollowedAlbums(){
-    $.ajax({
-        url: "viewFollowedAlbums",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/followedAlbums.jsp",function(){
-               
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed albums");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
+    $("#center-pane").load("/resources/pages/followedAlbums.jsp");
 }
 
 function viewAllArtists(){
     $.ajax({
-        url: "viewAllArtists",
+        url: "artist/viewAllArtists",
         type: "GET",
         success:function(){
             console.log("View success");
@@ -264,7 +250,7 @@ function viewAllArtists(){
 
 function viewAllPlaylists(){
     $.ajax({
-        url: "viewAllPlaylists",
+        url: "playlist/viewAllPlaylists",
         type: "GET",
         success:function(){
             console.log("View success");
@@ -281,7 +267,7 @@ function viewAllPlaylists(){
 
 function viewAllSongs(){
     $.ajax({
-        url: "viewAllSongs",
+        url: "song/viewAllSongs",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
@@ -296,7 +282,7 @@ function viewAllSongs(){
 
 function deletePlaylist(){
     $.ajax({
-        url: "deletePlaylist",
+        url: "playlist/deletePlaylist",
         type: "POST",
         data: ({}),
         success: function(){
@@ -315,7 +301,7 @@ function deletePlaylist(){
 
 function followPlaylist(playlist) {
   $.ajax({
-    url: "followPlaylist",
+    url: "playlist/followPlaylist",
     type: "POST",
     data: ({
       playlist: playlist,
@@ -334,7 +320,7 @@ function followPlaylist(playlist) {
 
 function unfollowPlaylist(playlist) {
   $.ajax({
-    url: "unfollowPlaylist",
+    url: "playlist/unfollowPlaylist",
     type: "POST",
     data: ({
       playlist: playlist,
@@ -353,7 +339,7 @@ function unfollowPlaylist(playlist) {
 
 function addSongToPlaylist(playlist, song) {
   $.ajax({
-    url: "addSongToPlaylist",
+    url: "playlist/addSongToPlaylist",
     type: "POST",
     data: ({
       playlist: playlist,
@@ -371,7 +357,7 @@ function addSongToPlaylist(playlist, song) {
 
 function deleteSongFromPlaylist(playlistId, songId){
     $.ajax({
-      url: "deleteSongFromPlaylist",
+      url: "playlist/deleteSongFromPlaylist",
       type: "POST",
       data: ({
         playlistId: playlistId,
@@ -409,7 +395,7 @@ function playSong(songId,setType,songIndex){
   var repeatTag = $("#repeatTag");
   var shuffleTag = $("#shuffleTag");
   $.ajax({
-    url: "playSong",
+    url: "songPlayer/playSong",
     type: "GET",
     data: ({
       songId: songId,
@@ -439,7 +425,7 @@ function playNext(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
   $.ajax({
-    url:"playNext",
+    url:"songPlayer/playNext",
     type:"GET",
     data:({
       
@@ -468,7 +454,7 @@ function playPrev(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
   $.ajax({
-    url:"playPrev",
+    url:"songPlayer/playPrev",
     type:"GET",
     data:({}),
     success:function(){
@@ -492,7 +478,7 @@ function playPrev(){
 
 function adminRemoveArtist(artistId){
     $.ajax({
-        url: "adminRemoveArtist",
+        url: "artist/adminRemoveArtist",
         type: "POST",
         data: ({
           artistId: artistId,
@@ -547,7 +533,7 @@ function toggleRepeat(){
     setting="repeatSet"
   }
   $.ajax({
-    url: "toggleRepeat",
+    url: "songPlayer/toggleRepeat",
     type: "GET",
     data: ({
       setting: setting
@@ -566,9 +552,47 @@ function toggleShuffle(){
   else
     $(shuffleTag).addClass("shuffleOn");
   $.ajax({
-    url: "toggleShuffle",
+    url: "songPlayer/toggleShuffle",
     type: "GET"
   });
   return false;
 }
+
+function followAlbum(albumId) {
+  $.ajax({
+    url: "album/followAlbum",
+    type: "POST",
+    data: ({
+      albumId: albumId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/album.jsp",function(){
+        console.log("Success following album");
+      });
+    },
+    error: function(){
+      console.log("Failure following album");
+    }
+  });
+  return false;
+};
+
+function unfollowAlbum(albumId) {
+  $.ajax({
+    url: "album/unfollowAlbum",
+    type: "POST",
+    data: ({
+      albumId: albumId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/album.jsp",function(){
+                console.log("Success unfollowing album");
+            });
+    },
+    error: function(){
+            console.log("Failure unfollowing album");
+    }
+  });
+  return false;
+};
 
