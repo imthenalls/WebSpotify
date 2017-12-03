@@ -186,4 +186,40 @@ public class SpotifyController {
     session.setAttribute("songList",searchSongs);
     session.setAttribute("playlistList", searchPlaylists);
   }
+  
+  @RequestMapping( value = "/adminViewUnapprovedUsers", method = RequestMethod.GET)
+  @ResponseBody
+  public void adminViewUnapprovedUsers(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+       List<User> allUsers = userService.listAllUsers();
+       List<User> unapprovedUsers = new ArrayList<>();
+       for(User u:allUsers){
+           if(u.getAccountType() == AccountType.Unapproved)
+           {
+               unapprovedUsers.add(u);
+               System.out.println(u.getUsername());
+           }
+       }
+       for(User u:unapprovedUsers){  
+         System.out.println(u.getUsername());  
+       }
+       session.setAttribute("unapprovedUsers",unapprovedUsers);
+    }
+  }
+  
+  @RequestMapping( value = "/adminApproveUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminApproveUser(@RequestParam String username, HttpSession session){
+      User user = (User)session.getAttribute("currentUser");
+      if(user.getAccountType() == AccountType.Admin){
+        userService.adminApproveFreeUser( user.getUsername(), username);
+        List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
+        User approvedUser = userService.getUser(username);
+        unapprovedUsers.remove(approvedUser);
+        session.setAttribute("unapprovedUsers",unapprovedUsers);
+      }     
+  }
 }
