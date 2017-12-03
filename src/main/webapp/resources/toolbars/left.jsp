@@ -29,6 +29,12 @@
         <li> 
             <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
         </li>
+         <li> 
+            <a data-toggle="tab" href="#" onclick="viewAdminAllAlbums()">Admin Albums</a>
+        </li>
+         <li> 
+            <a data-toggle="tab" href="#" onclick="adminViewUnapprovedUsers()">Admin Unapproved Users</a>
+        </li>
         <li> 
             <a data-toggle="tab" href="#">Artists</a>
         </li>

@@ -564,6 +564,23 @@ function adminRemoveSong(songId){
     });
     return false;
 }
+function adminRemoveAlbum(albumId){
+    $.ajax({
+        url: "adminRemoveAlbum",
+        type: "POST",
+        data: ({
+          albumId: albumId,
+        }),
+        success:function(){
+          console.log("Success deleting Album");
+              $("#center-pane").load("/resources/pages/allAlbums.jsp"); //change
+        },
+        error: function(){
+                console.log("Failure deleting Album");
+        }
+    });
+    return false;
+}
 
 function viewAdminAllSongs(){
     $.ajax({
@@ -580,6 +597,34 @@ function viewAdminAllSongs(){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewAdminAllAlbums(){
+    $.ajax({
+        url: "viewAdminAllAlbums",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allAlbums.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing admin all albums");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+function adminViewUnapprovedUsers(){
+    $.ajax({
+        url: "adminViewUnapprovedUsers",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing admin  unapproved users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
 function viewUsers(){
     $.ajax({
         url: "viewUsers",
