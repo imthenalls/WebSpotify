@@ -102,7 +102,7 @@ public class User implements Serializable{
     followedPlaylists=null;
     collabPlaylists=null;
     paymentInfo=null;
-    accountType=AccountType.Free;
+    accountType=AccountType.Unapproved;
   }
 
     public Collection<Song> getFollowedSongs() {
