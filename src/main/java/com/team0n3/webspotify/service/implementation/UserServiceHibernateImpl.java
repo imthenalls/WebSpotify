@@ -313,6 +313,9 @@ public class UserServiceHibernateImpl implements UserService{
       User user = userDao.getUser(username);
       if(user.getAccountType() == AccountType.Admin)
       {
+           Lock lock = new ReentrantLock();
+          
+          
           Playlist playlist = new Playlist(playlistName, imagePath, description, user);
           System.out.println(playlist.toString());
           playlistDao.addPlaylist(playlist);
@@ -325,6 +328,57 @@ public class UserServiceHibernateImpl implements UserService{
       User user = userDao.getUser(username);
       if(user.getAccountType() == AccountType.Admin)
       {
+          Lock lock = new ReentrantLock();
+          Collection<Playlist> allFollowedPlaylists = user.getFollowedPlaylists();
+          lock.lock();
+          try {
+              for(Playlist p : allFollowedPlaylists){
+                  if((p.getPlaylistID() == playlistId)){
+                      allFollowedPlaylists.remove(p);
+                      user.setFollowedPlaylists(allFollowedPlaylists);
+                      userDao.updateUser(user);
+                      break;
+                  }
+              }
+          } finally {
+              lock.unlock();
+          }
+          
+          Lock lock2 = new ReentrantLock();
+          Collection<Playlist> allCollabPlaylists = user.getCollabPlaylists();
+          lock2.lock();
+          try {
+              for(Playlist p : allCollabPlaylists){
+                  if((p.getPlaylistID() == playlistId)){
+                      allCollabPlaylists.remove(p);
+                      user.setCollabPlaylists(allCollabPlaylists);
+                      userDao.updateUser(user);
+                      break;
+                  }
+              }
+          } finally {
+              lock2.unlock();
+          }
+          
+          Lock lock3 = new ReentrantLock();
+          List<Song> allSongs = songDao.listSongs();
+          lock3.lock();
+          try {
+              for(Song s: allSongs){
+                  Collection<Playlist> inSongContained = s.getContainedInPlaylists();
+                  for(Playlist p : inSongContained){
+                      if((p.getPlaylistID() == playlistId)){
+                          inSongContained.remove(p);
+                          s.setContainedInPlaylists(inSongContained);
+                          songDao.updateSong(s);
+                          break;
+                      }
+                  }
+              }
+          } finally {
+              lock3.unlock();
+          }
+          
           Playlist playlist = playlistDao.getPlaylist(playlistId);
           System.out.println(playlist.toString());
           playlistDao.deletePlaylist(playlist);
@@ -355,6 +409,11 @@ public class UserServiceHibernateImpl implements UserService{
           songDao.deleteSong(song);
           //delete it from songs and albusm too?
       }
+  }
+  @Transactional(readOnly = false)
+  @Override
+  public void adminEditSong(String username, int songId){
+     
   }
   
   @Transactional(readOnly = false)

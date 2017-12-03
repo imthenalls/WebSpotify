@@ -268,7 +268,7 @@ function viewAllPlaylists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/followedPlaylists.jsp",function(){
+            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
                 console.log("Loaded playlists into center pane!");
             });
         },
@@ -502,6 +502,24 @@ function adminRemoveArtist(artistId){
         },
         error: function(){
                 console.log("Failure deleting artist");
+        }
+    });
+    return false;
+}
+
+function adminRemovePlaylist(playlistId){
+    $.ajax({
+        url: "adminRemovePlaylist",
+        type: "POST",
+        data: ({
+          playlistId: playlistId,
+        }),
+        success:function(){
+          console.log("Success deleting playlist");
+              $("#center-pane").load("/resources/pages/allPlaylists.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting playlist");
         }
     });
     return false;

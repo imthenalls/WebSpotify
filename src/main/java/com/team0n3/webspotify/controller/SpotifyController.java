@@ -46,6 +46,7 @@ public class SpotifyController {
   private ArtistService artistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
+  
   private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
   
@@ -411,6 +412,13 @@ public class SpotifyController {
     session.setAttribute("songList",searchSongs);
   }
   
+  @RequestMapping( value = "/viewAllArtists", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewAllArtists(HttpSession session){
+    List<Artist> allArtists = artistService.listAllArtists();
+    session.setAttribute("allArtists",allArtists);
+  }
+  
   @RequestMapping( value = "/adminAddArtist", method = RequestMethod.POST)
   @ResponseBody
   public void adminAddArtist(@RequestParam String artistName, @RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
@@ -423,14 +431,7 @@ public class SpotifyController {
         userService.adminAddArtist( user.getUsername(),  artistName, popularity,  imagePath);
     }
   }
-  
-  @RequestMapping( value = "/viewAllArtists", method = RequestMethod.GET)
-  @ResponseBody
-  public void viewAllArtists(HttpSession session){
-    List<Artist> allArtists = artistService.listAllArtists();
-    session.setAttribute("allArtists",allArtists);
-  }
-  
+
   @RequestMapping( value = "/adminRemoveArtist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveArtist(@RequestParam int artistId, HttpSession session){
