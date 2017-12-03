@@ -23,6 +23,18 @@
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
           </button>
+          <c:choose>
+            <c:when test = "${currentUser.isFollowingAlbum(currentAlbum)}">
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId})">Unfollow</a></li>
+              </ul>
+            </c:when>
+            <c:otherwise>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="followAlbum(${currentAlbum.albumId})">Follow</a></li>
+              </ul> 
+            </c:otherwise>
+          </c:choose>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@
     
     <div class="col-xs-3" id="playerSettings">
         <a href="#">
-            <i  id="lyrics" class="fa fa-book"></i>
+            <i id="lyrics" class="fa fa-book"></i>
         </a>
         <a href="#">
             <i id="queue" class="fa fa-list-ol"></i>

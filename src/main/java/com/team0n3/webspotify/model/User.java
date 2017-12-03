@@ -3,7 +3,9 @@ package com.team0n3.webspotify.model;
 
 import com.team0n3.webspotify.enums.AccountType;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -105,23 +107,21 @@ public class User implements Serializable{
     accountType=AccountType.Unapproved;
   }
 
-    public Collection<Song> getFollowedSongs() {
-        return followedSongs;
-    }
+  public Collection<Song> getFollowedSongs() {
+      return followedSongs;
+  }
 
-    public void setFollowedSongs(Collection<Song> followedSongs) {
-        this.followedSongs = followedSongs;
-    }
+  public void setFollowedSongs(Collection<Song> followedSongs) {
+      this.followedSongs = followedSongs;
+  }
 
-    public Collection<Album> getFollowedAlbums() {
-        return followedAlbums;
-    }
+  public Collection<Album> getFollowedAlbums() {
+      return followedAlbums;
+  }
 
-    public void setFollowedAlbums(Collection<Album> followedAlbums) {
-        this.followedAlbums = followedAlbums;
-    }
-
-  
+  public void setFollowedAlbums(Collection<Album> followedAlbums) {
+      this.followedAlbums = followedAlbums;
+  }
   
   public String getUsername() {
     return this.username;
@@ -201,6 +201,17 @@ public class User implements Serializable{
   public void setFollowedArtists(Collection<Artist> followedArtists) {
         this.followedArtists = followedArtists;
   }
+  
+  public boolean isFollowingAlbum(Album album){
+    List<Album> followedAlbumsAsList = new ArrayList<>();
+    followedAlbumsAsList.addAll(followedAlbums);
+    for (Album a : followedAlbumsAsList) {
+      if(a.getAlbumId()==album.getAlbumId())
+        return true;
+    }
+    return false;
+  }
+  
   @Override
   public String toString(){
     return "username="+username+", email="+email;
