@@ -98,6 +98,7 @@ public class UserServiceHibernateImpl implements UserService{
     md.update(password.getBytes());
     byte hashedPass[]=md.digest();
     User user= new User(username, email, hashedPass, salt);
+    user.setAccountType(AccountType.Unapproved);
     userDao.addUser(user);
     return "noError";
   }

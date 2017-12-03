@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.util.ArrayList;
 /**
  * Handles requests for the application home page.
  */
@@ -577,6 +577,25 @@ public class SpotifyController {
       User currentUser = (User)session.getAttribute("currentUser");
       userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
       session.setAttribute("allAlbums",allAlbums);
+    }
+  }
+  
+  @RequestMapping( value = "/adminViewUnapprovedUsers", method = RequestMethod.GET)
+  @ResponseBody
+  public void adminViewUnapprovedUsers(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+       List<User> allUsers = userService.listAllUsers();
+       List<User> unapprovedUsers = new ArrayList<>();
+       for(User u:allUsers){
+           if(u.getAccountType() == AccountType.Unapproved)
+           {
+               unapprovedUsers.add(u);
+           }
+       }
+       session.setAttribute("unapprovedUsers",unapprovedUsers);
     }
   }
   

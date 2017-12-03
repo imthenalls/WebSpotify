@@ -613,7 +613,20 @@ function viewAdminAllAlbums(){
     });
     return false; // Makes sure that the link isn't followed
 }
-
+function adminViewUnapprovedUsers(){
+    $.ajax({
+        url: "adminViewUnapprovedUsers",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing admin  unapproved users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
 function viewUsers(){
     $.ajax({
         url: "viewUsers",
