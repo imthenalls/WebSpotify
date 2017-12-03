@@ -114,8 +114,6 @@ function upgradeToPremium(){
     var cardHold = $("#cardHold").val();
     var cardNum = $("#cardNum").val();
     var ccv = $("#ccv").val();
-    //var month = parseInt($("#month").val());
-    //var year = parseInt($("#year").val());
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
     var monthYear = ($("#month").val());
