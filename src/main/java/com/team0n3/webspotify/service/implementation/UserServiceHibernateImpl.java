@@ -306,10 +306,6 @@ public class UserServiceHibernateImpl implements UserService{
           userDao.getUser(username).setFollowedArtists(userArtists);
           userDao.updateUser(userDao.getUser(username));
           artistDao.deleteArtist(artist);
-          
-         
-
-          //delete it from songs and albusm too?
       }
   }
   
@@ -319,9 +315,6 @@ public class UserServiceHibernateImpl implements UserService{
       User user = userDao.getUser(username);
       if(user.getAccountType() == AccountType.Admin)
       {
-           Lock lock = new ReentrantLock();
-          
-          
           Playlist playlist = new Playlist(playlistName, imagePath, description, user);
           System.out.println(playlist.toString());
           playlistDao.addPlaylist(playlist);
@@ -388,7 +381,6 @@ public class UserServiceHibernateImpl implements UserService{
           Playlist playlist = playlistDao.getPlaylist(playlistId);
           System.out.println(playlist.toString());
           playlistDao.deletePlaylist(playlist);
-          //delete it from songs and albusm too?
       }
   }
   
@@ -524,8 +516,44 @@ public class UserServiceHibernateImpl implements UserService{
       {
           Album album = albumDao.getAlbum(albumId);
           System.out.println(album.toString());
+          Lock lock = new ReentrantLock();
+          Lock lock1 = new ReentrantLock();
+          List<User> allUsers = userDao.listUsers();
+          List<Artist> allArtists = artistDao.listArtists();
+          
+          lock.lock();
+          try {
+            for(User u: allUsers){
+              Collection<Album> followedAlbumsInUser = u.getFollowedAlbums();
+              for(Album a:followedAlbumsInUser){
+                if(a.getAlbumId() == albumId){
+                  followedAlbumsInUser.remove(a);
+                  u.setFollowedAlbums(followedAlbumsInUser);
+                  userDao.updateUser(u);
+                  break;
+                }
+              }
+            }
+          }finally {
+              lock.unlock();
+          }          
+          lock1.lock();
+          try {
+            for(Artist art: allArtists){
+              Collection<Album> followedAlbumsInArtist = art.getAlbums();
+              for(Album a1:followedAlbumsInArtist){
+                if(a1.getAlbumId() == albumId){
+                  followedAlbumsInArtist.remove(a1);
+                  art.setAlbums(followedAlbumsInArtist);
+                  artistDao.updateArtist(art);
+                  break;
+                }
+              }
+            }
+          }finally {
+              lock1.unlock();
+          }
           albumDao.deleteAlbum(album);
-          //delete it from songs and albusm too?
       }
   }
   

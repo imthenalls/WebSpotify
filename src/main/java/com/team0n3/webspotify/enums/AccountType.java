@@ -13,5 +13,6 @@ public enum AccountType {
   Free,
   Premium,
   Artist,
-  Admin
+  Admin,
+  Unapproved
 }
