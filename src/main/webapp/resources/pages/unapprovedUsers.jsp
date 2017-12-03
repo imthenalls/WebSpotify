@@ -28,11 +28,11 @@
     </tr>
     <c:forEach items="${unapprovedUsers}" var="User">
         <tr class="tableRow">
-        <td><a href="#" ${User.username}</a></td>
+            <td><a href="#"> ${User.username}</a></td>
          <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">
              <td>
-                <div class="dropdown">
+             <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
                       Options
                       <span class="caret"></span>

@@ -42,7 +42,7 @@ and open the template in the editor.
                     <input id='iPath' name="imagePath" class="row" type="file" accept="image/*">
                   </div>
                   <div class="col-xs-6">
-                    <input id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here.">
+                    <textarea id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here."></textarea>
                   </div>
                   <input type="submit" value="Submit">
                 </div>
