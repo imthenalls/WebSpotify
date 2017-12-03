@@ -17,7 +17,6 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     
     $(document).on('mousedown','#progress', scrub);
-    
     //for the search links
     $(document).on('click', '.album-card-search', function(){
         viewAlbum($(this).attr("albumId"));
@@ -33,12 +32,9 @@ $(document).ready(function(){
     function playBack(){
         audio = $("#audio")[0];
         audio.addEventListener("timeupdate",updateProgress,false);
-        console.log("hmm");
-        //audio.controls=false;
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
     function scrub(event){
-        console.log("yay");
         if(!audio.ended){
             var mousex  = event.pageX - (progress.offsetLeft*3);
             var newtime = mousex * (audio.duration/$(progress).width());
@@ -118,11 +114,14 @@ function upgradeToPremium(){
     var cardHold = $("#cardHold").val();
     var cardNum = $("#cardNum").val();
     var ccv = $("#ccv").val();
-    var month = parseInt($("#month").val());
-    var year = parseInt($("#year").val());
+    //var month = parseInt($("#month").val());
+    //var year = parseInt($("#year").val());
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
-    console.log(typeof month);
+    var monthYear = ($("#month").val());
+    var dateData = monthYear.split(" "); 
+    var month = parseInt(dateData[0]);
+    var year = parseInt(dateData[2]);
     $.ajax({
        url: "upgradeToPremium",
        type: "POST",
