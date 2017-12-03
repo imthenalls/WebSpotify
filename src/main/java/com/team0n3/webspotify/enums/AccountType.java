@@ -9,10 +9,10 @@ package com.team0n3.webspotify.enums;
  *
  * @author spike
  */
+
 public enum AccountType {
   Free,
   Premium,
-  Artist,
   Admin,
-  Unapproved
+  Unapproved,
 }

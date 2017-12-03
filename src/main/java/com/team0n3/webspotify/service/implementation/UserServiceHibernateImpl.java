@@ -101,6 +101,12 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.addUser(user);
     return "noError";
   }
+  @Override
+  @Transactional(readOnly=true)
+   public User getUser(String username){
+       User user = userDao.getUser(username);
+       return user;
+   }
   
   @Override
   @Transactional(readOnly=false)
@@ -573,5 +579,17 @@ public class UserServiceHibernateImpl implements UserService{
   @Override
   public void artistCheckRoyalties(String username, int artistId){
       
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminApproveFreeUser(String username,String approve){
+    User user = userDao.getUser(username);
+    if(user.getAccountType() == AccountType.Admin)
+    {
+      User userToApprove = userDao.getUser(approve);
+      userToApprove.setAccountType(AccountType.Free);
+      userDao.updateUser(userToApprove);
+    }
   }
 }
