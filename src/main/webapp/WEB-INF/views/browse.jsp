@@ -17,6 +17,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!-- Custom Theme CSS -->
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/card.css">
   </head>
   <body>
     <div>
@@ -86,6 +88,7 @@ and open the template in the editor.
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
     
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
+    
     <!-- Script to display images-->
     <script>
       $(function () {

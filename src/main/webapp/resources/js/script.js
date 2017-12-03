@@ -15,14 +15,37 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
+    //admin aprpoval
+    $(document).on('click','.unapproved-users', function(){
+        adminApproveUser($(this).attr("username"));
+    });
+    $(document).on('mousedown','#progress', scrub);
+    //for the search links
+    $(document).on('click', '.album-card-search', function(){
+        viewAlbum($(this).attr("albumId"));
+    });
     
+    $(document).on('click', '.artist-card-search', function(){
+        viewArtist($(this).attr("artistId"));
+    });
+    
+    $(document).on('click', '.song-row-search', function(){
+        viewAlbum($(this).attr("albumId"));
+    });
     function playBack(){
         audio = $("#audio")[0];
         audio.addEventListener("timeupdate",updateProgress,false);
-        //audio.controls=false;
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    
+    function scrub(event){
+        if(!audio.ended){
+            var mousex  = event.pageX - (progress.offsetLeft*3);
+            var newtime = mousex * (audio.duration/$(progress).width());
+            audio.currentTime = newtime;
+            //audio.setAttribute('currentTime', newtime);
+            songbar.style.width = parseInt(newtime/audio.duration) + "%";
+        }
+    }
   $("#newPlaylistForm").submit(function(){
       var playlistName = $("#pName").val();
       var imagePath = $("#iPath").val();
@@ -94,11 +117,14 @@ function upgradeToPremium(){
     var cardHold = $("#cardHold").val();
     var cardNum = $("#cardNum").val();
     var ccv = $("#ccv").val();
-    var month = parseInt($("#month").val());
-    var year = parseInt($("#year").val());
+    //var month = parseInt($("#month").val());
+    //var year = parseInt($("#year").val());
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
-    console.log(typeof month);
+    var monthYear = ($("#month").val());
+    var dateData = monthYear.split(" "); 
+    var month = parseInt(dateData[0]);
+    var year = parseInt(dateData[2]);
     $.ajax({
        url: "upgradeToPremium",
        type: "POST",
@@ -254,7 +280,7 @@ function viewAllPlaylists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/followedPlaylists.jsp",function(){
+            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
                 console.log("Loaded playlists into center pane!");
             });
         },
@@ -489,6 +515,123 @@ function adminRemoveArtist(artistId){
         },
         error: function(){
                 console.log("Failure deleting artist");
+        }
+    });
+    return false;
+}
+
+function adminRemovePlaylist(playlistId){
+    $.ajax({
+        url: "adminRemovePlaylist",
+        type: "POST",
+        data: ({
+          playlistId: playlistId,
+        }),
+        success:function(){
+          console.log("Success deleting playlist");
+              $("#center-pane").load("/resources/pages/allPlaylists.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting playlist");
+        }
+    });
+    return false;
+}
+
+function adminRemoveSong(songId){
+    $.ajax({
+        url: "adminRemoveSong",
+        type: "POST",
+        data: ({
+          songId: songId,
+        }),
+        success:function(){
+          console.log("Success deleting song");
+              $("#center-pane").load("/resources/pages/allSongs.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting song");
+        }
+    });
+    return false;
+}
+function adminRemoveAlbum(albumId){
+    $.ajax({
+        url: "adminRemoveAlbum",
+        type: "POST",
+        data: ({
+          albumId: albumId,
+        }),
+        success:function(){
+          console.log("Success deleting Album");
+              $("#center-pane").load("/resources/pages/allAlbums.jsp"); //change
+        },
+        error: function(){
+                console.log("Failure deleting Album");
+        }
+    });
+    return false;
+}
+
+function viewAdminAllSongs(){
+    $.ajax({
+        url: "viewAdminAllSongs",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing followed songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function viewAdminAllAlbums(){
+    $.ajax({
+        url: "viewAdminAllAlbums",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allAlbums.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing admin all albums");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function adminViewUnapprovedUsers(){
+    $.ajax({
+        url: "adminViewUnapprovedUsers",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing admin  unapproved users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function adminApproveUser(username){
+    console.log("asdasdasdasdasdasd");
+    $.ajax({
+        url: "adminApproveUser",
+        type: "POST",
+        data: ({
+          username: username,
+        }),
+        success:function(){
+          console.log("Success approving user");
+              $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
+        },
+        error: function(){
+                console.log("Failure approving user");
         }
     });
     return false;

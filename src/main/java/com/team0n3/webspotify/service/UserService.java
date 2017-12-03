@@ -18,7 +18,7 @@ public interface UserService {
   public void unfollowPlaylist(String userId, int playlistId);
   
   public List<User> listAllUsers();
-
+  public User getUser(String username);
   public List<User> search(String keyword);
   public void followArtist(String userId, int artistId);
   public void unfollowArtist(String userId, int artistId);
@@ -29,12 +29,14 @@ public interface UserService {
   public void adminAddArtist(String username, String artistName,int popularity, String imagePath);
   public void adminRemoveArtist(String username, int artistId);
   public void adminAddPlaylist( String username, String playlistName,String imagePath, String description);
-  public void adminRemovePlaylist(String username, int artistId);
+  public void adminRemovePlaylist(String username, int playlistId);
   public void adminAddSong( String username, String title );
   public void adminRemoveSong(String username, int songId);
+   public void adminEditSong(String username, int songId);
   public void adminAddAlbum( String username, String albumName, int popularity, String imagePath );
   public void adminRemoveAlbum(String username, int albumId);
   public void adminEditArtistBio(String username, int artistId);
   public void artistCheckSongMetrics(String username, int artistId);
   public void artistCheckRoyalties(String username, int artistId);
+  public void adminApproveFreeUser(String username,String approve);
 }

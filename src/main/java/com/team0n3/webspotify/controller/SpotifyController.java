@@ -13,7 +13,7 @@ import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
-import java.util.ArrayList;
+import com.team0n3.webspotify.service.PlaylistService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.util.ArrayList;
 /**
  * Handles requests for the application home page.
  */
@@ -38,6 +38,8 @@ public class SpotifyController {
   private AlbumService albumService;
   @Autowired
   private ArtistService artistService;
+  @Autowired
+  private PlaylistService playlistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
  
@@ -60,11 +62,6 @@ public class SpotifyController {
     {
         session.setAttribute("currentUser", user);
         ModelAndView model= new ModelAndView("redirect:/viewAdminBrowse");
-        return model;   
-    }else if(user.getAccountType() == AccountType.Artist)
-    {
-        session.setAttribute("currentUser", user);
-        ModelAndView model = new ModelAndView("redirect:/viewBrowse");
         return model;   
     }
     List<Playlist> createdPlaylists = new ArrayList<>();
@@ -182,9 +179,11 @@ public class SpotifyController {
     List<Album> searchAlbums = albumService.search(keyword);
     List<Artist> searchArtists = artistService.search(keyword);
     List<Song> searchSongs = songService.search(keyword);
+    List<Playlist> searchPlaylists = playlistService.search(keyword);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
+    session.setAttribute("playlistList", searchPlaylists);
   }
 }

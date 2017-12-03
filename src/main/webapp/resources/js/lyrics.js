@@ -1,4 +1,4 @@
-$('#lyrics').click(function(){
+$(document).on('click','#lyrics', function(){
     $.ajax({
     type : 'GET',
     url : 'getLyrics',

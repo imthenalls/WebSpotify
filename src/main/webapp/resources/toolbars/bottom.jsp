@@ -40,7 +40,7 @@
             <div class="col-xs-3" id="currentTime">
                 0:00
             </div>
-            <div class="progress col-xs-6">
+            <div id ="progress" class="progress col-xs-6">
                 <div class="progress-bar" role="progressbar" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100" style="width:0%">
                   <span class="sr-only"></span>
