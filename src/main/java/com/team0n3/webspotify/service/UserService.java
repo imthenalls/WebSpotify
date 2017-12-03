@@ -18,7 +18,7 @@ public interface UserService {
   public void unfollowPlaylist(String userId, int playlistId);
   
   public List<User> listAllUsers();
-
+  public User getUser(String username);
   public List<User> search(String keyword);
   public void followArtist(String userId, int artistId);
   public void unfollowArtist(String userId, int artistId);
@@ -38,4 +38,5 @@ public interface UserService {
   public void adminEditArtistBio(String username, int artistId);
   public void artistCheckSongMetrics(String username, int artistId);
   public void artistCheckRoyalties(String username, int artistId);
+  public void adminApproveFreeUser(String username,String approve);
 }

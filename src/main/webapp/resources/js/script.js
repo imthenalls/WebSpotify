@@ -15,7 +15,10 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
-    
+    //admin aprpoval
+    $(document).on('click','.unapproved-users', function(){
+        adminApproveUser($(this).attr("username"));
+    });
     $(document).on('mousedown','#progress', scrub);
     //for the search links
     $(document).on('click', '.album-card-search', function(){
@@ -613,6 +616,7 @@ function viewAdminAllAlbums(){
     });
     return false; // Makes sure that the link isn't followed
 }
+
 function adminViewUnapprovedUsers(){
     $.ajax({
         url: "adminViewUnapprovedUsers",
@@ -627,6 +631,26 @@ function adminViewUnapprovedUsers(){
     });
     return false; // Makes sure that the link isn't followed
 }
+
+function adminApproveUser(username){
+    console.log("asdasdasdasdasdasd");
+    $.ajax({
+        url: "adminApproveUser",
+        type: "POST",
+        data: ({
+          username: username,
+        }),
+        success:function(){
+          console.log("Success approving user");
+              $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
+        },
+        error: function(){
+                console.log("Failure approving user");
+        }
+    });
+    return false;
+}
+
 function viewUsers(){
     $.ajax({
         url: "viewUsers",
