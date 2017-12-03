@@ -8,11 +8,16 @@ import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class ArtistDAOHibernateImpl implements ArtistDAO{
     
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Value("${artist.maxResult}")
+    private int maxResults;
+    
     public ArtistDAOHibernateImpl(SessionFactory sessionFactory){
         this.sessionFactory=sessionFactory;
     }
@@ -50,6 +55,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     public List<Artist> search(String keyword){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
     c.add(Restrictions.like("artistName", "%"+keyword+"%"));
+    c.setMaxResults(maxResults);
     return c.list();
   }
 

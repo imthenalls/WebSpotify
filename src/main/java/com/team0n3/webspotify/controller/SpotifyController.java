@@ -1,4 +1,3 @@
-
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
@@ -16,12 +15,17 @@ import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,8 +67,10 @@ public class SpotifyController {
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
     if(user==null){
+        session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
     }
+    
     if(user.getAccountType() == AccountType.Admin)
     {
         session.setAttribute("currentUser", user);
@@ -97,9 +103,21 @@ public class SpotifyController {
   }
 
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
-  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-    User user = userService.signup(username, password, email);
-    if(user==null){
+  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password,HttpSession session) {
+    String errorMessage = userService.signup(username, password, email);
+    if(errorMessage.equals("duplicate")){
+      session.setAttribute("duplicate",true);
+      session.setAttribute("invalidEmail",false);
+      return new ModelAndView("signup");
+    }
+    if(errorMessage.equals("invalidEmail")){
+      session.setAttribute("invalidEmail",true);
+      session.setAttribute("duplicate",false);
+      return new ModelAndView("signup");
+    }
+    if(errorMessage.equals("hashing")){
+      session.setAttribute("invalidEmail",false);
+      session.setAttribute("duplicate",false);
       return new ModelAndView("signup");
     }
     return new ModelAndView("redirect:/");
@@ -406,10 +424,12 @@ public class SpotifyController {
     List<Album> searchAlbums = albumService.search(keyword);
     List<Artist> searchArtists = artistService.search(keyword);
     List<Song> searchSongs = songService.search(keyword);
+    List<Playlist> searchPlaylists = playlistService.search(keyword);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
+    session.setAttribute("playlistList",searchPlaylists);
   }
   
   @RequestMapping( value = "/viewAllArtists", method = RequestMethod.GET)
@@ -555,5 +575,17 @@ public class SpotifyController {
   @ResponseBody
   public void toggleShuffle(HttpSession session){
     player.toggleShuffle();
+  }
+  
+  @RequestMapping( value = "/getLyrics", method = RequestMethod.GET)
+  @ResponseBody
+  public String getLyrics(@RequestParam String artistName, @RequestParam String songName, HttpSession session) throws IOException{
+      String baseUrl = "http://lyrics.wikia.com/wiki/";
+      artistName = artistName.replace(' ', '_');
+      songName = songName.replace(' ', '_'); 
+      String url = baseUrl + artistName + ":"+ songName;
+      Document page = Jsoup.connect(url).timeout(6000).get();
+      Element lyrics = page.select("div.lyricbox").first();
+      return lyrics.toString();
   }
 }

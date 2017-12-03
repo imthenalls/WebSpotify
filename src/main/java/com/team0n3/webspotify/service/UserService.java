@@ -9,7 +9,7 @@ public interface UserService {
   
   public User login(String username, String password);
   
-  public User signup(String username, String password, String email);
+  public String signup(String username, String password, String email);
   
   public List<Playlist> getCreatedPlaylists(String username);
   
