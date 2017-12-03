@@ -20,6 +20,9 @@
           <a data-toggle="tab" href="#" onclick="viewAllSongs()">Songs</a>
         </li>
         <li> 
+          <a data-toggle="tab" href="#" onclick="viewAdminAllSongs()">Admin Songs</a>
+        </li>
+        <li> 
           <a data-toggle="tab" href="#" onclick="viewAllArtists()">All Artists</a>
         </li>
 

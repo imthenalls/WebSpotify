@@ -550,6 +550,39 @@ function adminRemovePlaylist(playlistId){
     return false;
 }
 
+function adminRemoveSong(songId){
+    $.ajax({
+        url: "adminRemoveSong",
+        type: "POST",
+        data: ({
+          songId: songId,
+        }),
+        success:function(){
+          console.log("Success deleting song");
+              $("#center-pane").load("/resources/pages/allSongs.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting song");
+        }
+    });
+    return false;
+}
+
+function viewAdminAllSongs(){
+    $.ajax({
+        url: "viewAdminAllSongs",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing followed songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function viewUsers(){
     $.ajax({
         url: "viewUsers",

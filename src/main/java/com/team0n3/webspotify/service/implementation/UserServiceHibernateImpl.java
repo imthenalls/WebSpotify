@@ -245,6 +245,7 @@ public class UserServiceHibernateImpl implements UserService{
                       contains.removeAll(contains);
                       s.setContainedInPlaylists(contains);
                       songDao.mergeSong(s);
+                      break;
                   }
               }
           } finally {
@@ -271,6 +272,7 @@ public class UserServiceHibernateImpl implements UserService{
                       userDao.getUser(username).setFollowedSongs(userSongs);
                       userDao.updateUser(userDao.getUser(username));
                       songDao.deleteSong(s);
+                      break;
                   }
               }
           } finally {
@@ -292,6 +294,7 @@ public class UserServiceHibernateImpl implements UserService{
                       artistDao.updateArtist(artist);
                       
                       albumDao.deleteAlbum(a);
+                      break;
                   }
               }
               
@@ -407,12 +410,94 @@ public class UserServiceHibernateImpl implements UserService{
       User user = userDao.getUser(username);
       if(user.getAccountType() == AccountType.Admin)
       {
+          Lock lock = new ReentrantLock();
+          Lock lock1 = new ReentrantLock();
+          Lock lock2 = new ReentrantLock();
+          Lock lock3 = new ReentrantLock();
           Song song = songDao.getSong(songId);
-          System.out.println(song.toString());
+          System.out.println(song.toString());   
+          
+          List<User> allUsers = userDao.listUsers();
+          lock.lock();
+          try {
+            for(User u: allUsers){
+              Collection<Song> followedSongsInUser = u.getFollowedSongs();
+              for(Song s:followedSongsInUser){
+                if(s.getSongId() == songId){
+                  followedSongsInUser.remove(s);
+                  u.setFollowedSongs(followedSongsInUser);
+                  userDao.updateUser(u);
+                  break;
+                }
+              }
+            }
+          }finally {
+              lock.unlock();
+          }
+          
+          List<Playlist> allPlaylists = playlistDao.listPlaylists();
+          lock1.lock();
+          try{
+            for(Playlist p:allPlaylists){
+                Collection<Song> songsInP = p.getSongs();
+                for(Song s1:songsInP)
+                {
+                  if(s1.getSongId() == songId){
+                    songsInP = p.getSongs();
+                    songsInP.remove(s1);
+                    p.setSongs(songsInP);
+                    playlistDao.updatePlaylist(p);
+                    break;
+                  }
+                }
+            }
+          }finally{
+              lock1.unlock();
+          }
+          
+          List<Artist> allArtists = artistDao.listArtists();
+          lock2.lock();
+          try{
+            for(Artist a:allArtists){
+                Collection<Song> songsInA = a.getSongs();
+                for(Song s2:songsInA)
+                {
+                  if(s2.getSongId() == songId){
+                    songsInA = a.getSongs();
+                    songsInA.remove(s2);
+                    a.setSongs(songsInA);
+                    artistDao.updateArtist(a);
+                    break;
+                  }
+                }
+            }
+          }finally{
+              lock2.unlock();
+          }
+          
+          List<Album> allAlbums = albumDao.listAlbums();
+          lock3.lock();
+          try{
+            for(Album al:allAlbums){
+                Collection<Song> songsInAl = al.getSongs();
+                for(Song s3:songsInAl)
+                {
+                  if(s3.getSongId() == songId){
+                    songsInAl = al.getSongs();
+                    songsInAl.remove(s3);
+                    al.setSongs(songsInAl);
+                    albumDao.updateAlbum(al);
+                    break;
+                  }
+                }
+            }
+          }finally{
+              lock3.unlock();
+          }
           songDao.deleteSong(song);
-          //delete it from songs and albusm too?
       }
   }
+  
   @Transactional(readOnly = false)
   @Override
   public void adminEditSong(String username, int songId){

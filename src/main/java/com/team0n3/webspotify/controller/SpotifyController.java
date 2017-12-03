@@ -335,7 +335,13 @@ public class SpotifyController {
     List<Song> followSongs = songService.listAllSongs();
     session.setAttribute("songList",followSongs);
   }
-  
+  @RequestMapping(value = "/viewAdminAllSongs", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewAdminAllSongs(HttpSession session){
+    /** CURRENTLY VIEWS ALL SONGS **/
+    List<Song> followSongs = songService.listAllSongs();
+    session.setAttribute("allSongs",followSongs);
+  }
   @RequestMapping(value = "/viewFollowedAlbums", method= RequestMethod.GET)
   @ResponseBody
   public void viewFollowedAlbums(HttpSession session){
