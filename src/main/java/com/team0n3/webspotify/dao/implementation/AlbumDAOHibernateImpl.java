@@ -9,11 +9,15 @@ import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class AlbumDAOHibernateImpl implements AlbumDAO{
   
   @Autowired
   private SessionFactory sessionFactory;
+  
+  @Value("${album.maxResult}")
+  private int maxResults;
   
   public AlbumDAOHibernateImpl(SessionFactory sessionFactory){
     this.sessionFactory=sessionFactory;
@@ -27,7 +31,7 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
   @Override
   public Album getAlbum(int albumId){
     Album album = (Album)sessionFactory.getCurrentSession().get(Album.class,albumId);
-    Hibernate.initialize(album.getSongs());//eager
+    Hibernate.initialize(album.getSongs());
     return album;
   }
 
@@ -47,10 +51,11 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
     sessionFactory.getCurrentSession().update(album);
   }
   
-    @Override
+  @Override
   public List<Album> search(String keyword){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Album.class);
     c.add(Restrictions.like("albumName", "%"+keyword+"%"));
+    c.setMaxResults(maxResults);
     return c.list();
   }
 

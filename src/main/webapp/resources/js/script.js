@@ -291,7 +291,7 @@ function viewAllPlaylists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/followedPlaylists.jsp",function(){
+            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
                 console.log("Loaded playlists into center pane!");
             });
         },
@@ -529,6 +529,57 @@ function adminRemoveArtist(artistId){
         }
     });
     return false;
+}
+
+function adminRemovePlaylist(playlistId){
+    $.ajax({
+        url: "adminRemovePlaylist",
+        type: "POST",
+        data: ({
+          playlistId: playlistId,
+        }),
+        success:function(){
+          console.log("Success deleting playlist");
+              $("#center-pane").load("/resources/pages/allPlaylists.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting playlist");
+        }
+    });
+    return false;
+}
+
+function adminRemoveSong(songId){
+    $.ajax({
+        url: "adminRemoveSong",
+        type: "POST",
+        data: ({
+          songId: songId,
+        }),
+        success:function(){
+          console.log("Success deleting song");
+              $("#center-pane").load("/resources/pages/allSongs.jsp");
+        },
+        error: function(){
+                console.log("Failure deleting song");
+        }
+    });
+    return false;
+}
+
+function viewAdminAllSongs(){
+    $.ajax({
+        url: "viewAdminAllSongs",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing followed songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
 }
 
 function viewUsers(){

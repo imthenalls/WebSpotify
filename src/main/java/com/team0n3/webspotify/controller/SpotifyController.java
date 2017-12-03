@@ -50,6 +50,7 @@ public class SpotifyController {
   private ArtistService artistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
+  
   private List<Playlist> createdPlaylists = new ArrayList<Playlist>();
   private List<Playlist> followedPlaylists = new ArrayList<Playlist>();
   
@@ -334,7 +335,13 @@ public class SpotifyController {
     List<Song> followSongs = songService.listAllSongs();
     session.setAttribute("songList",followSongs);
   }
-  
+  @RequestMapping(value = "/viewAdminAllSongs", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewAdminAllSongs(HttpSession session){
+    /** CURRENTLY VIEWS ALL SONGS **/
+    List<Song> followSongs = songService.listAllSongs();
+    session.setAttribute("allSongs",followSongs);
+  }
   @RequestMapping(value = "/viewFollowedAlbums", method= RequestMethod.GET)
   @ResponseBody
   public void viewFollowedAlbums(HttpSession session){
@@ -423,10 +430,19 @@ public class SpotifyController {
     List<Album> searchAlbums = albumService.search(keyword);
     List<Artist> searchArtists = artistService.search(keyword);
     List<Song> searchSongs = songService.search(keyword);
+    List<Playlist> searchPlaylists = playlistService.search(keyword);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
+    session.setAttribute("playlistList",searchPlaylists);
+  }
+  
+  @RequestMapping( value = "/viewAllArtists", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewAllArtists(HttpSession session){
+    List<Artist> allArtists = artistService.listAllArtists();
+    session.setAttribute("allArtists",allArtists);
   }
   
   @RequestMapping( value = "/adminAddArtist", method = RequestMethod.POST)
@@ -441,14 +457,7 @@ public class SpotifyController {
         userService.adminAddArtist( user.getUsername(),  artistName, popularity,  imagePath);
     }
   }
-  
-  @RequestMapping( value = "/viewAllArtists", method = RequestMethod.GET)
-  @ResponseBody
-  public void viewAllArtists(HttpSession session){
-    List<Artist> allArtists = artistService.listAllArtists();
-    session.setAttribute("allArtists",allArtists);
-  }
-  
+
   @RequestMapping( value = "/adminRemoveArtist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveArtist(@RequestParam int artistId, HttpSession session){

@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -38,6 +40,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.team0n3.webspotify")
+@PropertySource("classpath:constants.properties")
 @EnableTransactionManagement
 public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
   
@@ -59,6 +62,11 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     return dataSource;
   }
 
+  @Bean
+  public static PropertySourcesPlaceholderConfigurer
+    propertySourcesPlaceholderConfigurer() {
+    return new PropertySourcesPlaceholderConfigurer();
+  }
   @Autowired
   @Bean(name = "sessionFactory")
   public SessionFactory getSessionFactory(DataSource dataSource) {

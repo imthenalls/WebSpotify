@@ -20,8 +20,12 @@
           <a data-toggle="tab" href="#" onclick="viewAllSongs()">Songs</a>
         </li>
         <li> 
+          <a data-toggle="tab" href="#" onclick="viewAdminAllSongs()">Admin Songs</a>
+        </li>
+        <li> 
           <a data-toggle="tab" href="#" onclick="viewAllArtists()">All Artists</a>
         </li>
+
         <li> 
             <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
         </li>
@@ -32,7 +36,7 @@
             <a data-toggle="tab" href="#">Stations</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">Followed Playlists</a>
+            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">ALL Playlists</a>
         </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
