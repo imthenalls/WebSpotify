@@ -42,7 +42,7 @@
             <a data-toggle="tab" href="#">Stations</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#" onclick="viewAllPlaylists()">ALL Playlists</a>
+            <a data-toggle="tab" href="#" onclick="adminViewAllPlaylists()">ALL Playlists</a>
         </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>

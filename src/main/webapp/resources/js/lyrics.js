@@ -1,7 +1,7 @@
 $(document).on('click','#lyrics', function(){
     $.ajax({
     type : 'GET',
-    url : 'getLyrics',
+    url : 'songPlayer/getLyrics',
     data : {
         artistName: $('#artistNamePlayer').html(),
         songName: $('#albumSongNamePlayer').html()
