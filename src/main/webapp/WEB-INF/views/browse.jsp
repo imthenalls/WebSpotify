@@ -17,6 +17,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!-- Custom Theme CSS -->
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
+    
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/card.css">
   </head>
   <body>
     <div>
@@ -26,33 +28,38 @@ and open the template in the editor.
           <!-- Modal content-->
           <div class="modal-content" id="modalBackground">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <span id="closeSpan"><button id="closeButton" type="button" class="btn fa fa-close" data-dismiss="modal"></button></span>
               <h4 class="modal-title">Create Playlist</h4>
             </div>
-            <form id="newPlaylistForm">
+            <form id="newPlaylistForm" enctype="multipart/form-data">
               <div class="modal-body">
-                <div class="row">
-                  <input id='pName' type="text" name="playlistName" placeholder="New Playlist">
+                <div class="row form-group">
+                  <input id='pName' class="form-control" type="text" name="playlistName" placeholder="Playlist Title" required>
                 </div>
                 <div class="row">
-                  <div class="col-xs-6">
+                  <div class="col-xs-6 form-group">
                     <img height="250" width="250" id="playlist-image" src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
-                    <input id='iPath' name="imagePath" class="row" type="file" accept="image/*">
+                    <input id='iPath' name="imagePath" size='20' class="row form-control" type="file" accept="image/*">
                   </div>
-                  <div class="col-xs-6">
-                    <input id='pDesc' type="text" name="description" placeholder="Enter a description for your playlist here.">
+                  <div class="col-xs-6 form-group">
+                    <textarea id='pDesc' class="form-control" type="textArea" rows="4" columns="5" form="newPlaylistForm" maxlength="30" placeholder="Description" name="description"></textarea>
                   </div>
-                  <input type="submit" value="Submit">
                 </div>
               </div>
+              <div class="modal-footer">
+                <button class="btn btn-info" type="submit" value="Submit">Submit</button>
+              </div>
             </form>
-            <div class="modal-footer">
-              <button type="button" class="close btn btn-default">Cancel</button>
-            </div>
+
           </div>
         </div>
       </div>
-
+      
+      <div id="lyricModal"class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div id="lyricsHere"></div>
+          </div>
+      </div>
       <div id="main-section">
         <div id="leftTool">
           <%@include file="/resources/toolbars/left.jsp" %>
@@ -79,7 +86,9 @@ and open the template in the editor.
 
     <!-- Main Page Script -->
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
-
+    
+    <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
+    
     <!-- Script to display images-->
     <script>
       $(function () {

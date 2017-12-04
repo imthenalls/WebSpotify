@@ -11,12 +11,15 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class UserDAOHibernateImpl implements UserDAO{
     
   @Autowired
   private SessionFactory sessionFactory;
   
+  @Value("${user.maxResult}")
+  private int maxResults;
   public UserDAOHibernateImpl(SessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
   }
@@ -32,6 +35,9 @@ public class UserDAOHibernateImpl implements UserDAO{
     if(user!=null){
       Hibernate.initialize(user.getCreatedPlaylists());
       Hibernate.initialize(user.getFollowedPlaylists());
+      Hibernate.initialize(user.getFollowedAlbums());
+      Hibernate.initialize(user.getFollowedArtists());
+      Hibernate.initialize(user.getFollowedSongs());
     }
     return user;
   }
@@ -68,6 +74,7 @@ public class UserDAOHibernateImpl implements UserDAO{
   public List<User> search(String keyword){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(User.class);
     c.add(Restrictions.like("username", "%"+keyword+"%"));
+    c.setMaxResults(maxResults);
     return c.list();
   }
 }

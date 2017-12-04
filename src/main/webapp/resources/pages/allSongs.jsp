@@ -18,7 +18,7 @@
       <th>Duration</th>
       <th></th>
     </tr>
-    <c:forEach items="${songList}" var="Song">
+    <c:forEach items="${allSongs}" var="Song">
       <tr>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
@@ -28,17 +28,24 @@
           :
           <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
         <td>
-          <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
-              Add to
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <c:forEach items="${createdPlaylists}" var="Playlist">
-                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
-              </c:forEach>
-            </ul>
-          </div>
+          <c:choose>
+             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+                      Options
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick=adminRemoveSong(${Song.songId})>Remove From songs</a></li>
+                    </ul>
+                </div>
+             </td>
+             </c:when>
+             <c:otherwise>
+                 <td>show nothing</td>
+             </c:otherwise>
+         </c:choose>
         </td>
 
       </tr>

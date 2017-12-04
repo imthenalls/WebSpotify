@@ -2,6 +2,7 @@
 package com.team0n3.webspotify.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -47,6 +48,13 @@ public class Album implements Serializable{
 
   public Album(String albumName) {
     this.albumName = albumName;
+    this.songs = null;
+  }
+  
+  public Album(String albumName, int popularity, String imagePath) {
+    this.albumName = albumName;
+    this.popularity = popularity;
+    this.imagePath = imagePath;
     this.songs = null;
   }
   public int getAlbumId()

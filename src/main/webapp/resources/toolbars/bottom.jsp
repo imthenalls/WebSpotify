@@ -2,14 +2,14 @@
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
         <div id="albumArt" class="col-xs-3">
-            <a href='#"'onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
+            <a href='#"' onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <a href="#" onclick="viewAlbum(${currentSong.albumId.albumId})">${currentSong.title}</a>
+                <a href="#" id="albumSongNamePlayer"onclick="viewAlbum(${currentSong.albumId.albumId})">${currentSong.title}</a>
             </div>
             <div class="row">
-                <a href="#" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
+                <a href="#" id="artistNamePlayer" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
             </div>
         </div>
         <a href="#">
@@ -40,7 +40,7 @@
             <div class="col-xs-3" id="currentTime">
                 0:00
             </div>
-            <div class="progress col-xs-6">
+            <div id ="progress" class="progress col-xs-6">
                 <div class="progress-bar" role="progressbar" aria-valuenow="0"
                 aria-valuemin="0" aria-valuemax="100" style="width:0%">
                   <span class="sr-only"></span>
@@ -57,6 +57,9 @@
     </div>
     
     <div class="col-xs-3" id="playerSettings">
+        <a href="#">
+            <i id="lyrics" class="fa fa-book"></i>
+        </a>
         <a href="#">
             <i id="queue" class="fa fa-list-ol"></i>
         </a>

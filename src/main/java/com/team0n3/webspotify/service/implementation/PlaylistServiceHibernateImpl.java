@@ -74,5 +74,9 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
       playlistDao.updatePlaylist( playlist);
       System.out.println("hello rename "+playlist.getPlaylistName());
   }
-  
+  @Override
+  public List<Playlist> search(String keyword){
+    List<Playlist> listPlaylist = playlistDao.search(keyword);
+    return listPlaylist;
+  }
 }

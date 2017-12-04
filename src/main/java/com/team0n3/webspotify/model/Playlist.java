@@ -2,8 +2,11 @@
 package com.team0n3.webspotify.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -68,6 +71,7 @@ public class Playlist implements Serializable{
     numFollowers=1;
     dateCreated=new Date();
     isCollaborative=false;
+   // songs = null;
     this.description=description;
     this.creator = creator;
     this.imagePath = imagePath;
@@ -175,7 +179,17 @@ public class Playlist implements Serializable{
   public void setImagePath(String imagePath) {
     this.imagePath = imagePath;
   }
-
+  
+  public boolean hasFollower(User user){
+    List<User> followersAsList = new ArrayList();
+    followersAsList.addAll(followers);
+    for (User u : followersAsList) {
+      if(u.getUsername().equals(user.getUsername()))
+        return true;
+    }
+    return false;
+  }
+  
   @Override
   public String toString(){
     return "Playlist = " + playlistID;
