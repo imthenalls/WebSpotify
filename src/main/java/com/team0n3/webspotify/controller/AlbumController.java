@@ -72,6 +72,16 @@ public class AlbumController {
     session.setAttribute("followedAlbums",followedAlbums);
   }  
   
+  @RequestMapping(value = "/viewAdminAllAlbums", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewAdminAllAlbums( HttpSession session){
+    User user = (User)session.getAttribute("currentUser");   
+    if(user.getAccountType() == AccountType.Admin){
+      List<Album> allAlbums = albumService.listAllAlbums();
+      session.setAttribute("allAlbums",allAlbums);
+    }
+  } 
+  
   @RequestMapping( value = "/adminAddAlbum", method = RequestMethod.POST)
   @ResponseBody
   public void adminAddAlbum(@RequestParam String albumName,@RequestParam int popularity, @RequestParam String imagePath, HttpSession session)

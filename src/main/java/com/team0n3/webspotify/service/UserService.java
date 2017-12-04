@@ -40,4 +40,5 @@ public interface UserService {
   public void artistCheckRoyalties(String username);
   public void adminApproveFreeUser(String username,String approve);
   public void adminApproveArtistUser(String username,String approve);
+  public void adminRemoveUser(String admin,String removeUser);
 }

@@ -522,7 +522,7 @@ function adminRemoveArtist(artistId){
 
 function adminRemovePlaylist(playlistId){
     $.ajax({
-        url: "adminRemovePlaylist",
+        url: "playlist/adminRemovePlaylist",
         type: "POST",
         data: ({
           playlistId: playlistId,
@@ -590,7 +590,7 @@ function viewAdminAllSongs(){
 
 function viewAdminAllAlbums(){
     $.ajax({
-        url: "viewAdminAllAlbums",
+        url: "album/viewAdminAllAlbums",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/allAlbums.jsp",function(){

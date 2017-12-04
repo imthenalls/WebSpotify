@@ -620,5 +620,32 @@ public class UserServiceHibernateImpl implements UserService{
         artistDao.addArtist(artist);
       }
     }
-  }  
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemoveUser(String admin,String removeUser){
+    User user = userDao.getUser(admin);
+    if(user.getAccountType() == AccountType.Admin){
+        Lock lock = new ReentrantLock();
+        List<Playlist> allPlaylists = playlistDao.listPlaylists();
+        lock.lock();
+          try {
+            for(Playlist p: allPlaylists){
+              Collection<User> followersInPlaylist = p.getFollowers();
+              for(User u:followersInPlaylist){
+                if(u.getUsername().equals(removeUser)){
+                  followersInPlaylist.remove(u);
+                  p.setFollowers(followersInPlaylist);
+                  playlistDao.updatePlaylist(p);
+                  break;
+                }
+              }
+            }
+          }finally {
+              lock.unlock();
+          }  
+          userDao.deleteUser(removeUser);
+    }
+  }
 }

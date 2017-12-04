@@ -32,7 +32,8 @@ public class UserDAOHibernateImpl implements UserDAO{
   @Override
   public User getUser(String username) {
     User user = (User)sessionFactory.getCurrentSession().get(User.class, username);
-    if(user!=null){
+    
+    if(user != null){
       Hibernate.initialize(user.getCreatedPlaylists());
       Hibernate.initialize(user.getFollowedPlaylists());
       Hibernate.initialize(user.getFollowedAlbums());

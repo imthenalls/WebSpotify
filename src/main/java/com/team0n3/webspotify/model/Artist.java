@@ -59,6 +59,22 @@ public class Artist implements Serializable{
         this.popularity = popularity;
         this.imagePath = imagePath;
     }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public User getUsername() {
+        return username;
+    }
+
+    public void setUsername(User username) {
+        this.username = username;
+    }
     
     public Collection<Album> getAlbums() {
         return albums;
@@ -84,18 +100,6 @@ public class Artist implements Serializable{
         this.artistName = artistName;
     }
 
-   /*
-    public int getTotalPlays() {
-        return totalPlays;
-    }
-    public int getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(int Popularity) {
-        this.popularity = popularity;
-    }
-*/
     public Collection<Song> getSongs() {
         return songs;
     }
