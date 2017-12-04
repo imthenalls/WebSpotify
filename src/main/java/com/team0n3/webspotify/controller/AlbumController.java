@@ -111,6 +111,5 @@ public class AlbumController {
       userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
       session.setAttribute("allAlbums",allAlbums);
     }
-  }
-
+  }  
 }

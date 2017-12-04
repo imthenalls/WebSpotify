@@ -40,7 +40,7 @@ $(document).ready(function(){
             var newtime = mousex * (audio.duration/$(progress).width());
             audio.currentTime = newtime;
             //audio.setAttribute('currentTime', newtime);
-            songbar.style.width = parseInt(newtime/audio.duration) + "%";
+            //songbar.style.width = parseInt(newtime/audio.duration) + "%";
         }
     }
    
@@ -111,29 +111,36 @@ function upgradeToPremium(){
     var dateData = monthYear.split(" "); 
     var month = parseInt(dateData[0]);
     var year = parseInt(dateData[2]);
-    $.ajax({
-       url: "upgradeToPremium",
-       type: "POST",
-       data:({
-           cardNumber: cardNum,
-           cardHolder: cardHold,
-           ccv: ccv,
-           expirationMonth: month,
-           expirationYear: year,
-           creditCompany: creditCompany,
-           address: address
-       }),
-       success:function(){
-           $("#center-pane").load("/resources/pages/profile.jsp",function(){
-               console.log("success upgrading");
-           });
-           
-       },
-       error:function(){
-           console.log("failure upgrading");
-       }
-    });
-    return false;
+    var currYear = (new Date()).getFullYear() - 2000;
+    if(month > 12 || year < currYear || year > (currYear + 25)){
+      console.log(month, year, currYear);
+    }
+    else{
+      $.ajax({
+         url: "upgradeToPremium",
+         type: "POST",
+         data:({
+             cardNumber: cardNum,
+             cardHolder: cardHold,
+             ccv: ccv,
+             expirationMonth: month,
+             expirationYear: year,
+             creditCompany: creditCompany,
+             address: address
+         }),
+         success:function(){
+             $("#center-pane").load("/resources/pages/profile.jsp",function(){
+                 console.log("success upgrading");
+             });
+
+         },
+         error:function(){
+             console.log("failure upgrading");
+         }
+      });
+    return false;      
+    }
+
 }
 
 function updateProgress() {
