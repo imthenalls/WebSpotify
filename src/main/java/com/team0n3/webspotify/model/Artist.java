@@ -47,6 +47,9 @@ public class Artist implements Serializable{
     @JoinColumn(name="username",referencedColumnName="username")
     private User username;
     
+    @Column(name = "totalRoyalties",nullable=true)
+    private int totalRoyalties;
+    
     public Artist() {
     }
     
@@ -128,6 +131,14 @@ public class Artist implements Serializable{
         this.followers = followers;
     }
 
+    public int getTotalRoyalties() {
+        return totalRoyalties;
+    }
+
+    public void setTotalRoyalties(int totalRoyalties) {
+        this.totalRoyalties = totalRoyalties;
+    }
+    
     @Override
     public String toString(){
         return "Artist = "+artistName;

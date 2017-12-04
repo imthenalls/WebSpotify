@@ -17,22 +17,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name="songs")
 public class Song implements Serializable {
+    
     @Id
-    @Column(name="songid",nullable=false)
+    @Column(name = "songid",nullable = false)
     @GeneratedValue
     private int songId;
-    @Column(name="title",nullable=false)
+    
+    @Column(name = "title",nullable = false)
     private String title;
     
     @ManyToOne
-    @JoinColumn(name="albumId",referencedColumnName="albumId",nullable=false)
+    @JoinColumn(name = "albumId",referencedColumnName = "albumId",nullable=false)
     private Album albumId;
     
     @ManyToOne
-    @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
+    @JoinColumn(name = "artistId",referencedColumnName = "artistId",nullable=false)
     private Artist artistId;
     
-    @ManyToMany(cascade ={CascadeType.PERSIST, 
+    @ManyToMany(cascade = {CascadeType.PERSIST, 
         CascadeType.MERGE })
     @JoinTable(
             name = "songplaylist",
@@ -53,6 +55,9 @@ public class Song implements Serializable {
     @Column(name = "numFollowers")
     private int numFollowers;
     
+    @Column(name = "royaltyPerPlay")
+    private int royaltyPerPlay;
+    
      @ManyToMany(cascade ={CascadeType.PERSIST, 
         CascadeType.MERGE }, mappedBy = "followsong")
     private Collection<User> followers;
@@ -64,6 +69,14 @@ public class Song implements Serializable {
        this.title = title;
     }
 
+    public int getRoyaltyPerPlay() {
+        return royaltyPerPlay;
+    }
+
+    public void setRoyaltyPerPlay(int royaltyPerPlay) {
+        this.royaltyPerPlay = royaltyPerPlay;
+    }
+    
     public int getTotalPlays() {
         return totalPlays;
     }

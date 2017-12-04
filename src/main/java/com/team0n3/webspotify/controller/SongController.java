@@ -100,4 +100,15 @@ public class SongController {
       session.setAttribute("allSongs",allSongs);
     }
   }
+  
+  @RequestMapping( value = "/viewSongMetrics", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewSongMetrics(@RequestParam int songId, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType().equals(AccountType.Artist)){
+      Song song = songService.getSong(songId);
+    }
+  }
+  
+  
 }
