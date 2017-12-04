@@ -49,23 +49,17 @@ $(document).ready(function(){
    
   $("#newPlaylistForm").submit(function(){
       console.log("in here");
-      var playlistName = $("#pName").val();
-      var imagePath = $("#iPath").val();
-      var description = $("#pDesc").val();
-      var file = $("#iPath")[0].files[0];
-      
-      var formData = new FormData();
-      formData.append("playlistName",playlistName);
-      formData.append("imagePath",imagePath);
-      formData.append("description",description);
-      formData.append("file",file);
+      var myForm = document.getElementById('newPlaylistForm');
+      var formData = new FormData(myForm);
+      console.log("hi")
       $.ajax({
           url: "playlist/createPlaylist",
           type: "POST",
           //Sends the necessary form parameters to the servlet
-          data:({
-             file: formData
-          }),
+          data: formData,
+          dataType: 'text',
+          cache:false,
+          enctype: "multipart/form-data",
           contentType:false,
           processData:false,
           success: function(){
