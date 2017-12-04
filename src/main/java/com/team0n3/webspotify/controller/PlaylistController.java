@@ -47,8 +47,11 @@ public class PlaylistController {
   
   @RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
   @ResponseBody
-  public void createPlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
+  public void createPlaylist(MultipartHttpServletRequest request, HttpSession session){
     User currentUser = (User)session.getAttribute("currentUser");
+    String playlistName="";
+    String imagePath="";
+    String description="";
     Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
     /**
     String relativePath = "/resources/image/playlist";

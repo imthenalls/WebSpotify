@@ -64,10 +64,10 @@ $(document).ready(function(){
           type: "POST",
           //Sends the necessary form parameters to the servlet
           data:({
-             playlistName: playlistName,
-             imagePath: imagePath,
-             description: description
+             file: formData
           }),
+          contentType:false,
+          processData:false,
           success: function(){
               console.log("Success creating playlist");
               $("#leftTool").load("/resources/toolbars/left.jsp",function(){
