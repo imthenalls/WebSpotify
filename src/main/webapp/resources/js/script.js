@@ -15,10 +15,7 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
-    //admin aprpoval
-    $(document).on('click','.unapproved-users', function(){
-        adminApproveUser($(this).attr("username"));
-    });
+
     $(document).on('mousedown','#progress', scrub);
     //for the search links
     $(document).on('click', '.album-card-search', function(){
@@ -46,10 +43,19 @@ $(document).ready(function(){
             songbar.style.width = parseInt(newtime/audio.duration) + "%";
         }
     }
+   
   $("#newPlaylistForm").submit(function(){
+      console.log("in here");
       var playlistName = $("#pName").val();
       var imagePath = $("#iPath").val();
       var description = $("#pDesc").val();
+      var file = $("#iPath")[0].files[0];
+      
+      var formData = new FormData();
+      formData.append("playlistName",playlistName);
+      formData.append("imagePath",imagePath);
+      formData.append("description",description);
+      formData.append("file",file);
       $.ajax({
           url: "playlist/createPlaylist",
           type: "POST",
@@ -61,7 +67,8 @@ $(document).ready(function(){
           }),
           success: function(){
               console.log("Success creating playlist");
-              $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
+              $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+              });
           },
           error: function(){
               console.log("Failure creating playlist");
@@ -91,34 +98,13 @@ $(document).ready(function(){
   });
 });
 
-function addArtistAdmin(){
-     var artistName = $("#artistName").val();
-           var popularity = $("#popularity").val();
-           var imagePath = $("imagePath").val();
-           $.ajax({
-               url: "artist/addArtistAdmin",
-               type: "POST",
-               data:({
-                  artistName: artistName,
-                  popularity: popularity,
-                  imagePath: imagePath,
-               }),
-               
-               success: function(){},
-               error: function(){
-                   console.log("Failure");
-               }
-           });
-           return false;    
-}
+
 
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
     var cardNum = $("#cardNum").val();
     var ccv = $("#ccv").val();
-    //var month = parseInt($("#month").val());
-    //var year = parseInt($("#year").val());
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
     var monthYear = ($("#month").val());
@@ -255,55 +241,6 @@ function viewAlbum(id){
 
 function viewFollowedAlbums(){
     $("#center-pane").load("/resources/pages/followedAlbums.jsp");
-}
-
-function viewAllArtists(){
-    $.ajax({
-        url: "artist/viewAllArtists",
-        type: "GET",
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewAllPlaylists(){
-    $.ajax({
-        url: "playlist/viewAllPlaylists",
-        type: "GET",
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewAllSongs(){
-    $.ajax({
-        url: "song/viewAllSongs",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
 }
 
 function deletePlaylist(){
@@ -701,7 +638,7 @@ function toggleShuffle(){
   return false;
 }
 
-function followAlbum(albumId) {
+function followAlbum(albumId,currentPage) {
   $.ajax({
     url: "album/followAlbum",
     type: "POST",
@@ -709,7 +646,7 @@ function followAlbum(albumId) {
       albumId: albumId
     }),
     success:function(){
-      $("#center-pane").load("/resources/pages/album.jsp",function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
         console.log("Success following album");
       });
     },
@@ -720,7 +657,7 @@ function followAlbum(albumId) {
   return false;
 };
 
-function unfollowAlbum(albumId) {
+function unfollowAlbum(albumId,currentPage) {
   $.ajax({
     url: "album/unfollowAlbum",
     type: "POST",
@@ -728,7 +665,7 @@ function unfollowAlbum(albumId) {
       albumId: albumId
     }),
     success:function(){
-      $("#center-pane").load("/resources/pages/album.jsp",function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
                 console.log("Success unfollowing album");
             });
     },

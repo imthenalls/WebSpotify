@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,18 +39,14 @@ public class Artist implements Serializable{
     private Collection<Song> songs;
     
     @OneToOne
-    @JoinColumn(name="username",referencedColumnName="username",nullable=false)
+    @JoinColumn(name="username",referencedColumnName="username")
     private User username;
+    
     public Artist() {
     }
     
     public Artist(String artistName) {
         this.artistName = artistName;
-    }
-    
-    public Artist(String artistName, User username) {
-        this.artistName = artistName;
-        this.username = username;
     }
     
     public Artist(String artistName, int popularity, String imagePath) {
@@ -60,6 +55,10 @@ public class Artist implements Serializable{
         this.imagePath = imagePath;
     }
 
+    public Artist(String artistName, User username) {
+        this.artistName = artistName;
+        this.username = username;
+    }
     public int getPopularity() {
         return popularity;
     }

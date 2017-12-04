@@ -94,11 +94,8 @@ public class SpotifyController {
   }
 
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
-  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String artist, HttpSession session) {
-    boolean isArtist = false;
-    if(artist.equals("true"))
-        isArtist = true;    
-    String errorMessage = userService.signup(username, password, email,isArtist);
+  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password,HttpSession session) {
+    String errorMessage = userService.signup(username, password, email);
     if(errorMessage.equals("duplicate")){
       session.setAttribute("duplicate",true);
       session.setAttribute("invalidEmail",false);
@@ -216,14 +213,14 @@ public class SpotifyController {
   @RequestMapping( value = "/adminApproveUser", method = RequestMethod.POST)
   @ResponseBody
   public void adminApproveUser(@RequestParam String username, HttpSession session){
-      User user = (User)session.getAttribute("currentUser");
-      if(user.getAccountType() == AccountType.Admin){
-        userService.adminApproveFreeUser( user.getUsername(), username);
-        List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
-        User approvedUser = userService.getUser(username);
-        unapprovedUsers.remove(approvedUser);
-        session.setAttribute("unapprovedUsers",unapprovedUsers);
-      }     
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      userService.adminApproveFreeUser( user.getUsername(), username);
+      List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
+      User approvedUser = userService.getUser(username);
+      unapprovedUsers.remove(approvedUser);
+      session.setAttribute("unapprovedUsers",unapprovedUsers);
+    }     
   }
   
   @RequestMapping(value = "/adminRemoveUser", method = RequestMethod.POST)
