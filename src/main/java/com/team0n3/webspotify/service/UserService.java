@@ -9,7 +9,7 @@ public interface UserService {
   
   public User login(String username, String password);
   
- public String signup(String username, String password, String email, boolean isArtist);
+  public String signup(String username, String password, String email);
   
   public List<Playlist> getCreatedPlaylists(String username);
   
@@ -32,12 +32,11 @@ public interface UserService {
   public void adminRemovePlaylist(String username, int playlistId);
   public void adminAddSong( String username, String title );
   public void adminRemoveSong(String username, int songId);
-  public void adminEditSong(String username, int songId);
+   public void adminEditSong(String username, int songId);
   public void adminAddAlbum( String username, String albumName, int popularity, String imagePath );
   public void adminRemoveAlbum(String username, int albumId);
   public void adminEditArtistBio(String username, int artistId);
-  public void artistCheckSongMetrics(String username);
-  public void artistCheckRoyalties(String username);
+  public void artistCheckSongMetrics(String username, int artistId);
+  public void artistCheckRoyalties(String username, int artistId);
   public void adminApproveFreeUser(String username,String approve);
-  public void adminApproveArtistUser(String username,String approve);
 }
