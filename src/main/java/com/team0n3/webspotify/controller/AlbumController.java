@@ -109,13 +109,5 @@ public class AlbumController {
       userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
       session.setAttribute("allAlbums",allAlbums);
     }
-  }
-  
-  @RequestMapping(value = "/viewAdminAllAlbums", method= RequestMethod.GET)
-  @ResponseBody
-  public void viewAdminAllAlbums(HttpSession session){
-    /** CURRENTLY VIEWS ALL Albums **/
-    List<Album> allAlbums = albumService.listAllAlbums();
-    session.setAttribute("allAlbums",allAlbums);
-  }
+  }  
 }
