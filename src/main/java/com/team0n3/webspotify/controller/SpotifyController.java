@@ -222,4 +222,18 @@ public class SpotifyController {
       session.setAttribute("unapprovedUsers",unapprovedUsers);
     }     
   }
+  
+  @RequestMapping(value = "/adminRemoveUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminRemoveUser(@RequestParam String username, HttpSession session){
+      User user = (User)session.getAttribute("currentUser");
+      if(user.getAccountType() == AccountType.Admin){
+          User removeUser = userService.getUser(username);
+        //  userService.adminRemoveUser(user.getUsername(), username);
+          List<User> userList = userService.listAllUsers();
+          userList.remove(removeUser);
+          session.setAttribute("userList",userList);
+      }
+  }
+  
 }
