@@ -14,4 +14,6 @@ public interface PlaylistService {
   public List<Song> getSongsInPlaylists(int playlistId);
   public void renamePlaylist(int playlistId, String playlistName);
   public List<Playlist> search(String keyword);
+  public void updateFollowerCount(int playlistID);
+  public void updateSongCount(int playlistID);
 }

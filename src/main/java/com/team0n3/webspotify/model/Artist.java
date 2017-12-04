@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -32,11 +33,15 @@ public class Artist implements Serializable{
     @Column(name="imagePath", nullable=true)
     private String imagePath; 
     
-    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="artistId")
     private Collection<Album> albums;
 
-    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="artistId")
     private Collection<Song> songs;
+    
+    @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE }, mappedBy = "followartist")
+    private Collection<User> followers;
     
     @OneToOne
     @JoinColumn(name="username",referencedColumnName="username")
@@ -114,7 +119,15 @@ public class Artist implements Serializable{
     public void setImagePath(String imagePath){
         this.imagePath = imagePath;
     }
-    
+
+    public Collection<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Collection<User> followers) {
+        this.followers = followers;
+    }
+
     @Override
     public String toString(){
         return "Artist = "+artistName;

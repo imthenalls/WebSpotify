@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,8 +41,13 @@ public class Album implements Serializable{
   private String imagePath;
   
   @ManyToOne
-  @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
+  @JoinColumn(name="artistId",
+          referencedColumnName="artistId",nullable=false)
   private Artist artistId;
+  
+  @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE }, mappedBy = "followalbum")
+  private Collection<User> followers;
   
   public Album() {
   }
@@ -112,6 +118,14 @@ public class Album implements Serializable{
 
   public void setDuration(int duration) {
       this.duration = duration;
+  }
+
+  public Collection<User> getFollowers() {
+      return followers;
+  }
+
+  public void setFollowers(Collection<User> followers) {
+      this.followers = followers;
   }
   
   @Override

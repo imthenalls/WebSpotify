@@ -42,6 +42,7 @@ public class AlbumController {
     followedAlbums.add(albumService.getAlbum(albumId));
     session.setAttribute("followedAlbums",followedAlbums);
     currentUser = userService.followAlbum(currentUser.getUsername(), albumId);
+    albumService.updatePopularity(albumId);
     session.setAttribute("currentUser",currentUser);
   }
   
@@ -55,6 +56,7 @@ public class AlbumController {
         followedAlbums.remove(a);
         session.setAttribute("followedAlbums",followedAlbums);
         currentUser = userService.unfollowAlbum(currentUser.getUsername(), albumId);
+        albumService.updatePopularity(albumId);
         session.setAttribute("currentUser",currentUser);
         return;
       }
@@ -110,12 +112,5 @@ public class AlbumController {
       session.setAttribute("allAlbums",allAlbums);
     }
   }
-  
-  @RequestMapping(value = "/viewAdminAllAlbums", method= RequestMethod.GET)
-  @ResponseBody
-  public void viewAdminAllAlbums(HttpSession session){
-    /** CURRENTLY VIEWS ALL Albums **/
-    List<Album> allAlbums = albumService.listAllAlbums();
-    session.setAttribute("allAlbums",allAlbums);
-  }
+
 }

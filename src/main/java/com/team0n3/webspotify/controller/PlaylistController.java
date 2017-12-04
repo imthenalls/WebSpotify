@@ -83,7 +83,7 @@ public class PlaylistController {
     Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     for(Playlist p:createdPlaylists){
-      if(p.getPlaylistID()== playlist.getPlaylistID()){
+      if(p.getPlaylistID() == playlist.getPlaylistID()){
         createdPlaylists.remove(p);
         break;
       }
@@ -96,6 +96,7 @@ public class PlaylistController {
   @ResponseBody
   public void addSongToPlaylist(@RequestParam int playlist, @RequestParam int song, HttpSession session){
     songService.addSongToPlaylist(song, playlist);
+    playlistService.updateSongCount(playlist);
   }
   
   @RequestMapping(value="/deleteSongFromPlaylist", method=RequestMethod.POST)
@@ -103,12 +104,13 @@ public class PlaylistController {
   public void deleteSongFromPlaylist(@RequestParam int playlistId, @RequestParam int songId, HttpSession session){
     List<Song> playlistSongs = (List<Song>)session.getAttribute("songList");
     for(Song s:playlistSongs){
-      if(s.getSongId()==songId){
+      if(s.getSongId() == songId){
         playlistSongs.remove(s);
         break;
       }
     }
     songService.deleteSongFromPlaylist(playlistId,songId);
+    playlistService.updateSongCount(playlistId);
     session.setAttribute("songList",playlistSongs);
   }
   
@@ -119,6 +121,7 @@ public class PlaylistController {
       List<Playlist> followedPlaylists = (List<Playlist>)session.getAttribute("followedPlaylists");
       followedPlaylists.add(playlistService.getPlaylist(playlist));
       userService.followPlaylist(currentUser.getUsername(), playlist);
+      playlistService.updateFollowerCount(playlist);
   }
 
   @RequestMapping(value="/unfollowPlaylist", method=RequestMethod.POST)
@@ -127,16 +130,16 @@ public class PlaylistController {
     boolean found=false;
     List<Playlist> followedPlaylists = (List<Playlist>)session.getAttribute("followedPlaylists");
     for(Playlist p:followedPlaylists){
-      if(p.getPlaylistID()== playlist){
+      if(p.getPlaylistID( ) == playlist){
         followedPlaylists.remove(p);
-        found=true;
+        found = true;
         break;
       }
     }
     if(found){
       User currentUser = (User)session.getAttribute("currentUser");
-      //followedPlaylists.remove(playlistService.getPlaylistByID(playlist));
       userService.unfollowPlaylist(currentUser.getUsername(), playlist);
+      playlistService.updateFollowerCount(playlist);
     }
   }
   

@@ -2,7 +2,9 @@
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.ArtistDAO;
+import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,4 +53,13 @@ public class ArtistServiceHibernateImpl implements ArtistService{
       List<Artist> listArtists = artistDao.search(keyword);
       return listArtists;
     }
+    
+  @Override
+  @Transactional(readOnly = false)
+  public void updatePopularity(int artistId){
+    Artist artist = artistDao.getArtist(artistId);
+    Collection<User> followers = artist.getFollowers();
+    artist.setPopularity(followers.size());
+    artistDao.updateArtist(artist);
+  }
 }

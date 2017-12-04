@@ -16,4 +16,6 @@ public interface AlbumService {
   public List<Song> getAllSongsInAlbum(int albumId);
   
   public List<Album> search(String keyword);
+  
+  public void updatePopularity(int albumId);
 }
