@@ -11,14 +11,14 @@
 </div>
 <div>
   <div class="container-fluid">
-    <c:forEach items="${followedAlbums}" var="Album">
+    <c:forEach items="${followedAlbums}" varStatus='loop' var="Album">
       <div class="col-md-3" style="height:380px;">
         <div class="albumCard">
           <a href="#" onclick="viewAlbum(${Album.albumId})"><img src="${Album.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic"></a>
-          <div class="albumOverlay">
-            <button class="fa fa-plus"></button>
-            <button class="fa fa-play"></button>
-            <button class="fa fa-ellipsis-h"></button>
+          <div class="albumOverlay">     
+            <button class="fa fa-remove albumButton" onclick="unfollowAlbum(${Album.albumId},'followedAlbums.jsp')"></button>
+            <button class="fa fa-play albumButton"></button>
+            <button class="fa fa-ellipsis-h albumButton"></button>
           </div>
           <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
         </div>

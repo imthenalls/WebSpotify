@@ -26,12 +26,12 @@
           <c:choose>
             <c:when test = "${currentUser.isFollowingAlbum(currentAlbum)}">
               <ul class="dropdown-menu">
-                <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId})">Unfollow</a></li>
+                <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId},'album.jsp')">Unfollow</a></li>
               </ul>
             </c:when>
             <c:otherwise>
               <ul class="dropdown-menu">
-                <li><a href="#" onclick="followAlbum(${currentAlbum.albumId})">Follow</a></li>
+                <li><a href="#" onclick="followAlbum(${currentAlbum.albumId},'album.jsp')">Follow</a></li>
               </ul> 
             </c:otherwise>
           </c:choose>

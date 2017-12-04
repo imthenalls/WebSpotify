@@ -46,10 +46,19 @@ $(document).ready(function(){
             songbar.style.width = parseInt(newtime/audio.duration) + "%";
         }
     }
+   
   $("#newPlaylistForm").submit(function(){
+      console.log("in here");
       var playlistName = $("#pName").val();
       var imagePath = $("#iPath").val();
       var description = $("#pDesc").val();
+      var file = $("#iPath")[0].files[0];
+      
+      var formData = new FormData();
+      formData.append("playlistName",playlistName);
+      formData.append("imagePath",imagePath);
+      formData.append("description",description);
+      formData.append("file",file);
       $.ajax({
           url: "playlist/createPlaylist",
           type: "POST",
@@ -61,7 +70,8 @@ $(document).ready(function(){
           }),
           success: function(){
               console.log("Success creating playlist");
-              $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
+              $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+              });
           },
           error: function(){
               console.log("Failure creating playlist");
@@ -701,7 +711,7 @@ function toggleShuffle(){
   return false;
 }
 
-function followAlbum(albumId) {
+function followAlbum(albumId,currentPage) {
   $.ajax({
     url: "album/followAlbum",
     type: "POST",
@@ -709,7 +719,7 @@ function followAlbum(albumId) {
       albumId: albumId
     }),
     success:function(){
-      $("#center-pane").load("/resources/pages/album.jsp",function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
         console.log("Success following album");
       });
     },
@@ -720,7 +730,7 @@ function followAlbum(albumId) {
   return false;
 };
 
-function unfollowAlbum(albumId) {
+function unfollowAlbum(albumId,currentPage) {
   $.ajax({
     url: "album/unfollowAlbum",
     type: "POST",
@@ -728,7 +738,7 @@ function unfollowAlbum(albumId) {
       albumId: albumId
     }),
     success:function(){
-      $("#center-pane").load("/resources/pages/album.jsp",function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
                 console.log("Success unfollowing album");
             });
     },
