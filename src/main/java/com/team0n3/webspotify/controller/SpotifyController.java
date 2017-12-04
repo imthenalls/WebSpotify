@@ -213,13 +213,13 @@ public class SpotifyController {
   @RequestMapping( value = "/adminApproveUser", method = RequestMethod.POST)
   @ResponseBody
   public void adminApproveUser(@RequestParam String username, HttpSession session){
-      User user = (User)session.getAttribute("currentUser");
-      if(user.getAccountType() == AccountType.Admin){
-        userService.adminApproveFreeUser( user.getUsername(), username);
-        List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
-        User approvedUser = userService.getUser(username);
-        unapprovedUsers.remove(approvedUser);
-        session.setAttribute("unapprovedUsers",unapprovedUsers);
-      }     
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      userService.adminApproveFreeUser( user.getUsername(), username);
+      List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
+      User approvedUser = userService.getUser(username);
+      unapprovedUsers.remove(approvedUser);
+      session.setAttribute("unapprovedUsers",unapprovedUsers);
+    }     
   }
 }
