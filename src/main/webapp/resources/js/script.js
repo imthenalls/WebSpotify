@@ -17,7 +17,7 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
-
+    
     $(document).on('mousedown','#progress', scrub);
     //for the search links
     $(document).on('click', '.album-card-search', function(){
@@ -31,6 +31,7 @@ $(document).ready(function(){
     $(document).on('click', '.song-row-search', function(){
         viewAlbum($(this).attr("albumId"));
     });
+    
     function playBack(){
         audio = $("#audio")[0];
         audio.volume=.5;
@@ -221,7 +222,6 @@ function toggleMute(){
 }
 
 
-
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
@@ -263,7 +263,6 @@ function upgradeToPremium(){
       });
     return false;      
     }
-
 }
 
 function updateProgress() {
@@ -371,6 +370,10 @@ function viewAlbum(id){
 
 function viewFollowedAlbums(){
     $("#center-pane").load("/resources/pages/followedAlbums.jsp");
+}
+
+function viewFollowedArtists(){
+    $("#center-pane").load("/resources/pages/followedArtists.jsp");
 }
 
 function deletePlaylist(){
@@ -597,141 +600,6 @@ function playPrev(){
   return false;
 }
 
-function adminRemoveArtist(artistId){
-    $.ajax({
-        url: "artist/adminRemoveArtist",
-        type: "POST",
-        data: ({
-          artistId: artistId,
-        }),
-        success:function(){
-          console.log("Success deleting artist");
-              $("#center-pane").load("/resources/pages/allArtists.jsp");
-        },
-        error: function(){
-                console.log("Failure deleting artist");
-        }
-    });
-    return false;
-}
-
-function adminRemovePlaylist(playlistId){
-    $.ajax({
-        url: "playlist/adminRemovePlaylist",
-        type: "POST",
-        data: ({
-          playlistId: playlistId,
-        }),
-        success:function(){
-          console.log("Success deleting playlist");
-              $("#center-pane").load("/resources/pages/allPlaylists.jsp");
-        },
-        error: function(){
-                console.log("Failure deleting playlist");
-        }
-    });
-    return false;
-}
-
-function adminRemoveSong(songId){
-    $.ajax({
-        url: "adminRemoveSong",
-        type: "POST",
-        data: ({
-          songId: songId,
-        }),
-        success:function(){
-          console.log("Success deleting song");
-              $("#center-pane").load("/resources/pages/allSongs.jsp");
-        },
-        error: function(){
-                console.log("Failure deleting song");
-        }
-    });
-    return false;
-}
-function adminRemoveAlbum(albumId){
-    $.ajax({
-        url: "adminRemoveAlbum",
-        type: "POST",
-        data: ({
-          albumId: albumId,
-        }),
-        success:function(){
-          console.log("Success deleting Album");
-              $("#center-pane").load("/resources/pages/allAlbums.jsp"); //change
-        },
-        error: function(){
-                console.log("Failure deleting Album");
-        }
-    });
-    return false;
-}
-
-function viewAdminAllSongs(){
-    $.ajax({
-        url: "viewAdminAllSongs",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewAdminAllAlbums(){
-    $.ajax({
-        url: "album/viewAdminAllAlbums",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/allAlbums.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing admin all albums");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function adminViewUnapprovedUsers(){
-    $.ajax({
-        url: "adminViewUnapprovedUsers",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing admin  unapproved users");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function adminApproveUser(username){
-    console.log("asdasdasdasdasdasd");
-    $.ajax({
-        url: "adminApproveUser",
-        type: "POST",
-        data: ({
-          username: username,
-        }),
-        success:function(){
-          console.log("Success approving user");
-              $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
-        },
-        error: function(){
-                console.log("Failure approving user");
-        }
-    });
-    return false;
-}
-
 function viewUsers(){
     $.ajax({
         url: "viewUsers",
@@ -829,6 +697,44 @@ function unfollowAlbum(albumId,currentPage) {
     },
     error: function(){
             console.log("Failure unfollowing album");
+    }
+  });
+  return false;
+};
+
+function followSong(songId,currentPage) {
+  $.ajax({
+    url: "song/followSong",
+    type: "POST",
+    data: ({
+      songId: songId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
+        console.log("Success following song");
+      });
+    },
+    error: function(){
+      console.log("Failure following song");
+    }
+  });
+  return false;
+};
+
+function unfollowSong(songId,currentPage) {
+  $.ajax({
+    url: "song/unfollowSong",
+    type: "POST",
+    data: ({
+      songId: songId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
+                console.log("Success unfollowing song");
+            });
+    },
+    error: function(){
+            console.log("Failure unfollowing song");
     }
   });
   return false;

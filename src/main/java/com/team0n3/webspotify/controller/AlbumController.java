@@ -11,6 +11,7 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.UserService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -91,24 +92,26 @@ public class AlbumController {
     User user = (User)session.getAttribute("currentUser");
     System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
-      userService.adminAddAlbum(user.getUsername(),albumName,  popularity,  imagePath);    
+      userService.adminAddAlbum(albumName,  popularity,  imagePath);    
   }
   
   @RequestMapping( value = "/adminRemoveAlbum", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveAlbum(@RequestParam int albumId, HttpSession session){
-    List<Album> allAlbums = albumService.listAllAlbums();
+    List<Album> allAlbums = (ArrayList)session.getAttribute("allAlbums");
     boolean found = false;
+    Album delete = null;
     for(Album a : allAlbums){
       if(a.getAlbumId() == albumId){
+        delete = a;
         allAlbums.remove(a);
         found = true;
         break;
       }
     }
     if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
+      if(delete != null)
+        userService.adminDeleteAlbum(delete);
       session.setAttribute("allAlbums",allAlbums);
     }
   }  

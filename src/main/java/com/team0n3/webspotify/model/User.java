@@ -198,6 +198,7 @@ public class User implements Serializable{
   public Collection<Artist> getFollowedArtists() {
         return followedArtists;
   }
+  
   public void setFollowedArtists(Collection<Artist> followedArtists) {
         this.followedArtists = followedArtists;
   }
@@ -206,7 +207,7 @@ public class User implements Serializable{
     List<Album> followedAlbumsAsList = new ArrayList<>();
     followedAlbumsAsList.addAll(followedAlbums);
     for (Album a : followedAlbumsAsList) {
-      if(a.getAlbumId()==album.getAlbumId())
+      if(a.getAlbumId() == album.getAlbumId())
         return true;
     }
     return false;
@@ -216,12 +217,21 @@ public class User implements Serializable{
     List<Playlist> followedPList = new ArrayList<>();
     followedPList.addAll(followedPlaylists);
     for (Playlist p : followedPList) {
-      if(p.getPlaylistID()==playlist.getPlaylistID())
+      if(p.getPlaylistID() == playlist.getPlaylistID())
         return true;
     }
     return false;
   }
   
+  public boolean isFollowingSong(Song song){
+    List<Song> followedSong = new ArrayList<>();
+    followedSong.addAll(followedSongs);
+    for (Song s : followedSong) {
+      if(s.getSongId() == song.getSongId())
+        return true;
+    }
+    return false;
+  }
   @Override
   public String toString(){
     return "username="+username+", email="+email;
