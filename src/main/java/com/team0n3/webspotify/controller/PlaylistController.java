@@ -56,34 +56,13 @@ public class PlaylistController {
   
   @RequestMapping(value = "/createPlaylist",  method = RequestMethod.POST)
   @ResponseBody
-  public void createPlaylist(@RequestPart("file") MultipartFile file, @RequestPart("pName") String name, @RequestPart("pDesc") String description, HttpSession session) throws IOException{
-    //MultipartFile mfile =request.getFile("formData");
-    if(file==null){
-       System.out.println("brokeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.");
-    }
-    else{
-             System.out.println(name);
-
-    }
-    File f = new File("C:\\Users\\JSCHA\\Pictures\\Saved Pictures\\poop.png");
-    BufferedImage image = ImageIO.read(file.getInputStream());
-    ImageIO.write(image, "PNG", f);
-           
-        //String filePath = request.getServletContext().getRealPath("/"); 
-        //multipartFile.transferTo(new File(filePath));
-        //File rootDir = new File("C:\\Users\\JSCHA\\Pictures\\Camera Roll");
-    //String playlistName="";
-    //String imagePath="";
-    //String description="";
-    //Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
-    /**
-    String relativePath = "/resources/image/playlist";
-    String absolutePath = context.getRealPath(relativePath);
-    File uploadedFile = new File(absolutePath,imagePath);
-    **/
-    //List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
-    //createdPlaylists.add(playlist);
-    //session.setAttribute("createdPlaylists", createdPlaylists);  
+  public void createPlaylist(@RequestParam String name, @RequestParam String description,@RequestParam String path,  HttpSession session) throws IOException{
+    System.out.println(path);
+    User currentUser= (User)session.getAttribute("currentUser");
+    Playlist playlist = playlistService.createPlaylist(name,path,description,currentUser);
+    List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
+    createdPlaylists.add(playlist);
+    session.setAttribute("createdPlaylists", createdPlaylists);
   }
 
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)

@@ -52,6 +52,8 @@ $(document).ready(function(){
     }
    
   $("#newPlaylistForm").submit(function(){
+    var name = $("#pName").val();
+    var desc= $("#pDesc").val();
     var $files = document.getElementById('file');
     if($files.files.length==0){
       console.log("no file found");
@@ -92,10 +94,30 @@ $(document).ready(function(){
       // Response contains stringified JSON
       // Image URL available at response.data.link
       $.ajax(settings).done(function(response) {
-        console.log(response);
+        var res= JSON.parse(response);
+        var path= res.data.link;
+        console.log(name);
+        $.ajax({
+            url: "playlist/createPlaylist",
+            type: "POST",
+            //Sends the necessary form parameters to the servlet
+            data:({
+             name: name,
+             description: desc,
+             path: path
+            }),
+            success: function(){
+                console.log("Success creating playlist");
+                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                });
+            },
+            error: function(){
+                console.log("Failure creating playlist");
+            }
+        });
+        $("#createPlaylistModal").modal('hide');
       });
     }
-    console.log("no file");
   });
     
   $("#searchForm").submit(function(){
