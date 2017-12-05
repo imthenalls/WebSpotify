@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+                <a id="playlistID" style="display: none;">${currentPlaylist.playlistID}</a>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">

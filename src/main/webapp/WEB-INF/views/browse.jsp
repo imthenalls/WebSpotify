@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isELIgnored="false" %> 
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -57,37 +58,8 @@ and open the template in the editor.
           </div>
         </div>
       </div>
+      <div id="editModalLocation"></div>
       
-      <div id="editPlaylistModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content" id="modalBackground">
-            <div class="modal-header">
-              <span id="closeSpan"><button id="closeButton" type="button" class="btn fa fa-close" data-dismiss="modal"></button></span>
-              <h4 class="modal-title">Edit Playlist</h4>
-            </div>
-            <form id="updatePlaylistForm" enctype="multipart/form-data">
-              <div class="modal-body">
-                <div class="row form-group">
-                  <input id='pName' class="form-control" type="text" name="playlistName" placeholder="${currentPlaylist.playlistName}" required>
-                </div>
-                <div class="row">
-                  <div class="col-xs-6 form-group">
-                    <img height="250" width="250" id="playlist-image" src="${currentPlaylist.imagePath}" alt="Image" class="row img-responsive">
-                    <input id='iPath' name="imagePath" size='20' class="row form-control" type="file" accept="image/*">
-                  </div>
-                  <div class="col-xs-6 form-group">
-                    <textarea id='pDesc' class="form-control" type="textArea" rows="4" columns="5" form="updatePlaylistForm" maxlength="30" placeholder="${currentPlaylist.description}" name="description"></textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-info" type="submit" value="Submit">Update</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
       
       <div id="lyricModal"class="modal fade" role="dialog">
           <div class="modal-dialog">

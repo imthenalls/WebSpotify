@@ -79,4 +79,15 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     List<Playlist> listPlaylist = playlistDao.search(keyword);
     return listPlaylist;
   }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public Playlist updatePlaylist(int id, String name, String path, String description){
+    Playlist playlist = playlistDao.getPlaylist(id);
+    playlist.setImagePath(path);
+    playlist.setPlaylistName(name);
+    playlist.setDescription(description);
+    playlistDao.updatePlaylist(playlist);
+    return playlist;
+  }
 }

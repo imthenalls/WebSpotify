@@ -69,12 +69,13 @@ public class PlaylistController {
 
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
   @ResponseBody
-  public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
+  public String viewPlaylist(@RequestParam int playlistID, HttpSession session){
     System.out.println("hiiiiiiiiii");
     Playlist playlist = playlistService.getPlaylist(playlistID);
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
+    return playlist.getImagePath();
   }
   
   @RequestMapping(value = "/renamePlaylist", method= RequestMethod.POST)
@@ -175,5 +176,24 @@ public class PlaylistController {
         userService.adminDeletePlaylist(delete);
         session.setAttribute("allPlaylists",allPlaylists);
     }
+  }
+  
+  
+  @RequestMapping(value = "/updatePlaylist",  method = RequestMethod.POST)
+  @ResponseBody
+  public void updatePlaylist(@RequestParam int id, @RequestParam String name, @RequestParam String description,@RequestParam String path,  HttpSession session) throws IOException{
+    System.out.println(path);
+    User currentUser= (User)session.getAttribute("currentUser");
+    Playlist playlist = playlistService.updatePlaylist(id, name,path,description);
+    System.out.println(playlist.toString());
+    
+    List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
+    for(int i=0; i<createdPlaylists.size(); i++){
+      if(createdPlaylists.get(i).getPlaylistID()==playlist.getPlaylistID()){
+        createdPlaylists.set(i, playlist);
+        break;
+      }
+    }
+    session.setAttribute("createdPlaylists", createdPlaylists);
   }
 }
