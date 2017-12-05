@@ -114,9 +114,30 @@ $(document).ready(function(){
                 console.log("Failure creating playlist");
             }
         });
-        $("#createPlaylistModal").modal('hide');
       });
     }
+    else{
+      var  path = "/resources/img/team0n3.png"
+      $.ajax({
+        url: "playlist/createPlaylist",
+        type: "POST",
+        //Sends the necessary form parameters to the servlet
+        data:({
+         name: name,
+         description: desc,
+         path: path
+        }),
+        success: function(){
+            console.log("Success creating playlist");
+            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Failure creating playlist");
+        }
+    });
+    }
+    $("#createPlaylistModal").modal('hide');
     return false;
   });
     
