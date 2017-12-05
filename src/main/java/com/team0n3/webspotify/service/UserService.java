@@ -13,9 +13,9 @@ public interface UserService {
   
   public List<Playlist> getCreatedPlaylists(String username);
   
-  public void followPlaylist(String userId, int playlistId);
+  public User followPlaylist(String userId, int playlistId);
   
-  public void unfollowPlaylist(String userId, int playlistId);
+  public User unfollowPlaylist(String userId, int playlistId);
   
   public List<User> listAllUsers();
   public User getUser(String username);

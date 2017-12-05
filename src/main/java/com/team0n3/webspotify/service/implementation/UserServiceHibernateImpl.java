@@ -114,24 +114,26 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Override
   @Transactional(readOnly=false)
-  public void followPlaylist(String userId, int playlistId){
+  public User followPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.add(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly=false)
-  public void unfollowPlaylist(String userId, int playlistId){
+  public User unfollowPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.remove(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override

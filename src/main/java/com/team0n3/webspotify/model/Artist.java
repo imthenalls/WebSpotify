@@ -40,7 +40,7 @@ public class Artist implements Serializable{
     private Collection<Song> songs;
     
     @OneToOne
-    @JoinColumn(name="username",referencedColumnName="username",nullable=false)
+    @JoinColumn(name="username",referencedColumnName="username")
     private User username;
     public Artist() {
     }
