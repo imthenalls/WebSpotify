@@ -148,7 +148,7 @@ public class SpotifyController {
   @RequestMapping(value="/upgradeToPremium",method=RequestMethod.POST)
   @ResponseBody
   public void upgradeToPremium(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
-      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, HttpSession session)
+      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, @RequestParam int zipCode, HttpSession session)
   {
     User user = (User)session.getAttribute("currentUser");
     user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder,ccv,expirationMonth,expirationYear,

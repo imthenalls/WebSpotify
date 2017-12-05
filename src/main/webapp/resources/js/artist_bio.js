@@ -9,7 +9,8 @@ $.ajax({
     dataType : 'jsonp',
     success : function(data) {
         // Add the summary blurb
-        var summary = data['artist']['bio']['summary']; 
+        var summary = data['artist']['bio']['summary'];
+        //look for 'href="' then get substring to the next '"'
         summary = summary.replace('<a href="https://www.last.fm/music/Foo+Fighters">Read more on Last.fm</a>', 
           '<a onclick="viewArtistContent()">Read more</a>'); 
         $('#summary').html(summary);  

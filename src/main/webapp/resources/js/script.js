@@ -31,6 +31,7 @@ $(document).ready(function(){
     $(document).on('click', '.song-row-search', function(){
         viewAlbum($(this).attr("albumId"));
     });
+    
     function playBack(){
         audio = $("#audio")[0];
         audio.volume=.5;
