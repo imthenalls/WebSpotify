@@ -17,12 +17,12 @@
             </div>
         </div>
         <div class="nav navbar-right">
-            <div id="user-icon">
-                <i id="user-icon-img" class="fa fa-user"></i>
-            </div>
+            <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
         </div>
         <div class="nav navbar-right">
-            <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
+            <div id="container">
+                <img src="${currentUser.imagePath}" class="img-responsive img-circle" id="user-img-sm">
+            </div>
         </div>
     </div>
 </nav>

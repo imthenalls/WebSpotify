@@ -441,3 +441,45 @@ a:hover{
 #songDuration{
   text-align:left;
 }
+
+#user-img-sm {
+    max-height: 100%;
+    max-width: 100%;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+#user-img {
+    max-height: 100%;
+    max-width: 100%;
+    width: 150px;
+    height: 150px;
+    margin-right: 5px;
+}
+.userOverlay{
+  transition: .5s ease;
+  opacity:0;
+  position:absolute;
+  background: rgba(0, 0, 0, 0);
+  left: 40%;
+  bottom: 22%;
+  text-align: center;
+  /**transform: translate(-50%,-50%);**/
+  /**-ms-transform: translate(-50%,-50%);**/
+}
+.userCard{
+  padding-bottom: 2.5em;
+  vertical-align:baseline;
+  text-align: center;
+}
+
+.userCard:hover .userPic{
+  opacity:.3;
+  text-align: center;
+}
+
+.userCard:hover .userOverlay{
+  opacity:1;
+  text-align: center;
+}

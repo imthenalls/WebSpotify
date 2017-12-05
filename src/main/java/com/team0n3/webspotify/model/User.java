@@ -36,6 +36,9 @@ public class User implements Serializable{
   @Column(name="salt")
   private byte[] salt;
 
+  @Column(name="imagePath")
+  private String imagePath;
+  
   @OneToMany(cascade=CascadeType.ALL,mappedBy="creator")
   private Collection<Playlist> createdPlaylists;
 
@@ -153,6 +156,14 @@ public class User implements Serializable{
 
   public void setSalt(byte[] salt) {
     this.salt = salt;
+  }
+
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
   }
   
   public Collection<Playlist> getCreatedPlaylists() {

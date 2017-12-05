@@ -27,6 +27,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,10 @@ public class UserServiceHibernateImpl implements UserService{
   private SongService songService;
   @Autowired
   private SessionFactory sessionFactory;
-
+  
+  @Value("${user.defaultPath}")
+  String defaultPath;
+  
   @Override
   public User login(String username, String password) {
     User user = userDao.getUser(username);
@@ -97,7 +101,8 @@ public class UserServiceHibernateImpl implements UserService{
     md.update(salt);
     md.update(password.getBytes());
     byte hashedPass[] = md.digest();
-    User user = new User(username, email, hashedPass, salt);
+    User user = new User(username, email, hashedPass, salt);   
+    user.setImagePath(defaultPath);
     userDao.addUser(user);
     return "noError";
   }
@@ -637,5 +642,12 @@ public class UserServiceHibernateImpl implements UserService{
           }  
           userDao.deleteUser(removeUser);
     }
+  }
+
+  @Override
+  public void changeProfilePic(String username, String path) {
+    User user= userDao.getUser(username);
+    user.setImagePath(path);
+    userDao.updateUser(user);
   }
 }

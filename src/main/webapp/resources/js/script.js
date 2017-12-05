@@ -160,6 +160,71 @@ $(document).ready(function(){
   });
   return false; 
   });
+  
+  $(document).on('click', '#user-img', function(){
+      $("#my_file").click();
+  });
+   $(document).on('change', '#my_file', function(){
+    console.log("hiiiiii");
+    var $files = document.getElementById('my_file');
+    if ($files.files.length) {
+      console.log($files.value);
+      // Reject big files
+      if ($files.files[0].size > 1024 * 1024) {
+        console.log("Please select a smaller file");
+        return false;
+      }
+      
+      // Begin file upload
+      console.log("Uploading file to Imgur..");
+
+      // Replace ctrlq with your own API key
+      var apiUrl = 'https://api.imgur.com/3/image';
+      var apiKey = '031ad79e1cfcccf';
+
+      var settings = {
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        url: apiUrl,
+        headers: {
+          Authorization: 'Client-ID ' + apiKey,
+          Accept: 'application/json'
+        },
+        mimeType: 'multipart/form-data'
+      };
+
+      var formData = new FormData();
+      formData.append("image", $files.files[0]);
+      settings.data = formData;
+
+      // Response contains stringified JSON
+      // Image URL available at response.data.link
+      $.ajax(settings).done(function(response) {
+        var res= JSON.parse(response);
+        var path= res.data.link;
+        $("#user-img").attr('src', path);
+        console.log(name);
+        $.ajax({
+            url: "/changeProfPic",
+            type: "POST",
+            //Sends the necessary form parameters to the servlet
+            data:({
+             path: path
+            }),
+            success: function(){
+                console.log("Success changing pic");
+                $("#topTool").load("/resources/toolbars/top.jsp");
+            },
+            error: function(){
+                console.log("Failure changing pic");
+            }
+        });
+      });
+    }
+    return false;
+  });
 });
 
   function viewQueue(){

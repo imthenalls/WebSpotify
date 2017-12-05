@@ -235,5 +235,13 @@ public class SpotifyController {
           session.setAttribute("userList",userList);
       }
   }
+  @RequestMapping(value = "/changeProfPic", method = RequestMethod.POST)
+  @ResponseBody
+  public void changeProfPic(@RequestParam String path, HttpSession session){
+      User user = (User)session.getAttribute("currentUser");
+      userService.changeProfilePic(user.getUsername(), path);
+      user.setImagePath(path);
+      session.setAttribute("currentUser",user);
+  }
   
 }

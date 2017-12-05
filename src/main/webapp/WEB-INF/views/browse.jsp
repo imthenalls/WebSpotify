@@ -22,7 +22,9 @@ and open the template in the editor.
   </head>
   <body>
     <div>
-      <%@include file="/resources/toolbars/top.jsp" %>
+      <div id="topTool">
+        <%@include file="/resources/toolbars/top.jsp" %>
+      </div>
       <div id="createPlaylistModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->

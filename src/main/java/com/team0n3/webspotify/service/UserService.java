@@ -41,4 +41,5 @@ public interface UserService {
   public void adminApproveFreeUser(String username,String approve);
   public void adminApproveArtistUser(String username,String approve);
   public void adminRemoveUser(String admin,String removeUser);
+  public void changeProfilePic(String username, String path);
 }
