@@ -53,36 +53,72 @@ $(document).ready(function(){
     }
    
   $("#newPlaylistForm").submit(function(){
-      var playlistName = $("#pName").val();
-      var imagePath = $("#iPath").val();
-      var description = $("#pDesc").val();
-      var file = $("#iPath")[0].files[0];
-      
+    var name = $("#pName").val();
+    var desc= $("#pDesc").val();
+    var $files = document.getElementById('file');
+    if($files.files.length==0){
+      console.log("no file found");
+    }
+    if ($files.files.length) {
+      console.log("in");
+      // Reject big files
+      if ($files.files[0].size > 1024 * 1024) {
+        console.log("Please select a smaller file");
+        return false;
+      }
+
+      // Begin file upload
+      console.log("Uploading file to Imgur..");
+
+      // Replace ctrlq with your own API key
+      var apiUrl = 'https://api.imgur.com/3/image';
+      var apiKey = '031ad79e1cfcccf';
+
+      var settings = {
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        url: apiUrl,
+        headers: {
+          Authorization: 'Client-ID ' + apiKey,
+          Accept: 'application/json'
+        },
+        mimeType: 'multipart/form-data'
+      };
+
       var formData = new FormData();
-      formData.append("playlistName",playlistName);
-      formData.append("imagePath",imagePath);
-      formData.append("description",description);
-      formData.append("file",file);
-      $.ajax({
-          url: "playlist/createPlaylist",
-          type: "POST",
-          //Sends the necessary form parameters to the servlet
-          data:({
-             playlistName: playlistName,
-             imagePath: imagePath,
-             description: description
-          }),
-          success: function(){
-              console.log("Success creating playlist");
-              $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-              });
-          },
-          error: function(){
-              console.log("Failure creating playlist");
-          }
+      formData.append("image", $files.files[0]);
+      settings.data = formData;
+
+      // Response contains stringified JSON
+      // Image URL available at response.data.link
+      $.ajax(settings).done(function(response) {
+        var res= JSON.parse(response);
+        var path= res.data.link;
+        console.log(name);
+        $.ajax({
+            url: "playlist/createPlaylist",
+            type: "POST",
+            //Sends the necessary form parameters to the servlet
+            data:({
+             name: name,
+             description: desc,
+             path: path
+            }),
+            success: function(){
+                console.log("Success creating playlist");
+                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+                });
+            },
+            error: function(){
+                console.log("Failure creating playlist");
+            }
+        });
+        $("#createPlaylistModal").modal('hide');
       });
-      $("#createPlaylistModal").modal('hide');
-      return false;    
+    }
+    return false;
   });
     
   $("#searchForm").submit(function(){
