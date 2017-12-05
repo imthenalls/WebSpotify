@@ -60,6 +60,7 @@ public class PlaylistController {
     System.out.println(path);
     User currentUser= (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.createPlaylist(name,path,description,currentUser);
+    System.out.println(playlist.toString());
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     createdPlaylists.add(playlist);
     session.setAttribute("createdPlaylists", createdPlaylists);

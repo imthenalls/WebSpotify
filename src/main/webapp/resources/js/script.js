@@ -74,7 +74,6 @@ $(document).ready(function(){
       var apiKey = '031ad79e1cfcccf';
 
       var settings = {
-        async: false,
         crossDomain: true,
         processData: false,
         contentType: false,
@@ -118,6 +117,7 @@ $(document).ready(function(){
         $("#createPlaylistModal").modal('hide');
       });
     }
+    return false;
   });
     
   $("#searchForm").submit(function(){
