@@ -17,7 +17,7 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
-
+    
     $(document).on('mousedown','#progress', scrub);
     //for the search links
     $(document).on('click', '.album-card-search', function(){
@@ -218,7 +218,6 @@ function toggleMute(){
 }
 
 
-
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
@@ -260,7 +259,6 @@ function upgradeToPremium(){
       });
     return false;      
     }
-
 }
 
 function updateProgress() {
@@ -695,6 +693,44 @@ function unfollowAlbum(albumId,currentPage) {
     },
     error: function(){
             console.log("Failure unfollowing album");
+    }
+  });
+  return false;
+};
+
+function followSong(songId,currentPage) {
+  $.ajax({
+    url: "song/followSong",
+    type: "POST",
+    data: ({
+      songId: songId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
+        console.log("Success following song");
+      });
+    },
+    error: function(){
+      console.log("Failure following song");
+    }
+  });
+  return false;
+};
+
+function unfollowSong(songId,currentPage) {
+  $.ajax({
+    url: "song/unfollowSong",
+    type: "POST",
+    data: ({
+      songId: songId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){
+                console.log("Success unfollowing song");
+            });
+    },
+    error: function(){
+            console.log("Failure unfollowing song");
     }
   });
   return false;

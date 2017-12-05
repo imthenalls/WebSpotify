@@ -246,10 +246,10 @@ public class SpotifyController {
   public void adminApproveUser(@RequestParam String username, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Admin){
-      userService.adminApproveFreeUser( username);
-      List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
+      List<User> unapprovedUsers = (ArrayList)session.getAttribute("unapprovedUsers");
       User approvedUser = userService.getUser(username);
       unapprovedUsers.remove(approvedUser);
+      userService.adminApproveFreeUser(username);
       session.setAttribute("unapprovedUsers",unapprovedUsers);
     }     
   }
@@ -259,10 +259,10 @@ public class SpotifyController {
   public void adminApproveArtist(@RequestParam String username, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Admin){
-      userService.adminApproveArtistUser(username);
-      List<User> unapprovedArtists = (List)session.getAttribute("unapprovedArtists");
+      List<User> unapprovedArtists = (ArrayList)session.getAttribute("unapprovedArtists");
       User approvedArtist = userService.getUser(username);
       unapprovedArtists.remove(approvedArtist);
+      userService.adminApproveArtistUser(username);
       session.setAttribute("unapprovedArtists",unapprovedArtists);
     }     
   }
