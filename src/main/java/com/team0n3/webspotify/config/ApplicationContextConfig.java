@@ -32,6 +32,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -82,6 +85,11 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
     return transactionManager;
   }
 
+@Bean
+public StandardServletMultipartResolver multipartResolver(){
+    return new StandardServletMultipartResolver();
+}
+  
   @Autowired
   @Bean(name = "userDao")
   public UserDAO getUserDao(SessionFactory sessionFactory) {
