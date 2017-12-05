@@ -310,6 +310,7 @@ public class UserServiceHibernateImpl implements UserService{
     
   }
 
+  @Transactional(readOnly = false)
   @Override
   public void changeProfilePic(String username, String path) {
     User user= userDao.getUser(username);
