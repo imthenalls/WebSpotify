@@ -29,7 +29,7 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   private SessionFactory sessionFactory;
 
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser) {
     Playlist playlist = new Playlist(playlistName,imagePath,description,currentUser);
     playlistDao.addPlaylist(playlist);
@@ -37,25 +37,25 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   }
 
   @Override
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public List<Playlist> listAllPlaylists(){
     return playlistDao.listPlaylists();
   }
 
   @Override
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public Playlist getPlaylist(int playlistID){
     return playlistDao.getPlaylist(playlistID);
   }
 
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void deletePlaylist(Playlist p){
     playlistDao.deletePlaylist(p);
   }
  
   @Override
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   public List<Song> getSongsInPlaylists(int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     if(playlist == null)
@@ -66,7 +66,7 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void renamePlaylist(int playlistId, String playlistName){
       Playlist playlist = playlistDao.getPlaylist(playlistId);
        System.out.println("pre helo rename "+playlist.getPlaylistName());

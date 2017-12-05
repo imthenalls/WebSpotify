@@ -40,7 +40,7 @@ public class Artist implements Serializable{
     private Collection<Song> songs;
     
     @ManyToMany(cascade ={CascadeType.PERSIST, 
-        CascadeType.MERGE }, mappedBy = "followartist")
+        CascadeType.MERGE }, mappedBy = "followedArtists")
     private Collection<User> followers;
     
     @OneToOne

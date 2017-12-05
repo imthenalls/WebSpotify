@@ -116,21 +116,6 @@ function adminRemoveAlbum(albumId){
     return false;
 }
 
-function viewAdminAllSongs(){
-    $.ajax({
-        url: "song/viewAllSongs",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
 function viewAdminAllAlbums(){
     $.ajax({
         url: "album/viewAdminAllAlbums",
@@ -180,14 +165,14 @@ function adminViewAllPlaylists(){
 
 function adminViewAllSongs(){
     $.ajax({
-        url: "song/viewAllSongs",
+        url: "song/adminViewAllSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
             });
         },
         error: function(){
-            console.log("Error viewing followed songs");
+            console.log("Error viewing all songs");
         }
     });
     return false; // Makes sure that the link isn't followed

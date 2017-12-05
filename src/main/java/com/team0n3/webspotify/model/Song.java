@@ -58,8 +58,8 @@ public class Song implements Serializable {
     @Column(name = "royaltyPerPlay")
     private int royaltyPerPlay;
     
-     @ManyToMany(cascade ={CascadeType.PERSIST, 
-        CascadeType.MERGE }, mappedBy = "followsong")
+    @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE }, mappedBy = "followedSongs")
     private Collection<User> followers;
     
     public Song() {
@@ -148,7 +148,7 @@ public class Song implements Serializable {
     public void setNumFollowers(int numFollowers) {
         this.numFollowers = numFollowers;
     }
-
+    
     public Collection<User> getFollowers() {
         return followers;
     }

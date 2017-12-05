@@ -46,7 +46,7 @@ public class Album implements Serializable{
   private Artist artistId;
   
   @ManyToMany(cascade ={CascadeType.PERSIST, 
-        CascadeType.MERGE }, mappedBy = "followalbum")
+        CascadeType.MERGE }, mappedBy = "followedAlbums")
   private Collection<User> followers;
   
   public Album() {
@@ -119,7 +119,7 @@ public class Album implements Serializable{
   public void setDuration(int duration) {
       this.duration = duration;
   }
-
+  
   public Collection<User> getFollowers() {
       return followers;
   }

@@ -12,6 +12,7 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.UserService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -94,25 +95,27 @@ public class ArtistController {
     if(user.getAccountType() == AccountType.Admin)
     {
         System.out.println(user.toString());
-        userService.adminAddArtist( user.getUsername(),  artistName, popularity,  imagePath);
+        userService.adminAddArtist( artistName, popularity,  imagePath);
     }
   }
   
   @RequestMapping( value = "/adminRemoveArtist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveArtist(@RequestParam int artistId, HttpSession session){
-    List<Artist> allArtists = artistService.listAllArtists();
+    List<Artist> allArtists = (ArrayList)session.getAttribute("allArtists");
     boolean found = false;
+    Artist delete = null;
     for(Artist a : allArtists){
       if(a.getArtistId() == artistId){
+        delete = a;
         allArtists.remove(a);
         found = true;
         break;
       }
     }
     if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      userService.adminRemoveArtist(currentUser.getUsername(), artistId);
+      if(delete != null)
+        userService.adminDeleteArtist(delete);
       session.setAttribute("allArtists",allArtists);
     }
   }

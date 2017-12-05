@@ -198,6 +198,7 @@ public class User implements Serializable{
   public Collection<Artist> getFollowedArtists() {
         return followedArtists;
   }
+  
   public void setFollowedArtists(Collection<Artist> followedArtists) {
         this.followedArtists = followedArtists;
   }

@@ -215,7 +215,7 @@ public class SpotifyController {
   public void adminApproveUser(@RequestParam String username, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Admin){
-      userService.adminApproveFreeUser( user.getUsername(), username);
+      userService.adminApproveFreeUser( username);
       List<User> unapprovedUsers = (List)session.getAttribute("unapprovedUsers");
       User approvedUser = userService.getUser(username);
       unapprovedUsers.remove(approvedUser);
@@ -226,14 +226,7 @@ public class SpotifyController {
   @RequestMapping(value = "/adminRemoveUser", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveUser(@RequestParam String username, HttpSession session){
-      User user = (User)session.getAttribute("currentUser");
-      if(user.getAccountType() == AccountType.Admin){
-          User removeUser = userService.getUser(username);
-        //  userService.adminRemoveUser(user.getUsername(), username);
-          List<User> userList = userService.listAllUsers();
-          userList.remove(removeUser);
-          session.setAttribute("userList",userList);
-      }
+    //do later
   }
   
 }

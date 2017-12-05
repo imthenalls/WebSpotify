@@ -13,6 +13,7 @@ import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -167,18 +168,21 @@ public class PlaylistController {
   @RequestMapping( value = "/adminRemovePlaylist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemovePlaylist(@RequestParam int playlistId, HttpSession session){
-    List<Playlist> allPlaylists = playlistService.listAllPlaylists();
+    List<Playlist> allPlaylists = (ArrayList)session.getAttribute("allPlaylists");
     boolean found = false;
+    Playlist delete = null;
     for(Playlist p : allPlaylists){
       if(p.getPlaylistID() == playlistId){
+        delete = p;
         allPlaylists.remove(p);
         found = true;
         break;
       }
     }
     if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      userService.adminRemovePlaylist(currentUser.getUsername(), playlistId);
+      //User currentUser = (User)session.getAttribute("currentUser");
+      if(delete != null)
+        userService.adminDeletePlaylist(delete);
       session.setAttribute("allPlaylists",allPlaylists);
     }
   }

@@ -2,7 +2,6 @@
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.ArtistDAO;
-import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
@@ -25,7 +24,6 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     private SessionFactory sessionFactory;
     
     @Override
-    
     public Artist getArtist(int artistId) {
         Artist artist = artistDao.getArtist(artistId);
         if(artist == null)
@@ -47,6 +45,7 @@ public class ArtistServiceHibernateImpl implements ArtistService{
         List<Artist> listArtists = artistDao.listArtists();
         return listArtists;
     }
+    
     @Transactional(readOnly = true)
     @Override
     public List<Artist> search(String keyword)
@@ -80,6 +79,7 @@ public class ArtistServiceHibernateImpl implements ArtistService{
       artist.setTotalRoyalties(totalRoyalty);
       artistDao.updateArtist(artist);
   }
+  
   @Transactional(readOnly = true)
   @Override
   public List<Song> getSongsWithPlays(int artistId){
@@ -89,9 +89,8 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     int totalPlays = 0;
     for(Song s : songs){
       totalPlays = s.getTotalPlays();
-        if(totalPlays > 0){
+        if(totalPlays > 0)
           songsWithPlays.add(s);
-        }
     }
     return songsWithPlays;
   }

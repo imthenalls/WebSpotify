@@ -17,10 +17,7 @@
             <a data-toggle="tab" href="#">Recently Played</a>
         </li>
         <li> 
-          <a data-toggle="tab" href="#" onclick="viewAllSongs()">Songs</a>
-        </li>
-        <li> 
-          <a data-toggle="tab" href="#" onclick="viewAdminAllSongs()">Admin Songs</a>
+          <a data-toggle="tab" href="#" onclick="adminViewAllSongs()">Admin Songs</a>
         </li>
         <li> 
           <a data-toggle="tab" href="#" onclick="adminViewAllArtists()">All Artists</a>
