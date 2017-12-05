@@ -40,12 +40,10 @@ public class SongPlayerController {
   @ResponseBody
   public void playSong(@RequestParam int songId, @RequestParam String setType, @RequestParam int songIndex, HttpSession session){
     Song song = songService.getSong(songId);
-    songService.incrementTotalPlays(songId);
     if(setType.equals("album")){
       Album currentAlbum = (Album)session.getAttribute("currentAlbum");
       Collection<Song> albumSongs = currentAlbum.getSongs();
       player.setQueues(albumSongs,songIndex);
-      
     }
     else if(setType.equals("playlist")){
       Playlist currentPlaylist = (Playlist)session.getAttribute("currentPlaylist");
@@ -59,7 +57,6 @@ public class SongPlayerController {
   @ResponseBody
   public void playNext(HttpSession session){
     Song nextSong = player.getNextSong();
-    songService.incrementTotalPlays(nextSong.getSongId());
     session.setAttribute("currentSong",nextSong);
   }
   
@@ -67,7 +64,6 @@ public class SongPlayerController {
   @ResponseBody
   public void playPrev(HttpSession session){
     Song prevSong = player.getPrevSong();
-    songService.incrementTotalPlays(prevSong.getSongId());
     session.setAttribute("currentSong",prevSong);
   }
   

@@ -42,9 +42,6 @@ public class ArtistController {
     User currentUser = (User)session.getAttribute("currentUser");
     (currentUser.getFollowedArtists()).add(artistService.getArtist(artistId));
     userService.followArtist(currentUser.getUsername(), artistId);
-    artistService.updatePopularity(artistId);
-    session.setAttribute("currentUser",currentUser);
-    //do we need a followedartists session attr??
   }
   
   @RequestMapping(value="/unfollowArtist", method=RequestMethod.POST)
@@ -60,11 +57,8 @@ public class ArtistController {
         break;
       }
     }
-    if(found){
+    if(found)
       userService.unfollowArtist(currentUser.getUsername(), artistId);
-      artistService.updatePopularity(artistId);
-      session.setAttribute("currentUser",currentUser);
-    }
   }
   
   @RequestMapping(value = "/viewArtist", method = RequestMethod.GET)

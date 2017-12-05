@@ -40,7 +40,6 @@ public class SongController {
     User currentUser = (User)session.getAttribute("currentUser");
     (currentUser.getFollowedSongs()).add(songService.getSong(songId));
     userService.followSong(currentUser.getUsername(), songId);
-    songService.updateFollowerCount(songId);
   }
   
   @RequestMapping(value="/unfollowSong", method=RequestMethod.POST)
@@ -56,10 +55,8 @@ public class SongController {
         break;
       }
     }
-    if(found){
+    if(found)
       userService.unfollowSong(currentUser.getUsername(), songId);
-      songService.updateFollowerCount(songId);
-    }
   }
   
   @RequestMapping(value = "/viewAllSongs", method= RequestMethod.GET)

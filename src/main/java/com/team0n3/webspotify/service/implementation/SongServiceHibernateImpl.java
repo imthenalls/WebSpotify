@@ -4,7 +4,6 @@ package com.team0n3.webspotify.service.implementation;
 import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
-import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
 import java.util.Collection;
@@ -72,32 +71,15 @@ public class SongServiceHibernateImpl implements SongService{
     contains.remove(playlist);
     song.setContainedInPlaylists(contains);
     songDao.mergeSong(song);
+    
   }
   
-  @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
   @Override
   public List<Song> search(String keyword)
   {
     List<Song> listSongs = songDao.search(keyword);
     return listSongs;
-  }
-  @Transactional(readOnly = false)
-  @Override
-  public void incrementTotalPlays(int songId){
-      Song song = songDao.getSong(songId);
-      int totalPlays = song.getTotalPlays();
-      totalPlays++;
-      song.setTotalPlays(totalPlays);
-     // songDao.updateSong(song);
-  }
-  
-  @Override
-  @Transactional(readOnly = false)
-  public void updateFollowerCount(int songId){
-      Song song = songDao.getSong(songId);
-      Collection<User> followers = song.getFollowers();
-      song.setNumFollowers(followers.size());
-      songDao.updateSong(song);
   }
 
 }

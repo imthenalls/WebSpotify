@@ -35,27 +35,17 @@ public class Song implements Serializable {
     @ManyToMany(cascade ={CascadeType.PERSIST, 
         CascadeType.MERGE })
     @JoinTable(
-            name = "songplaylist",
-            joinColumns = {@JoinColumn(name = "songid")},
-            inverseJoinColumns = {@JoinColumn(name = "playlistID")}
+            name="songplaylist",
+            joinColumns= {@JoinColumn(name="songid")},
+            inverseJoinColumns = {@JoinColumn(name="playlistID")}
     ) 
     private Collection<Playlist> containedInPlaylists;
     
-    @Column(name = "duration",nullable=false)
+    @Column(name="duration",nullable=false)
     private int duration;
     
-    @Column(name = "audioPath")
+    @Column(name="audioPath")
     private String audioPath;
-    
-    @Column(name = "totalPlays")
-    private int totalPlays;
-    
-    @Column(name = "numFollowers")
-    private int numFollowers;
-    
-     @ManyToMany(cascade ={CascadeType.PERSIST, 
-        CascadeType.MERGE }, mappedBy = "followsong")
-    private Collection<User> followers;
     
     public Song() {
     }
@@ -63,15 +53,9 @@ public class Song implements Serializable {
     public Song(String title) {
        this.title = title;
     }
-
-    public int getTotalPlays() {
-        return totalPlays;
-    }
-
-    public void setTotalPlays(int totalPlays) {
-        this.totalPlays = totalPlays;
-    }
-
+    
+    
+    
     public Collection<Playlist> getContainedInPlaylists(){
         return containedInPlaylists;
     }
@@ -126,22 +110,6 @@ public class Song implements Serializable {
     
     public void setAudioPath(String audioPath){
       this.audioPath=audioPath;
-    }
-
-    public int getNumFollowers() {
-        return numFollowers;
-    }
-
-    public void setNumFollowers(int numFollowers) {
-        this.numFollowers = numFollowers;
-    }
-
-    public Collection<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Collection<User> followers) {
-        this.followers = followers;
     }
     
     @Override
