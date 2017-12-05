@@ -25,21 +25,21 @@
   <table class="table playlistTable">
     <tr>
       <th>Name</th>
-       <th>aaaa</th>
+      <th>aaaa</th>
     </tr>
-    <c:forEach items="${unapprovedUsers}" var="User">
+    <c:forEach items="${allArtists}" var="Artist">
         <tr class="tableRow">
-        <td><a href="#"> ${User.username}</a></td>
+        <td><a href="#" onclick=viewArtist(${Artist.artistId})>${Artist.artistName}</a></td>
          <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">
+             <c:when test="${currentUser.accountType == 'Admin'}">'
              <td>
-             <div class="dropdown">
+                <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
                       Options
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                       <li><a class = "unapproved-users" href="#" username="${User.username}">Approve user</a></li>
+                        <li><a href="#" onclick=adminRemoveArtist(${Artist.artistId})>Remove From artists</a></li>
                     </ul>
                 </div>
              </td>
@@ -48,7 +48,7 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        </tr>
+                 </tr>
     </c:forEach> 
         
   </table>

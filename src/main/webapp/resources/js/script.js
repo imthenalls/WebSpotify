@@ -17,10 +17,7 @@ $(document).ready(function(){
     });
     
     $('[data-toggle="tooltip"]').tooltip();
-    //admin aprpoval
-    $(document).on('click','.unapproved-users', function(){
-        adminApproveUser($(this).attr("username"));
-    });
+
     $(document).on('mousedown','#progress', scrub);
     //for the search links
     $(document).on('click', '.album-card-search', function(){
@@ -164,63 +161,50 @@ function toggleMute(){
   }
 }
 
-function addArtistAdmin(){
-     var artistName = $("#artistName").val();
-           var popularity = $("#popularity").val();
-           var imagePath = $("imagePath").val();
-           $.ajax({
-               url: "artist/addArtistAdmin",
-               type: "POST",
-               data:({
-                  artistName: artistName,
-                  popularity: popularity,
-                  imagePath: imagePath,
-               }),
-               
-               success: function(){},
-               error: function(){
-                   console.log("Failure");
-               }
-           });
-           return false;    
-}
+
 
 function upgradeToPremium(){
     console.log("trying to upgrade");
     var cardHold = $("#cardHold").val();
     var cardNum = $("#cardNum").val();
     var ccv = $("#ccv").val();
-    //var month = parseInt($("#month").val());
-    //var year = parseInt($("#year").val());
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
     var monthYear = ($("#month").val());
+    var zipCode = parseInt($('#zipcode').val());
     var dateData = monthYear.split(" "); 
     var month = parseInt(dateData[0]);
     var year = parseInt(dateData[2]);
-    $.ajax({
-       url: "upgradeToPremium",
-       type: "POST",
-       data:({
-           cardNumber: cardNum,
-           cardHolder: cardHold,
-           ccv: ccv,
-           expirationMonth: month,
-           expirationYear: year,
-           creditCompany: creditCompany,
-           address: address
-       }),
-       success:function(){
-           $("#center-pane").load("/resources/pages/profile.jsp",function(){
-               console.log("success upgrading");
-           });
-           
-       },
-       error:function(){
-           console.log("failure upgrading");
-       }
-    });
-    return false;
+    var currYear = (new Date()).getFullYear() - 2000;
+    if(month > 12 || year < currYear || year > (currYear + 25)){
+      console.log(month, year, currYear);
+    }
+    else{
+      $.ajax({
+         url: "upgradeToPremium",
+         type: "POST",
+         data:({
+             cardNumber: cardNum,
+             cardHolder: cardHold,
+             ccv: ccv,
+             expirationMonth: month,
+             expirationYear: year,
+             creditCompany: creditCompany,
+             address: address
+         }),
+         success:function(){
+             $("#center-pane").load("/resources/pages/profile.jsp",function(){
+                 console.log("success upgrading");
+             });
+
+         },
+         error:function(){
+             console.log("failure upgrading");
+         }
+      });
+    return false;      
+    }
+
 }
 
 function updateProgress() {
@@ -328,55 +312,6 @@ function viewAlbum(id){
 
 function viewFollowedAlbums(){
     $("#center-pane").load("/resources/pages/followedAlbums.jsp");
-}
-
-function viewAllArtists(){
-    $.ajax({
-        url: "artist/viewAllArtists",
-        type: "GET",
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewAllPlaylists(){
-    $.ajax({
-        url: "playlist/viewAllPlaylists",
-        type: "GET",
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewAllSongs(){
-    $.ajax({
-        url: "song/viewAllSongs",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
 }
 
 function deletePlaylist(){
@@ -620,7 +555,7 @@ function adminRemoveArtist(artistId){
 
 function adminRemovePlaylist(playlistId){
     $.ajax({
-        url: "adminRemovePlaylist",
+        url: "playlist/adminRemovePlaylist",
         type: "POST",
         data: ({
           playlistId: playlistId,
@@ -688,7 +623,7 @@ function viewAdminAllSongs(){
 
 function viewAdminAllAlbums(){
     $.ajax({
-        url: "viewAdminAllAlbums",
+        url: "album/viewAdminAllAlbums",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/allAlbums.jsp",function(){

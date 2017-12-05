@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -39,9 +39,17 @@ public class Artist implements Serializable{
     @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Song> songs;
     
+    @ManyToMany(cascade ={CascadeType.PERSIST, 
+    CascadeType.MERGE }, mappedBy = "followedArtists")
+    private Collection<User> followers;
+    
     @OneToOne
     @JoinColumn(name="username",referencedColumnName="username")
     private User username;
+    
+    @Column(name = "totalRoyalties",nullable=true)
+    private int totalRoyalties;
+    
     public Artist() {
     }
     
@@ -49,15 +57,30 @@ public class Artist implements Serializable{
         this.artistName = artistName;
     }
     
-    public Artist(String artistName, User username) {
-        this.artistName = artistName;
-        this.username = username;
-    }
-    
     public Artist(String artistName, int popularity, String imagePath) {
         this.artistName = artistName;
         this.popularity = popularity;
         this.imagePath = imagePath;
+    }
+
+    public Artist(String artistName, User username) {
+        this.artistName = artistName;
+        this.username = username;
+    }
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public User getUsername() {
+        return username;
+    }
+
+    public void setUsername(User username) {
+        this.username = username;
     }
     
     public Collection<Album> getAlbums() {
@@ -84,18 +107,6 @@ public class Artist implements Serializable{
         this.artistName = artistName;
     }
 
-   /*
-    public int getTotalPlays() {
-        return totalPlays;
-    }
-    public int getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(int Popularity) {
-        this.popularity = popularity;
-    }
-*/
     public Collection<Song> getSongs() {
         return songs;
     }
@@ -110,6 +121,22 @@ public class Artist implements Serializable{
     
     public void setImagePath(String imagePath){
         this.imagePath = imagePath;
+    }
+
+    public Collection<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Collection<User> followers) {
+        this.followers = followers;
+    }
+
+    public int getTotalRoyalties() {
+        return totalRoyalties;
+    }
+
+    public void setTotalRoyalties(int totalRoyalties) {
+        this.totalRoyalties = totalRoyalties;
     }
     
     @Override

@@ -21,7 +21,7 @@
         <td><a href="#" onclick="viewAlbum(${Album.albumId})">${Album.albumName}</a></td>
         <td><a href="#" onclick="viewArtist(${Album.artistId.artistId})">${Album.artistId.artistName}</a></td>
           <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
