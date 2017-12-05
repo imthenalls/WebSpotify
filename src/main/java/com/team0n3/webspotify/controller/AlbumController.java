@@ -56,7 +56,7 @@ public class AlbumController {
         followedAlbums.remove(a);
         session.setAttribute("followedAlbums",followedAlbums);
         currentUser = userService.unfollowAlbum(currentUser.getUsername(), albumId);
-        albumService.updatePopularity(albumId);
+        //albumService.updatePopularity(albumId);
         session.setAttribute("currentUser",currentUser);
         return;
       }
