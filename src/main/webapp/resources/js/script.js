@@ -160,6 +160,10 @@ $(document).ready(function(){
   });
   return false; 
   });
+  
+  $('#createPlaylistModal').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+  });
 });
 
   function viewQueue(){
@@ -194,8 +198,7 @@ function changeVolume(){
   }
 }
 
-var oldVolume=audio.volume;
-console.log(oldVolume);
+var oldVolume=.5;
 
 function toggleMute(){
   console.log("yes");

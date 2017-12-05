@@ -6,35 +6,31 @@
       <img class="mediaPic" src=${currentAlbum.imagePath}>
     </div>
     <div id="mediaInfo" class="col-xs-8">
-      <div class="row">
-        <span class="mediaType">Album</span>
-      </div>
-      <div class="row">
+        <h5 class="mediaType">Album</h5>
         <a href="#">
           <h3 class="mediaName">${currentAlbum.albumName}</h3>    
         </a>
-      </div>
-      <div class="row">
         <a href="#" onclick="viewArtist(${currentAlbum.artistId.artistId})">By ${currentAlbum.artistId.artistName}</a>
-      </div>
+     
       <div class="row">
         <div class="dropdown">
           <button class="btn btn-primary" id="playlistPlayButton" onclick="playSong(${albumSongs[0].songId},'album',0)">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
           </button>
-          <c:choose>
-            <c:when test = "${currentUser.isFollowingAlbum(currentAlbum)}">
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId},'album.jsp')">Unfollow</a></li>
-              </ul>
-            </c:when>
-            <c:otherwise>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="followAlbum(${currentAlbum.albumId},'album.jsp')">Follow</a></li>
-              </ul> 
-            </c:otherwise>
-          </c:choose>
+          <ul class='dropdown-menu'>
+            <c:choose>
+              <c:when test = "${currentUser.isFollowingAlbum(currentAlbum)}">
+                  <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId},'album.jsp')">Unfollow</a></li>
+              </c:when>
+              <c:otherwise>
+                  <li><a href="#" onclick="followAlbum(${currentAlbum.albumId},'album.jsp')">Follow</a></li>
+              </c:otherwise>
+            </c:choose>
+              <li><a href='#' id="addAlbumToQueue" album="${currentAlbum.albumId}">Add to Queue - not done</a></li>
+              <li><a href='#' class='viewArtist' artist='${currentAlbum.artistId.artistId}'>View Artist - not done</a></li>
+              <li><a href='#'>Add to Playlist - not done</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -59,9 +55,7 @@
         </td>
         <td>${Song.title}</td>
         <td class="durationColumn">
-            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>
-            :
-            <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
       </tr>
     </c:forEach> 

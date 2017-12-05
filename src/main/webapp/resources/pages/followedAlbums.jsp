@@ -18,11 +18,18 @@
           <div class="albumOverlay">     
             <button class="fa fa-remove albumButton" onclick="unfollowAlbum(${Album.albumId},'followedAlbums.jsp')"></button>
             <button class="fa fa-play albumButton"></button>
-            <button class="fa fa-ellipsis-h albumButton"></button>
+            <button class="fa fa-ellipsis-h albumButton dropdown-toggle" data-toggle='dropdown'></button>
+            <ul class='dropdown-menu'>
+              <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId},'album.jsp')">Unfollow</a></li>
+              <li><a href='#' id="addAlbumToQueue" album="${currentAlbum.albumId}">Add to Queue - not done</a></li>
+              <li><a href='#' class='viewArtist' artist='${currentAlbum.artistId.artistId}'>View Artist - not done</a></li>
+              <li><a href='#'>Add to Playlist - not done</a></li>
+            </ul>
+            </div>
           </div>
           <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
-        </div>
       </div>
     </c:forEach>
+    </div>
   </div>
 </div>

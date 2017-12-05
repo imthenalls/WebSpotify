@@ -11,6 +11,9 @@ and open the template in the editor.
     <title>Browse Overview</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" href="/resources/img/kevinCost.png">
+    
     <!-- Bootstrap Core CSS-->
     <link href="${pageContext.servletContext.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <!-- Fonts CSS -->
@@ -34,15 +37,15 @@ and open the template in the editor.
             <form id="newPlaylistForm" enctype="multipart/form-data">
               <div class="modal-body">
                 <div class="row">
-                  <input id='pName' type="text" name="pName" placeholder="New Playlist">
+                  <input class="form-control" id='pName' type="text" name="pName" maxlength="50" placeholder="Playlist Title">
                 </div>
                 <div class="row">
                   <div class="col-xs-6 form-group">
                     <img height="250" width="250" id="playlist-image" src="http://placehold.it/250x250" alt="Image" class="row img-responsive">
                     <input id="file" name="file" size='20' class="row form-control" type="file" accept="image/*">
                   </div>
-                  <div class="col-xs-6">
-                    <input id='pDesc' type="text" name="pDesc" placeholder="Enter a description for your playlist here.">
+                  <div class="col-xs-6 form-group">
+                    <textarea id="pDesc" class='form-control' type="textArea" rows="4" columns="5" form="newPlaylistForm" maxlength="30" placeholder="Description" name=description"></textarea>
                   </div>
                 </div>
               </div>
@@ -116,6 +119,7 @@ and open the template in the editor.
 
     <!-- Main Page Script -->
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
