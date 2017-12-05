@@ -3,7 +3,7 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div id="mediaInfo" class="col-xs-8">
-          <h2 class="mediaName">Songs</h2>   
+          <h2 class="mediaName">Queue</h2>   
       <div class="row" id="mediaSpecs">
         <!-- Insert Play Button -->
       </div>
@@ -19,7 +19,7 @@
       <th>Duration</th>
       <th></th>
     </tr>
-    <c:forEach items="${songList}" var="Song">
+    <c:forEach items="${queueSongs}" var="Song">
       <tr>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>

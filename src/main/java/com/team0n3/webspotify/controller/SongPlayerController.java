@@ -12,6 +12,7 @@ import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.service.SongService;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -89,5 +90,12 @@ public class SongPlayerController {
       Document page = Jsoup.connect(url).timeout(6000).get();
       Element lyrics = page.select("div.lyricbox").first();
       return lyrics.toString();
+  }
+  
+  @RequestMapping(value="/viewQueue",method=RequestMethod.GET)
+  @ResponseBody
+  public void viewQueue(HttpSession session){
+    List<Song> queueSongs = player.getCorrectQueue();
+    session.setAttribute("queueSongs",queueSongs);
   }
 }

@@ -180,6 +180,7 @@ public class Playlist implements Serializable{
     this.imagePath = imagePath;
   }
   
+  /**
   public boolean hasFollower(User user){
     List<User> followersAsList = new ArrayList();
     followersAsList.addAll(followers);
@@ -189,6 +190,7 @@ public class Playlist implements Serializable{
     }
     return false;
   }
+  **/
   
   @Override
   public String toString(){

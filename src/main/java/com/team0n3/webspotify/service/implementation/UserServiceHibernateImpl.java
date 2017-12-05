@@ -72,7 +72,7 @@ public class UserServiceHibernateImpl implements UserService{
 
   @Transactional(readOnly = false)
   @Override
-  public String signup(String username, String password, String email, boolean isArtist) {
+  public String signup(String username, String password, String email) {
     SecureRandom random = new SecureRandom();
     byte salt[] = new byte[12];
     MessageDigest md = null;
@@ -98,10 +98,6 @@ public class UserServiceHibernateImpl implements UserService{
     md.update(password.getBytes());
     byte hashedPass[] = md.digest();
     User user = new User(username, email, hashedPass, salt);
-    //user is unapproved accountType by default
-    if(isArtist){
-        user.setAccountType(AccountType.UnapprovedArtist);
-    }
     userDao.addUser(user);
     return "noError";
   }
@@ -114,24 +110,26 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Override
   @Transactional(readOnly=false)
-  public void followPlaylist(String userId, int playlistId){
+  public User followPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.add(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly=false)
-  public void unfollowPlaylist(String userId, int playlistId){
+  public User unfollowPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.remove(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
@@ -577,33 +575,25 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Transactional(readOnly = false)
   @Override
-  public void artistCheckSongMetrics(String username){
-    User user = userDao.getUser(username);
-    if(user.getAccountType() == AccountType.Artist){
-        
-    }
+  public void artistCheckSongMetrics(String username, int artistId){
+      
   }
   
   @Transactional(readOnly = false)
   @Override
-  public void artistCheckRoyalties(String username){
-    User user = userDao.getUser(username);
-    if(user.getAccountType() == AccountType.Artist){
-        
-    }
-    
+  public void artistCheckRoyalties(String username, int artistId){
+      
   }
   
   @Transactional(readOnly = false)
   @Override
   public void adminApproveFreeUser(String username,String approve){
     User user = userDao.getUser(username);
-    if(user.getAccountType() == AccountType.Admin){
+    if(user.getAccountType() == AccountType.Admin)
+    {
       User userToApprove = userDao.getUser(approve);
-      if(userToApprove.getAccountType() == AccountType.Unapproved){
-        userToApprove.setAccountType(AccountType.Free);
-        userDao.updateUser(userToApprove);
-      }
+      userToApprove.setAccountType(AccountType.Free);
+      userDao.updateUser(userToApprove);
     }
   }
   
@@ -620,5 +610,32 @@ public class UserServiceHibernateImpl implements UserService{
         artistDao.addArtist(artist);
       }
     }
-  }  
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public void adminRemoveUser(String admin,String removeUser){
+    User user = userDao.getUser(admin);
+    if(user.getAccountType() == AccountType.Admin){
+        Lock lock = new ReentrantLock();
+        List<Playlist> allPlaylists = playlistDao.listPlaylists();
+        lock.lock();
+          try {
+            for(Playlist p: allPlaylists){
+              Collection<User> followersInPlaylist = p.getFollowers();
+              for(User u:followersInPlaylist){
+                if(u.getUsername().equals(removeUser)){
+                  followersInPlaylist.remove(u);
+                  p.setFollowers(followersInPlaylist);
+                  playlistDao.updatePlaylist(p);
+                  break;
+                }
+              }
+            }
+          }finally {
+              lock.unlock();
+          }  
+          userDao.deleteUser(removeUser);
+    }
+  }
 }

@@ -86,7 +86,7 @@ and open the template in the editor.
 
     <!-- Main Page Script -->
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
-    
+
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
     <script src="http://malsup.github.com/jquery.form.js"></script>

@@ -43,6 +43,11 @@ and open the template in the editor.
           </form>
         </div>
         -->
+      <div id="lyricModal"class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div id="lyricsHere"></div>
+          </div>
+      </div>
       </div>
       <div id="bottomTool">
         <%@include file="/resources/toolbars/bottom.jsp" %>
@@ -62,6 +67,10 @@ and open the template in the editor.
 
     <!-- Main Page Script -->
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
 
     <!-- Script to display images-->
     <script>

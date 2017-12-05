@@ -3,6 +3,8 @@ package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,4 +53,45 @@ public class ArtistServiceHibernateImpl implements ArtistService{
       List<Artist> listArtists = artistDao.search(keyword);
       return listArtists;
     }
+    
+  @Override
+  @Transactional(readOnly = false)
+  public void updatePopularity(int artistId){
+    Artist artist = artistDao.getArtist(artistId);
+    Collection<User> followers = artist.getFollowers();
+    artist.setPopularity(followers.size());
+    artistDao.updateArtist(artist);
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void calcTotalRoyalties(int artistId){
+      
+    Artist artist = artistDao.getArtist(artistId);
+    Collection<Song> songs = artist.getSongs();
+    int totalRoyalty = 0;
+    int totalPlays = 0;
+    for(Song s : songs){
+      totalPlays = s.getTotalPlays();
+      if(totalPlays > 0)
+        totalRoyalty = totalRoyalty + (s.getRoyaltyPerPlay())*totalPlays;
+    }
+      artist.setTotalRoyalties(totalRoyalty);
+      artistDao.updateArtist(artist);
+  }
+  @Transactional(readOnly = true)
+  @Override
+  public List<Song> getSongsWithPlays(int artistId){
+    Artist artist = artistDao.getArtist(artistId);
+    Collection<Song> songs = artist.getSongs();
+    List<Song> songsWithPlays = new ArrayList();
+    int totalPlays = 0;
+    for(Song s : songs){
+      totalPlays = s.getTotalPlays();
+        if(totalPlays > 0){
+          songsWithPlays.add(s);
+        }
+    }
+    return songsWithPlays;
+  }
 }

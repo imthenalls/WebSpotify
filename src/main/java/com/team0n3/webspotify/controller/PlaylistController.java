@@ -145,25 +145,24 @@ public class PlaylistController {
       User currentUser = (User)session.getAttribute("currentUser");
       List<Playlist> followedPlaylists = (List<Playlist>)session.getAttribute("followedPlaylists");
       followedPlaylists.add(playlistService.getPlaylist(playlist));
-      userService.followPlaylist(currentUser.getUsername(), playlist);
+      session.setAttribute("followedPlaylists",followedPlaylists);
+      currentUser = userService.followPlaylist(currentUser.getUsername(), playlist);
+      session.setAttribute("currentUser",currentUser);
   }
 
   @RequestMapping(value="/unfollowPlaylist", method=RequestMethod.POST)
   @ResponseBody
   public void unfollowPlaylist(@RequestParam int playlist, HttpSession session){
-    boolean found=false;
+    User currentUser = (User)session.getAttribute("currentUser");
     List<Playlist> followedPlaylists = (List<Playlist>)session.getAttribute("followedPlaylists");
     for(Playlist p:followedPlaylists){
       if(p.getPlaylistID()== playlist){
         followedPlaylists.remove(p);
-        found=true;
-        break;
+        session.setAttribute("followedPlaylists",followedPlaylists);
+        currentUser = userService.unfollowPlaylist(currentUser.getUsername(), playlist);
+        session.setAttribute("currentUser",currentUser);
+        return;
       }
-    }
-    if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      //followedPlaylists.remove(playlistService.getPlaylistByID(playlist));
-      userService.unfollowPlaylist(currentUser.getUsername(), playlist);
     }
   }
   

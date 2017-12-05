@@ -42,6 +42,7 @@ public class AlbumController {
     followedAlbums.add(albumService.getAlbum(albumId));
     session.setAttribute("followedAlbums",followedAlbums);
     currentUser = userService.followAlbum(currentUser.getUsername(), albumId);
+    //albumService.updatePopularity(albumId);
     session.setAttribute("currentUser",currentUser);
   }
   
@@ -55,6 +56,7 @@ public class AlbumController {
         followedAlbums.remove(a);
         session.setAttribute("followedAlbums",followedAlbums);
         currentUser = userService.unfollowAlbum(currentUser.getUsername(), albumId);
+        //albumService.updatePopularity(albumId);
         session.setAttribute("currentUser",currentUser);
         return;
       }
@@ -71,6 +73,16 @@ public class AlbumController {
     session.setAttribute("albumSongs",albumSongs);
     session.setAttribute("followedAlbums",followedAlbums);
   }  
+  
+  @RequestMapping(value = "/viewAdminAllAlbums", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewAdminAllAlbums( HttpSession session){
+    User user = (User)session.getAttribute("currentUser");   
+    if(user.getAccountType() == AccountType.Admin){
+      List<Album> allAlbums = albumService.listAllAlbums();
+      session.setAttribute("allAlbums",allAlbums);
+    }
+  } 
   
   @RequestMapping( value = "/adminAddAlbum", method = RequestMethod.POST)
   @ResponseBody
@@ -99,5 +111,5 @@ public class AlbumController {
       userService.adminRemoveAlbum(currentUser.getUsername(), albumId);
       session.setAttribute("allAlbums",allAlbums);
     }
-  }
+  }  
 }

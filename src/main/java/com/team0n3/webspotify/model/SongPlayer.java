@@ -114,10 +114,15 @@ public class SongPlayer {
     }
 
     public List<Song> getCorrectQueue(){
-      if(isShuffle)
-        return shuffledQueue;
-      else
-        return queue;
+      if(isShuffle){
+        List<Song> returnList = new ArrayList<>(shuffledQueue.subList(shuffledPosition,shuffledQueue.size()-1));
+        return returnList;
+      }
+      else{
+        List<Song> returnList = new ArrayList<>(queue.subList(position,queue.size()));
+        return returnList;
+      }
+        
     }
     
     public void setQueues(Collection<Song> songs,int songIndex){
