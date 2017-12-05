@@ -48,31 +48,50 @@ $(document).ready(function(){
     }
    
   $("#newPlaylistForm").submit(function(){
-      console.log("in here");
-      var myForm = document.getElementById('newPlaylistForm');
-      var formData = new FormData(myForm);
-      console.log("hi")
-      $.ajax({
-          url: "playlist/createPlaylist",
-          type: "POST",
-          //Sends the necessary form parameters to the servlet
-          data: formData,
-          dataType: 'text',
-          cache:false,
-          enctype: "multipart/form-data",
-          contentType:false,
-          processData:false,
-          success: function(){
-              console.log("Success creating playlist");
-              $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-              });
-          },
-          error: function(){
-              console.log("Failure creating playlist");
-          }
+    var $files = document.getElementById('file');
+    if($files.files.length==0){
+      console.log("no file found");
+    }
+    if ($files.files.length) {
+      console.log("in");
+      // Reject big files
+      if ($files.files[0].size > 1024 * 1024) {
+        console.log("Please select a smaller file");
+        return false;
+      }
+
+      // Begin file upload
+      console.log("Uploading file to Imgur..");
+
+      // Replace ctrlq with your own API key
+      var apiUrl = 'https://api.imgur.com/3/image';
+      var apiKey = '031ad79e1cfcccf';
+
+      var settings = {
+        async: false,
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        url: apiUrl,
+        headers: {
+          Authorization: 'Client-ID ' + apiKey,
+          Accept: 'application/json'
+        },
+        mimeType: 'multipart/form-data'
+      };
+
+      var formData = new FormData();
+      formData.append("image", $files.files[0]);
+      settings.data = formData;
+
+      // Response contains stringified JSON
+      // Image URL available at response.data.link
+      $.ajax(settings).done(function(response) {
+        console.log(response);
       });
-      $("#createPlaylistModal").modal('hide');
-      return false;    
+    }
+    console.log("no file");
   });
     
   $("#searchForm").submit(function(){
