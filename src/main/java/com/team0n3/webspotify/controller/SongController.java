@@ -10,6 +10,7 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -59,12 +60,16 @@ public class SongController {
       userService.unfollowSong(currentUser.getUsername(), songId);
   }
   
-  @RequestMapping(value = "/viewAllSongs", method= RequestMethod.GET)
+  @RequestMapping(value = "/adminViewAllSongs", method= RequestMethod.GET)
   @ResponseBody
-  public void viewAllSongs(HttpSession session){
-    /** CURRENTLY VIEWS ALL SONGS **/
-    List<Song> followSongs = songService.listAllSongs();
-    session.setAttribute("songList",followSongs);
+  public void adminViewAllSongs(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin)
+    {
+      List<Song> allSongs = songService.listAllSongs();
+      session.setAttribute("allSongs",allSongs); 
+    }
+    
   }
   
   @RequestMapping( value = "/adminAddSong", method = RequestMethod.POST)
@@ -75,25 +80,27 @@ public class SongController {
     System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
     {
-        userService.adminAddSong(user.getUsername(), title);    
+        userService.adminAddSong(title);    
     }
   }
   
   @RequestMapping( value = "/adminRemoveSong", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveSong(@RequestParam int songId, HttpSession session){
-    List<Song> allSongs = songService.listAllSongs();
+    List<Song> allSongs = (ArrayList)session.getAttribute("allSongs");
     boolean found = false;
+    Song delete = null;
     for(Song s : allSongs){
       if(s.getSongId() == songId){
+        delete = s;
         allSongs.remove(s);
         found = true;
         break;
       }
     }
     if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      userService.adminRemoveSong(currentUser.getUsername(), songId);
+      if(delete != null)
+        userService.adminDeleteSong(delete);
       session.setAttribute("allSongs",allSongs);
     }
   }

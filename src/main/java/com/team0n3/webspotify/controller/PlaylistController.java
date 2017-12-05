@@ -12,8 +12,17 @@ import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -45,24 +55,22 @@ public class PlaylistController {
   @Autowired
   private ServletContext context;
   
-  @RequestMapping(value = "/createPlaylist", method = RequestMethod.POST)
+  @RequestMapping(value = "/createPlaylist",  method = RequestMethod.POST)
   @ResponseBody
-  public void createPlaylist(@RequestParam String playlistName, @RequestParam String imagePath, @RequestParam String description, HttpSession session){
-    User currentUser = (User)session.getAttribute("currentUser");
-    Playlist playlist = playlistService.createPlaylist(playlistName,imagePath,description,currentUser);
-    /**
-    String relativePath = "/resources/image/playlist";
-    String absolutePath = context.getRealPath(relativePath);
-    File uploadedFile = new File(absolutePath,imagePath);
-    **/
+  public void createPlaylist(@RequestParam String name, @RequestParam String description,@RequestParam String path,  HttpSession session) throws IOException{
+    System.out.println(path);
+    User currentUser= (User)session.getAttribute("currentUser");
+    Playlist playlist = playlistService.createPlaylist(name,path,description,currentUser);
+    System.out.println(playlist.toString());
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     createdPlaylists.add(playlist);
-    session.setAttribute("createdPlaylists", createdPlaylists);  
+    session.setAttribute("createdPlaylists", createdPlaylists);
   }
 
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
   @ResponseBody
   public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
+    System.out.println("hiiiiiiiiii");
     Playlist playlist = playlistService.getPlaylist(playlistID);
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
@@ -146,36 +154,26 @@ public class PlaylistController {
     System.out.println(allPlaylists.get(0));
     session.setAttribute("allPlaylists",allPlaylists);
   }
-  
-  @RequestMapping( value = "/adminAddPlaylist", method = RequestMethod.POST)
-  @ResponseBody
-  public void adminAddPlaylist(@RequestParam String playlistName,@RequestParam String imagePath, @RequestParam String description, HttpSession session)
-  {
-    User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
-    if(user.getAccountType() == AccountType.Admin)
-    {
-        System.out.println(user.toString());
-        userService.adminAddPlaylist(user.getUsername(), playlistName,imagePath, description);    
-    }
-  }
-  
+
   @RequestMapping( value = "/adminRemovePlaylist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemovePlaylist(@RequestParam int playlistId, HttpSession session){
-    List<Playlist> allPlaylists = playlistService.listAllPlaylists();
+    List<Playlist> allPlaylists = (ArrayList)session.getAttribute("allPlaylists");
     boolean found = false;
+    Playlist delete = null;
     for(Playlist p : allPlaylists){
       if(p.getPlaylistID() == playlistId){
+        delete = p;
         allPlaylists.remove(p);
         found = true;
         break;
       }
     }
     if(found){
-      User currentUser = (User)session.getAttribute("currentUser");
-      userService.adminRemovePlaylist(currentUser.getUsername(), playlistId);
-      session.setAttribute("allPlaylists",allPlaylists);
+      //User currentUser = (User)session.getAttribute("currentUser");
+      if(delete != null)
+        userService.adminDeletePlaylist(delete);
+        session.setAttribute("allPlaylists",allPlaylists);
     }
   }
 }

@@ -1,8 +1,16 @@
 $(document).ready(function(){
-  //admin aprpoval
   $(document).on('click','.unapproved-users', function(){
       adminApproveUser($(this).attr("username"));
   });
+  $(document).on('click','.unapproved-artists', function(){
+      adminApproveArtist($(this).attr("username"));
+  });
+  $(document).on('click','#view-unapproved-artists', function(){
+      console.log("FUCK U ");
+      adminViewUnapprovedArtists();
+  });
+  
+    
 }); 
 
 function adminApproveUser(username){
@@ -19,6 +27,25 @@ function adminApproveUser(username){
         },
         error: function(){
                 console.log("Failure approving user");
+        }
+    });
+    return false;
+}
+
+function adminApproveArtist(username){
+    console.log("asdasdasdasdasdasd");
+    $.ajax({
+        url: "adminApproveArtist",
+        type: "POST",
+        data: ({
+          username: username,
+        }),
+        success:function(){
+          console.log("Success approving artist");
+              $("#center-pane").load("/resources/pages/unapprovedArtists.jsp");
+        },
+        error: function(){
+                console.log("Failure approving artist");
         }
     });
     return false;
@@ -116,21 +143,6 @@ function adminRemoveAlbum(albumId){
     return false;
 }
 
-function viewAdminAllSongs(){
-    $.ajax({
-        url: "song/viewAllSongs",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
 function viewAdminAllAlbums(){
     $.ajax({
         url: "album/viewAdminAllAlbums",
@@ -148,14 +160,29 @@ function viewAdminAllAlbums(){
 
 function adminViewUnapprovedUsers(){
     $.ajax({
-        url: "adminViewUnapprovedUsers",
+        url: "admin/ViewUnapprovedUsers",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
             });
         },
+        error:function(){
+          console.log("Error viewing admin  unapproved users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function adminViewUnapprovedArtists(){
+    $.ajax({
+        url: "adminViewUnapprovedArtists",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/unapprovedArtists.jsp",function(){
+            });
+        },
         error: function(){
-            console.log("Error viewing admin  unapproved users");
+            console.log("Error viewing admin unapproved artists");
         }
     });
     return false; // Makes sure that the link isn't followed
@@ -180,14 +207,14 @@ function adminViewAllPlaylists(){
 
 function adminViewAllSongs(){
     $.ajax({
-        url: "song/viewAllSongs",
+        url: "song/adminViewAllSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/followedSongs.jsp",function(){
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
             });
         },
         error: function(){
-            console.log("Error viewing followed songs");
+            console.log("Error viewing all songs");
         }
     });
     return false; // Makes sure that the link isn't followed

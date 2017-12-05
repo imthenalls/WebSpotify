@@ -55,8 +55,8 @@ public class UserDAOHibernateImpl implements UserDAO{
   }
 
   @Override
-  public void deleteUser(String username) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void deleteUser(User user) {
+    sessionFactory.getCurrentSession().delete(user);
   }
 
   @Override
