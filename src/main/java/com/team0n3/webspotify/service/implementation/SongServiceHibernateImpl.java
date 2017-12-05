@@ -82,7 +82,6 @@ public class SongServiceHibernateImpl implements SongService{
     List<Song> listSongs = songDao.search(keyword);
     return listSongs;
   }
-  
   @Transactional(readOnly = false)
   @Override
   public void incrementTotalPlays(int songId){
@@ -92,14 +91,14 @@ public class SongServiceHibernateImpl implements SongService{
       song.setTotalPlays(totalPlays);
       songDao.updateSong(song);
   }
-
+ 
   @Override
   @Transactional(readOnly = false)
   public void updateFollowerCount(int songId){
-    Song song = songDao.getSong(songId);
-    Collection<User> followers = song.getFollowers();
-    song.setNumFollowers(followers.size());
-    songDao.updateSong(song);
+      Song song = songDao.getSong(songId);
+      Collection<User> followers = song.getFollowers();
+      song.setNumFollowers(followers.size());
+      songDao.updateSong(song);
   }
 
 }
