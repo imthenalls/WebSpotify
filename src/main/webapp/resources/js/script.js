@@ -108,6 +108,7 @@ function upgradeToPremium(){
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
     var monthYear = ($("#month").val());
+    var zipCode = parseInt($('#zipcode').val());
     var dateData = monthYear.split(" "); 
     var month = parseInt(dateData[0]);
     var year = parseInt(dateData[2]);

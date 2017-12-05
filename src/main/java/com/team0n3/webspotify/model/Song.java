@@ -17,22 +17,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name="songs")
 public class Song implements Serializable {
+    
     @Id
-    @Column(name="songid",nullable=false)
+    @Column(name = "songid",nullable = false)
     @GeneratedValue
     private int songId;
-    @Column(name="title",nullable=false)
+    
+    @Column(name = "title",nullable = false)
     private String title;
     
     @ManyToOne
-    @JoinColumn(name="albumId",referencedColumnName="albumId",nullable=false)
+    @JoinColumn(name = "albumId",referencedColumnName = "albumId",nullable=false)
     private Album albumId;
     
     @ManyToOne
-    @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
+    @JoinColumn(name = "artistId",referencedColumnName = "artistId",nullable=false)
     private Artist artistId;
     
-    @ManyToMany(cascade ={CascadeType.PERSIST, 
+    @ManyToMany(cascade = {CascadeType.PERSIST, 
         CascadeType.MERGE })
     @JoinTable(
             name="songplaylist",
@@ -47,15 +49,42 @@ public class Song implements Serializable {
     @Column(name="audioPath")
     private String audioPath;
     
+    @Column(name = "totalPlays")
+    private int totalPlays;
+    
+    @Column(name = "numFollowers")
+    private int numFollowers;
+    
+    @Column(name = "royaltyPerPlay")
+    private int royaltyPerPlay;
+    
+     @ManyToMany(cascade ={CascadeType.PERSIST, 
+        CascadeType.MERGE }, mappedBy = "followedSongs")
+    private Collection<User> followers;
+    
     public Song() {
     }
     
     public Song(String title) {
        this.title = title;
     }
+
+    public int getRoyaltyPerPlay() {
+        return royaltyPerPlay;
+    }
+
+    public void setRoyaltyPerPlay(int royaltyPerPlay) {
+        this.royaltyPerPlay = royaltyPerPlay;
+    }
     
-    
-    
+    public int getTotalPlays() {
+        return totalPlays;
+    }
+
+    public void setTotalPlays(int totalPlays) {
+        this.totalPlays = totalPlays;
+    }
+
     public Collection<Playlist> getContainedInPlaylists(){
         return containedInPlaylists;
     }
@@ -110,6 +139,22 @@ public class Song implements Serializable {
     
     public void setAudioPath(String audioPath){
       this.audioPath=audioPath;
+    }
+    
+    public int getNumFollowers() {
+        return numFollowers;
+    }
+
+    public void setNumFollowers(int numFollowers) {
+        this.numFollowers = numFollowers;
+    }
+
+    public Collection<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Collection<User> followers) {
+        this.followers = followers;
     }
     
     @Override

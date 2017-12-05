@@ -35,7 +35,7 @@
                     <input id='month' type="text" name="expiry" maxlength="7" minlength="7" placeholder="MM/YY" class="form-control"  required>
                     <input id='creditCompany' type="text" name="creditCompany" placeholder="Credit Card Company" class="form-control" required>
                     <input id='address' type="text" name="address" placeholder="Address" class="form-control"  required>
-                    <input id='address' type="number" maxlength="5" minlength="5" name="address" placeholder="Zip Code" class="form-control"  required>
+                    <input id='zipcode' type="text" maxlength="5" minlength="5" name="zipcode" placeholder="Zip Code" class="form-control"  required>
                     <button class="btn btn-primary" type="button" onclick="upgradeToPremium()">Upgrade to Premium for $9.99 a month</button>
                 </div>
                 </form>
