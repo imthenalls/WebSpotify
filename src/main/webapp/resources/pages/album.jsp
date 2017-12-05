@@ -44,8 +44,9 @@
   <table class="table songTable">
     <tr>
       <th class="col-md-2">#</th>
-      <th class="col-md-8">Title</th>
-      <th class="col-md-2 durationColumn">Duration</th>
+      <th class="col-md-4">Title</th>
+      <th class="col-md-4 durationColumn">Duration</th>\
+      <th class="col-md-2 ">Options</th>
     </tr>
     <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
@@ -62,6 +63,26 @@
             <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>
             :
             <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+        </td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+              <span class="caret"></span>
+            </button>
+              <c:choose>
+            <c:when test = "${currentUser.isFollowingSong(Song)}">
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="unfollowSong(${Song.songId},'album.jsp')">Unfollow Song</a></li>
+              </ul>
+            </c:when>
+            <c:otherwise>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="followSong(${Song.songId},'album.jsp')">Follow Song</a></li>
+              </ul>
+            </c:otherwise>
+          </c:choose>
+            
+          </div>
         </td>
       </tr>
     </c:forEach> 

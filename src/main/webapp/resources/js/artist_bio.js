@@ -9,9 +9,13 @@ $.ajax({
     dataType : 'jsonp',
     success : function(data) {
         // Add the summary blurb
-        var summary = data['artist']['bio']['summary']; 
-        summary = summary.replace('<a href="https://www.last.fm/music/Foo+Fighters">Read more on Last.fm</a>', 
+        var summary = data['artist']['bio']['summary'];
+        var a = artist.replace(' ', '+');
+        //look for 'href="' then get substring to the next '"'
+        console.log(summary);
+        summary = summary.replace('<a href="https://www.last.fm/music/'+a+'">Read more on Last.fm</a>', 
           '<a onclick="viewArtistContent()">Read more</a>'); 
+        summary = summary.replace('Read more on Last.fm', 'Summary not found.'); 
         $('#summary').html(summary);  
     },
     error : function(code, message){    

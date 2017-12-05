@@ -9,18 +9,17 @@
 
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
-
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/stylesheet.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/w3.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
 </head>
   <body  >
     <div class="container" style="text-align:center">
-      <form class="form-signin"action="signupUser" method="post">
+      <form action= "signupUser" class="form-signin" method="post">
         <c:if test="${duplicate}">
           <span>An account already exists with that username or email</span>
         </c:if>
@@ -32,11 +31,13 @@
           <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
           <input type="text" id="email" name="email" placeholder="Email" class="form-control" required>
           <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
-          <label for="artistAccountOpt">Artist?</label>
-          <input id="artistAccountOpt" name="artist" type="checkbox">
+          <label for="artistAccount Opt">Artist?</label>
+          <input id="artistAccountOpt" name="artist" type="checkbox" value="true">
+          <input id="artistAccountOpt" name="artist" type="hidden" value="false" >
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
         </div>
       </form>
     </div> <!-- /container -->
   </body>
+
 </html>

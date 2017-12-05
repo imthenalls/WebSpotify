@@ -45,7 +45,7 @@ public class Album implements Serializable{
   private Artist artistId;
   
   @ManyToMany(cascade ={CascadeType.PERSIST, 
-  CascadeType.MERGE }, mappedBy = "followedAlbums")
+        CascadeType.MERGE }, mappedBy = "followedAlbums")
   private Collection<User> followers;
   public Album() {
   }

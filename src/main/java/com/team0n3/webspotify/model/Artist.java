@@ -40,12 +40,12 @@ public class Artist implements Serializable{
     private Collection<Song> songs;
     
     @ManyToMany(cascade ={CascadeType.PERSIST, 
-    CascadeType.MERGE }, mappedBy = "followedArtists")
+        CascadeType.MERGE }, mappedBy = "followedArtists")
     private Collection<User> followers;
     
     @OneToOne
     @JoinColumn(name="username",referencedColumnName="username")
-    private User username;
+    private User user;
     
     @Column(name = "totalRoyalties",nullable=true)
     private int totalRoyalties;
@@ -63,9 +63,9 @@ public class Artist implements Serializable{
         this.imagePath = imagePath;
     }
 
-    public Artist(String artistName, User username) {
+    public Artist(String artistName, User user) {
         this.artistName = artistName;
-        this.username = username;
+        this.user = user;
     }
     public int getPopularity() {
         return popularity;
@@ -75,12 +75,12 @@ public class Artist implements Serializable{
         this.popularity = popularity;
     }
 
-    public User getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(User username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public Collection<Album> getAlbums() {

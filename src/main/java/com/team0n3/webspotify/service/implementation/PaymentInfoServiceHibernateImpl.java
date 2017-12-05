@@ -43,15 +43,15 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public User addNewPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
     int expirationYear, String creditCompany, String address){
     SecureRandom cardRandom = new SecureRandom(),ccvRandom = new SecureRandom();
-    byte[] cardSalt=new byte[12], ccvSalt = new byte[12];
+    byte[] cardSalt = new byte[12], ccvSalt = new byte[12];
     MessageDigest cardMd = null, ccvMd = null;
     try{
-      cardMd= MessageDigest.getInstance("SHA-256");
-      ccvMd= MessageDigest.getInstance("SHA-256");
+      cardMd = MessageDigest.getInstance("SHA-256");
+      ccvMd = MessageDigest.getInstance("SHA-256");
     }catch(NoSuchAlgorithmException ex){
       return null;
     }
@@ -75,7 +75,7 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public User deletePayment(User user,PaymentInfo paymentInfo){
     paymentDao.deletePayment(paymentInfo);
     user.setAccountType(AccountType.Free);

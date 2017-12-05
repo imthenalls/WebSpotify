@@ -121,6 +121,8 @@ and open the template in the editor.
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
+    <script src="${pageContext.request.contextPath}/resources/js/artist_bio.js"></script>
+    
     <script src="http://malsup.github.com/jquery.form.js"></script>
     
     <!-- Script to display images-->
