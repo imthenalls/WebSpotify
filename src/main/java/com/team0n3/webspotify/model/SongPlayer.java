@@ -138,11 +138,9 @@ public class SongPlayer {
     
       shuffledQueue.addAll(songs);
       Collections.shuffle(shuffledQueue);
-      System.out.println("Original shuffled queue" + shuffledQueue);
       if(isShuffle){
         int shift = shuffledQueue.indexOf(currentSong);
         Collections.rotate(shuffledQueue,-shift);
-        System.out.println("Shifted shuffle" + shuffledQueue);
       }
       shuffledPosition=0;
     }
@@ -164,13 +162,10 @@ public class SongPlayer {
     if(isShuffle){ //turning shuffle on
       int shift = shuffledQueue.indexOf(currentSong);
       shuffledPosition = 0;
-      System.out.println(currentSong.getTitle() + " " + shift);
       Collections.rotate(shuffledQueue,-shift);
-      System.out.println("After toggle and shift" + shuffledQueue);
     }
     else{ //turning shuffle off
       position = queue.indexOf(currentSong); //update the position in the queue
-      System.out.println("position" + position);
     }
   }
 }

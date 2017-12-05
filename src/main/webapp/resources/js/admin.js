@@ -160,14 +160,14 @@ function viewAdminAllAlbums(){
 
 function adminViewUnapprovedUsers(){
     $.ajax({
-        url: "adminViewUnapprovedUsers",
+        url: "admin/ViewUnapprovedUsers",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
             });
         },
-        error: function(){
-            console.log("Error viewing admin  unapproved users");
+        error:function(){
+          console.log("Error viewing admin  unapproved users");
         }
     });
     return false; // Makes sure that the link isn't followed
