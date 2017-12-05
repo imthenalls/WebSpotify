@@ -1,4 +1,6 @@
 var audio;
+var slider = $("#myRange")[0];
+var muteToggle = $("#toggleMute")[0];
 
 $(document).ready(function(){
   
@@ -31,16 +33,21 @@ $(document).ready(function(){
     });
     function playBack(){
         audio = $("#audio")[0];
+        audio.volume=.5;
         audio.addEventListener("timeupdate",updateProgress,false);
+        slider.addEventListener("input",changeVolume,false);
+        muteToggle.addEventListener("mouseup",toggleMute,false);
+        
     } 
     //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
     function scrub(event){
         if(!audio.ended){
             var mousex  = event.pageX - (progress.offsetLeft*3);
             var newtime = mousex * (audio.duration/$(progress).width());
+            console.log("Current",audio.currentTime);
+            console.log("new",newtime);
             audio.currentTime = newtime;
-            //audio.setAttribute('currentTime', newtime);
-            //songbar.style.width = parseInt(newtime/audio.duration) + "%";
+            console.log("after",audio.currentTime);
         }
     }
    
@@ -96,7 +103,63 @@ $(document).ready(function(){
   });
   return false; 
   });
+  
+  $("#viewQueue").mouseup(function(){
+  console.log("init");
+  $.ajax({
+      url: "songPlayer/viewQueue",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/queue.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing followed songs");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+  });
 });
+
+// Update the current slider value (each time you drag the slider handle)
+
+function changeVolume(){
+  console.log("inputtign");
+  var audioElem = $("#audio")[0];
+  var audioValue = slider.value/100;
+  if(audioElem.volume===0){ //turning on volume
+    $($("#toggleMute")[0]).removeClass("fa-volume-off");
+    $($("#toggleMute")[0]).addClass("fa-volume-up");
+  }
+  audioElem.volume=audioValue;
+  if(audioValue===0){ //turning off volume
+    $($("#toggleMute")[0]).removeClass("fa-volume-up");
+    $($("#toggleMute")[0]).addClass("fa-volume-off");
+  }
+}
+
+var oldVolume=audio.volume;
+console.log(oldVolume);
+
+function toggleMute(){
+  console.log("yes");
+  var muteIcon = $("#toggleMute")[0];
+  console.log(muteIcon);
+  if($(muteIcon).hasClass("fa-volume-up")){ //muting
+    $(muteIcon).removeClass("fa-volume-up");
+    $(muteIcon).addClass("fa-volume-off");
+    oldVolume=audio.volume;
+    console.log(audio.volume);
+    slider.value=0;
+    audio.volume=0.0;
+  }
+  else{ //unmuting
+    $(muteIcon).removeClass("fa-volume-off");
+    $(muteIcon).addClass("fa-volume-up");
+    slider.value=oldVolume*100;
+    audio.volume=oldVolume;
+  }
+}
 
 
 
@@ -108,6 +171,7 @@ function upgradeToPremium(){
     var creditCompany = $("#creditCompany").val();
     var address = $("#address").val();
     var monthYear = ($("#month").val());
+    var zipCode = parseInt($('#zipcode').val());
     var dateData = monthYear.split(" "); 
     var month = parseInt(dateData[0]);
     var year = parseInt(dateData[2]);
@@ -282,7 +346,10 @@ function followPlaylist(playlist) {
     }),
     success:function(){
       $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-        console.log("Success following playlist");
+        console.log("loaded left tool");
+        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+          console.log("and loaded playlist page");
+        });
       });
     },
     error: function(){
@@ -301,11 +368,13 @@ function unfollowPlaylist(playlist) {
     }),
     success:function(){
       $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                console.log("Reloaded playlist sidebar after delete");
-            });
+        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+          
+        });
+      });
     },
     error: function(){
-            console.log("Failure following playlist");
+      console.log("Failure following playlist");
     }
   });
   return false;
@@ -368,6 +437,7 @@ function cancelPremium(){
 function playSong(songId,setType,songIndex){
   var repeatTag = $("#repeatTag");
   var shuffleTag = $("#shuffleTag");
+  var sliderVal=($('#myRange')[0]).value;
   $.ajax({
     url: "songPlayer/playSong",
     type: "GET",
@@ -379,12 +449,18 @@ function playSong(songId,setType,songIndex){
     success: function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        slider = $('#myRange')[0];
+        muteToggle = $("#toggleMute")[0];
         var icon = $("#playPauseIcon")[0];
         $(icon).removeClass("fa-play");
         $(icon).addClass("fa-pause");
         $("#repeatTag").replaceWith(repeatTag);
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
+        slider.addEventListener("input",changeVolume,false);
+        muteToggle.addEventListener("mouseup",toggleMute,false);
+        slider.value=sliderVal;
+        audio.volume=sliderVal/100;
         audio.play();
       });
     },
@@ -398,6 +474,7 @@ function playSong(songId,setType,songIndex){
 function playNext(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
+   var sliderVal=($('#myRange')[0]).value;
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -407,13 +484,18 @@ function playNext(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        slider = $('#myRange')[0];
+        muteToggle = $("#toggleMute")[0];
         var icon = $("#playPauseIcon")[0];
         $(icon).removeClass("fa-play");
         $(icon).addClass("fa-pause");
         $("#repeatTag").replaceWith(repeatTag);
         $("#shuffleTag").replaceWith(shuffleTag);
-        audio.play();
         audio.addEventListener("timeupdate",updateProgress,false);
+        slider.addEventListener("input",changeVolume,false);
+        muteToggle.addEventListener("mouseup",toggleMute,false);
+        slider.value=sliderVal;
+        audio.volume=sliderVal/100;
         audio.play();
       });
     },
@@ -427,6 +509,7 @@ function playNext(){
 function playPrev(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
+   var sliderVal=($('#myRange')[0]).value;
   $.ajax({
     url:"songPlayer/playPrev",
     type:"GET",
@@ -434,12 +517,18 @@ function playPrev(){
     success:function(){
       $("#bottomTool").load("/resources/toolbars/bottom.jsp",function(){
         audio = $("#audio")[0];
+        slider = $('#myRange')[0];
+        muteToggle = $("#toggleMute")[0];
         var icon = $("#playPauseIcon")[0];
         $(icon).removeClass("fa-play");
         $(icon).addClass("fa-pause");
         $("#repeatTag").replaceWith(repeatTag);
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
+        slider.addEventListener("input",changeVolume,false);
+        muteToggle.addEventListener("mouseup",toggleMute,false);
+        slider.value=sliderVal;
+        audio.volume=sliderVal/100;
         audio.play();
       });
     },

@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
+      <img class="mediaPic" onerror="src='http://placehold.it/250x250'" src=${currentPlaylist.imagePath}>
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
@@ -34,7 +35,7 @@
                 <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
               </ul>
             </c:when>
-            <c:when test = "${currentPlaylist.hasFollower(currentUser)}">
+            <c:when test = "${currentUser.isFollowingPlaylist(currentPlaylist)}">
               <ul class="dropdown-menu">
                 <li><a href="#" onclick="unfollowPlaylist(${currentPlaylist.playlistID})">Unfollow</a></li>
               </ul>
@@ -50,7 +51,6 @@
   </div>
 </div>
 <div class="row" id="tableContainer">
-<div contextmenu="myMenu">Right-Click Me</div>
   <table class="table songTable">
     <tr>
       <th></th>
@@ -60,20 +60,23 @@
       <th>Duration</th>
       <th></th>
     </tr>
-    <c:forEach items="${songList}" var="Song">
+    <c:forEach items="${songList}" varStatus='loop' var="Song">
       <tr class="tableRow">
         <td>
           <a class="playHide">
             
           </a>
-          <a href="#" onclick="playSong(${Song.songId})">
+          <a href="#" onclick="playSong(${Song.songId},'playlist',${loop.index+1})">
             <i class="playShow fa fa-play fa-fw"></i>
           </a>
         </td>
         <td>${Song.title}</td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td>${Song.duration}</td>
+        <td>            
+          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>
+          :
+          <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
         <td>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >

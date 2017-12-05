@@ -72,7 +72,8 @@ public class UserServiceHibernateImpl implements UserService{
 
   @Transactional(readOnly = false)
   @Override
-  public String signup(String username, String password, String email) {
+  public String signup(String username, String password, String email, boolean isArtist) {
+    
     SecureRandom random = new SecureRandom();
     byte salt[] = new byte[12];
     MessageDigest md = null;
@@ -98,6 +99,9 @@ public class UserServiceHibernateImpl implements UserService{
     md.update(password.getBytes());
     byte hashedPass[] = md.digest();
     User user = new User(username, email, hashedPass, salt);
+    if(isArtist){
+      user.setAccountType(AccountType.UnapprovedArtist);
+    }
     userDao.addUser(user);
     return "noError";
   }
@@ -110,24 +114,26 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Override
   @Transactional(readOnly = false)
-  public void followPlaylist(String userId, int playlistId){
+  public User followPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.add(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly = false)
-  public void unfollowPlaylist(String userId, int playlistId){
+  public User unfollowPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
     Collection<Playlist> followed = user.getFollowedPlaylists();
     followed.remove(playlist);
     user.setFollowedPlaylists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
@@ -253,13 +259,13 @@ public class UserServiceHibernateImpl implements UserService{
   @Transactional(readOnly = false)
   @Override
   public void adminApproveArtistUser(String approve){
-      User userToApprove = userDao.getUser(approve);
-      if(userToApprove.getAccountType() == AccountType.UnapprovedArtist){
-        userToApprove.setAccountType(AccountType.Artist);
-        userDao.updateUser(userToApprove);
-        Artist artist = new Artist(userToApprove.getUsername(), userToApprove);
-        artistDao.addArtist(artist);
-        //fix this 
+    User userToApprove = userDao.getUser(approve);
+    if(userToApprove.getAccountType() == AccountType.UnapprovedArtist){
+      userToApprove.setAccountType(AccountType.Artist);
+      userDao.updateUser(userToApprove);
+      Artist artist = new Artist(userToApprove.getUsername(), userToApprove);
+      artistDao.addArtist(artist);
+      //fix this 
       }
   }
 

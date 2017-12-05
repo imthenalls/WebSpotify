@@ -41,14 +41,12 @@ public class Album implements Serializable{
   private String imagePath;
   
   @ManyToOne
-  @JoinColumn(name="artistId",
-          referencedColumnName="artistId",nullable=false)
+  @JoinColumn(name="artistId",referencedColumnName="artistId",nullable=false)
   private Artist artistId;
   
   @ManyToMany(cascade ={CascadeType.PERSIST, 
         CascadeType.MERGE }, mappedBy = "followedAlbums")
   private Collection<User> followers;
-  
   public Album() {
   }
 

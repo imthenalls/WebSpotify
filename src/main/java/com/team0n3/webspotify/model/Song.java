@@ -37,16 +37,16 @@ public class Song implements Serializable {
     @ManyToMany(cascade = {CascadeType.PERSIST, 
         CascadeType.MERGE })
     @JoinTable(
-            name = "songplaylist",
-            joinColumns = {@JoinColumn(name = "songid")},
-            inverseJoinColumns = {@JoinColumn(name = "playlistID")}
+            name="songplaylist",
+            joinColumns= {@JoinColumn(name="songid")},
+            inverseJoinColumns = {@JoinColumn(name="playlistID")}
     ) 
     private Collection<Playlist> containedInPlaylists;
     
-    @Column(name = "duration",nullable=false)
+    @Column(name="duration",nullable=false)
     private int duration;
     
-    @Column(name = "audioPath")
+    @Column(name="audioPath")
     private String audioPath;
     
     @Column(name = "totalPlays")
@@ -140,7 +140,7 @@ public class Song implements Serializable {
     public void setAudioPath(String audioPath){
       this.audioPath=audioPath;
     }
-
+    
     public int getNumFollowers() {
         return numFollowers;
     }

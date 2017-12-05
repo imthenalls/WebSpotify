@@ -33,10 +33,10 @@ public class Artist implements Serializable{
     @Column(name="imagePath", nullable=true)
     private String imagePath; 
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="artistId")
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Album> albums;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="artistId")
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Song> songs;
     
     @ManyToMany(cascade ={CascadeType.PERSIST, 

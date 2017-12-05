@@ -33,7 +33,7 @@
           <input type="text" id="email" name="email" placeholder="Email" class="form-control" required>
           <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
           <label for="artistAccountOpt">Artist?</label>
-          <input id="artistAccountOpt" name="artist" type="checkbox">
+          <input id="artistAccountOpt" name="artist" type="checkbox" value="true">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
         </div>
       </form>

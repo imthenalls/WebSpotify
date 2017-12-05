@@ -72,9 +72,10 @@ public class SongServiceHibernateImpl implements SongService{
     contains.remove(playlist);
     song.setContainedInPlaylists(contains);
     songDao.mergeSong(song);
+    
   }
   
-  @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
   @Override
   public List<Song> search(String keyword)
   {

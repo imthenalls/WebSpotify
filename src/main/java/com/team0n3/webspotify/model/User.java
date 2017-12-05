@@ -213,6 +213,16 @@ public class User implements Serializable{
     return false;
   }
   
+  public boolean isFollowingPlaylist(Playlist playlist){
+    List<Playlist> followedPList = new ArrayList<>();
+    followedPList.addAll(followedPlaylists);
+    for (Playlist p : followedPList) {
+      if(p.getPlaylistID()==playlist.getPlaylistID())
+        return true;
+    }
+    return false;
+  }
+  
   @Override
   public String toString(){
     return "username="+username+", email="+email;

@@ -12,6 +12,7 @@ import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.service.SongService;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,12 +41,10 @@ public class SongPlayerController {
   @ResponseBody
   public void playSong(@RequestParam int songId, @RequestParam String setType, @RequestParam int songIndex, HttpSession session){
     Song song = songService.getSong(songId);
-    songService.incrementTotalPlays(songId);
     if(setType.equals("album")){
       Album currentAlbum = (Album)session.getAttribute("currentAlbum");
       Collection<Song> albumSongs = currentAlbum.getSongs();
       player.setQueues(albumSongs,songIndex);
-      
     }
     else if(setType.equals("playlist")){
       Playlist currentPlaylist = (Playlist)session.getAttribute("currentPlaylist");
@@ -59,7 +58,6 @@ public class SongPlayerController {
   @ResponseBody
   public void playNext(HttpSession session){
     Song nextSong = player.getNextSong();
-    songService.incrementTotalPlays(nextSong.getSongId());
     session.setAttribute("currentSong",nextSong);
   }
   
@@ -67,7 +65,6 @@ public class SongPlayerController {
   @ResponseBody
   public void playPrev(HttpSession session){
     Song prevSong = player.getPrevSong();
-    songService.incrementTotalPlays(prevSong.getSongId());
     session.setAttribute("currentSong",prevSong);
   }
   
@@ -93,5 +90,12 @@ public class SongPlayerController {
       Document page = Jsoup.connect(url).timeout(6000).get();
       Element lyrics = page.select("div.lyricbox").first();
       return lyrics.toString();
+  }
+  
+  @RequestMapping(value="/viewQueue",method=RequestMethod.GET)
+  @ResponseBody
+  public void viewQueue(HttpSession session){
+    List<Song> queueSongs = player.getCorrectQueue();
+    session.setAttribute("queueSongs",queueSongs);
   }
 }

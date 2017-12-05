@@ -48,7 +48,7 @@
 
             </div>
             <div class="col-xs-3" id="songDuration">
-              <fmt:formatNumber value="${currentSong.duration/60}" maxFractionDigits="0"/>
+              <fmt:formatNumber value="${(currentSong.duration/60) - ((currentSong.duration/60)%1)}" maxFractionDigits="0"/>
               :
               <fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
             </div>            
@@ -58,18 +58,16 @@
     
     <div class="col-xs-3" id="playerSettings">
         <a href="#">
+            <i id="toggleMute" class="fa fa-volume-up"></i>
+        </a>
+        <a href="#">
             <i id="lyrics" class="fa fa-book"></i>
         </a>
-        <a href="#">
+        <a href="#" id="viewQueue">
             <i id="queue" class="fa fa-list-ol"></i>
         </a>
-        <a href="#">
-            <i id="MuteToggle" class="fa fa-volume-up"></i>
-        </a>
-        <!-- INSERT VOLUME SLIDER HERE -->
-        <a href="#">
-            <i id="fullscreen" class="fa fa-expand"></i>
-        </a>
-
+      <div id="slidecontainer">
+          <input type="range" min="0" max="100" value="50" class="slider" id="myRange">
+      </div>
     </div>
 </div>

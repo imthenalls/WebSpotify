@@ -58,12 +58,17 @@ public class SpotifyController {
         return new ModelAndView("redirect:/");
     }
     
-    if(user.getAccountType() == AccountType.Admin)
-    {
+    if(user.getAccountType() == AccountType.Admin){
         session.setAttribute("currentUser", user);
         ModelAndView model= new ModelAndView("redirect:/viewAdminBrowse");
         return model;   
     }
+    if(user.getAccountType() == AccountType.Artist){
+      session.setAttribute("currentUser", user);
+      ModelAndView model= new ModelAndView("redirect:/viewArtistBrowse");
+      return model;
+    }
+    
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -94,8 +99,13 @@ public class SpotifyController {
   }
 
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
-  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password,HttpSession session) {
-    String errorMessage = userService.signup(username, password, email);
+  public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
+          @RequestParam String artist, HttpSession session) {
+    boolean isArtist = false;
+    if(artist.equals("true")){
+      isArtist = true;
+    }
+    String errorMessage = userService.signup(username, password, email, isArtist);
     if(errorMessage.equals("duplicate")){
       session.setAttribute("duplicate",true);
       session.setAttribute("invalidEmail",false);
@@ -129,15 +139,13 @@ public class SpotifyController {
     }
     return new ModelAndView("admin_browse");
   }
-  /*
-  @RequestMapping(value = "/artist_browse", method = RequestMethod.GET)
-  public ModelAndView artist_browse(HttpSession session) {
+  @RequestMapping(value = "/viewArtistBrowse", method = RequestMethod.GET)
+  public ModelAndView viewArtistBrowse(HttpSession session) {
     if(session.getAttribute("currentUser")==null){
       return new ModelAndView("login");
     }
-    return new ModelAndView("");
+    return new ModelAndView("artist_browse");
   }
-  */    
   
   @RequestMapping("/logoutUser")
   public String logoutUser(HttpServletRequest request){
@@ -210,6 +218,29 @@ public class SpotifyController {
     }
   }
   
+  @RequestMapping( value = "/adminViewUnapprovedArtists", method = RequestMethod.GET)
+  @ResponseBody
+  public void adminViewUnapprovedArtists(HttpSession session){  
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+       List<User> allUsers = userService.listAllUsers();
+       List<User> unapprovedArtists = new ArrayList<>();
+       for(User u:allUsers){
+           if(u.getAccountType() == AccountType.UnapprovedArtist)
+           {
+               unapprovedArtists.add(u);
+               System.out.println(u.getUsername());
+           }
+       }
+       for(User u:unapprovedArtists){  
+         System.out.println(u.getUsername());  
+       }
+       session.setAttribute("unapprovedArtists",unapprovedArtists);
+    }
+  }
+  
   @RequestMapping( value = "/adminApproveUser", method = RequestMethod.POST)
   @ResponseBody
   public void adminApproveUser(@RequestParam String username, HttpSession session){
@@ -220,6 +251,19 @@ public class SpotifyController {
       User approvedUser = userService.getUser(username);
       unapprovedUsers.remove(approvedUser);
       session.setAttribute("unapprovedUsers",unapprovedUsers);
+    }     
+  }
+  
+  @RequestMapping( value = "/adminApproveArtist", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminApproveArtist(@RequestParam String username, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      userService.adminApproveArtistUser(username);
+      List<User> unapprovedArtists = (List)session.getAttribute("unapprovedArtists");
+      User approvedArtist = userService.getUser(username);
+      unapprovedArtists.remove(approvedArtist);
+      session.setAttribute("unapprovedArtists",unapprovedArtists);
     }     
   }
   
