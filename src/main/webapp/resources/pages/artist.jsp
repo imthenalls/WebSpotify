@@ -49,4 +49,17 @@
     </c:forEach>
   </div>
 </div>
+<div id="artistContentModal" class="modal fade" role="dialog">
+   <div class="modal-dialog" role="document">  
+    <div class="modal-content"> 
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="artistContent" class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
 <script src="${pageContext.request.contextPath}/resources/js/artist_bio.js"></script>
