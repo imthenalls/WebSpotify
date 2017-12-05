@@ -102,14 +102,14 @@ public class UserServiceHibernateImpl implements UserService{
     return "noError";
   }
   @Override
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
    public User getUser(String username){
        User user = userDao.getUser(username);
        return user;
    }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void followPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
@@ -120,7 +120,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void unfollowPlaylist(String userId, int playlistId){
     Playlist playlist = playlistDao.getPlaylist(playlistId);
     User user = userDao.getUser(userId);
@@ -131,7 +131,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void followArtist(String userId, int artistId){
     Artist artist = artistDao.getArtist(artistId);
     User user = userDao.getUser(userId);
@@ -142,7 +142,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void unfollowArtist(String userId, int artistId){
     Artist artist = artistDao.getArtist(artistId);
     User user = userDao.getUser(userId);
@@ -153,7 +153,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void followSong(String userId, int songId){
     Song song = songDao.getSong(songId);
     User user = userDao.getUser(userId);
@@ -164,7 +164,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public void unfollowSong(String userId, int songId){
     Song song = songDao.getSong(songId);
     User user = userDao.getUser(userId);
@@ -175,7 +175,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false)
+  @Transactional(readOnly = false)
   public User followAlbum(String userId, int albumId){
     Album album = albumDao.getAlbum(albumId);
     User user = userDao.getUser(userId);
@@ -187,7 +187,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
-  @Transactional(readOnly=false) 
+  @Transactional(readOnly = false) 
   public User unfollowAlbum(String userId, int albumId){
     Album album = albumDao.getAlbum(albumId);
     User user = userDao.getUser(userId);
@@ -197,7 +197,7 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.updateUser(user);
     return user;
   }
-  
+  @Transactional(readOnly = true)
   @Override
   public List<Playlist> getCreatedPlaylists(String username) {
     User user= userDao.getUser(username);
@@ -219,26 +219,7 @@ public class UserServiceHibernateImpl implements UserService{
       List<User> listUsers = userDao.search(keyword);
       return listUsers;
   }
-  
-  @Transactional(readOnly = false)
-  @Override
-  public void adminAddArtist(String artistName,int popularity, String imagePath){  
-    Artist artist = new Artist(artistName,popularity,imagePath);
-    System.out.println(artist.toString());
-    artistDao.addArtist(artist);
 
-  }
-
-  @Transactional(readOnly = false)
-  @Override
-  public void adminAddPlaylist(String user, String playlistName,String imagePath, String description){   
-    User user1 = userDao.getUser(user);
-    Playlist playlist = new Playlist(playlistName, imagePath, description, user1);
-    System.out.println(playlist.toString());
-    playlistDao.addPlaylist(playlist);
-  }
-  
-  
   @Transactional(readOnly = false)
   @Override
   public void adminAddSong(String title){
@@ -247,11 +228,6 @@ public class UserServiceHibernateImpl implements UserService{
     songDao.addSong(song);
   }
 
-  @Transactional(readOnly = false)
-  @Override
-  public void adminEditSong( int songId){  
-  }
-  
   @Transactional(readOnly = false)
   @Override
   public void adminAddAlbum(String albumName, int popularity, String imagePath ){
@@ -281,8 +257,8 @@ public class UserServiceHibernateImpl implements UserService{
       if(userToApprove.getAccountType() == AccountType.UnapprovedArtist){
         userToApprove.setAccountType(AccountType.Artist);
         userDao.updateUser(userToApprove);
-        //Artist artist = new Artist(username, user);
-        //artistDao.addArtist(artist);
+        Artist artist = new Artist(userToApprove.getUsername(), userToApprove);
+        artistDao.addArtist(artist);
         //fix this 
       }
   }
@@ -311,8 +287,15 @@ public class UserServiceHibernateImpl implements UserService{
     songDao.deleteSong(s);
   } 
   
+  @Transactional(readOnly = false)
   @Override
   public void adminDeletePlaylist(Playlist p){
     playlistDao.deletePlaylist(p);
+  }
+  
+  @Transactional(readOnly = false)
+  @Override
+  public void adminSendRoyaltyChecks(String artistId){
+    
   }
 }

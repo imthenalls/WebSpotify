@@ -151,20 +151,7 @@ public class PlaylistController {
     System.out.println(allPlaylists.get(0));
     session.setAttribute("allPlaylists",allPlaylists);
   }
-  
-  @RequestMapping( value = "/adminAddPlaylist", method = RequestMethod.POST)
-  @ResponseBody
-  public void adminAddPlaylist(@RequestParam String playlistName,@RequestParam String imagePath, @RequestParam String description, HttpSession session)
-  {
-    User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
-    if(user.getAccountType() == AccountType.Admin)
-    {
-        System.out.println(user.toString());
-        userService.adminAddPlaylist(user.getUsername(), playlistName,imagePath, description);    
-    }
-  }
-  
+
   @RequestMapping( value = "/adminRemovePlaylist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemovePlaylist(@RequestParam int playlistId, HttpSession session){
@@ -183,7 +170,7 @@ public class PlaylistController {
       //User currentUser = (User)session.getAttribute("currentUser");
       if(delete != null)
         userService.adminDeletePlaylist(delete);
-      session.setAttribute("allPlaylists",allPlaylists);
+        session.setAttribute("allPlaylists",allPlaylists);
     }
   }
 }

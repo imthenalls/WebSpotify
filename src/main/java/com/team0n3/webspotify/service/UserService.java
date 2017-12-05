@@ -16,13 +16,12 @@ public interface UserService {
   
   public List<Playlist> getCreatedPlaylists(String username);
   
-  public void followPlaylist(String userId, int playlistId);
-  
-  public void unfollowPlaylist(String userId, int playlistId);
-  
   public List<User> listAllUsers();
   public User getUser(String username);
   public List<User> search(String keyword);
+  
+  public void followPlaylist(String userId, int playlistId);
+  public void unfollowPlaylist(String userId, int playlistId);
   public void followArtist(String userId, int artistId);
   public void unfollowArtist(String userId, int artistId);
   public void followSong(String userId, int songId);
@@ -31,10 +30,7 @@ public interface UserService {
   public User unfollowAlbum(String userId, int albumId);
   
   
-  public void adminAddArtist(String artistName,int popularity, String imagePath);
-  public void adminAddPlaylist(String user, String playlistName,String imagePath, String description);
   public void adminAddSong(String title );
-  public void adminEditSong(int songId);
   public void adminAddAlbum(String albumName, int popularity, String imagePath );
   public void adminEditArtistBio( int artistId);
 
@@ -46,4 +42,6 @@ public interface UserService {
   public void adminDeleteAlbum(Album a);
   public void adminDeleteSong(Song s);
   public void adminDeletePlaylist(Playlist p);
+  
+  public void adminSendRoyaltyChecks(String artistId);
 }

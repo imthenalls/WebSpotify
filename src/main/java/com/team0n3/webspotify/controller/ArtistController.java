@@ -86,19 +86,6 @@ public class ArtistController {
     session.setAttribute("allArtists",allArtists);
   }
   
-    @RequestMapping( value = "/adminAddArtist", method = RequestMethod.POST)
-  @ResponseBody
-  public void adminAddArtist(@RequestParam String artistName, @RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
-  {
-    User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
-    if(user.getAccountType() == AccountType.Admin)
-    {
-        System.out.println(user.toString());
-        userService.adminAddArtist( artistName, popularity,  imagePath);
-    }
-  }
-  
   @RequestMapping( value = "/adminRemoveArtist", method = RequestMethod.POST)
   @ResponseBody
   public void adminRemoveArtist(@RequestParam int artistId, HttpSession session){

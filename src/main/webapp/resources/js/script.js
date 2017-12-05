@@ -250,6 +250,10 @@ function viewFollowedAlbums(){
     $("#center-pane").load("/resources/pages/followedAlbums.jsp");
 }
 
+function viewFollowedArtists(){
+    $("#center-pane").load("/resources/pages/followedArtists.jsp");
+}
+
 function deletePlaylist(){
     $.ajax({
         url: "playlist/deletePlaylist",
