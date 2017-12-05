@@ -19,6 +19,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
     
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/card.css">
+    
+    <link rel="icon" href="'/resources/img/team0n3.png'">
   </head>
   <body>
     <div>
@@ -44,7 +46,7 @@ and open the template in the editor.
                     <input id="file" name="file" size='20' class="row form-control" type="file" accept="image/*">
                   </div>
                   <div class="col-xs-6">
-                    <input id='pDesc' type="text" name="pDesc" placeholder="Enter a description for your playlist here.">
+                    <textarea id='pDesc' type="text" name="pDesc" placeholder="Enter a description for your playlist here.">
                   </div>
                 </div>
               </div>
@@ -121,7 +123,7 @@ and open the template in the editor.
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
-    <script src="${pageContext.request.contextPath}/resources/js/artist_bio.js"></script>
+    
     
     <script src="http://malsup.github.com/jquery.form.js"></script>
     

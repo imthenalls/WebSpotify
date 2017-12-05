@@ -160,7 +160,7 @@ function viewAdminAllAlbums(){
 
 function adminViewUnapprovedUsers(){
     $.ajax({
-        url: "admin/ViewUnapprovedUsers",
+        url: "adminViewUnapprovedUsers",
         type: "GET",
         success:function(){
             $("#center-pane").load("/resources/pages/unapprovedUsers.jsp",function(){
