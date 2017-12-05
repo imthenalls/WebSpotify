@@ -33,6 +33,7 @@
             <c:when test = "${currentPlaylist.creator.username==currentUser.username}">
               <ul class="dropdown-menu">
                 <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
+                <li><a href="#editPlaylistModal" data-toggle="modal">Edit Playlist</a></li>
               </ul>
             </c:when>
             <c:when test = "${currentUser.isFollowingPlaylist(currentPlaylist)}">
@@ -84,7 +85,7 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="#" onclick="deleteSongFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
+              <li><a href="#" onclick="deleteSongFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
             </ul>
           </div>
         </td>

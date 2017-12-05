@@ -63,7 +63,7 @@
         <a href="#">
             <i id="lyrics" class="fa fa-book"></i>
         </a>
-        <a href="#" id="viewQueue">
+        <a href="#" id="viewQueue" onclick="viewQueue()">
             <i id="queue" class="fa fa-list-ol"></i>
         </a>
       <div id="slidecontainer">

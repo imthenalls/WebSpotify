@@ -35,6 +35,7 @@ $(document).ready(function(){
         audio = $("#audio")[0];
         audio.volume=.5;
         audio.addEventListener("timeupdate",updateProgress,false);
+        audio.addEventListener("ended",playNext,false);
         slider.addEventListener("input",changeVolume,false);
         muteToggle.addEventListener("mouseup",toggleMute,false);
         
@@ -159,26 +160,25 @@ $(document).ready(function(){
   });
   return false; 
   });
-  
-  $("#viewQueue").mouseup(function(){
-  console.log("init");
-  $.ajax({
-      url: "songPlayer/viewQueue",
-      type: "GET",
-      success:function(){
-          $("#center-pane").load("/resources/pages/queue.jsp",function(){
-          });
-      },
-      error: function(){
-          console.log("Error viewing followed songs");
-      }
-  });
-  return false; // Makes sure that the link isn't followed
-  });
 });
 
-// Update the current slider value (each time you drag the slider handle)
+  function viewQueue(){
+    console.log("init");
+    $.ajax({
+        url: "songPlayer/viewQueue",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/queue.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing followed songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+  }
 
+// Update the current slider value (each time you drag the slider handle)
 function changeVolume(){
   console.log("inputtign");
   var audioElem = $("#audio")[0];
@@ -509,6 +509,7 @@ function playSong(songId,setType,songIndex){
         $("#repeatTag").replaceWith(repeatTag);
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
+        audio.addEventListener("ended",playNext,false);
         slider.addEventListener("input",changeVolume,false);
         muteToggle.addEventListener("mouseup",toggleMute,false);
         slider.value=sliderVal;
@@ -545,6 +546,7 @@ function playNext(){
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
         slider.addEventListener("input",changeVolume,false);
+        audio.addEventListener("ended",playNext,false);
         muteToggle.addEventListener("mouseup",toggleMute,false);
         slider.value=sliderVal;
         audio.volume=sliderVal/100;
@@ -577,6 +579,7 @@ function playPrev(){
         $("#repeatTag").replaceWith(repeatTag);
         $("#shuffleTag").replaceWith(shuffleTag);
         audio.addEventListener("timeupdate",updateProgress,false);
+        audio.addEventListener("ended",playNext,false);
         slider.addEventListener("input",changeVolume,false);
         muteToggle.addEventListener("mouseup",toggleMute,false);
         slider.value=sliderVal;
@@ -827,4 +830,3 @@ function unfollowAlbum(albumId,currentPage) {
   });
   return false;
 };
-
