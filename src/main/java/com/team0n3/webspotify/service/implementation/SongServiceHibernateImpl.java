@@ -7,6 +7,7 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.hibernate.SessionFactory;
@@ -100,5 +101,45 @@ public class SongServiceHibernateImpl implements SongService{
       song.setNumFollowers(followers.size());
       songDao.updateSong(song);
   }
-
+  
+  @Override
+  @Transactional(readOnly = true)
+  public List<Song> getTop50Songs(){
+    List<Song> allSongs = songDao.listSongs();
+    List<Song> top50Songs = new ArrayList();
+    Song least = null;
+    Song most = null;
+    for(Song s : allSongs){
+      if(least != null && most != null){
+        if(s.getTotalPlays() > least.getTotalPlays()){
+          if(top50Songs.size() == 50){//more than least but no space
+            top50Songs.remove(least);
+            top50Songs.add(s);
+            least = most;//now need to update for a new least in top50
+            for(Song s1 : top50Songs){
+              if(s1.getTotalPlays() < least.getTotalPlays()){
+                least = s1;
+              }
+            }
+          }else{
+             top50Songs.add(s); // more than least but still sapce for it
+          }
+          if(s.getTotalPlays() > most.getTotalPlays())
+            most = s;//check for new most
+        }else if(top50Songs.size() != 50){//less than least but still space for it
+          top50Songs.add(s);
+          least = s;
+        }else{
+          //less than least and no space for it
+        }
+      }else{
+        least = s;
+        most = s;
+        top50Songs.add(s);
+      }
+    }
+    return top50Songs;
+  }
+  
+  
 }

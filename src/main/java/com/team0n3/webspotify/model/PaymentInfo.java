@@ -56,11 +56,14 @@ public class PaymentInfo implements Serializable{
   @OneToMany(cascade=CascadeType.ALL,mappedBy="paymentInfo")
   private Collection<User> usersUsingCard;
   
+  @Column(name="zipcode",nullable=false)
+  private int zipCode; 
+  
   public PaymentInfo(){
     
   }
   
-  public PaymentInfo(byte[] cardNumber,  String cardHolder, byte[] ccv, int expirationMonth, int expirationYear, String creditCompany, String address,String lastFour){
+  public PaymentInfo(byte[] cardNumber,  String cardHolder, byte[] ccv,int zipCode, int expirationMonth, int expirationYear, String creditCompany, String address,String lastFour){
     this.cardNumber=cardNumber;
     this.cardHolder=cardHolder;
     this.ccv=ccv;
@@ -69,6 +72,7 @@ public class PaymentInfo implements Serializable{
     this.creditCompany=creditCompany;
     this.address=address;
     this.lastFour = lastFour;
+    this.zipCode = zipCode; 
   }
 
   public byte[] getCardNumber() {
@@ -133,5 +137,13 @@ public class PaymentInfo implements Serializable{
   
   public void setLastFour(String lastFour){
     this.lastFour = lastFour;
+  }
+  
+  public int getZipCode(){
+    return this.zipCode; 
+  }
+  
+  public void setZipCode(){
+    this.zipCode = zipCode; 
   }
 }

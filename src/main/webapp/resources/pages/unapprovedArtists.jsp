@@ -6,11 +6,11 @@
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType"></span>
+        <span class="mediaType">Playlist</span>
       </div>
       <div class="row">
         <a href="#">
-          <h3 class="mediaName">Unapproved Users</h3>    
+          <h3 class="mediaName">Songs</h3>    
         </a>
       </div>
       <div class="row" id="mediaSpecs">
@@ -24,10 +24,10 @@
 <div class="row" id="tableContainer">
   <table class="table playlistTable">
     <tr>
-      <th>Name</th>
-       <th>aaaa</th>
+      <th>Artist</th>
+       <th>hello</th>
     </tr>
-    <c:forEach items="${unapprovedUsers}" var="User">
+    <c:forEach items="${unapprovedArtists}" var="User">
         <tr class="tableRow">
         <td><a href="#"> ${User.username}</a></td>
          <c:choose>
@@ -39,7 +39,7 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                       <li><a class = "unapproved-users" href="#" username="${User.username}">Approve user</a></li>
+                       <li><a class = "unapproved-artists" href="#" username="${User.username}">Approve artist</a></li>
                     </ul>
                 </div>
              </td>

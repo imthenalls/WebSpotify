@@ -23,6 +23,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
     
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/card.css">
+    
+    <link rel="icon" href="'/resources/img/team0n3.png'">
   </head>
   <body>
     <div>
@@ -59,7 +61,10 @@ and open the template in the editor.
           </div>
         </div>
       </div>
-     
+      
+      <div id="editModalLocation"></div>
+      
+      
       <div id="lyricModal"class="modal fade" role="dialog">
           <div class="modal-dialog">
               <div id="lyricsHere"></div>
@@ -95,7 +100,7 @@ and open the template in the editor.
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
-    <script src="${pageContext.request.contextPath}/resources/js/artist_bio.js"></script>
+    
     
     <script src="http://malsup.github.com/jquery.form.js"></script>
     
