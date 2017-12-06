@@ -15,4 +15,5 @@ public interface PlaylistService {
   public void renamePlaylist(int playlistId, String playlistName);
   public List<Playlist> search(String keyword);
   public Playlist updatePlaylist(int id, String name, String path, String description);
+   public Playlist getGenrePlaylist();
 }

@@ -101,4 +101,11 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     playlistDao.updatePlaylist(playlist);
     return playlist;
   }
+  
+  @Override
+  @Transactional(readOnly = true)
+  public Playlist getGenrePlaylist(){
+    Playlist playlist = new Playlist();
+    return playlist;
+  }
 }
