@@ -12,6 +12,8 @@ import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +72,21 @@ public class SongController {
     {
       List<Song> allSongs = songService.listAllSongs();
       session.setAttribute("allSongs",allSongs); 
+      List<Song> topSongs = songService.getTop50Songs();
+      int i = 0;
+      Collections.sort(topSongs, new Comparator<Song>() {
+        @Override
+        public int compare(Song s1, Song s2) {
+          return  s1.getTotalPlays() - s2.getTotalPlays();
+            }
+      });
+      Collections.reverse(topSongs);
+      //Collections.sort(topSongs,);
+      //topSongs.sort((s1, s2) -> s1.totalPlays - s2.totalPlays); 
+      for(Song s : topSongs){
+        System.out.println(i+": "+s.toString()+"-"+s.getTotalPlays());
+        i++;
+      }
     }
     
   }
