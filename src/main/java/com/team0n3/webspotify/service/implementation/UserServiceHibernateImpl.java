@@ -27,6 +27,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,10 @@ public class UserServiceHibernateImpl implements UserService{
   private SongService songService;
   @Autowired
   private SessionFactory sessionFactory;
-
+  
+  @Value("${user.defaultPath}")
+  String defaultPath;
+  
   @Override
   public User login(String username, String password) {
     User user = userDao.getUser(username);
@@ -98,7 +102,8 @@ public class UserServiceHibernateImpl implements UserService{
     md.update(salt);
     md.update(password.getBytes());
     byte hashedPass[] = md.digest();
-    User user = new User(username, email, hashedPass, salt);
+    User user = new User(username, email, hashedPass, salt);   
+    user.setImagePath(defaultPath);
     if(isArtist){
       user.setAccountType(AccountType.UnapprovedArtist);
     }
@@ -307,5 +312,88 @@ public class UserServiceHibernateImpl implements UserService{
   @Override
   public void adminSendRoyaltyChecks(String artistId){
     
+  }
+
+  @Transactional(readOnly = false)
+  @Override
+  public void changeProfilePic(String username, String path) {
+    User user= userDao.getUser(username);
+    user.setImagePath(path);
+    userDao.updateUser(user);
+  }
+
+  @Override
+  public void adminAddArtist(String username, String artistName, int popularity, String imagePath) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminRemoveArtist(String username, int artistId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminAddPlaylist(String username, String playlistName, String imagePath, String description) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminRemovePlaylist(String username, int playlistId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminAddSong(String username, String title) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminRemoveSong(String username, int songId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminEditSong(String username, int songId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminAddAlbum(String username, String albumName, int popularity, String imagePath) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminRemoveAlbum(String username, int albumId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminEditArtistBio(String username, int artistId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void artistCheckSongMetrics(String username, int artistId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void artistCheckRoyalties(String username, int artistId) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminApproveFreeUser(String username, String approve) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminApproveArtistUser(String username, String approve) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void adminRemoveUser(String admin, String removeUser) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

@@ -22,8 +22,15 @@
               </button>
           </div>
       </div>
-      <div class="col-xs-4">
-          <i id="user-icon-img" style="font-size: 100px;" class="fa fa-user"></i>
+
+      <div class="container-fluid col-xs-4">
+            <div class="userCard">
+              <a href="#"><img src="${currentUser.imagePath}" class="img-circle userPic" id="user-img"></a>
+              <div class="userOverlay">     
+                <a href="#">Change</a>
+                <input type="file" id="my_file" style="display: none;" />
+              </div>
+            </div>
       </div>
     </div>
   </div>
