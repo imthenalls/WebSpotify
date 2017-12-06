@@ -387,6 +387,22 @@ $(document).ready(function(){
 
 });
 
+function viewUnpaidSongs(){
+  console.log("init unpaid songs");
+  $.ajax({
+      url: "artist/viewUnpaidSongs",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing unpaid songs");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
 function viewQueue(){
   console.log("init");
   $.ajax({

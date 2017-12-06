@@ -86,20 +86,23 @@ public class SongServiceHibernateImpl implements SongService{
   @Transactional(readOnly = false)
   @Override
   public void incrementTotalPlays(int songId){
-      Song song = songDao.getSong(songId);
-      int totalPlays = song.getTotalPlays();
-      totalPlays++;
-      song.setTotalPlays(totalPlays);
-      songDao.updateSong(song);
+    Song song = songDao.getSong(songId);
+    int totalPlays = song.getTotalPlays();
+    totalPlays++;
+    song.setTotalPlays(totalPlays);
+    int unpayedPlays = song.getUnpayedPlays();
+    unpayedPlays++;
+    song.setTotalPlays(unpayedPlays);
+    songDao.updateSong(song);
   }
  
   @Override
   @Transactional(readOnly = false)
   public void updateFollowerCount(int songId){
-      Song song = songDao.getSong(songId);
-      Collection<User> followers = song.getFollowers();
-      song.setNumFollowers(followers.size());
-      songDao.updateSong(song);
+    Song song = songDao.getSong(songId);
+    Collection<User> followers = song.getFollowers();
+    song.setNumFollowers(followers.size());
+    songDao.updateSong(song);
   }
   
   @Override
