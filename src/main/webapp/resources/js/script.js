@@ -362,11 +362,9 @@ $(document).ready(function(){
     }
     return false;
   });
-  
    $(document).on('click', '#playlist-image2', function(){
       $("#iPath2").click();
   });
-  
    $(document).on('change', '#iPath2', function(){
      var $files = document.getElementById('iPath2');
      if ($files.files && $files.files[0]) {
@@ -387,91 +385,7 @@ $(document).ready(function(){
    
 //$("#updatePlaylistForm").submit(function(){
 
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        console.log(name);
-        $.ajax({
-            url: "playlist/updatePlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             id: id,
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                });
-                $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                });
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-        });
-      });
-    }
-    else{
-      var  path = $("#iPath2").attr("placeholder");
-      $.ajax({
-        url: "playlist/updatePlaylist",
-        type: "POST",
-        //Sends the necessary form parameters to the servlet
-        data:({
-         id: id,
-         name: name,
-         description: desc,
-         path: path
-        }),
-        success: function(){
-            console.log("Success creating playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-            });
-            $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                });
-        },
-        error: function(){
-            console.log("Failure creating playlist");
-        }
-    });
-    }
-    ("#updatePlaylistModal").modal('hide');
-    return false;
-  });
 });
-
-
-
-
 
 function viewQueue(){
   console.log("init");
