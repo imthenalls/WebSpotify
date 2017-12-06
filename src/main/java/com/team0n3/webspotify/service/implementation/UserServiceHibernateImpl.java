@@ -143,46 +143,50 @@ public class UserServiceHibernateImpl implements UserService{
   
   @Override
   @Transactional(readOnly = false)
-  public void followArtist(String userId, int artistId){
+  public User followArtist(String userId, int artistId){
     Artist artist = artistDao.getArtist(artistId);
     User user = userDao.getUser(userId);
     Collection<Artist> followed = user.getFollowedArtists();
     followed.add(artist);
     user.setFollowedArtists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly = false)
-  public void unfollowArtist(String userId, int artistId){
+  public User unfollowArtist(String userId, int artistId){
     Artist artist = artistDao.getArtist(artistId);
     User user = userDao.getUser(userId);
     Collection<Artist> followed = user.getFollowedArtists();
     followed.remove(artist);
     user.setFollowedArtists(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly = false)
-  public void followSong(String userId, int songId){
+  public User followSong(String userId, int songId){
     Song song = songDao.getSong(songId);
     User user = userDao.getUser(userId);
     Collection<Song> followed = user.getFollowedSongs();
     followed.add(song);
     user.setFollowedSongs(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override
   @Transactional(readOnly = false)
-  public void unfollowSong(String userId, int songId){
+  public User unfollowSong(String userId, int songId){
     Song song = songDao.getSong(songId);
     User user = userDao.getUser(userId);
     Collection<Song> followed = user.getFollowedSongs();
     followed.remove(song);
     user.setFollowedSongs(followed);
     userDao.updateUser(user);
+    return user;
   }
   
   @Override

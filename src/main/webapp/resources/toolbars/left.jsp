@@ -4,9 +4,6 @@
         <li class="activeToolbar">
             <a href="#" onClick="viewBrowse()">Browse</a>
         </li>
-        <li>
-             <a class="click" data-toggle="tab" href="#radioToggle">Radio</a>
-        </li>
         <li> 
             <span style="color:#3399ff;">Your Library</span>
         </li>
@@ -16,15 +13,20 @@
         <li> 
             <a data-toggle="tab" href="#">Recently Played</a>
         </li>
+        <li>
+          <a data-toggle="tab" href="#" onclick="viewFollowedSongs()">Songs</a>
+        </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
+        </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick='viewFollowedArtists()'>Artists</a>
+        </li>
         <li> 
           <a data-toggle="tab" href="#" onclick="adminViewAllSongs()">Admin Songs</a>
         </li>
         <li> 
           <a data-toggle="tab" href="#" onclick="adminViewAllArtists()">All Artists</a>
-        </li>
-
-        <li> 
-            <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
         </li>
          <li> 
             <a data-toggle="tab" href="#" onclick="viewAdminAllAlbums()">Admin Albums</a>
@@ -36,21 +38,15 @@
             <a data-toggle="tab" href="#" id="view-unapproved-artists" onclick="adminViewUnapprovedArtists()">Admin Unapproved Artists</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#">Artists</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Stations</a>
-        </li>
-        <li> 
             <a data-toggle="tab" href="#" onclick="adminViewAllPlaylists()">ALL Playlists</a>
         </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>
         <li>
-            <a data-toggle="modal" href="#createPlaylistModal">Create Playlist
-                <i id="playlistButton" class="fa fa-plus"></i>
-            </a>
+          <a data-toggle="modal" href="#createPlaylistModal">Create Playlist
+            <i id="playlistButton" class="fa fa-plus"></i>
+          </a>
         </li>
         
         <!-- Fill with user's playlist -->

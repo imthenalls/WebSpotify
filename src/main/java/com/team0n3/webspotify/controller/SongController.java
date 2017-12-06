@@ -41,25 +41,27 @@ public class SongController {
   @ResponseBody
   public void followSong(@RequestParam int songId, HttpSession session){
     User currentUser = (User)session.getAttribute("currentUser");
-    (currentUser.getFollowedSongs()).add(songService.getSong(songId));
-    userService.followSong(currentUser.getUsername(), songId);
+    List<Song> followedSongs = (List<Song>)session.getAttribute("followedSongs");
+    followedSongs.add(songService.getSong(songId));
+    session.setAttribute("followedSongs",followedSongs);
+    currentUser = userService.followSong(currentUser.getUsername(), songId);
+    session.setAttribute("currentUser",currentUser);
   }
   
   @RequestMapping(value="/unfollowSong", method=RequestMethod.POST)
   @ResponseBody
   public void unfollowSong(@RequestParam int songId, HttpSession session){
-    boolean found = false;
     User currentUser = (User)session.getAttribute("currentUser");
-    Collection<Song> followedSongs = currentUser.getFollowedSongs();
+    List<Song> followedSongs = (List<Song>)session.getAttribute("followedSongs");
     for(Song s:followedSongs){
       if(s.getSongId() == songId){
         followedSongs.remove(s);
-        found = true;
-        break;
+        session.setAttribute("followedSongs",followedSongs);
+        currentUser = userService.unfollowSong(currentUser.getUsername(), songId);
+        session.setAttribute("currentUser",currentUser);
+        return;
       }
     }
-    if(found)
-      userService.unfollowSong(currentUser.getUsername(), songId);
   }
   
   @RequestMapping(value = "/adminViewAllSongs", method= RequestMethod.GET)

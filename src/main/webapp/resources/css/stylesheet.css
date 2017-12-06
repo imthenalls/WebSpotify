@@ -195,7 +195,7 @@ a:hover{
     width:95%
 }
 
-#tableContainer{
+.tableContainer{
     text-align:-webkit-center;
 }
 
@@ -312,9 +312,13 @@ a:hover{
     padding-right:20px;
 }
 
-#iPath{
+#file{
   padding-top:5px;
   margin-top:10px;
+}
+
+#pName{
+  margin-bottom:10px;
 }
 
 #fileChooser{
@@ -339,7 +343,7 @@ a:hover{
 }
 
 .albumCard{
-  padding-bottom: 2.5em;
+  padding-bottom: 1.5em;
   vertical-align:baseline;
 }
 
@@ -442,6 +446,9 @@ a:hover{
   text-align:left;
 }
 
+.songOptions{
+  background: rgba(0,0,0,0);
+}
 #user-img-sm {
     max-height: 100%;
     max-width: 100%;

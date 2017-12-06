@@ -10,31 +10,46 @@
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
+<div class="row tableContainer" id="queue">
   <table class="table songTable">
     <tr>
-      <th>Title</th>
-      <th>Artist</th>
-      <th>Album</th> 
-      <th>Duration</th>
-      <th></th>
+      <th class="col-md-l">#</th>
+      <th class="col-md-3">Title</th>
+      <th class="col-md-2">Artist</th>
+      <th class="col-md-2">Album</th> 
+      <th class="col-md-2 text-right">Duration</th>
+      <th class="col-md-2 text-right"></th>
     </tr>
-    <c:forEach items="${queueSongs}" var="Song">
-      <tr>
+    <c:forEach items="${queueSongs}" varStatus="loop" var="Song">
+      <tr class="tableRow">
+        <td>
+          <a class="playHide">
+            ${loop.index+1}
+          </a>        
+          <a href="#" onclick="playSong(${Song.songId},'album',${loop.index})">
+            <i class="playShow fa fa-play fa-fw"></i>
+          </a>
+        </td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td>            
-          <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
-          :
-          <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
+        <td class="text-right">            
+          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+        </td>
+        <td class="text-right">
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
-              Add to
-              <span class="caret"></span>
-            </button>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
+            </a>
             <ul class="dropdown-menu">
+              <c:choose>
+                <c:when test="${currentUser.isFollowingSong(Song)}">
+                  <li><a href="#" songId="${Song.songId}" currentPage="queue.jsp" class="unfollowSong">Unfollow Song</a></li>
+                </c:when>
+                <c:otherwise>
+                  <li><a href="#" songId="${Song.songId}" currentPage="queue.jsp" class="followSong">Follow Song</a></li>
+                </c:otherwise>
+              </c:choose>
               <c:forEach items="${createdPlaylists}" var="Playlist">
                 <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
               </c:forEach>
