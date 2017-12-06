@@ -73,16 +73,20 @@ public class SpotifyController {
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
     List<Song> followedSongs = new ArrayList<>();
+    List<Artist> followedArtists = new ArrayList<>();
     
     createdPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
+    followedArtists.addAll(user.getFollowedArtists());
+    
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
+    session.setAttribute("followedArtists",followedArtists);
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }

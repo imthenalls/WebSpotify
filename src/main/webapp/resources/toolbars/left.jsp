@@ -20,7 +20,7 @@
             <a data-toggle="tab" href="#" onclick="viewFollowedAlbums()">Albums</a>
         </li>
         <li> 
-            <a data-toggle="tab" href="#">Artists</a>
+            <a data-toggle="tab" href="#" onclick='viewFollowedArtists()'>Artists</a>
         </li>
         <li> 
           <a data-toggle="tab" href="#" onclick="adminViewAllSongs()">Admin Songs</a>

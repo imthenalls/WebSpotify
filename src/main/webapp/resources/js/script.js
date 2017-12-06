@@ -47,6 +47,18 @@ $(document).ready(function(){
     
     $(document).on({
       click: function(){
+        followArtist($(this).attr("artistId"),$(this).attr("currentPage"));
+      }
+    },'.followArtist');
+    
+    $(document).on({
+      click: function(){
+        unfollowArtist($(this).attr("artistId"),$(this).attr("currentPage"));
+      }
+    },'.unfollowArtist');
+    
+    $(document).on({
+      click: function(){
         console.log('Editing playlist');
         var name = $("#pName2").val();
         var desc= $("#pDesc2").val();
@@ -374,10 +386,6 @@ $(document).ready(function(){
 //$("#updatePlaylistForm").submit(function(){
 
 });
-
-
-
-
 
 function viewQueue(){
   console.log("init");
@@ -974,7 +982,39 @@ function unfollowSong(songId,currentPage) {
   return false;
 };
 
+function followArtist(artistId,currentPage) {
+  $.ajax({
+    url: "artist/followArtist",
+    type: "POST",
+    data: ({
+      artistId: artistId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+    },
+    error: function(){
+      console.log("Failure following artist");
+    }
+  });
+  return false;
+};
 
+function unfollowArtist(artistId,currentPage) {
+  $.ajax({
+    url: "artist/unfollowArtist",
+    type: "POST",
+    data: ({
+      artistId: artistId
+    }),
+    success:function(){
+      $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+    },
+    error: function(){
+      console.log("Failure unfollowing artist");
+    }
+  });
+  return false;
+};
 
 $("#updatePlaylistForm").submit(function(){
     var name = $("#pName2").val();
