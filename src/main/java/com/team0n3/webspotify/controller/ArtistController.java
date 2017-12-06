@@ -12,8 +12,10 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.UserService;
+import comparator.SongComparator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +71,12 @@ public class ArtistController {
   public void viewArtist(@RequestParam int artistID, HttpSession session){
       Artist artist = artistService.getArtist(artistID);
       List<Album> artistAlbums = (List<Album>) artist.getAlbums();
-      List<Song> artistSongs = (List<Song>) artist.getSongs();
+      List<Song> popularSongs = (List<Song>) artist.getSongs();
+      System.out.println(popularSongs);
+      Collections.sort(popularSongs,new SongComparator());
+      System.out.println(popularSongs);
       session.setAttribute("currentArtist",artist);
-      session.setAttribute("artistSongs",artistSongs);
+      session.setAttribute("popularSongs",popularSongs);
       session.setAttribute("artistAlbums",artistAlbums);
   }
   

@@ -34,7 +34,7 @@
   <div class="col-md-8">
       <h3>Popular</h3>
       <table class="table songTable">
-      <c:forEach begin="0" end="9" varStatus="loop" items="${artistSongs}" var="Song">
+      <c:forEach begin="0" end="9" varStatus="loop" items="${popularSongs}" var="Song">
         <tr class="tableRow">
           <td class="col-md-2">
               <a class="playHide">
@@ -44,8 +44,8 @@
               <i class="playShow fa fa-play fa-fw"></i>
             </a>
           </td>
-          <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
-          <td class="text-right">
+          <td class='col-md-4'><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
+          <td class="col-md-1 text-right">
             <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
           </td>
           <td class="text-right col-md-1">
@@ -67,9 +67,11 @@
                 </c:forEach>
               </ul>
             </div>
-          </td>          
-        </tr>
-      </c:forEach> 
+          </td>
+          <td class='col-md-1 text-right'>
+            ${Song.totalPlays}
+          </td>
+        </c:forEach>
       </table>
   </div>
   <div class="col-md-4">
