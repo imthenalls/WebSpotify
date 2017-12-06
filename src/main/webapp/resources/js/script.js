@@ -388,7 +388,6 @@ $(document).ready(function(){
 });
 
 function viewQueue(){
-  console.log("init");
   $.ajax({
       url: "songPlayer/viewQueue",
       type: "GET",
@@ -397,7 +396,7 @@ function viewQueue(){
           });
       },
       error: function(){
-          console.log("Error viewing followed songs");
+          console.log("Error viewing queue");
       }
   });
   return false; // Makes sure that the link isn't followed
@@ -405,7 +404,6 @@ function viewQueue(){
 
 // Update the current slider value (each time you drag the slider handle)
 function changeVolume(){
-  console.log("inputtign");
   var audioElem = $("#audio")[0];
   var audioValue = slider.value/100;
   if(audioElem.volume===0){ //turning on volume
@@ -457,7 +455,7 @@ function upgradeToPremium(){
     var currYear = (new Date()).getFullYear() - 2000;
     if(month > 12 || year < currYear || year > (currYear + 25)){
       console.log(month, year, currYear);
-      $("#upgradeError").html('Invalid Experation Date');
+      $("#upgradeError").html('Invalid Expiration Date');
     }
     else{
       $.ajax({
@@ -733,6 +731,9 @@ function playSong(songId,setType,songIndex){
   var repeatTag = $("#repeatTag");
   var shuffleTag = $("#shuffleTag");
   var sliderVal=($('#myRange')[0]).value;
+  var queue = $("#center-pane").children().eq(1);;
+  var q = $(queue);
+  var onQueuePage = ($(q).attr("id")=='queue');
   $.ajax({
     url: "songPlayer/playSong",
     type: "GET",
@@ -759,6 +760,9 @@ function playSong(songId,setType,songIndex){
         audio.volume=sliderVal/100;
         audio.play();
       });
+      if(onQueuePage){
+        viewQueue();
+      }
     },
     failure: function(){
       console.log("Failure playing song");
@@ -767,12 +771,13 @@ function playSong(songId,setType,songIndex){
   return false;
 }
 
-function playNext(isOnQueue){
+function playNext(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
-   var queue = $('#queue');
-   console.log(queue);
+   var queue = $("#center-pane").children().eq(1);;
+   var q = $(queue);
+   var onQueuePage = ($(q).attr("id")=='queue');
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -796,12 +801,10 @@ function playNext(isOnQueue){
         slider.value=sliderVal;
         audio.volume=sliderVal/100;
         audio.play();
-        if(isOnQueue){
-          $("#center-pane").load("/resources/pages/queue.jsp",function(){
-            console.log("Reloaded queue");
-          });
-        }
       });
+      if(onQueuePage){
+        viewQueue();
+      }
     },
     failure:function(){
       console.log("Failure playing next song");
@@ -814,6 +817,9 @@ function playPrev(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
+   var queue = $("#center-pane").children().eq(1);;
+   var q = $(queue);
+   var onQueuePage = ($(q).attr("id")=='queue');
   $.ajax({
     url:"songPlayer/playPrev",
     type:"GET",
@@ -836,6 +842,9 @@ function playPrev(){
         audio.volume=sliderVal/100;
         audio.play();
       });
+      if(onQueuePage){
+        viewQueue();
+      }
     },
     failure:function(){
       console.log("Failure playing prev song");
@@ -896,6 +905,9 @@ function toggleRepeat(){
 }
 
 function toggleShuffle(){
+   var queue = $("#center-pane").children().eq(1);;
+   var q = $(queue);
+   var onQueuePage = ($(q).attr("id")=='queue');
   var shuffleTag = $("#shuffleTag")[0];
   if($(shuffleTag).hasClass("shuffleOn"))
     $(shuffleTag).removeClass("shuffleOn");
@@ -905,6 +917,8 @@ function toggleShuffle(){
     url: "songPlayer/toggleShuffle",
     type: "GET"
   });
+  if(onQueuePage)
+    viewQueue();
   return false;
 }
 

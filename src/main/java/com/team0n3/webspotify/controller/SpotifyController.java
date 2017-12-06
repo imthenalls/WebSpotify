@@ -87,6 +87,10 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    
+    session.setMaxInactiveInterval(30*60);
+    System.out.println(session.getMaxInactiveInterval());
+    
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
