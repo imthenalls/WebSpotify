@@ -5,14 +5,6 @@
       <div class="col-xs-8">
         <ul>
           <li>
-            <label for="first-name">First Name:</label>
-            <p id="first-name">User</p>
-          </li>
-          <li>
-            <label for="last-name">Last Name:</label>
-            <p id="last-name">Name</p>
-          </li>
-          <li>
             <label for="username">Username:</label>
             <p>${currentUser.username}</p>
           </li>
@@ -28,7 +20,7 @@
         <button id="edit-profile-button" class="btn" onclick="viewEditProfile()">Edit Profile</button>
       </div>
       <div class="col-xs-4">
-          <i id="user-icon-img" style="font-size: 100px;" class="fa fa-user"></i>
+          <a href="#"><img src="${currentUser.imagePath}" class="img-circle userPic" id="user-img"></a>
       </div>
     </div>
   </div>

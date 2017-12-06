@@ -72,7 +72,7 @@
               <input id='iPath2' name="imagePath2" size='20' class="row form-control" type="file" accept="image/*" style="display: none;" >
             </div>
             <div class="col-xs-6 form-group">
-              <textarea placeholder='${currentPlaylist.description}' id='pDesc2' class="form-control" type="textArea" rows="4" columns="5" form="updatePlaylistForm" maxlength="30" name="description"></textarea>
+              <textarea placeholder='${currentPlaylist.description}' id='pDesc2' class="form-control" type="textArea" rows="4" columns="5" form="updatePlaylistForm" maxlength="280" name="description"></textarea>
             </div>
           </div>
         </div>
