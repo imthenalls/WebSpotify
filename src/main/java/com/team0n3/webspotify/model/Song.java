@@ -62,6 +62,8 @@ public class Song implements Serializable {
         CascadeType.MERGE }, mappedBy = "followedSongs")
     private Collection<User> followers;
     
+   // private Collection<Integer> payOutHistory; 
+    
     public Song() {
     }
     
@@ -69,6 +71,20 @@ public class Song implements Serializable {
        this.title = title;
     }
 
+    public int currentPayOut(){
+      int payOut = 0;
+      payOut = totalPlays*royaltyPerPlay;
+      return payOut;
+    }
+    /*
+    public Collection<Integer> getPayOutHistory() {
+      return payOutHistory;
+    }
+
+    public void setPayOutHistory(Collection<Integer> payOutHistory) {
+      this.payOutHistory = payOutHistory;
+    }
+    */
     public int getRoyaltyPerPlay() {
         return royaltyPerPlay;
     }

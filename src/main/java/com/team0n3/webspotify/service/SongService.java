@@ -21,4 +21,6 @@ public interface SongService {
   public void incrementTotalPlays(int songId);
   
   public void updateFollowerCount(int songId);
+  
+  public List<Song> getTop50Songs();
 }
