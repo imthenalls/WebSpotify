@@ -6,11 +6,11 @@
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Playlist</span>
+        <span class="mediaType"></span>
       </div>
       <div class="row">
         <a href="#">
-          <h3 class="mediaName">Songs</h3>    
+          <h3 class="mediaName">Unapproved Users</h3>    
         </a>
       </div>
       <div class="row" id="mediaSpecs">

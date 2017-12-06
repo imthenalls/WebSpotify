@@ -257,6 +257,7 @@ function upgradeToPremium(){
     var currYear = (new Date()).getFullYear() - 2000;
     if(month > 12 || year < currYear || year > (currYear + 25)){
       console.log(month, year, currYear);
+      $("#upgradeError").html('Invalid Experation Date');
     }
     else{
       $.ajax({
@@ -269,7 +270,8 @@ function upgradeToPremium(){
              expirationMonth: month,
              expirationYear: year,
              creditCompany: creditCompany,
-             address: address
+             address: address,
+             zipCode : zipCode
          }),
          success:function(){
              $("#center-pane").load("/resources/pages/profile.jsp",function(){
@@ -279,6 +281,7 @@ function upgradeToPremium(){
          },
          error:function(){
              console.log("failure upgrading");
+             $("#upgradeError").html('Invalid Information');
          }
       });
     return false;      
