@@ -52,15 +52,47 @@
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
+        
+<div id="editPlaylistModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content" id="modalBackground">
+      <div class="modal-header">
+        <span id="closeSpan"><button id="closeButton" type="button" class="btn fa fa-close" data-dismiss="modal"></button></span>
+        <h4 class="modal-title">Edit Playlist: ${currentPlaylist.playlistName}</h4>
+      </div>
+      <form id="updatePlaylistForm" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="row form-group">
+            <input id='pName2' class="form-control" type="text" name="playlistName2" placeholder="${currentPlaylist.playlistName}">
+          </div>
+          <div class="row">
+            <div class="col-xs-6 form-group">
+              <img height="250" width="250" id="playlist-image2" src="${currentPlaylist.imagePath}" alt="Image" class="row mediaPic">
+              <input id='iPath2' name="imagePath2" size='20' class="row form-control" type="file" accept="image/*" style="display: none;" >
+            </div>
+            <div class="col-xs-6 form-group">
+              <textarea placeholder='${currentPlaylist.description}' id='pDesc2' class="form-control" type="textArea" rows="4" columns="5" form="updatePlaylistForm" maxlength="30" name="description"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="editPlaylist" class="btn btn-info" type="button" value="Submit">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>        
+        
+<div class="row tableContainer">
   <table class="table songTable">
     <tr>
-      <th></th>
-      <th>Title</th>
-      <th>Artist</th>
-      <th>Album</th> 
-      <th>Duration</th>
-      <th></th>
+      <th class="col-md-2"></th>
+      <th class="col-md-4">Title</th>
+      <th class="col-md-2">Artist</th>
+      <th class="col-md-2">Album</th> 
+      <th class="col-md-2 text-right">Duration</th>
+      <th class="col-md-2 text-right">Options</th>
     </tr>
     <c:forEach items="${songList}" varStatus='loop' var="Song">
       <tr class="tableRow">
@@ -75,15 +107,22 @@
         <td>${Song.title}</td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td>            
+        <td class="text-right">            
           <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
+        <td class="text-right">
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
-              Options
-              <span class="caret"></span>
-            </button>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
+            </a>
             <ul class="dropdown-menu">
+              <c:choose>
+                <c:when test="${currentUser.isFollowingSong(Song)}">
+                  <li><a href="#" songId="${Song.songId}" currentPage="playlist.jsp" class="unfollowSong">Unfollow Song</a></li>
+                </c:when>
+                <c:otherwise>
+                  <li><a href="#" songId="${Song.songId}" currentPage="playlist.jsp" class="followSong">Follow Song</a></li>
+                </c:otherwise>
+              </c:choose>
               <li><a href="#" onclick="deleteSongFromPlaylist(${currentPlaylist.playlistID},${Song.songId})">Remove From Playlist</a></li>
             </ul>
           </div>

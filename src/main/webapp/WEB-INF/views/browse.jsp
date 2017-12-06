@@ -59,9 +59,7 @@ and open the template in the editor.
           </div>
         </div>
       </div>
-      <div id="editModalLocation"></div>
-      
-      
+     
       <div id="lyricModal"class="modal fade" role="dialog">
           <div class="modal-dialog">
               <div id="lyricsHere"></div>
