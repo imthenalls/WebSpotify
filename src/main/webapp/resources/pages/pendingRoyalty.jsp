@@ -14,22 +14,19 @@
     <tr>
       <th>Title</th>
       <th>Artist</th>
-      <th>Album</th> 
-      <th>Duration</th>
+      <th>Pay Status</th>
+      <th>Amount Owed</th>
       <th></th>
     </tr>
-    <c:forEach items="${unPaidSongs}" var="Song">
+    <c:forEach items="${paymentRequests}" var="Payment">
       <tr>
-        <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
-        <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
-        <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td>            
-          <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
-          :
-          <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
+        <td><a href="#" onclick="viewAlbum(${Payment.songId.albumId})">${Payment.songId.title}</a></td>
+        <td><a href="#" onclick="viewArtist(${Payment.artistId.artistId})">${Payment.artistId.artistName}</a></td>
+       
+        <td>${Payment.isPaid}</td>
+        <td>${Payment.paymentAmount}</td>
           <c:choose>
-             <c:when test="${currentUser.accountType == 'Artist'}">'
+             <c:when test="${currentUser.accountType == 'Admin' }">
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
@@ -37,7 +34,7 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick=requestRoyaltyOnSong(${Song.songId})>Request royalty songs</a></li>
+                        <li><a href="#" onclick="adminPaySongRoyalties(${Payment.songId.songId},${Payment.artistId.artistId})">admin Pay Artist</a></li>
                     </ul>
                 </div>
              </td>
@@ -46,8 +43,6 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        </td>
-
       </tr>
     </c:forEach> 
   </table>

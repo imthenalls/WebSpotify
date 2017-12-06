@@ -37,7 +37,9 @@ public class RoyaltyPayment implements Serializable {
   @Column(name = "isPaid")
   private boolean isPaid; 
 
-  public RoyaltyPayment(Song songId, Artist artistId, int paymentAmount,boolean isPaid){
+  public RoyaltyPayment(){}
+  
+  public RoyaltyPayment(Song songId, Artist artistId, int paymentAmount, boolean isPaid){
     this.songId = songId;
     this.artistId = artistId;
     this.paymentAmount = paymentAmount;

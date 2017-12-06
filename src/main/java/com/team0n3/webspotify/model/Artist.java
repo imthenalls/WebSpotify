@@ -53,6 +53,9 @@ public class Artist implements Serializable{
     @Column(name = "totalRoyalties",nullable=true)
     private int totalRoyalties;
     
+    @Column(name = "payoutPerPlay")
+    private int payoutPerPlay;
+    
     public Artist() {
     }
     
@@ -72,6 +75,14 @@ public class Artist implements Serializable{
     }
     public int getPopularity() {
         return popularity;
+    }
+
+    public int getPayoutPerPlay() {
+      return payoutPerPlay;
+    }
+
+    public void setPayoutPerPlay(int payoutPerPlay) {
+      this.payoutPerPlay = payoutPerPlay;
     }
 
     public Collection<RoyaltyPayment> getRoyaltyPayments() {

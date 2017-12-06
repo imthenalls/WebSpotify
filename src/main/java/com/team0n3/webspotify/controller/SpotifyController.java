@@ -121,10 +121,14 @@ public class SpotifyController {
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
   public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
+    System.out.println(artist+" fuck me please");
+    /*
     boolean isArtist = false;
-    if(artist.equals("true")){
+    if(artist.equals("true")||artist.equals("true,false")){
+      System.out.println("oh hi sp[ringa re u fucking with me again");
       isArtist = true;
-    }
+    }*/
+    boolean isArtist = !(artist.equals("false"));
     String errorMessage = userService.signup(username, password, email, isArtist);
     if(errorMessage.equals("duplicate")){
       session.setAttribute("duplicate",true);
