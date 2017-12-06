@@ -17,7 +17,19 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12">
+    <button class="btn btn-primary" id="artistPlayButton">Play</button>
+    <c:choose>
+      <c:when test="${currentUser.isFollowingArtist(currentArtist)}">
+        <button class="btn btn-info unfollowArtist" artistId="${currentArtist.artistId}" currentPage="artist.jsp">Unfollow</button>
+      </c:when>
+      <c:otherwise>
+        <button class="btn btn-info followArtist" artistId="${currentArtist.artistId}" currentPage='artist.jsp'>Follow</button>
+      </c:otherwise>
+    </c:choose>
+  </div> 
 </div>
+
 <div class="row">
   <div class="col-md-8">
       <h3>Popular</h3>

@@ -41,25 +41,27 @@ public class ArtistController {
   @ResponseBody
   public void followArtist(@RequestParam int artistId, HttpSession session){
     User currentUser = (User)session.getAttribute("currentUser");
-    (currentUser.getFollowedArtists()).add(artistService.getArtist(artistId));
-    userService.followArtist(currentUser.getUsername(), artistId);
+    List<Artist> followedArtists = (List<Artist>)session.getAttribute("followedArtists");
+    followedArtists.add(artistService.getArtist(artistId));
+    session.setAttribute("followedArtists",followedArtists);
+    currentUser = userService.followArtist(currentUser.getUsername(), artistId);
+    session.setAttribute("currentUser",currentUser);
   }
   
   @RequestMapping(value="/unfollowArtist", method=RequestMethod.POST)
   @ResponseBody
   public void unfollowArtist(@RequestParam int artistId, HttpSession session){
-    boolean found = false;
     User currentUser = (User)session.getAttribute("currentUser");
-    Collection<Artist> followedArtists = currentUser.getFollowedArtists();
+    List<Artist> followedArtists = (List<Artist>)session.getAttribute("followedArtists");
     for(Artist a:followedArtists){
       if(a.getArtistId() == artistId){
         followedArtists.remove(a);
-        found = true;
-        break;
+        session.setAttribute("followedArtists",followedArtists);
+        currentUser = userService.unfollowArtist(currentUser.getUsername(), artistId);
+        session.setAttribute("currentUser",currentUser);
+        return;
       }
     }
-    if(found)
-      userService.unfollowArtist(currentUser.getUsername(), artistId);
   }
   
   @RequestMapping(value = "/viewArtist", method = RequestMethod.GET)

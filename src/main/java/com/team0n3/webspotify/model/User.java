@@ -244,6 +244,16 @@ public class User implements Serializable{
     return false;
   }
   
+    public boolean isFollowingArtist(Artist artist){
+    List<Artist> followedArtist = new ArrayList<>();
+    followedArtist.addAll(followedArtists);
+    for (Artist a : followedArtist) {
+      if(a.getArtistId() == artist.getArtistId())
+        return true;
+    }
+    return false;
+  }
+  
   @Override
   public String toString(){
     return "username="+username+", email="+email;
