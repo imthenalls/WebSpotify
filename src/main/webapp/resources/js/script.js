@@ -228,9 +228,11 @@ $(document).ready(function(){
     }
     return false;
   });
+  
    $(document).on('click', '#playlist-image2', function(){
       $("#iPath2").click();
   });
+  
    $(document).on('change', '#iPath2', function(){
      var $files = document.getElementById('iPath2');
      if ($files.files && $files.files[0]) {
@@ -355,7 +357,7 @@ $("#updatePlaylistForm").submit(function(){
         }
     });
     }
-    $("#updatePlaylistModal").modal('hide');
+    ("#updatePlaylistModal").modal('hide');
     return false;
   });
 });
