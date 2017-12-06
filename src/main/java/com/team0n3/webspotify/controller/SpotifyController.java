@@ -203,16 +203,17 @@ public class SpotifyController {
   @RequestMapping(value = "/search", method= RequestMethod.GET)
   @ResponseBody
   public void search(@RequestParam String keyword, HttpSession session){
-    List<User> searchUsers = userService.search(keyword);
-    List<Album> searchAlbums = albumService.search(keyword);
-    List<Artist> searchArtists = artistService.search(keyword);
-    List<Song> searchSongs = songService.search(keyword);
-    List<Playlist> searchPlaylists = playlistService.search(keyword);
+    List<User> searchUsers = userService.search(keyword,true);
+    List<Album> searchAlbums = albumService.search(keyword,true);
+    List<Artist> searchArtists = artistService.search(keyword,true);
+    List<Song> searchSongs = songService.search(keyword,true);
+    List<Playlist> searchPlaylists = playlistService.search(keyword,true);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
     session.setAttribute("playlistList", searchPlaylists);
+    session.setAttribute("lastSearch",keyword);
   }
   
   @RequestMapping( value = "/adminViewUnapprovedUsers", method = RequestMethod.GET)
@@ -301,5 +302,10 @@ public class SpotifyController {
       session.setAttribute("currentUser",user);
   }
   
- 
+  @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void deleteAccount(HttpSession session){
+    User user= userService.getUser((String)session.getAttribute("currentUser"));
+    userService.adminDeleteUser(user);
+  }
 }

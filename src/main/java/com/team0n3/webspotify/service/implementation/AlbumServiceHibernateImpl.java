@@ -59,8 +59,8 @@ public class AlbumServiceHibernateImpl implements AlbumService{
   
   @Transactional(readOnly = true)
   @Override
-  public List<Album> search(String keyword){
-      List<Album> listAlbums = albumDao.search(keyword);
+  public List<Album> search(String keyword, boolean limit){
+      List<Album> listAlbums = albumDao.search(keyword, limit);
       return listAlbums;
   }
 }

@@ -133,5 +133,19 @@ public class SongController {
     }
   }
   
+  @RequestMapping( value = "/top", method = RequestMethod.GET)
+  @ResponseBody
+  public void getTopSongs(HttpSession session){
+    List<Song> songs=songService.getTop50Songs();
+    session.setAttribute("allSongs", songs);
+  }
   
+  @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<Song> songs=songService.search((String)session.getAttribute("lastSearch"), false);
+    System.out.println(songs.size());
+    session.setAttribute("allSongs", songs);
+  }
 }

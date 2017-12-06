@@ -52,10 +52,12 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
   }
   
   @Override
-  public List<Album> search(String keyword){
+  public List<Album> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Album.class);
     c.add(Restrictions.like("albumName", "%"+keyword+"%"));
-    c.setMaxResults(maxResults);
+    if(limit){
+      c.setMaxResults(maxResults);
+    }
     return c.list();
   }
 

@@ -16,7 +16,7 @@ public interface SongService {
   
   public void deleteSongFromPlaylist(int playlistId, int songId);
   
-  public List<Song> search(String keyword);
+  public List<Song> search(String keyword, boolean limit);
   
   public void incrementTotalPlays(int songId);
   

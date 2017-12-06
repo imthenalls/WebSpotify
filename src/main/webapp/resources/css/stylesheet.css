@@ -461,7 +461,7 @@ a:hover{
     max-width: 100%;
     width: 150px;
     height: 150px;
-    margin-right: 5px;
+    padding-right: 0;
 }
 .userOverlay{
   transition: .5s ease;
@@ -506,4 +506,47 @@ a:hover{
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 50px;
+}
+#user-txt{
+  padding-left: 0;
+  padding-top: 0;
+  font-size:xx-large;
+}
+#user-type{
+  padding-left: 0;
+  padding-bottom: 0;
+  font-size:x-large;
+}
+#user-img-div{
+  padding-right: 0;
+}
+#ad{
+  overflow: hidden;
+  bottom: 92px;
+  left: 550px;
+  position: fixed;
+  max-height: 100%;
+  max-width: 100%;
+}
+.ad-container {
+    display: flex;
+    position: relative;
+    height: 100px;
+    width: 400px;
+}
+
+.x-button {
+    position: absolute;    
+    right: 0px;
+    top: 0px;
+    padding-right: 0;
+}
+.no-pad{
+  padding-left: 0;
+}
+.search-header{
+  font-size: 36px;
+}
+.search-text{
+  font-size: 12px;
 }

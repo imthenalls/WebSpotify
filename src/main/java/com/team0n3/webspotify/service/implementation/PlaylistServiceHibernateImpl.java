@@ -80,8 +80,8 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
       System.out.println("hello rename "+playlist.getPlaylistName());
   }
   @Override
-  public List<Playlist> search(String keyword){
-    List<Playlist> listPlaylist = playlistDao.search(keyword);
+  public List<Playlist> search(String keyword, boolean limit){
+    List<Playlist> listPlaylist = playlistDao.search(keyword, limit);
     return listPlaylist;
   }
   

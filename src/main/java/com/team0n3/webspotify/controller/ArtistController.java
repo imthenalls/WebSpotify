@@ -141,4 +141,14 @@ public class ArtistController {
       royaltyPaymentService.adminPayArtist(artistId);
     }
   }
+  
+    
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<Artist> songs=artistService.search((String)session.getAttribute("lastSearch"), false);
+    System.out.println(songs.size());
+    session.setAttribute("allSongs", songs);
+  }
 }

@@ -1,6 +1,11 @@
 $(document).ready(function(){
   $(document).on({
       click: function(){
+        viewEditProfile();
+      }
+    }, '.settings-drop');
+  $(document).on({
+      click: function(){
         $("#my_file").click();
       }
     }, '#user-img');
@@ -24,6 +29,31 @@ $(document).ready(function(){
         }
       }
     }, '#my_file');
+    
+    $(document).on({
+      submit: function(){
+        var password=$("#delete-pass").val();
+        var confirm=$("delete-pass-confirm").val();
+        if(password!=confirm){
+          bootbox.alert("Password and confirm password do not match");
+          return false;
+        }
+        var username=$("deleteAccount").attr("username");
+        $.ajax({
+          url: "deleteUser",
+          type: "POST",
+          data: password,
+          success:function(){
+              $.ajax({
+                url: "logoutUser"
+              });
+          },
+          error: function(){
+            bootbox.alert("Invalid password!");
+          }
+      });
+      }
+    }, '#deleteAccountForm');
 });
 
 function uploadImage($files, handler) {

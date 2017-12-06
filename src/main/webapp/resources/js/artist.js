@@ -14,6 +14,26 @@ $(document).ready(function(){
       unfollowArtist($(this).attr("artistId"),$(this).attr("currentPage"));
     }
   },'.unfollowArtist');
+  
+    $(document).on({
+      click: function(){
+        $.ajax({
+        url: "artist/seeMore",
+        type: "GET",
+
+        success:function(){
+          $("#center-pane").load("/resources/pages/searchArtists.jsp",function(){
+                    console.log("Success unfollowing song");
+                });
+        },
+        error: function(){
+                console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+      }
+    },'#moreArtists');
+
 });
 function followArtist(artistId,currentPage) {
   $.ajax({

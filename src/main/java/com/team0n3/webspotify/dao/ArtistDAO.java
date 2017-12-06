@@ -10,6 +10,6 @@ public interface ArtistDAO {
     public List<Artist> listArtists();
     public void deleteArtist(Artist artist);
     public void updateArtist(Artist artist);
-    public List<Artist> search(String keyword);
+    public List<Artist> search(String keyword, boolean limit);
 
 }

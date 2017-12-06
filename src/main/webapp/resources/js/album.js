@@ -6,7 +6,25 @@ $(document).ready(function(){
   $(document).on('click', '.song-row-search', function(){
     viewAlbum($(this).attr("albumId"));
   });
+  
+  $(document).on({
+      click: function(){
+        $.ajax({
+        url: "album/seeMore",
+        type: "GET",
 
+        success:function(){
+          $("#center-pane").load("/resources/pages/searchAlbums.jsp",function(){
+                    console.log("Success unfollowing song");
+                });
+        },
+        error: function(){
+                console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+      }
+    },'#moreAlbums');
 });
 
 function viewAlbum(id){

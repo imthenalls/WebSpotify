@@ -10,7 +10,7 @@
         </a>
         <a href='#'>
             <div class="col-xs-2 card">
-                <img src="resources/img/charts/world.png" alt="world50"><br>
+                <img src="resources/img/charts/world.png" alt="world50" id="topWorld"><br>
                 <div class="row">
                     <span>Global Hot 50</span>
                 </div>

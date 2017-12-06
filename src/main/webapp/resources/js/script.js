@@ -1,6 +1,7 @@
 var audio;
 var slider = $("#myRange")[0];
 var muteToggle = $("#toggleMute")[0];
+var adCount=0;
 
 $(document).ready(function(){
   
@@ -19,7 +20,11 @@ $(document).ready(function(){
     
     $(document).on('mousedown','#progress', scrub);
     //for the search links
-
+    $(document).on({
+      click: function(){
+        $("#ad").hide();
+      }
+    }, '.x-button');
     function playBack(){
         audio = $("#audio")[0];
         audio.volume=.5;
@@ -62,6 +67,7 @@ $(document).ready(function(){
     });
   return false; 
   });
+  
 });
 
 function viewUnpaidSongs(){
@@ -133,7 +139,6 @@ function toggleMute(){
     audio.volume=oldVolume;
   }
 }
-
 
 function upgradeToPremium(){
     console.log("trying to upgrade");
@@ -283,6 +288,11 @@ function playNext(isOnQueue){
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
    var queue = $('#queue');
+   adCount+=1;
+   if(adCount>=5){
+     $("#ad").show();
+     adCount=0;
+   }
    console.log(queue);
   $.ajax({
     url:"songPlayer/playNext",
