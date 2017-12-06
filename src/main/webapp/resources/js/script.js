@@ -32,6 +32,19 @@ $(document).ready(function(){
         viewAlbum($(this).attr("albumId"));
     });
     
+    //Unfollow Song
+    $(document).on({
+      click: function(){
+        unfollowSong($(this).attr("songId"),$(this).attr("currentPage"));
+      }
+    },'.unfollowSong');
+    
+    $(document).on({
+     click: function(){
+       followSong($(this).attr("songId"),$(this).attr("currentPage"));
+     }  
+    },'.followSong');
+    
     function playBack(){
         audio = $("#audio")[0];
         audio.volume=.5;
@@ -167,21 +180,21 @@ $(document).ready(function(){
   });
 });
 
-  function viewQueue(){
-    console.log("init");
-    $.ajax({
-        url: "songPlayer/viewQueue",
-        type: "GET",
-        success:function(){
-            $("#center-pane").load("/resources/pages/queue.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Error viewing followed songs");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-  }
+function viewQueue(){
+  console.log("init");
+  $.ajax({
+      url: "songPlayer/viewQueue",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/queue.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing followed songs");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
 
 // Update the current slider value (each time you drag the slider handle)
 function changeVolume(){
@@ -369,11 +382,15 @@ function viewAlbum(id){
 }
 
 function viewFollowedAlbums(){
-    $("#center-pane").load("/resources/pages/followedAlbums.jsp");
+  $("#center-pane").load("/resources/pages/followedAlbums.jsp");
 }
 
 function viewFollowedArtists(){
-    $("#center-pane").load("/resources/pages/followedArtists.jsp");
+  $("#center-pane").load("/resources/pages/followedArtists.jsp");
+}
+
+function viewFollowedSongs(){
+  $("#center-pane").load("/resources/pages/followedSongs.jsp");
 }
 
 function deletePlaylist(){
@@ -530,10 +547,12 @@ function playSong(songId,setType,songIndex){
   return false;
 }
 
-function playNext(){
+function playNext(isOnQueue){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
+   var queue = $('#queue');
+   console.log(queue);
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -557,6 +576,11 @@ function playNext(){
         slider.value=sliderVal;
         audio.volume=sliderVal/100;
         audio.play();
+        if(isOnQueue){
+          $("#center-pane").load("/resources/pages/queue.jsp",function(){
+            console.log("Reloaded queue");
+          });
+        }
       });
     },
     failure:function(){
@@ -720,6 +744,7 @@ function followSong(songId,currentPage) {
   });
   return false;
 };
+
 
 function unfollowSong(songId,currentPage) {
   $.ajax({

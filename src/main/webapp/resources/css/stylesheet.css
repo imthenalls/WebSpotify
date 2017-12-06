@@ -195,7 +195,7 @@ a:hover{
     width:95%
 }
 
-#tableContainer{
+.tableContainer{
     text-align:-webkit-center;
 }
 
@@ -444,4 +444,8 @@ a:hover{
 
 #songDuration{
   text-align:left;
+}
+
+.songOptions{
+  background: rgba(0,0,0,0);
 }

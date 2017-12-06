@@ -10,9 +10,7 @@
         <span class="mediaType">Artist</span>
       </div>
       <div class="row">
-        <a href="#">
           <h2 id="artistHeader" class="mediaName">${currentArtist.artistName}</h2>    
-        </a>
       </div>
       <div id="artistBio">
           <p id="summary"></p>
@@ -24,12 +22,40 @@
   <div class="col-md-8">
       <h3>Popular</h3>
       <table class="table songTable">
-      <c:forEach begin="0" end="10" items="${artistSongs}" var="Song">
-        <tr>
-            <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
-            <td class="durationColumn">
-              <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
-            </td>
+      <c:forEach begin="0" end="9" varStatus="loop" items="${artistSongs}" var="Song">
+        <tr class="tableRow">
+          <td class="col-md-2">
+              <a class="playHide">
+                  ${loop.index+1}
+              </a>        
+            <a href="#" onclick="playSong(${Song.songId},'album',${loop.index})">
+              <i class="playShow fa fa-play fa-fw"></i>
+            </a>
+          </td>
+          <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
+          <td class="text-right">
+            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+          </td>
+          <td class="text-right col-md-1">
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <c:choose>
+                  <c:when test="${currentUser.isFollowingSong(Song)}">
+                    <li><a href="#" songId="${Song.songId}" currentPage="artist.jsp" class="unfollowSong">Unfollow Song</a></li>
+                  </c:when>
+                  <c:otherwise>
+                    <li><a href="#" songId="${Song.songId}" currentPage="artist.jsp" class="followSong">Follow Song</a></li>
+                  </c:otherwise>
+                </c:choose>
+                <c:forEach items="${createdPlaylists}" var="Playlist">
+                  <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                </c:forEach>
+              </ul>
+            </div>
+          </td>          
         </tr>
       </c:forEach> 
       </table>

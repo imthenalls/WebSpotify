@@ -18,10 +18,10 @@ public interface UserService {
   public List<User> search(String keyword);
   public User followPlaylist(String userId, int playlistId);
   public User unfollowPlaylist(String userId, int playlistId);
-  public void followArtist(String userId, int artistId);
-  public void unfollowArtist(String userId, int artistId);
-  public void followSong(String userId, int songId);
-  public void unfollowSong(String userId, int songId);
+  public User followArtist(String userId, int artistId);
+  public User unfollowArtist(String userId, int artistId);
+  public User followSong(String userId, int songId);
+  public User unfollowSong(String userId, int songId);
   public User followAlbum(String userId, int albumId);
   public User unfollowAlbum(String userId, int albumId);
   public void adminAddSong(String title );

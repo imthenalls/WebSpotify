@@ -36,13 +36,13 @@
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
+<div class="row tableContainer">
   <table class="table songTable">
     <tr>
       <th class="col-md-2">#</th>
       <th class="col-md-4">Title</th>
-      <th class="col-md-4 durationColumn">Duration</th>\
-      <th class="col-md-2 ">Options</th>
+      <th class="col-md-4 text-right">Duration</th>
+      <th class="col-md-2 text-right">Options</th>
     </tr>
     <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
@@ -55,27 +55,27 @@
           </a>
         </td>
         <td>${Song.title}</td>
-        <td class="durationColumn">
+        <td class="text-right">
             <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
-        <td>
+        <td class="text-right">
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
-              <span class="caret"></span>
-            </button>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
+            </a>
+            <ul class="dropdown-menu">
               <c:choose>
-            <c:when test = "${currentUser.isFollowingSong(Song)}">
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="unfollowSong(${Song.songId},'album.jsp')">Unfollow Song</a></li>
-              </ul>
-            </c:when>
-            <c:otherwise>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="followSong(${Song.songId},'album.jsp')">Follow Song</a></li>
-              </ul>
-            </c:otherwise>
-          </c:choose>
-            
+                <c:when test="${currentUser.isFollowingSong(Song)}">
+                  <li><a href="#" songId="${Song.songId}" currentPage="album.jsp" class="unfollowSong">Unfollow Song</a></li>
+                </c:when>
+                <c:otherwise>
+                  <li><a href="#" songId="${Song.songId}" currentPage="album.jsp" class="followSong">Follow Song</a></li>
+                </c:otherwise>
+              </c:choose>
+              <c:forEach items="${createdPlaylists}" var="Playlist">
+                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+              </c:forEach>
+            </ul>
           </div>
         </td>
       </tr>

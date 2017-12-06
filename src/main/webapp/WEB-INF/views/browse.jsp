@@ -45,7 +45,7 @@ and open the template in the editor.
                     <input id="file" name="file" size='20' class="row form-control" type="file" accept="image/*">
                   </div>
                   <div class="col-xs-6 form-group">
-                    <textarea id="pDesc" class='form-control' type="textArea" rows="4" columns="5" form="newPlaylistForm" maxlength="30" placeholder="Description" name=description"></textarea>
+                    <textarea id="pDesc" class='form-control' type="textArea" rows="4" columns="5" form="newPlaylistForm" maxlength="40" placeholder="Description" name=description"></textarea>
                   </div>
                 </div>
               </div>
