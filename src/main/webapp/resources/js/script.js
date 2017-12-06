@@ -529,6 +529,10 @@ function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp");
 }
 
+function viewUpgradeEditPage(){
+    $("#center-pane").load("/resources/pages/upgradeEdit.jsp");
+}
+
 function viewProfile(){
   $("#center-pane").load("/resources/pages/profile.jsp");
 }
