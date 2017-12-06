@@ -78,6 +78,7 @@ public class Song implements Serializable {
 
     public int currentPayOut(){
       int payOut = 0;
+      setRoyaltyPerPlay(artistId.getPayoutPerPlay());
       payOut = unpayedPlays*royaltyPerPlay;
       return payOut;
     }

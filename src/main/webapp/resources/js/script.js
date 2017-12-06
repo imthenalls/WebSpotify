@@ -187,6 +187,61 @@ $(document).ready(function(){
 
 });
 
+function viewPendingRoyaltyPayments(){
+  console.log("init pending royalty");
+  $.ajax({
+      url: "artist/viewPendingRoyaltyPayments",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/pendingRoyalty.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing pending royalty");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
+function adminPaySongRoyalties(songId,artistId){
+    $.ajax({
+        url: "artist/adminPaySongRoyalties",
+        type: "POST",
+        data: ({
+            songId: songId,
+            artistId: artistId
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+                
+            });
+        },
+        error: function(){
+            console.log("Error paying songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function requestRoyaltyOnSong(songId){
+    $.ajax({
+        url: "artist/requestRoyaltyOnSong",
+        type: "POST",
+        data: ({
+            songId: songId
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+                
+            });
+        },
+        error: function(){
+            console.log("Error doings songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function viewUnpaidSongs(){
   console.log("init unpaid songs");
   $.ajax({
