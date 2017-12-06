@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,11 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   
   @Autowired
   private SessionFactory sessionFactory;
-
+  
+  @Value("${playlist.maxDescription}")
+  private int maxDescription;
+  @Value("${playlist.maxName}")
+  private int maxName;
   @Override
   @Transactional(readOnly = false)
   public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser) {
@@ -84,10 +89,23 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   @Transactional(readOnly = false)
   public Playlist updatePlaylist(int id, String name, String path, String description){
     Playlist playlist = playlistDao.getPlaylist(id);
-    playlist.setImagePath(path);
-    playlist.setPlaylistName(name);
-    playlist.setDescription(description);
+    if(!path.isEmpty()){
+      playlist.setImagePath(path);
+    }
+    if(!name.isEmpty() && name.length()<maxName){
+      playlist.setPlaylistName(name);
+    }
+    if(!description.isEmpty() && description.length()<maxDescription){
+      playlist.setDescription(description);
+    }
     playlistDao.updatePlaylist(playlist);
+    return playlist;
+  }
+  
+  @Override
+  @Transactional(readOnly = true)
+  public Playlist getGenrePlaylist(){
+    Playlist playlist = new Playlist();
     return playlist;
   }
 }

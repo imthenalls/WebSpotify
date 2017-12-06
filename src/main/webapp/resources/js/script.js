@@ -58,112 +58,85 @@ $(document).ready(function(){
     },'.unfollowArtist');
     
     $(document).on({
+      submit: function(){
+        var $files = document.getElementById('file');
+        if($files.files.length==0){
+          console.log("no file found");
+        }
+        if ($files.files.length) {
+          uploadImage($files, createPlaylist);
+        }
+        else{
+          var  path = "/resources/img/team0n3.png"
+          createPlaylist(path);
+        }
+        $("#createPlaylistModal").modal('hide');
+        return false;
+      }
+    },"#newPlaylistForm");
+    $(document).on({
       click: function(){
-        console.log('Editing playlist');
+        $("#my_file").click();
+      }
+    }, '#user-img');
+    
+    $(document).on({
+      change: function(){
+        var $files = document.getElementById('my_file');
+        if ($files.files.length) {
+          if($files.files.length==0){
+            console.log("no file found");
+            return false;
+          }
+          if ($files.files.length) {
+            uploadImage($files, changeProfilePic);
+          }
+          else{
+            var  path = "/resources/img/team0n3.png"
+            changeProfilePic(path);
+          }
+          return false;
+        }
+      }
+    }, '#my_file');
+    
+    $(document).on({
+      click:function(){
+        $("#iPath2").click();
+      }
+    }, '#playlist-image2');
+    
+   $(document).on({
+     change: function(){
+      var $files = document.getElementById('iPath2');
+      if ($files.files && $files.files[0]) {
+        var reader = new FileReader();
         var name = $("#pName2").val();
         var desc= $("#pDesc2").val();
         var id=Number($("#playlistID").text());
         console.log(name);
         console.log(desc);
         console.log(id);
+        reader.onload = function (e) {
+          $('#playlist-image2').attr('src', e.target.result);
+        };
+        reader.readAsDataURL($files.files[0]);
+      }
+     }
+   }, '#iPath2');
+    
+    $(document).on({
+      click: function(){
         var $files = document.getElementById('iPath2');
-        if(!name && !desc && files.files.length!=0){
-          $("#updatePlaylistModal").modal('hide');
-           return false;
-        }
-        if(!name){
-          name=$("#pName2").attr("placeholder");
-        }
-        if(!desc){
-          name=$("#pDesc2").attr("placeholder");
-        }
-        if($files.files.length==0){
-          console.log("no file found");
-        }
         if ($files.files.length) {
           console.log("in");
-          // Reject big files
-          if ($files.files[0].size > 1024 * 1024) {
-            console.log("Please select a smaller file");
-            return false;
-          }
-
-          // Begin file upload
-          console.log("Uploading file to Imgur..");
-
-          // Replace ctrlq with your own API key
-          var apiUrl = 'https://api.imgur.com/3/image';
-          var apiKey = '031ad79e1cfcccf';
-
-          var settings = {
-            crossDomain: true,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            url: apiUrl,
-            headers: {
-              Authorization: 'Client-ID ' + apiKey,
-              Accept: 'application/json'
-            },
-            mimeType: 'multipart/form-data'
-          };
-
-          var formData = new FormData();
-          formData.append("image", $files.files[0]);
-          settings.data = formData;
-
-          // Response contains stringified JSON
-          // Image URL available at response.data.link
-          $.ajax(settings).done(function(response) {
-            var res= JSON.parse(response);
-            var path= res.data.link;
-            console.log(name);
-            $.ajax({
-                url: "playlist/updatePlaylist",
-                type: "POST",
-                //Sends the necessary form parameters to the servlet
-                data:({
-                 id: id,
-                 name: name,
-                 description: desc,
-                 path: path
-                }),
-                success: function(){
-                    console.log("Success creating playlist");
-                    $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    });
-                    $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                    });
-                },
-                error: function(){
-                    console.log("Failure creating playlist");
-                }
-            });
-          });
+          uploadImage($files, editPlaylist);
         }
         else{
-          var  path = $("#iPath2").attr("placeholder");
-          $.ajax({
-            url: "playlist/updatePlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             id: id,
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
-                $("#center-pane").load("/resources/pages/playlist.jsp",function(){});
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-          });
+          editPlaylist("");
         }
-        $("#updatePlaylistModal").modal('hide');
+        
+        $("#editPlaylistModal").modal('hide');
         return false;
       }
     },'#editPlaylist');
@@ -188,96 +161,6 @@ $(document).ready(function(){
             console.log("after",audio.currentTime);
         }
     }
-   
-  $("#newPlaylistForm").submit(function(){
-    var name = $("#pName").val();
-    var desc= $("#pDesc").val();
-    var $files = document.getElementById('file');
-    if($files.files.length==0){
-      console.log("no file found");
-    }
-    if ($files.files.length) {
-      console.log("in");
-      // Reject big files
-      if ($files.files[0].size > 1024 * 1024) {
-        console.log("Please select a smaller file");
-        return false;
-      }
-
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        console.log(name);
-        $.ajax({
-            url: "playlist/createPlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                });
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-        });
-      });
-    }
-    else{
-      var  path = "/resources/img/team0n3.png"
-      $.ajax({
-        url: "playlist/createPlaylist",
-        type: "POST",
-        //Sends the necessary form parameters to the servlet
-        data:({
-         name: name,
-         description: desc,
-         path: path
-        }),
-        success: function(){
-            console.log("Success creating playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Failure creating playlist");
-        }
-    });
-    }
-    $("#createPlaylistModal").modal('hide');
-    return false;
-  });
     
   $("#searchForm").submit(function(){
     var keyword = $("#keyword").val();
@@ -298,94 +181,27 @@ $(document).ready(function(){
   return false; 
   });
   
-  $(document).on('click', '#user-img', function(){
-      $("#my_file").click();
-  });
-   $(document).on('change', '#my_file', function(){
-    console.log("hiiiiii");
-    var $files = document.getElementById('my_file');
-    if ($files.files.length) {
-      console.log($files.value);
-      // Reject big files
-      if ($files.files[0].size > 1024 * 1024) {
-        console.log("Please select a smaller file");
-        return false;
-      }
-      
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        $("#user-img").attr('src', path);
-        console.log(name);
-        $.ajax({
-            url: "/changeProfPic",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             path: path
-            }),
-            success: function(){
-                console.log("Success changing pic");
-                $("#topTool").load("/resources/toolbars/top.jsp");
-            },
-            error: function(){
-                console.log("Failure changing pic");
-            }
-        });
-      });
-    }
-    return false;
-  });
-   $(document).on('click', '#playlist-image2', function(){
-      $("#iPath2").click();
-  });
-   $(document).on('change', '#iPath2', function(){
-     var $files = document.getElementById('iPath2');
-     if ($files.files && $files.files[0]) {
-      var reader = new FileReader();
-      var name = $("#pName2").val();
-    var desc= $("#pDesc2").val();
-    var id=Number($("#playlistID").text());
-    console.log(name);
-    console.log(desc);
-    console.log(id);
-      reader.onload = function (e) {
-          $('#playlist-image2').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL($files.files[0]);
-    }
-   });
+  
    
 //$("#updatePlaylistForm").submit(function(){
 
 });
+
+function viewUnpaidSongs(){
+  console.log("init unpaid songs");
+  $.ajax({
+      url: "artist/viewUnpaidSongs",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing unpaid songs");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
 
 function viewQueue(){
   console.log("init");
@@ -1132,3 +948,121 @@ $("#updatePlaylistForm").submit(function(){
     $("#updatePlaylistModal").modal('hide');
     return false;
   });
+
+
+function uploadImage($files, handler) {
+    console.log("upload function");
+    // Reject big files
+    if ($files.files[0].size > 1024 * 1024) {
+      console.log("Please select a smaller file");
+      return false;
+    }
+
+    // Begin file upload
+    console.log("Uploading file to Imgur..");
+
+    // Replace ctrlq with your own API key
+    var apiUrl = 'https://api.imgur.com/3/image';
+    var apiKey = '031ad79e1cfcccf';
+
+    var settings = {
+      crossDomain: true,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      url: apiUrl,
+      headers: {
+        Authorization: 'Client-ID ' + apiKey,
+        Accept: 'application/json'
+      },
+      mimeType: 'multipart/form-data'
+    };
+
+    var formData = new FormData();
+    formData.append("image", $files.files[0]);
+    settings.data = formData;
+    $.ajax(settings).done(function(response) {
+      var res= JSON.parse(response);
+      var path= res.data.link;
+      handler(path);
+    });
+ }
+ function createPlaylist(path) {
+  var name = $("#pName").val();
+  var desc= $("#pDesc").val();
+  console.log(name);
+  $.ajax({
+      url: "playlist/createPlaylist",
+      type: "POST",
+      //Sends the necessary form parameters to the servlet
+      data:({
+       name: name,
+       description: desc,
+       path: path
+      }),
+      success: function(){
+          console.log("Success creating playlist");
+          $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Failure creating playlist");
+      }
+  });
+ }
+
+ function changeProfilePic(path) {
+  $.ajax({
+    url: "/changeProfPic",
+    type: "POST",
+    //Sends the necessary form parameters to the servlet
+    data:({
+     path: path
+    }),
+    success: function(){
+      console.log("Success changing pic");
+      $("#user-img").attr("src", path);
+      $("#topTool").load("/resources/toolbars/top.jsp");
+    },
+    error: function(){
+      console.log("Failure changing pic");
+    }
+  });
+ }
+
+function editPlaylist(path){
+  var name = $("#pName2").val();
+  var desc= $("#pDesc2").val();
+  var id=Number($("#playlistID").text());
+  if(!name && !desc && files.files.length!=0){
+    $("#updatePlaylistModal").modal('hide');
+     return false;
+  }
+  if(!name){
+    name=$("#pName2").attr("placeholder");
+  }
+  if(!desc){
+    desc=$("#pDesc2").attr("placeholder");
+  }
+  $.ajax({
+    url: "playlist/updatePlaylist",
+    type: "POST",
+    //Sends the necessary form parameters to the servlet
+    data:({
+     id: id,
+     name: name,
+     description: desc,
+     path: path
+    }),
+    success: function(){
+        console.log("Success creating playlist");
+        $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+        });
+        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
+        });
+    },
+    error: function(){
+        console.log("Failure creating playlist");
+    }
+  });
+}

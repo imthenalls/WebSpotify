@@ -39,6 +39,9 @@ public class Artist implements Serializable{
     @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
     private Collection<Song> songs;
     
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="artistId")
+    private Collection<RoyaltyPayment> royaltyPayments;
+    
     @ManyToMany(cascade ={CascadeType.PERSIST, 
         CascadeType.MERGE }, mappedBy = "followedArtists")
     private Collection<User> followers;
@@ -71,6 +74,14 @@ public class Artist implements Serializable{
         return popularity;
     }
 
+    public Collection<RoyaltyPayment> getRoyaltyPayments() {
+      return royaltyPayments;
+    }
+
+    public void setRoyaltyPayments(Collection<RoyaltyPayment> royaltyPayments) {
+      this.royaltyPayments = royaltyPayments;
+    }
+    
     public void setPopularity(int popularity) {
         this.popularity = popularity;
     }

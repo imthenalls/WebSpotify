@@ -18,4 +18,5 @@ import java.util.Collection;
     public void calcTotalRoyalties(int artistId);
     
     public Collection<Song> getSongsWithPlays(int artistId);
+
  }

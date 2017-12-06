@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -49,6 +50,9 @@ public class Song implements Serializable {
     @Column(name="audioPath")
     private String audioPath;
     
+    @Column(name = "unpayedPlays")
+    private int unpayedPlays;
+    
     @Column(name = "totalPlays")
     private int totalPlays;
     
@@ -62,8 +66,9 @@ public class Song implements Serializable {
         CascadeType.MERGE }, mappedBy = "followedSongs")
     private Collection<User> followers;
     
-   // private Collection<Integer> payOutHistory; 
-    
+    @OneToMany(cascade=CascadeType.ALL,mappedBy="songId")
+    private Collection<RoyaltyPayment> royaltyPayments;
+     
     public Song() {
     }
     
@@ -73,18 +78,26 @@ public class Song implements Serializable {
 
     public int currentPayOut(){
       int payOut = 0;
-      payOut = totalPlays*royaltyPerPlay;
+      payOut = unpayedPlays*royaltyPerPlay;
       return payOut;
     }
-    /*
-    public Collection<Integer> getPayOutHistory() {
-      return payOutHistory;
+
+    public Collection<RoyaltyPayment> getRoyaltyPayments() {
+      return royaltyPayments;
     }
 
-    public void setPayOutHistory(Collection<Integer> payOutHistory) {
-      this.payOutHistory = payOutHistory;
+    public void setRoyaltyPayments(Collection<RoyaltyPayment> royaltyPayments) {
+      this.royaltyPayments = royaltyPayments;
     }
-    */
+ 
+    public int getUnpayedPlays() {
+      return unpayedPlays;
+    }
+
+    public void setUnpayedPlays(int unpayedPlays) {
+      this.unpayedPlays = unpayedPlays;
+    }
+    
     public int getRoyaltyPerPlay() {
         return royaltyPerPlay;
     }

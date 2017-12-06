@@ -7,20 +7,22 @@ import com.team0n3.webspotify.dao.UserDAO;
 import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.ArtistDAO;
-import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.dao.PaymentDAO;
+import com.team0n3.webspotify.dao.RoyaltyPaymentDAO;
 import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.SongDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.AlbumDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.PaymentDAOHibernateImpl;
+import com.team0n3.webspotify.dao.implementation.RoyaltyPaymentDAOHibernateImpl;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.PaymentInfo;
+import com.team0n3.webspotify.model.RoyaltyPayment;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
   @Bean(name = "sessionFactory")
   public SessionFactory getSessionFactory(DataSource dataSource) {
     LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class,PaymentInfo.class);    
+    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class,PaymentInfo.class,RoyaltyPayment.class);    
     return sessionBuilder.buildSessionFactory();
   }
 
@@ -125,6 +127,12 @@ public StandardServletMultipartResolver multipartResolver(){
     return new PaymentDAOHibernateImpl(sessionFactory);
   }
 
+  @Autowired
+  @Bean(name="royaltyPaymentDao")
+  public RoyaltyPaymentDAO getRoyaltyPaymentDao(SessionFactory sessionFactory){
+    return new RoyaltyPaymentDAOHibernateImpl(sessionFactory);
+  }
+  
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");

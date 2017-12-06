@@ -1,16 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
+import com.team0n3.webspotify.model.RoyaltyPayment;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
+import com.team0n3.webspotify.service.RoyaltyPaymentService;
 import com.team0n3.webspotify.service.UserService;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- *
- * @author spike
- */
+
 @Controller
 @RequestMapping("/artist")
 public class ArtistController {
@@ -36,7 +31,8 @@ public class ArtistController {
   
   @Autowired
   private ArtistService artistService;
-  
+  @Autowired
+  private RoyaltyPaymentService royaltyPaymentService;
   @RequestMapping(value="/followArtist", method=RequestMethod.POST)
   @ResponseBody
   public void followArtist(@RequestParam int artistId, HttpSession session){
@@ -100,6 +96,49 @@ public class ArtistController {
       if(delete != null)
         userService.adminDeleteArtist(delete);
       session.setAttribute("allArtists",allArtists);
+    }
+  }
+  
+  @RequestMapping(value = "/viewUnpaidSongs", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewUnpaidSongs( HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Artist){
+      Artist artist = (Artist)session.getAttribute("currentArtist");
+      System.out.println(artist.toString());
+      //List<Song> unPaidSongs = royaltyPaymentService.listUnpaidSongsByArtist(artist.getArtistId());
+     // session.setAttribute("unPaidSongs",unPaidSongs);
+    }
+  }
+
+  @RequestMapping(value = "/viewPendingRoyaltyPayments", method = RequestMethod.POST)
+  @ResponseBody
+  public void viewPendingRoyaltyPayments(@RequestParam int artistId, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Artist){
+      List<RoyaltyPayment> paymentRequests = royaltyPaymentService.listUnpaidPaymentsByArtist(artistId);
+      session.setAttribute("paymentRequests",paymentRequests);
+    }
+  }
+  
+  @RequestMapping(value = "/requestRoyaltyPayment", method = RequestMethod.POST)
+  @ResponseBody
+  public void requestRoyaltyPayment(@RequestParam int songId, @RequestParam int artistId, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Artist){
+      RoyaltyPayment payment = royaltyPaymentService.artistRequestRoyaltyOnSong(songId, artistId);
+      List<RoyaltyPayment> paymentRequests = (ArrayList)session.getAttribute("paymentRequests");
+      paymentRequests.add(payment);
+      session.setAttribute("paymentRequests",paymentRequests);
+    }
+  }
+  
+  @RequestMapping(value = "/adminPayArtistRoyalties", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminPayArtistRoyalties(@RequestParam int artistId, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      royaltyPaymentService.adminPayArtist(artistId);
     }
   }
 }
