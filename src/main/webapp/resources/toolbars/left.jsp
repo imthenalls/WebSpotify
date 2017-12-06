@@ -40,6 +40,12 @@
         <li> 
             <a data-toggle="tab" href="#" onclick="adminViewAllPlaylists()">ALL Playlists</a>
         </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewUnpaidSongs()">Unpaid Songs</a>
+        </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewPendingRoyaltyPayments()">Pending Payments</a>
+        </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>

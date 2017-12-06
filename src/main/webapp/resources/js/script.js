@@ -1,6 +1,7 @@
 var audio;
 var slider = $("#myRange")[0];
 var muteToggle = $("#toggleMute")[0];
+var adCount=0;
 
 $(document).ready(function(){
   
@@ -15,159 +16,15 @@ $(document).ready(function(){
     $(".prev").click(function(){
         $("#myCarousel").carousel("next");
     });
-    
     $('[data-toggle="tooltip"]').tooltip();
     
     $(document).on('mousedown','#progress', scrub);
     //for the search links
-    $(document).on('click', '.album-card-search', function(){
-        viewAlbum($(this).attr("albumId"));
-    });
-    
-    $(document).on('click', '.artist-card-search', function(){
-        viewArtist($(this).attr("artistId"));
-    });
-    
-    $(document).on('click', '.song-row-search', function(){
-        viewAlbum($(this).attr("albumId"));
-    });
-    
-    //Unfollow Song
     $(document).on({
       click: function(){
-        unfollowSong($(this).attr("songId"),$(this).attr("currentPage"));
+        $("#ad").hide();
       }
-    },'.unfollowSong');
-    
-    $(document).on({
-     click: function(){
-       followSong($(this).attr("songId"),$(this).attr("currentPage"));
-     }  
-    },'.followSong');
-    
-    $(document).on({
-      click: function(){
-        followArtist($(this).attr("artistId"),$(this).attr("currentPage"));
-      }
-    },'.followArtist');
-    
-    $(document).on({
-      click: function(){
-        unfollowArtist($(this).attr("artistId"),$(this).attr("currentPage"));
-      }
-    },'.unfollowArtist');
-    
-    $(document).on({
-      click: function(){
-        console.log('Editing playlist');
-        var name = $("#pName2").val();
-        var desc= $("#pDesc2").val();
-        var id=Number($("#playlistID").text());
-        console.log(name);
-        console.log(desc);
-        console.log(id);
-        var $files = document.getElementById('iPath2');
-        if(!name && !desc && files.files.length!=0){
-          $("#updatePlaylistModal").modal('hide');
-           return false;
-        }
-        if(!name){
-          name=$("#pName2").attr("placeholder");
-        }
-        if(!desc){
-          name=$("#pDesc2").attr("placeholder");
-        }
-        if($files.files.length==0){
-          console.log("no file found");
-        }
-        if ($files.files.length) {
-          console.log("in");
-          // Reject big files
-          if ($files.files[0].size > 1024 * 1024) {
-            console.log("Please select a smaller file");
-            return false;
-          }
-
-          // Begin file upload
-          console.log("Uploading file to Imgur..");
-
-          // Replace ctrlq with your own API key
-          var apiUrl = 'https://api.imgur.com/3/image';
-          var apiKey = '031ad79e1cfcccf';
-
-          var settings = {
-            crossDomain: true,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-            url: apiUrl,
-            headers: {
-              Authorization: 'Client-ID ' + apiKey,
-              Accept: 'application/json'
-            },
-            mimeType: 'multipart/form-data'
-          };
-
-          var formData = new FormData();
-          formData.append("image", $files.files[0]);
-          settings.data = formData;
-
-          // Response contains stringified JSON
-          // Image URL available at response.data.link
-          $.ajax(settings).done(function(response) {
-            var res= JSON.parse(response);
-            var path= res.data.link;
-            console.log(name);
-            $.ajax({
-                url: "playlist/updatePlaylist",
-                type: "POST",
-                //Sends the necessary form parameters to the servlet
-                data:({
-                 id: id,
-                 name: name,
-                 description: desc,
-                 path: path
-                }),
-                success: function(){
-                    console.log("Success creating playlist");
-                    $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                    });
-                    $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                    });
-                },
-                error: function(){
-                    console.log("Failure creating playlist");
-                }
-            });
-          });
-        }
-        else{
-          var  path = $("#iPath2").attr("placeholder");
-          $.ajax({
-            url: "playlist/updatePlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             id: id,
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){});
-                $("#center-pane").load("/resources/pages/playlist.jsp",function(){});
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-          });
-        }
-        $("#updatePlaylistModal").modal('hide');
-        return false;
-      }
-    },'#editPlaylist');
-    
+    }, '.x-button');
     function playBack(){
         audio = $("#audio")[0];
         audio.volume=.5;
@@ -188,204 +45,101 @@ $(document).ready(function(){
             console.log("after",audio.currentTime);
         }
     }
-   
-  $("#newPlaylistForm").submit(function(){
-    var name = $("#pName").val();
-    var desc= $("#pDesc").val();
-    var $files = document.getElementById('file');
-    if($files.files.length==0){
-      console.log("no file found");
-    }
-    if ($files.files.length) {
-      console.log("in");
-      // Reject big files
-      if ($files.files[0].size > 1024 * 1024) {
-        console.log("Please select a smaller file");
-        return false;
-      }
-
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        console.log(name);
-        $.ajax({
-            url: "playlist/createPlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                });
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-        });
-      });
-    }
-    else{
-      var  path = "/resources/img/team0n3.png"
-      $.ajax({
-        url: "playlist/createPlaylist",
-        type: "POST",
-        //Sends the necessary form parameters to the servlet
-        data:({
-         name: name,
-         description: desc,
-         path: path
-        }),
-        success: function(){
-            console.log("Success creating playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-            });
-        },
-        error: function(){
-            console.log("Failure creating playlist");
-        }
-    });
-    }
-    $("#createPlaylistModal").modal('hide');
-    return false;
-  });
     
   $("#searchForm").submit(function(){
     var keyword = $("#keyword").val();
+    if(keyword.length==0){
+      return false;
+    }
     $.ajax({
       url: "search",
       type: "GET",
       data:({
-             keyword: keyword
-          }),
+        keyword: keyword
+      }),
       success:function(){
-          console.log("View success");
-          $("#center-pane").load("resources/pages/search_results.jsp",function(){});
+        console.log("View success");
+        $("#center-pane").load("resources/pages/search_results.jsp",function(){});
       },
       error: function(){
           console.log("View error");
       }
-  });
+    });
   return false; 
   });
   
-  $(document).on('click', '#user-img', function(){
-      $("#my_file").click();
-  });
-   $(document).on('change', '#my_file', function(){
-    console.log("hiiiiii");
-    var $files = document.getElementById('my_file');
-    if ($files.files.length) {
-      console.log($files.value);
-      // Reject big files
-      if ($files.files[0].size > 1024 * 1024) {
-        console.log("Please select a smaller file");
-        return false;
-      }
-      
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        $("#user-img").attr('src', path);
-        console.log(name);
-        $.ajax({
-            url: "/changeProfPic",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             path: path
-            }),
-            success: function(){
-                console.log("Success changing pic");
-                $("#topTool").load("/resources/toolbars/top.jsp");
-            },
-            error: function(){
-                console.log("Failure changing pic");
-            }
-        });
-      });
-    }
-    return false;
-  });
-   $(document).on('click', '#playlist-image2', function(){
-      $("#iPath2").click();
-  });
-   $(document).on('change', '#iPath2', function(){
-     var $files = document.getElementById('iPath2');
-     if ($files.files && $files.files[0]) {
-      var reader = new FileReader();
-      var name = $("#pName2").val();
-    var desc= $("#pDesc2").val();
-    var id=Number($("#playlistID").text());
-    console.log(name);
-    console.log(desc);
-    console.log(id);
-      reader.onload = function (e) {
-          $('#playlist-image2').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL($files.files[0]);
-    }
-   });
-   
-//$("#updatePlaylistForm").submit(function(){
-
 });
+
+function viewPendingRoyaltyPayments(){
+  console.log("init pending royalty");
+  $.ajax({
+      url: "artist/viewPendingRoyaltyPayments",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/pendingRoyalty.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing pending royalty");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
+function adminPaySongRoyalties(songId,artistId){
+    $.ajax({
+        url: "artist/adminPaySongRoyalties",
+        type: "POST",
+        data: ({
+            songId: songId,
+            artistId: artistId
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+                
+            });
+        },
+        error: function(){
+            console.log("Error paying songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function requestRoyaltyOnSong(songId){
+    $.ajax({
+        url: "artist/requestRoyaltyOnSong",
+        type: "POST",
+        data: ({
+            songId: songId
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+                
+            });
+        },
+        error: function(){
+            console.log("Error doings songs");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function viewUnpaidSongs(){
+  console.log("init unpaid songs");
+  $.ajax({
+      url: "artist/viewUnpaidSongs",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/unpaidSongs.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing unpaid songs");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
 
 function viewQueue(){
   $.ajax({
@@ -438,7 +192,6 @@ function toggleMute(){
     audio.volume=oldVolume;
   }
 }
-
 
 function upgradeToPremium(){
     console.log("trying to upgrade");
@@ -519,196 +272,14 @@ function viewBrowse(){
     $("#center-pane").load("/resources/pages/center.jsp");
 }
 
-function viewEditProfile(){
-    $("#center-pane").load("/resources/pages/editProfile.jsp");
-}
 
 function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp");
 }
 
-function viewProfile(){
-  $("#center-pane").load("/resources/pages/profile.jsp");
-}
 
-function viewPlaylist(id){
-    $.ajax({
-        url: "playlist/viewPlaylist",
-        type: "GET",
-        data: ({
-            playlistID: id
-        }),
-        success:function(data){
-          
-            $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-               
-            });
-            //$("#editModalLocation").load("/resources/pages/updatePlaylist.jsp",function(){});
-            console.log(data);
-            if(data){
-              //$("#playlist-image2").attr('src', data);
-            }
-            else{
-             // $("#playlist-image2").attr('src', "/resorces/img/team0n3.png");
-              
-            }
-        },
-        error: function(data){
-            console.log("Error viewing playlist");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
 
-function viewArtist(id){
-  $.ajax({
-    url: "artist/viewArtist",
-    type: "GET",
-    data: ({
-      artistID: id
-    }),
-    success:function(){
-      console.log("View success");
-      $("#center-pane").load("/resources/pages/artist.jsp",function(){
-        console.log("Loaded new artist info into center pane!");
-      });
-    },
-    error: function(){
-      console.log("View error");
-    }
-  });
-  return false; // Makes sure that the link isn't followed
-}
 
-function viewAlbum(id){
-    $.ajax({
-        url: "album/viewAlbum",
-        type: "GET",
-        data: ({
-            albumID: id
-        }),
-        success:function(){
-            $("#center-pane").load("/resources/pages/album.jsp",function(){
-                
-            });
-        },
-        error: function(){
-            console.log("Error viewing album");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
-function viewFollowedAlbums(){
-  $("#center-pane").load("/resources/pages/followedAlbums.jsp");
-}
-
-function viewFollowedArtists(){
-  $("#center-pane").load("/resources/pages/followedArtists.jsp");
-}
-
-function viewFollowedSongs(){
-  $("#center-pane").load("/resources/pages/followedSongs.jsp");
-}
-
-function deletePlaylist(){
-    $.ajax({
-        url: "playlist/deletePlaylist",
-        type: "POST",
-        data: ({}),
-        success: function(){
-            console.log("Success deleting playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                console.log("Reloaded playlist sidebar after delete");
-                $("#center-pane").load("/resources/pages/center.jsp");
-            });
-        },
-        error: function(){
-            console.log("Failure deleting playlist");
-        }
-    })
-    return false;
-};
-
-function followPlaylist(playlist) {
-  $.ajax({
-    url: "playlist/followPlaylist",
-    type: "POST",
-    data: ({
-      playlist: playlist,
-    }),
-    success:function(){
-      $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-        console.log("loaded left tool");
-        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-          console.log("and loaded playlist page");
-        });
-      });
-    },
-    error: function(){
-            console.log("Failure following playlist");
-    }
-  });
-  return false;
-};
-
-function unfollowPlaylist(playlist) {
-  $.ajax({
-    url: "playlist/unfollowPlaylist",
-    type: "POST",
-    data: ({
-      playlist: playlist,
-    }),
-    success:function(){
-      $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-          
-        });
-      });
-    },
-    error: function(){
-      console.log("Failure following playlist");
-    }
-  });
-  return false;
-};
-
-function addSongToPlaylist(playlist, song) {
-  $.ajax({
-    url: "playlist/addSongToPlaylist",
-    type: "POST",
-    data: ({
-      playlist: playlist,
-      song: song
-    }),
-    success:function(){
-      console.log("Success adding song");
-    },
-    error: function(){
-      console.log("Failure adding song");
-    }
-  });
-  return false;
-}
-
-function deleteSongFromPlaylist(playlistId, songId){
-    $.ajax({
-      url: "playlist/deleteSongFromPlaylist",
-      type: "POST",
-      data: ({
-        playlistId: playlistId,
-        songId: songId
-      }),
-      success: function(){
-        console.log("Success deleting song");
-          $("#center-pane").load("/resources/pages/playlist.jsp");
-      },
-      error: function(){
-        console.log("Failure deleting song");
-      }
-    });
-    return false;
-};
 
 function cancelPremium(){
     $.ajax({
@@ -778,6 +349,13 @@ function playNext(){
    var queue = $("#center-pane").children().eq(1);;
    var q = $(queue);
    var onQueuePage = ($(q).attr("id")=='queue');
+   var queue = $('#queue');
+   adCount+=1;
+   if(adCount>=5){
+     $("#ad").show();
+     adCount=0;
+   }
+   console.log(queue);
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -853,23 +431,6 @@ function playPrev(){
   return false;
 }
 
-function viewUsers(){
-    $.ajax({
-        url: "viewUsers",
-        type: "GET",
-        success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/users.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
-        },
-        error: function(){
-            console.log("View error");
-        }
-    });
-    return false; // Makes sure that the link isn't followed
-}
-
 function toggleRepeat(){
   var repeatTag = $("#repeatTag")[0];
   var repeatIcon = $("#repeatButton")[0];
@@ -921,224 +482,3 @@ function toggleShuffle(){
     viewQueue();
   return false;
 }
-
-function followAlbum(albumId,currentPage) {
-  $.ajax({
-    url: "album/followAlbum",
-    type: "POST",
-    data: ({
-      albumId: albumId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){
-        console.log("Success following album");
-      });
-    },
-    error: function(){
-      console.log("Failure following album");
-    }
-  });
-  return false;
-};
-
-function unfollowAlbum(albumId,currentPage) {
-  $.ajax({
-    url: "album/unfollowAlbum",
-    type: "POST",
-    data: ({
-      albumId: albumId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){
-                console.log("Success unfollowing album");
-            });
-    },
-    error: function(){
-            console.log("Failure unfollowing album");
-    }
-  });
-  return false;
-};
-
-function followSong(songId,currentPage) {
-  $.ajax({
-    url: "song/followSong",
-    type: "POST",
-    data: ({
-      songId: songId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){
-        console.log("Success following song");
-      });
-    },
-    error: function(){
-      console.log("Failure following song");
-    }
-  });
-  return false;
-};
-
-
-function unfollowSong(songId,currentPage) {
-  $.ajax({
-    url: "song/unfollowSong",
-    type: "POST",
-    data: ({
-      songId: songId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){
-                console.log("Success unfollowing song");
-            });
-    },
-    error: function(){
-            console.log("Failure unfollowing song");
-    }
-  });
-  return false;
-};
-
-function followArtist(artistId,currentPage) {
-  $.ajax({
-    url: "artist/followArtist",
-    type: "POST",
-    data: ({
-      artistId: artistId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){});
-    },
-    error: function(){
-      console.log("Failure following artist");
-    }
-  });
-  return false;
-};
-
-function unfollowArtist(artistId,currentPage) {
-  $.ajax({
-    url: "artist/unfollowArtist",
-    type: "POST",
-    data: ({
-      artistId: artistId
-    }),
-    success:function(){
-      $("#center-pane").load("/resources/pages/"+currentPage,function(){});
-    },
-    error: function(){
-      console.log("Failure unfollowing artist");
-    }
-  });
-  return false;
-};
-
-$("#updatePlaylistForm").submit(function(){
-    var name = $("#pName2").val();
-    var desc= $("#pDesc2").val();
-    var id=Number($("#playlistID").text());
-    console.log(name);
-    console.log(desc);
-    console.log(id);
-    var $files = document.getElementById('iPath2');
-    if(!name && !desc && files.files.length!=0){
-      $("#updatePlaylistModal").modal('hide');
-       return false;
-    }
-    if(!name){
-      name=$("#pName2").attr("placeholder");
-    }
-    if(!desc){
-      name=$("#pDesc2").attr("placeholder");
-    }
-    if($files.files.length==0){
-      console.log("no file found");
-    }
-    if ($files.files.length) {
-      console.log("in");
-      // Reject big files
-      if ($files.files[0].size > 1024 * 1024) {
-        console.log("Please select a smaller file");
-        return false;
-      }
-
-      // Begin file upload
-      console.log("Uploading file to Imgur..");
-
-      // Replace ctrlq with your own API key
-      var apiUrl = 'https://api.imgur.com/3/image';
-      var apiKey = '031ad79e1cfcccf';
-
-      var settings = {
-        crossDomain: true,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        url: apiUrl,
-        headers: {
-          Authorization: 'Client-ID ' + apiKey,
-          Accept: 'application/json'
-        },
-        mimeType: 'multipart/form-data'
-      };
-
-      var formData = new FormData();
-      formData.append("image", $files.files[0]);
-      settings.data = formData;
-
-      // Response contains stringified JSON
-      // Image URL available at response.data.link
-      $.ajax(settings).done(function(response) {
-        var res= JSON.parse(response);
-        var path= res.data.link;
-        console.log(name);
-        $.ajax({
-            url: "playlist/updatePlaylist",
-            type: "POST",
-            //Sends the necessary form parameters to the servlet
-            data:({
-             id: id,
-             name: name,
-             description: desc,
-             path: path
-            }),
-            success: function(){
-                console.log("Success creating playlist");
-                $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-                });
-                $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                });
-            },
-            error: function(){
-                console.log("Failure creating playlist");
-            }
-        });
-      });
-    }
-    else{
-      var  path = $("#iPath2").attr("placeholder");
-      $.ajax({
-        url: "playlist/updatePlaylist",
-        type: "POST",
-        //Sends the necessary form parameters to the servlet
-        data:({
-         id: id,
-         name: name,
-         description: desc,
-         path: path
-        }),
-        success: function(){
-            console.log("Success creating playlist");
-            $("#leftTool").load("/resources/toolbars/left.jsp",function(){
-            });
-            $("#center-pane").load("/resources/pages/playlist.jsp",function(){
-                });
-        },
-        error: function(){
-            console.log("Failure creating playlist");
-        }
-    });
-    }
-    $("#updatePlaylistModal").modal('hide');
-    return false;
-  });

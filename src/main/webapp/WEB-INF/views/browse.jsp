@@ -77,6 +77,14 @@ and open the template in the editor.
         <div class="col-xs-10 col-xs-offset-2" id="center-pane">
               <!-- JQUERY LOADS COMPONENTS HERE -->
         </div>
+        <div id="ad">
+          <div class="ad-container">
+            <img src="${pageContext.request.contextPath}/resources/img/gorg.gif">
+            <span id="closeAdSpan" class="fa fa-close x-button"></span>
+
+          </div>
+          
+        </div>
       </div>
       <div id="bottomTool">
         <%@include file="/resources/toolbars/bottom.jsp" %>
@@ -93,14 +101,18 @@ and open the template in the editor.
 
     <!-- For including HTML Snippets -->
     <script src="${pageContext.request.contextPath}/resources/js/w3.js"></script>
-
+    <script src="${pageContext.request.contextPath}/resources/js/bootbox.min.js"></script>
     <!-- Main Page Script -->
     <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
-    
+     <script src="${pageContext.request.contextPath}/resources/js/playlist.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/user.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/song.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/artist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
     
     <script src="http://malsup.github.com/jquery.form.js"></script>
     

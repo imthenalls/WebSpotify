@@ -59,6 +59,8 @@ public class SongPlayerController {
       Collection<Song> queueSongs = (Collection<Song>)session.getAttribute("queueSongs");
       player.setQueues(queueSongs,songIndex);
     }
+    songService.incrementTotalPlays(song.getSongId());
+
     session.setAttribute("currentSong",song);
   }
 

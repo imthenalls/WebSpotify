@@ -13,6 +13,7 @@ public interface PlaylistService {
   public void deletePlaylist(Playlist p);
   public List<Song> getSongsInPlaylists(int playlistId);
   public void renamePlaylist(int playlistId, String playlistName);
-  public List<Playlist> search(String keyword);
+  public List<Playlist> search(String keyword, boolean limit);
   public Playlist updatePlaylist(int id, String name, String path, String description);
+   public Playlist getGenrePlaylist();
 }

@@ -1,35 +1,23 @@
 <div id="main-section">
-  <div class="col-xs-8 col-xs-offset-2" id="account-pane">
-    <div id="account-header"><h2>User Name Account Settings</h2></div>
-    <div id="account-information" class="row">
-      <div class="col-xs-8">
-        <ul>
-          <li>
-            <label for="first-name">First Name:</label>
-            <p id="first-name">User</p>
-          </li>
-          <li>
-            <label for="last-name">Last Name:</label>
-            <p id="last-name">Name</p>
-          </li>
-          <li>
-            <label for="username">Username:</label>
-            <p>${currentUser.username}</p>
-          </li>
-          <li>
-            <label for="email">E-Mail:</label>
-            <p>${currentUser.email}</p>
-          </li>
-          <li>
-            <label for="account-type">Account Type:</label>
-            <p id="account-type">${currentUser.accountType}</p>
-          </li>
-        </ul>
-        <button id="edit-profile-button" class="btn" onclick="viewEditProfile()">Edit Profile</button>
-      </div>
-      <div class="col-xs-4">
-          <img id="userImage" src="${currentUser.imagePath}">
-      </div>
-    </div>
+  <div class="row">
+  <div class="col-xs-2"  id="user-img-div">
+    <a href="#"><img src="${currentUser.imagePath}" class="img-circle userPic" id="user-img"></a>
+  </div>
+  <div id="user-type"><p>User</p></div>
+  <div id="user-txt"><p>${currentUser.username}</p></div>
+
+  
+  <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <i class="fa fa-ellipsis-h" id="dropdownMenu3"></i>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#" class="settings-drop">EditProfile</a></li>
+    </ul>
+  </div>
+  
+  
+  
+  
   </div>
 </div>

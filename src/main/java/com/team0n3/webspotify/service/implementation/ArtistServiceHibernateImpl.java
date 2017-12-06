@@ -48,9 +48,9 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     
     @Transactional(readOnly = true)
     @Override
-    public List<Artist> search(String keyword)
+    public List<Artist> search(String keyword, boolean limit)
     {
-      List<Artist> listArtists = artistDao.search(keyword);
+      List<Artist> listArtists = artistDao.search(keyword, limit);
       return listArtists;
     }
     

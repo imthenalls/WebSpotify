@@ -78,34 +78,38 @@ public class SongServiceHibernateImpl implements SongService{
   
     @Transactional(readOnly = true)
   @Override
-  public List<Song> search(String keyword)
+  public List<Song> search(String keyword, boolean limit)
   {
-    List<Song> listSongs = songDao.search(keyword);
+    List<Song> listSongs = songDao.search(keyword, limit);
     return listSongs;
   }
   @Transactional(readOnly = false)
   @Override
   public void incrementTotalPlays(int songId){
-      Song song = songDao.getSong(songId);
-      int totalPlays = song.getTotalPlays();
-      totalPlays++;
-      song.setTotalPlays(totalPlays);
-      songDao.updateSong(song);
+    Song song = songDao.getSong(songId);
+    int totalPlays = song.getTotalPlays();
+    totalPlays++;
+    song.setTotalPlays(totalPlays);
+    int unpayedPlays = song.getUnpayedPlays();
+    unpayedPlays++;
+    song.setUnpayedPlays(unpayedPlays);
+    songDao.updateSong(song);
+    System.out.println(song.getUnpayedPlays()+"the song is fucking retarded");
   }
  
   @Override
   @Transactional(readOnly = false)
   public void updateFollowerCount(int songId){
-      Song song = songDao.getSong(songId);
-      Collection<User> followers = song.getFollowers();
-      song.setNumFollowers(followers.size());
-      songDao.updateSong(song);
+    Song song = songDao.getSong(songId);
+    Collection<User> followers = song.getFollowers();
+    song.setNumFollowers(followers.size());
+    songDao.updateSong(song);
   }
   
   @Override
   @Transactional(readOnly = true)
   public List<Song> getTop50Songs(){
-    List<Song> allSongs = songDao.listSongs();
+    /*List<Song> allSongs = songDao.listSongs();
     List<Song> top50Songs = new ArrayList();
     Song least = null;
     Song most = null;
@@ -138,7 +142,8 @@ public class SongServiceHibernateImpl implements SongService{
         top50Songs.add(s);
       }
     }
-    return top50Songs;
+    return top50Songs;*/
+    return songDao.getTop50();
   }
   
   

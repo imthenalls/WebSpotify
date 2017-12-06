@@ -11,11 +11,12 @@ import java.util.Collection;
     public Artist getArtist(int artistId);
     public void addNewArtist(String artistName); 
     public List<Artist> listAllArtists();
-    public List<Artist> search(String keyword);
+    public List<Artist> search(String keyword, boolean limit);
     
     public void updatePopularity(int artistId);
     
     public void calcTotalRoyalties(int artistId);
     
     public Collection<Song> getSongsWithPlays(int artistId);
+
  }

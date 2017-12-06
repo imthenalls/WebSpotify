@@ -8,12 +8,14 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.PaymentInfo;
+import com.team0n3.webspotify.model.RoyaltyPayment;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PaymentInfoService;
 import com.team0n3.webspotify.service.PlaylistService;
+import com.team0n3.webspotify.service.RoyaltyPaymentService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,7 @@ public class SpotifyController {
   private PlaylistService playlistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
+
  
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -64,8 +67,21 @@ public class SpotifyController {
         return model;   
     }
     if(user.getAccountType() == AccountType.Artist){
+      // System.out.println("he;llo");
       session.setAttribute("currentUser", user);
       ModelAndView model= new ModelAndView("redirect:/viewArtistBrowse");
+      List<Artist> allArtists = artistService.listAllArtists();
+      for(Artist a : allArtists){       
+        if(a.getUser() != null){
+          System.out.println(a.getUser().getUsername());
+          System.out.println("fuck me please "+username);
+          if((a.getUser().getUsername()).equals(username)){
+            System.out.println("he;llo");
+            session.setAttribute("currentArtist", a);
+          }
+        }
+        
+      }
       return model;
     }
     
@@ -109,10 +125,14 @@ public class SpotifyController {
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
   public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
+    System.out.println(artist+" fuck me please");
+    /*
     boolean isArtist = false;
-    if(artist.equals("true")){
+    if(artist.equals("true")||artist.equals("true,false")){
+      System.out.println("oh hi sp[ringa re u fucking with me again");
       isArtist = true;
-    }
+    }*/
+    boolean isArtist = !(artist.equals("false"));
     String errorMessage = userService.signup(username, password, email, isArtist);
     if(errorMessage.equals("duplicate")){
       session.setAttribute("duplicate",true);
@@ -191,16 +211,17 @@ public class SpotifyController {
   @RequestMapping(value = "/search", method= RequestMethod.GET)
   @ResponseBody
   public void search(@RequestParam String keyword, HttpSession session){
-    List<User> searchUsers = userService.search(keyword);
-    List<Album> searchAlbums = albumService.search(keyword);
-    List<Artist> searchArtists = artistService.search(keyword);
-    List<Song> searchSongs = songService.search(keyword);
-    List<Playlist> searchPlaylists = playlistService.search(keyword);
+    List<User> searchUsers = userService.search(keyword,true);
+    List<Album> searchAlbums = albumService.search(keyword,true);
+    List<Artist> searchArtists = artistService.search(keyword,true);
+    List<Song> searchSongs = songService.search(keyword,true);
+    List<Playlist> searchPlaylists = playlistService.search(keyword,true);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
     session.setAttribute("playlistList", searchPlaylists);
+    session.setAttribute("lastSearch",keyword);
   }
   
   @RequestMapping( value = "/adminViewUnapprovedUsers", method = RequestMethod.GET)
@@ -289,4 +310,10 @@ public class SpotifyController {
       session.setAttribute("currentUser",user);
   }
   
+  @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void deleteAccount(HttpSession session){
+    User user= userService.getUser((String)session.getAttribute("currentUser"));
+    userService.adminDeleteUser(user);
+  }
 }

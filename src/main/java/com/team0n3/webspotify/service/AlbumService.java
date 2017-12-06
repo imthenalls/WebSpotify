@@ -15,5 +15,5 @@ public interface AlbumService {
   
   public List<Song> getAllSongsInAlbum(int albumId);
   
-  public List<Album> search(String keyword);
+  public List<Album> search(String keyword, boolean limit);
 }

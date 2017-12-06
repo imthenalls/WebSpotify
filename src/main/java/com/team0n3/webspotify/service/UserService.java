@@ -15,7 +15,7 @@ public interface UserService {
   public List<Playlist> getCreatedPlaylists(String username);
   public List<User> listAllUsers();
   public User getUser(String username);
-  public List<User> search(String keyword);
+  public List<User> search(String keyword, boolean limit);
   public User followPlaylist(String userId, int playlistId);
   public User unfollowPlaylist(String userId, int playlistId);
   public User followArtist(String userId, int artistId);
@@ -51,5 +51,6 @@ public interface UserService {
   public void adminDeleteSong(Song s);
   public void adminDeletePlaylist(Playlist p);
   public void adminSendRoyaltyChecks(String artistId);
+  public boolean removeUser(String username, String password);
   
 }
