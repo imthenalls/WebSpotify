@@ -9,6 +9,7 @@
                 <div id="cardWrapper" class="card-wrapper">
                     <!-- Used by cardjs-->
                 </div>
+                <span id="upgradeError" align="center"></span>
                 <h2>Enter Your Credit Card Information</h2>
                 <div>
                     <input id='cardHold' type="text" name="name" placeholder="Name on Card" class="form-control" required autofocus>

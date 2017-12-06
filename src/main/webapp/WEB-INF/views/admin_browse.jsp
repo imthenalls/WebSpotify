@@ -17,6 +17,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!-- Custom Theme CSS -->
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
+    
+    <link rel="icon" href="'/resources/img/team0n3.png'">
   </head>
   <body>
     <div>

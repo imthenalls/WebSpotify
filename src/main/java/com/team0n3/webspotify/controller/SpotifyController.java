@@ -179,7 +179,7 @@ public class SpotifyController {
       @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, @RequestParam int zipCode, HttpSession session)
   {
     User user = (User)session.getAttribute("currentUser");
-    user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder,ccv,expirationMonth,expirationYear,
+    user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
         creditCompany,address);
     session.setAttribute("currentUser",user);
   }

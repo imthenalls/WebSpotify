@@ -44,7 +44,7 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
   
   @Override
   @Transactional(readOnly = false)
-  public User addNewPayment(User user, String cardNumber, String cardHolder, String ccv, int expirationMonth,
+  public User addNewPayment(User user, String cardNumber, String cardHolder, String ccv,int zipCode, int expirationMonth,
     int expirationYear, String creditCompany, String address){
     SecureRandom cardRandom = new SecureRandom(),ccvRandom = new SecureRandom();
     byte[] cardSalt = new byte[12], ccvSalt = new byte[12];
@@ -65,7 +65,7 @@ public class PaymentInfoServiceHibernateImpl implements PaymentInfoService{
     byte[] hashCCV = ccvMd.digest();
     int cardLength = cardNumber.length();
     String lastFour = cardNumber.substring(cardLength-4);
-    PaymentInfo paymentInfo = new PaymentInfo(hashCard,cardHolder,hashCCV,expirationMonth,expirationYear,
+    PaymentInfo paymentInfo = new PaymentInfo(hashCard,cardHolder,hashCCV,zipCode, expirationMonth,expirationYear,
     creditCompany,address,lastFour);
     paymentDao.addPayment(paymentInfo);
     user.setPaymentInfo(paymentInfo);
