@@ -115,4 +115,13 @@ public class AlbumController {
       session.setAttribute("allAlbums",allAlbums);
     }
   }  
+  
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<Album> songs=albumService.search((String)session.getAttribute("lastSearch"), false);
+    System.out.println(songs.size());
+    session.setAttribute("allSongs", songs);
+  }
 }

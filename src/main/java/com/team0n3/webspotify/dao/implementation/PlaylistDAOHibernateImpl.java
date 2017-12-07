@@ -52,10 +52,12 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
     sessionFactory.getCurrentSession().update(playlist);
   }
   @Override
-  public List<Playlist> search(String keyword){
+  public List<Playlist> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Playlist.class);
     c.add(Restrictions.like("playlistName", "%"+keyword+"%"));
-    c.setMaxResults(maxResults);
+    if(limit){
+      c.setMaxResults(maxResults);
+    }
     return c.list();
   }
 }

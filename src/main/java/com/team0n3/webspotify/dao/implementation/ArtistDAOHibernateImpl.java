@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,10 +53,13 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     }
     
     @Override
-    public List<Artist> search(String keyword){
+    public List<Artist> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
     c.add(Restrictions.like("artistName", "%"+keyword+"%"));
-    c.setMaxResults(maxResults);
+    if(limit){
+      c.setMaxResults(maxResults);
+    }
+    c.addOrder(Order.desc("popularity"));
     return c.list();
   }
 

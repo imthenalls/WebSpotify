@@ -72,10 +72,12 @@ public class UserDAOHibernateImpl implements UserDAO{
   } 
   
   @Override
-  public List<User> search(String keyword){
+  public List<User> search(String keyword,boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(User.class);
     c.add(Restrictions.like("username", "%"+keyword+"%"));
-    c.setMaxResults(maxResults);
+    if(limit){
+      c.setMaxResults(maxResults);
+    }
     return c.list();
   }
 }

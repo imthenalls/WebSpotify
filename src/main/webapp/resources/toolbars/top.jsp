@@ -11,11 +11,17 @@
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
         </div>
-        <div class="nav navbar-right">
-            <div>
-                <a href="/logoutUser"><i class="fa fa-power-off"></i></a>
+       <div class="pull-right">
+            <div class="dropdown"> <span class="fa fa-chevron-down dropdown-toggle" data-toggle="dropdown"></span>
+
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Private Session</a></li>
+                    <li><a href="#" class="settings-drop">Settings</a> </li>
+                    <li><a href="/logoutUser">Logout</a></li>
+                </ul>
             </div>
         </div>
+    
         <div class="nav navbar-right">
             <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
         </div>

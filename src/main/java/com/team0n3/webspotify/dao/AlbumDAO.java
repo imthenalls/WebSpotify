@@ -16,5 +16,5 @@ public interface AlbumDAO {
 
   public void updateAlbum(Album album);
   
-  public List<Album> search(String keyword);
+  public List<Album> search(String keyword, boolean limit);
 }

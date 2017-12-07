@@ -78,9 +78,9 @@ public class SongServiceHibernateImpl implements SongService{
   
     @Transactional(readOnly = true)
   @Override
-  public List<Song> search(String keyword)
+  public List<Song> search(String keyword, boolean limit)
   {
-    List<Song> listSongs = songDao.search(keyword);
+    List<Song> listSongs = songDao.search(keyword, limit);
     return listSongs;
   }
   @Transactional(readOnly = false)
@@ -109,7 +109,7 @@ public class SongServiceHibernateImpl implements SongService{
   @Override
   @Transactional(readOnly = true)
   public List<Song> getTop50Songs(){
-    List<Song> allSongs = songDao.listSongs();
+    /*List<Song> allSongs = songDao.listSongs();
     List<Song> top50Songs = new ArrayList();
     Song least = null;
     Song most = null;
@@ -142,7 +142,8 @@ public class SongServiceHibernateImpl implements SongService{
         top50Songs.add(s);
       }
     }
-    return top50Songs;
+    return top50Songs;*/
+    return songDao.getTop50();
   }
   
   

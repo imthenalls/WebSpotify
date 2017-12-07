@@ -18,5 +18,5 @@ public interface UserDAO {
 
   public User findByEmail(String email);
   
-  public List<User> search(String keyword);
+  public List<User> search(String keyword, boolean limit);
 }
