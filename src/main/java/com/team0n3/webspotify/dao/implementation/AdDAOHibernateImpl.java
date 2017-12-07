@@ -62,7 +62,7 @@ public class AdDAOHibernateImpl implements AdDAO{
     c.add(Restrictions.eq( "active", true ));
     c.add(Restrictions.sqlRestriction("1=1 order by rand()"));
     c.setMaxResults(1);
-    return (Ad)c.list().get(0);
+    return (Ad) c.list().get(0);
   }
 }
 

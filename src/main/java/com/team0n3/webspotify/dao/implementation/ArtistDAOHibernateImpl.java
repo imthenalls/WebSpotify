@@ -25,6 +25,8 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Value("${artist.maxResult}")
     private int maxResults;
     
+    @Value("${artist.chartsResult}")
+    private int chartsResults;
     public ArtistDAOHibernateImpl(SessionFactory sessionFactory){
         this.sessionFactory=sessionFactory;
     }
@@ -129,5 +131,13 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
         System.out.println(s.toString()+"-"+s.getArtistId().getArtistName()+"-"+s.getTotalPlays());
       return top50Songs;
     }       
+
+  @Override
+  public List<Artist> getTopArtists() {
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
+    c.setMaxResults(chartsResults);
+    c.addOrder(Order.desc("popularity"));
+    return c.list();
+  }
   
 }
