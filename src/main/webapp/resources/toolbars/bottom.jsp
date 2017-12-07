@@ -49,9 +49,7 @@
 
             </div>
             <div class="col-xs-3" id="songDuration">
-              <fmt:formatNumber value="${(currentSong.duration/60) - ((currentSong.duration/60)%1)}" maxFractionDigits="0"/>
-              :
-              <fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
+              <fmt:formatNumber value="${(currentSong.duration/60) - ((currentSong.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
             </div>            
         </div>
 

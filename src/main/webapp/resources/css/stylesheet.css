@@ -359,7 +359,7 @@ a:hover{
   opacity:0;
   position:absolute;
   top:32%;
-  left:15%;
+  left:16%;
   background: rgba(0, 0, 0, 0);
   /**transform: translate(-50%,-50%);**/
   /**-ms-transform: translate(-50%,-50%);**/
@@ -500,6 +500,14 @@ a:hover{
     max-width: 100%;
     width: 150px;
     height: 150px;
+}
+
+#userImage{
+  max-height:100%;
+  max-width:100%;
+  width:150px;
+  height:150px;
+  
 }
 .searchText{
   white-space: nowrap;
