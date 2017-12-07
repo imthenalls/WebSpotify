@@ -256,5 +256,10 @@ public class PlaylistController {
     List<Playlist> playlists=playlistService.search((String)session.getAttribute("lastSearch"), false);
     session.setAttribute("publicPlaylists", playlists);
   }
-  
+   @RequestMapping( value = "/topPlaylists", method = RequestMethod.GET)
+  @ResponseBody
+  public void topPlaylists(HttpSession session){
+    List<Playlist> playlists=playlistService.getTopPlaylists();
+    session.setAttribute("publicPlaylists", playlists);
+  }
 }

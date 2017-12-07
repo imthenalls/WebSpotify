@@ -39,14 +39,6 @@
                 <c:choose>
                   <c:when test="${currentPlaylist.isPublic}">
                     <li><a href="#makePrivate" id="makePrivate">Make Private</a></li>
-                    <c:choose>
-                      <c:when test="${currentPlaylist.isCollaborative}">
-                        <li><a href="#removeCollab" id="removeCollab">Collaborative<i class="fa fa-check" aria-hidden="true"></i></a></li>
-                      </c:when>
-                      <c:otherwise>
-                        <li><a href="#makeCollab" id="makeCollab">Collaborative</a></li>
-                      </c:otherwise>
-                    </c:choose>
                   </c:when>
                   <c:otherwise>
                     <li><a href="#makePublic" id="makePublic">Make Public</a></li>

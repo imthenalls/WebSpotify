@@ -9,6 +9,7 @@ import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.PaymentInfo;
 import com.team0n3.webspotify.model.RoyaltyPayment;
+import com.team0n3.webspotify.service.AdService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
@@ -45,7 +46,8 @@ public class SpotifyController {
   private PlaylistService playlistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
-
+  @Autowired
+  private AdService adService;
  
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -110,6 +112,7 @@ public class SpotifyController {
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
     session.setAttribute("genres",genres);
+    session.setAttribute("ad", adService.randomAd());
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
    

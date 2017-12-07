@@ -27,5 +27,8 @@
     <li> 
         <a data-toggle="tab" href="#" onclick="viewSongRemovalRequests()">Removal Requests </a>
     </li>
+    <li> 
+        <a data-toggle="tab" href="#" onclick="viewUploadPage()">Upload</a>
+    </li>
   </ul>
 </div>

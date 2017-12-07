@@ -130,4 +130,10 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
     playlistDao.updatePlaylist(playlist);
     return playlist;
   }
+
+  @Override
+  public List<Playlist> getTopPlaylists() {
+    List<Playlist> p = playlistDao.getTopPlaylists();
+    return p;
+  }
 }

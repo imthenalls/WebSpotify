@@ -1,6 +1,7 @@
 
 package com.team0n3.webspotify.config;
 
+import com.team0n3.webspotify.dao.AdDAO;
 import com.team0n3.webspotify.dao.PlaylistDAO;
 import javax.sql.DataSource;
 import com.team0n3.webspotify.dao.UserDAO;
@@ -9,6 +10,7 @@ import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.ArtistDAO;
 import com.team0n3.webspotify.dao.PaymentDAO;
 import com.team0n3.webspotify.dao.RoyaltyPaymentDAO;
+import com.team0n3.webspotify.dao.implementation.AdDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.PlaylistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.UserDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.SongDAOHibernateImpl;
@@ -16,6 +18,7 @@ import com.team0n3.webspotify.dao.implementation.AlbumDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.ArtistDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.PaymentDAOHibernateImpl;
 import com.team0n3.webspotify.dao.implementation.RoyaltyPaymentDAOHibernateImpl;
+import com.team0n3.webspotify.model.Ad;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.model.Song;
@@ -76,7 +79,7 @@ public class ApplicationContextConfig extends WebMvcConfigurerAdapter{
   @Bean(name = "sessionFactory")
   public SessionFactory getSessionFactory(DataSource dataSource) {
     LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class,PaymentInfo.class,RoyaltyPayment.class);    
+    sessionBuilder.addAnnotatedClasses(User.class,Playlist.class,Song.class,Album.class,Artist.class,PaymentInfo.class,RoyaltyPayment.class, Ad.class);    
     return sessionBuilder.buildSessionFactory();
   }
 
@@ -131,6 +134,12 @@ public StandardServletMultipartResolver multipartResolver(){
   @Bean(name="royaltyPaymentDao")
   public RoyaltyPaymentDAO getRoyaltyPaymentDao(SessionFactory sessionFactory){
     return new RoyaltyPaymentDAOHibernateImpl(sessionFactory);
+  }
+  
+  @Autowired
+  @Bean(name = "adDao")
+  public AdDAO getAdDao(SessionFactory sessionFactory) {
+    return new AdDAOHibernateImpl(sessionFactory);
   }
   
   @Override
