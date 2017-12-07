@@ -12,5 +12,6 @@ public interface PaymentInfoService {
   
   public User deletePayment(User user, PaymentInfo paymentInfo);
   
-  
+  public void updatePaymentInfo(User user, String cardNumber, String cardHolder, String ccv,int zipCode, int expirationMonth,
+    int expirationYear, String creditCompany, String address); 
 }

@@ -34,7 +34,14 @@ $(document).ready(function(){
       }
     },'#moreArtists');
 
+
+  $(document).on({
+    click:function(){
+      viewArtist($(this).attr("artistId"));
+    }
+  },'.viewArtist');
 });
+
 function followArtist(artistId,currentPage) {
   $.ajax({
     url: "artist/followArtist",

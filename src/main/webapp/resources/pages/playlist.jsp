@@ -26,28 +26,27 @@
         </span>
       </div>
         <div class="dropdown">
-          <button class="btn btn-primary" id="playlistPlayButton">Play</button>
+          <button class="btn btn-primary" id="playlistPlayButton" onclick="playSong(${songList[0].songId},'playlist',0)">Play</button>
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Options
             <span class="fa fa-chevron-circle-down"></span>
           </button>
+          <ul class="dropdown-menu">
           <c:choose>
             <c:when test = "${currentPlaylist.creator.username==currentUser.username}">
-              <ul class="dropdown-menu">
                 <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
                 <li><a href="#editPlaylistModal" data-toggle="modal">Edit Playlist</a></li>
-              </ul>
             </c:when>
             <c:when test = "${currentUser.isFollowingPlaylist(currentPlaylist)}">
-              <ul class="dropdown-menu">
                 <li><a href="#" onclick="unfollowPlaylist(${currentPlaylist.playlistID})">Unfollow</a></li>
-              </ul>
             </c:when>
             <c:otherwise>
-              <ul class="dropdown-menu">
                 <li><a href="#" onclick="followPlaylist(${currentPlaylist.playlistID})">Follow</a></li>
-              </ul> 
             </c:otherwise>
           </c:choose>
+          <li>
+            <a href="#" class="addPlaylistToQueue" playlistId="${currentPlaylist.playlistID}">Add to Queue</a>
+          </li>
+        </ul>
         </div>
     </div>
   </div>

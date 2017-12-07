@@ -5,47 +5,44 @@ var adCount=0;
 
 $(document).ready(function(){
   
-    $("#center-pane").load("/resources/pages/center.jsp");
-    w3.includeHTML(playBack);
-    $('#myCarousel').carousel({
-	    interval: 10000
-	})
-    $(".next").click(function(){
-        $("#myCarousel").carousel("prev");
-    });
-    $(".prev").click(function(){
-        $("#myCarousel").carousel("next");
-    });
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    $(document).on('mousedown','#progress', scrub);
-    //for the search links
-    $(document).on({
-      click: function(){
-        $("#ad").hide();
-      }
-    }, '.x-button');
-    function playBack(){
-        audio = $("#audio")[0];
-        audio.volume=.5;
-        audio.addEventListener("timeupdate",updateProgress,false);
-        audio.addEventListener("ended",playNext,false);
-        slider.addEventListener("input",changeVolume,false);
-        muteToggle.addEventListener("mouseup",toggleMute,false);
-        
-    } 
-    //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
-    function scrub(event){
-        if(!audio.ended){
-            var mousex  = event.pageX - (progress.offsetLeft*3);
-            var newtime = mousex * (audio.duration/$(progress).width());
-            console.log("Current",audio.currentTime);
-            console.log("new",newtime);
-            audio.currentTime = newtime;
-            console.log("after",audio.currentTime);
-        }
+  $("#center-pane").load("/resources/pages/center.jsp");
+  w3.includeHTML(playBack);
+  $('#myCarousel').carousel({
+      interval: 10000
+  })
+  $(".next").click(function(){
+      $("#myCarousel").carousel("prev");
+  });
+  $(".prev").click(function(){
+      $("#myCarousel").carousel("next");
+  });
+  $('[data-toggle="tooltip"]').tooltip();
+
+  $(document).on('mousedown','#progress', scrub);
+  //for the search links
+  $(document).on({
+    click: function(){
+      $("#ad").hide();
     }
-    
+  }, '.x-button');
+  function playBack(){
+      audio = $("#audio")[0];
+      audio.volume=.5;
+      audio.addEventListener("timeupdate",updateProgress,false);
+      audio.addEventListener("ended",playNext,false);
+      slider.addEventListener("input",changeVolume,false);
+      muteToggle.addEventListener("mouseup",toggleMute,false);
+
+  } 
+  //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
+  function scrub(event){
+      if(!audio.ended){
+          var mousex  = event.pageX - (progress.offsetLeft*3);
+          var newtime = mousex * (audio.duration/$(progress).width());
+          audio.currentTime = newtime;
+      }
+  }
+
   $("#searchForm").submit(function(){
     var keyword = $("#keyword").val();
     if(keyword.length==0){
@@ -65,8 +62,32 @@ $(document).ready(function(){
           console.log("View error");
       }
     });
-  return false; 
+    return false; 
   });
+  
+  $(document).on({
+    click: function(){
+      addSongToQueue($(this).attr("songId"));
+    }
+  },'.addSongToQueue');
+  
+  $(document).on({
+    click:function(){
+      addPlaylistToQueue($(this).attr("playlistId"));
+    }
+  },'.addPlaylistToQueue');
+  
+  $(document).on({
+    click:function(){
+      viewHelp();
+    }
+  },'.viewHelp');
+  
+  $(document).on({
+    click:function(){
+      viewHistory();
+    }
+  },'.viewHistory');
   
 });
 function viewSongRemovalRequests(){
@@ -98,6 +119,12 @@ function artistRequestSongRemoval(songId,currentPage){
             console.log("Error remove song request");
         }
     });    
+    }
+function viewHelp(){
+  console.log("2");
+  $("#center-pane").load("/resources/pages/help.jsp",function(){
+    console.log("3");
+  });
 }
 
 function viewPendingRoyaltyPayments(){
@@ -186,6 +213,21 @@ function viewQueue(){
   return false; // Makes sure that the link isn't followed
 }
 
+function viewHistory(){
+  $.ajax({
+      url: "songPlayer/viewHistory",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/history.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing history");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
 // Update the current slider value (each time you drag the slider handle)
 function changeVolume(){
   var audioElem = $("#audio")[0];
@@ -221,6 +263,50 @@ function toggleMute(){
     slider.value=oldVolume*100;
     audio.volume=oldVolume;
   }
+}
+function editPaymentInfo(){
+  var cardHold = $("#cardHold").val();
+    var cardNum = $("#cardNum").val();
+    var ccv = $("#ccv").val();
+    var creditCompany = $("#creditCompany").val();
+    var address = $("#address").val();
+    var monthYear = ($("#month").val());
+    var zipCode = parseInt($('#zipcode').val());
+    var dateData = monthYear.split(" "); 
+    var month = parseInt(dateData[0]);
+    var year = parseInt(dateData[2]);
+    var currYear = (new Date()).getFullYear() - 2000;
+    if(month > 12 || year < currYear || year > (currYear + 25)){
+      console.log(month, year, currYear);
+      $("#upgradeError").html('Invalid Experation Date');
+    }
+    else{
+      $.ajax({
+         url: "editPaymentInfo",
+         type: "POST",
+         data:({
+             cardNumber: cardNum,
+             cardHolder: cardHold,
+             ccv: ccv,
+             expirationMonth: month,
+             expirationYear: year,
+             creditCompany: creditCompany,
+             address: address,
+             zipCode : zipCode
+         }),
+         success:function(){
+             $("#center-pane").load("/resources/pages/profile.jsp",function(){
+                 console.log("success upgrading");
+             });
+
+         },
+         error:function(){
+             console.log("failure upgrading");
+             $("#upgradeError").html('Invalid Information');
+         }
+      });
+    return false;      
+    }
 }
 
 function upgradeToPremium(){
@@ -302,14 +388,9 @@ function viewBrowse(){
     $("#center-pane").load("/resources/pages/center.jsp");
 }
 
-
 function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp");
 }
-
-
-
-
 
 function cancelPremium(){
     $.ajax({
@@ -332,9 +413,10 @@ function playSong(songId,setType,songIndex){
   var repeatTag = $("#repeatTag");
   var shuffleTag = $("#shuffleTag");
   var sliderVal=($('#myRange')[0]).value;
-  var queue = $("#center-pane").children().eq(1);;
-  var q = $(queue);
-  var onQueuePage = ($(q).attr("id")=='queue');
+  var pageType = $("#center-pane").children().eq(1);;
+  var elem = $(pageType);
+  var onQueuePage = ($(elem).attr("id")=='queue');
+  var onHistoryPage = ($(elem).attr("id")=='history');
   $.ajax({
     url: "songPlayer/playSong",
     type: "GET",
@@ -364,6 +446,9 @@ function playSong(songId,setType,songIndex){
       if(onQueuePage){
         viewQueue();
       }
+      if(onHistoryPage){
+        viewHistory();
+      }
     },
     failure: function(){
       console.log("Failure playing song");
@@ -376,16 +461,15 @@ function playNext(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
-   var queue = $("#center-pane").children().eq(1);;
-   var q = $(queue);
-   var onQueuePage = ($(q).attr("id")=='queue');
-   var queue = $('#queue');
+   var pageType = $("#center-pane").children().eq(1);;
+   var elem = $(pageType);
+   var onQueuePage = ($(elem).attr("id")=='queue');
+   var onHistoryPage = ($(elem).attr("id")=='history');
    adCount+=1;
    if(adCount>=5){
      $("#ad").show();
      adCount=0;
    }
-   console.log(queue);
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -413,6 +497,9 @@ function playNext(){
       if(onQueuePage){
         viewQueue();
       }
+      if(onHistoryPage){
+        viewHistory();
+      }
     },
     failure:function(){
       console.log("Failure playing next song");
@@ -425,9 +512,10 @@ function playPrev(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
-   var queue = $("#center-pane").children().eq(1);;
-   var q = $(queue);
-   var onQueuePage = ($(q).attr("id")=='queue');
+  var pageType = $("#center-pane").children().eq(1);;
+  var elem = $(pageType);
+  var onQueuePage = ($(elem).attr("id")=='queue');
+  var onHistoryPage = ($(elem).attr("id")=='history');
   $.ajax({
     url:"songPlayer/playPrev",
     type:"GET",
@@ -452,6 +540,9 @@ function playPrev(){
       });
       if(onQueuePage){
         viewQueue();
+      }
+      if(onHistoryPage){
+        viewHistory();
       }
     },
     failure:function(){
@@ -496,9 +587,9 @@ function toggleRepeat(){
 }
 
 function toggleShuffle(){
-   var queue = $("#center-pane").children().eq(1);;
-   var q = $(queue);
-   var onQueuePage = ($(q).attr("id")=='queue');
+  var queue = $("#center-pane").children().eq(1);;
+  var q = $(queue);
+  var onQueuePage = ($(q).attr("id")=='queue');
   var shuffleTag = $("#shuffleTag")[0];
   if($(shuffleTag).hasClass("shuffleOn"))
     $(shuffleTag).removeClass("shuffleOn");
@@ -512,3 +603,32 @@ function toggleShuffle(){
     viewQueue();
   return false;
 }
+
+function addSongToQueue(songId){
+  $.ajax({
+    url: "songPlayer/addSongToQueue",
+    type: "GET",
+    data: ({
+      songId: songId
+    }),
+    error:function(){
+      console.log("Error adding song to queue");
+    }
+  });
+  return false;
+}
+
+function addPlaylistToQueue(playlistId){
+  $.ajax({
+    url: "songPlayer/addPlaylistToQueue",
+    type: "GET",
+    data: ({
+      playlistId: playlistId
+    }),
+    error:function(){
+      console.log("Error adding playlist to queue");
+    }
+  });
+  return false;
+}
+

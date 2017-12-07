@@ -210,10 +210,7 @@ function adminViewAllPlaylists(){
         url: "playlist/viewAllPlaylists",
         type: "GET",
         success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){});
         },
         error: function(){
             console.log("View error");
@@ -227,8 +224,7 @@ function adminViewAllSongs(){
         url: "song/adminViewAllSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
-            });
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){});
         },
         error: function(){
             console.log("Error viewing all songs");
@@ -243,9 +239,7 @@ function adminViewAllArtists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/allArtists.jsp",function(){});
         },
         error: function(){
             console.log("View error");

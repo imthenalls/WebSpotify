@@ -301,7 +301,6 @@ function viewPlaylist(id){
                
             });
             //$("#editModalLocation").load("/resources/pages/updatePlaylist.jsp",function(){});
-            console.log(data);
             if(data){
               //$("#playlist-image2").attr('src', data);
             }

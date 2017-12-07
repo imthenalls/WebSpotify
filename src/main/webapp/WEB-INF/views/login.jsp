@@ -28,16 +28,6 @@
         <div class="" align="center">
           <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
           <input type="password" id="password" name="password" placeholder="Password" class="form-control"  required>
-          <div class="checkbox">
-            <!-- Rounded switch -->
-            <label>
-              <label class="switch"> 
-                <input type="checkbox"> 
-                <span class="slider round"></span> 
-              </label> 
-              Remember me 
-            </label> 
-          </div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
           <div align="center">
             <span>

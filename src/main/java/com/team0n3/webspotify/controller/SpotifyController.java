@@ -107,8 +107,7 @@ public class SpotifyController {
     session.setAttribute("followedArtists",followedArtists);
     session.setAttribute("genres",genres);
     
-    session.setMaxInactiveInterval(30*60);
-    System.out.println(session.getMaxInactiveInterval());
+    session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
     
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
@@ -191,6 +190,18 @@ public class SpotifyController {
   {
     User user = (User)session.getAttribute("currentUser");
     user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
+        creditCompany,address);
+    session.setAttribute("currentUser",user);
+  }
+  
+  @RequestMapping(value="/editPaymentInfo",method=RequestMethod.POST)
+  @ResponseBody
+  public void editPaymentInfo(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
+      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, @RequestParam int zipCode, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    //System.out.println(user.toString());
+    paymentInfoService.updatePaymentInfo(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
         creditCompany,address);
     session.setAttribute("currentUser",user);
   }
