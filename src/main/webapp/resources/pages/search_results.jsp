@@ -138,22 +138,27 @@
         </div>
       
     </div>
+    
+    
+
+    
+    
+    
     <div id="search-user-results" class="row">
     <div id="user-search-results-header"><span class="search-header">Users</span> <span class="search-text"> <a href="#" id="moreUsers">see more</a></span></div>
-        <table class="table userTable">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                </tr>
-            </thead>
-            <tbody>
-              <c:forEach items="${userList}" var="user">
-                <tr>
-                    <td>${user.username}</td>
-                </tr>
-              </c:forEach>
-
-            </tbody>
-        </table>
+          <div class="container-fluid">
+    <c:forEach items="${userList}" varStatus='loop' var="User">
+      <div class="col-md-3" style="height:380px;">
+        <div class="albumCard">
+          <a href="#" ><img src="${User.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic img-circle"></a>
+          <div class="albumOverlay">     
+            <button class="fa fa-remove albumButton"></button>
+            <button class="fa fa-play albumButton"></button>
+            </div>
+        </div>
+        <a href="#" class="viewUser" username="${User.username}"><h4>${User.username}</h4></a>
+      </div>
+    </c:forEach>
+    </div>
     </div>
 </div>

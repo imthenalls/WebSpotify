@@ -369,5 +369,9 @@ public class SpotifyController {
     return adService.randomAd().getImagePath();
   }
   
-  
+  @RequestMapping(value = "/viewUserProfile", method = RequestMethod.GET)
+  @ResponseBody
+  public void getProfile(@RequestParam String username, HttpSession session){
+    session.setAttribute("viewedUser", userService.getUser(username));
+  }
 }
