@@ -25,7 +25,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Value("${artist.maxResult}")
     private int maxResults;
     
-    @Value("${artist.chartsResult}")
+    @Value("${artist.chartsResults}")
     private int chartsResults;
     public ArtistDAOHibernateImpl(SessionFactory sessionFactory){
         this.sessionFactory=sessionFactory;

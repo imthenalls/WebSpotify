@@ -20,7 +20,7 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
   @Value("${album.maxResult}")
   private int maxResults;
   
-  @Value("${album.chartsResult}")
+  @Value("${album.chartsResults}")
   private int chartsResults;
   public AlbumDAOHibernateImpl(SessionFactory sessionFactory){
     this.sessionFactory=sessionFactory;
