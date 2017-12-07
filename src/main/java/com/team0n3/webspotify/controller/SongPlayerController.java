@@ -10,6 +10,7 @@ import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.SongPlayer;
 import com.team0n3.webspotify.service.SongService;
+import com.team0n3.webspotify.service.PlaylistService;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,9 @@ public class SongPlayerController {
   
   @Autowired
   private SongService songService;
+  
+  @Autowired
+  private PlaylistService playlistService;
   
   private SongPlayer player = new SongPlayer();
   
@@ -106,6 +110,23 @@ public class SongPlayerController {
   @ResponseBody
   public void viewQueue(HttpSession session){
     List<Song> queueSongs = player.getCorrectQueue();
+    session.setAttribute("queueSongs",queueSongs);
+  }
+  
+  @RequestMapping(value="/addSongToQueue",method=RequestMethod.GET)
+  @ResponseBody
+  public void addSongToQueue(@RequestParam int songId, HttpSession session){
+    Song song = songService.getSong(songId);
+    List<Song> queueSongs = player.addSongToQueue(song);
+    session.setAttribute("queueSongs",queueSongs);
+  }
+  
+  @RequestMapping(value="/addPlaylistToQueue",method=RequestMethod.GET)
+  @ResponseBody
+  public void addPlaylistToQueue(@RequestParam int playlistId, HttpSession session){
+    Playlist playlist = playlistService.getPlaylist(playlistId);
+    List<Song> playlistSongs = (List<Song>)playlist.getSongs();
+    List<Song> queueSongs = player.addPlaylistToQueue(playlistSongs);
     session.setAttribute("queueSongs",queueSongs);
   }
 }

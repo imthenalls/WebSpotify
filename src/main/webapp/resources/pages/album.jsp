@@ -27,8 +27,8 @@
                   <li><a href="#" onclick="followAlbum(${currentAlbum.albumId},'album.jsp')">Follow</a></li>
               </c:otherwise>
             </c:choose>
-              <li><a href='#' id="addAlbumToQueue" album="${currentAlbum.albumId}">Add to Queue - not done</a></li>
-              <li><a href='#' class='viewArtist' artist='${currentAlbum.artistId.artistId}'>View Artist - not done</a></li>
+              <li><a href='#' id="addAlbumToQueue" albumId="${currentAlbum.albumId}">Add to Queue - not done</a></li>
+              <li><a href='#' class='viewArtist' artistId='${currentAlbum.artistId.artistId}'>View Artist</a></li>
               <li><a href='#'>Add to Playlist - not done</a></li>
           </ul>
         </div>
@@ -72,9 +72,15 @@
                   <li><a href="#" songId="${Song.songId}" currentPage="album.jsp" class="followSong">Follow Song</a></li>
                 </c:otherwise>
               </c:choose>
-              <c:forEach items="${createdPlaylists}" var="Playlist">
-                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
-              </c:forEach>
+                  <li class="dropdown-submenu">
+                    <a href="#">Add to playlist<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <c:forEach items="${createdPlaylists}" var="Playlist">
+                        <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                      </c:forEach>  
+                    </ul>
+                  </li>
+              <li><a href="#" class="addSongToQueue" songId="${Song.songId}">Add Song to Queue</a></li>
             </ul>
           </div>
         </td>

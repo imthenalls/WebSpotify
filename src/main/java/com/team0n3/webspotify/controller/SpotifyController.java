@@ -104,8 +104,7 @@ public class SpotifyController {
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
     
-    session.setMaxInactiveInterval(30*60);
-    System.out.println(session.getMaxInactiveInterval());
+    session.setMaxInactiveInterval(30*60); //set the inactive timeout to 30 minutes
     
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   

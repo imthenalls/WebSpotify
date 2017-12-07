@@ -168,4 +168,26 @@ public class SongPlayer {
       position = queue.indexOf(currentSong); //update the position in the queue
     }
   }
+
+  public List<Song> addSongToQueue(Song song) {
+    queue.add(song); //adds song to end of queue
+    shuffledQueue.add(song); //adds song to end of shuffled queue
+    if(isShuffle){
+      return shuffledQueue;
+    }
+    else{
+      return queue;
+    }
+  }
+  
+  public List<Song> addPlaylistToQueue(List<Song> playlistSongs){
+    queue.addAll(playlistSongs);
+    shuffledQueue.addAll(playlistSongs);
+    if(isShuffle){
+      return shuffledQueue;
+    }
+    else{
+      return queue;
+    }
+  }
 }

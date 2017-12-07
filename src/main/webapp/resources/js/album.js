@@ -12,11 +12,8 @@ $(document).ready(function(){
         $.ajax({
         url: "album/seeMore",
         type: "GET",
-
         success:function(){
-          $("#center-pane").load("/resources/pages/searchAlbums.jsp",function(){
-                    console.log("Success unfollowing song");
-                });
+          $("#center-pane").load("/resources/pages/searchAlbums.jsp",function(){});
         },
         error: function(){
                 console.log("Failure unfollowing song");
@@ -35,9 +32,7 @@ function viewAlbum(id){
             albumID: id
         }),
         success:function(){
-            $("#center-pane").load("/resources/pages/album.jsp",function(){
-                
-            });
+            $("#center-pane").load("/resources/pages/album.jsp",function(){});
         },
         error: function(){
             console.log("Error viewing album");
