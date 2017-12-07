@@ -66,6 +66,9 @@ and open the template in the editor.
       
       
       <div id="lyricModal"class="modal fade" role="dialog">
+        <div class="modal-header">
+              <span id="closeSpan"><button id="closeButton" type="button" class="btn fa fa-close" data-dismiss="modal"></button></span>
+            </div>
           <div class="modal-dialog">
               <div id="lyricsHere"></div>
           </div>
@@ -100,7 +103,11 @@ and open the template in the editor.
 
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
     
-    
+     <script src="${pageContext.request.contextPath}/resources/js/playlist.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/user.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/song.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/artist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
     
     <script src="http://malsup.github.com/jquery.form.js"></script>
     

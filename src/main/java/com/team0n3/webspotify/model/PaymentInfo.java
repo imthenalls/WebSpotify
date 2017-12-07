@@ -75,6 +75,14 @@ public class PaymentInfo implements Serializable{
     this.zipCode = zipCode; 
   }
 
+  public int getPaymentId(){
+    return this.paymentId;
+  }
+  
+  public void setPaymentId(int paymentId){
+    this.paymentId = paymentId;
+  }
+  
   public byte[] getCardNumber() {
     return cardNumber;
   }
