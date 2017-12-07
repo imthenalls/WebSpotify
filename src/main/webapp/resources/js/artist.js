@@ -95,6 +95,12 @@ function viewArtist(id){
   });
   return false; // Makes sure that the link isn't followed
 }
+
 function viewFollowedArtists(){
   $("#center-pane").load("/resources/pages/followedArtists.jsp");
 }
+
+function viewTopArtists(){
+  $("#center-pane").load("/resources/pages/charts/topArtists.jsp");
+}
+

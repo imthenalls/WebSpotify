@@ -45,6 +45,10 @@ function viewFollowedAlbums(){
   $("#center-pane").load("/resources/pages/followedAlbums.jsp");
 }
 
+function viewTopAlbums(){
+  $("#center-pane").load("/resources/pages/charts/topAlbums.jsp");
+}
+
 function followAlbum(albumId,currentPage) {
   $.ajax({
     url: "album/followAlbum",

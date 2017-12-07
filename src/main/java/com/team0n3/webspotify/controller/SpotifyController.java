@@ -104,11 +104,6 @@ public class SpotifyController {
     followedArtists.addAll(user.getFollowedArtists());
     genres.addAll(songService.getGenreList());
     
-    System.out.println(albumService.getTopAlbums().size());
-    System.out.println(playlistService.getTopPlaylists().size());
-    System.out.println(artistService.getTopArtists().size());
-    
-  
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);
@@ -117,8 +112,22 @@ public class SpotifyController {
     session.setAttribute("followedArtists",followedArtists);
     session.setAttribute("genres",genres);
     session.setAttribute("ad", adService.randomAd());
-    session.setAttribute("newArtists", artistService.getNewArtists());
-    session.setAttribute("newAlbums", albumService.getNewAlbums());
+    
+    List<Album> topAlbums = albumService.getTopAlbums();
+    List<Playlist> topPlaylists = playlistService.getTopPlaylists();
+    List<Artist> topArtists = artistService.getTopArtists();
+    List<Song> topSongs = songService.getTop50Songs();
+    
+    session.setAttribute("topAlbums", topAlbums);
+    session.setAttribute("topPlaylists", topPlaylists);
+    session.setAttribute("topArtists", topArtists);
+    session.setAttribute("topSongs", topSongs);    
+    
+    List<Artist> newArtists = artistService.getNewArtists();
+    List<Album> newAlbums = albumService.getNewAlbums();
+      
+    session.setAttribute("newArtists", newArtists);
+    session.setAttribute("newAlbums", newAlbums);
 
     
     

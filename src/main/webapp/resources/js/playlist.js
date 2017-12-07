@@ -430,3 +430,7 @@ function toggleCollab(id){
     });
     return false; // Makes sure that the link isn't followed
 }
+
+function viewTopPlaylists(){
+  $("#center-pane").load("/resources/pages/charts/topPlaylists.jsp");
+}

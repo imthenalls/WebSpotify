@@ -8,7 +8,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="keyword" placeholder="Search">
                 </div>
-                <button type="submit" class="btn btn-default">Search</button>
+                <button id="searchButton" type="submit" class="btn btn-default">Search</button>
             </form>
         </div>
        <div class="pull-right">
