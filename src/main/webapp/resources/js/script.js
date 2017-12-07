@@ -69,6 +69,36 @@ $(document).ready(function(){
   });
   
 });
+function viewSongRemovalRequests(){
+    console.log("init viewing removal requests ");
+  $.ajax({
+      url: "artist/viewSongRemovalRequests",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/removalRequests.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing removal requests ");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+function artistRequestSongRemoval(songId,currentPage){
+    $.ajax({
+        url: "artist/artistRequestSongRemoval",
+        type: "POST",
+        data: ({
+            songId: songId,
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+        },
+        error: function(){
+            console.log("Error remove song request");
+        }
+    });    
+}
 
 function viewPendingRoyaltyPayments(){
   console.log("init pending royalty");

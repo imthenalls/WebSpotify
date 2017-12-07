@@ -146,5 +146,9 @@ public class SongServiceHibernateImpl implements SongService{
     return songDao.getTop50();
   }
   
-  
+  @Override
+  @Transactional(readOnly = true)
+  public List<String> getGenreList(){
+    return songDao.getGenreList();
+  }
 }

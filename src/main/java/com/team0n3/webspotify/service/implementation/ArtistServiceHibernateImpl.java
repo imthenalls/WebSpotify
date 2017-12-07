@@ -2,6 +2,7 @@
 package com.team0n3.webspotify.service.implementation;
 
 import com.team0n3.webspotify.dao.ArtistDAO;
+import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
@@ -20,6 +21,8 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     
     @Autowired
     private ArtistDAO artistDao;
+    @Autowired
+    private SongDAO songDao;
     @Autowired
     private SessionFactory sessionFactory;
     
@@ -93,5 +96,31 @@ public class ArtistServiceHibernateImpl implements ArtistService{
           songsWithPlays.add(s);
     }
     return songsWithPlays;
+  }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public void artistRequestSongRemoval(int songId, int artistId){
+    Artist artist = artistDao.getArtist(artistId);
+    Collection<Song> songs = artist.getSongs();
+    for(Song s : songs){
+      if(s.getSongId() == songId){
+        s.setRemoveSong(true);
+        songDao.updateSong(s);
+        break;
+      }
+    }
+  }
+  
+  @Override//for admin
+  @Transactional(readOnly = true)
+  public List<Song> getSongRemovalRequests(){
+    List<Song> allSongs = songDao.listSongs();
+    List<Song> remove = new ArrayList();
+    for(Song s : allSongs){
+        if(s.isRemoveSong())
+          remove.add(s);
+    }
+    return remove;
   }
 }

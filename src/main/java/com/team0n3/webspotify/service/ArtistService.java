@@ -19,4 +19,7 @@ import java.util.Collection;
     
     public Collection<Song> getSongsWithPlays(int artistId);
 
+    public void artistRequestSongRemoval(int songId, int artistId);
+    
+    public List<Song> getSongRemovalRequests();
  }

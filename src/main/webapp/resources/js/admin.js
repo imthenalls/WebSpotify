@@ -12,7 +12,24 @@ $(document).ready(function(){
   
     
 }); 
-
+function adminSongRequestRemove(songId,currentPage){
+    console.log("asdasdasdasdasdasd");
+    $.ajax({
+        url: "song/adminSongRequestRemove",
+        type: "POST",
+        data: ({
+          songId: songId,
+        }),
+        success:function(){
+          console.log("Success removing request song ");
+              $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+        },
+        error: function(){
+                console.log("Failure removing request song");
+        }
+    });
+    return false;
+}
 function adminApproveUser(username){
     console.log("asdasdasdasdasdasd");
     $.ajax({

@@ -84,7 +84,7 @@ public class SpotifyController {
       }
       return model;
     }
-    
+    List<String> genres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -96,6 +96,8 @@ public class SpotifyController {
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
+    genres.addAll(songService.getGenreList());
+  
     
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
@@ -103,6 +105,7 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    session.setAttribute("genres",genres);
     
     session.setMaxInactiveInterval(30*60);
     System.out.println(session.getMaxInactiveInterval());
