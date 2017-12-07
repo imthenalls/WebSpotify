@@ -25,7 +25,7 @@
       <a data-toggle="pill" href="#genres" class="cat-option">Genres</a>     
     </li>
     <li role="presentation">
-      <a data-toggle="pill" href="#new" class="cat-option">New Releases</a>     
+      <a data-toggle="pill" href="#new" class="cat-option">New on Team0n3</a>     
     </li>
     <li role="presentation">
       <a data-toggle="pill" href="#discover" class="cat-option">Discover</a>     
@@ -41,7 +41,7 @@
     <%@include file="/resources/pages/browseTabs/charts.jsp" %>
   </div>
   <div id="genres" class="tab-pane fade">
-    <%@include file="/resources/pages/browseTabs/new.jsp" %>
+    <%@include file="/resources/pages/browseTabs/genres.jsp" %>
   </div>
   <div id="new" class="tab-pane fade">
     <%@include file="/resources/pages/browseTabs/new.jsp" %>

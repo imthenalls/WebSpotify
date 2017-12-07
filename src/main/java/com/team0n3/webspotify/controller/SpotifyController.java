@@ -101,8 +101,8 @@ public class SpotifyController {
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
     genres.addAll(songService.getGenreList());
-  
     
+  
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);

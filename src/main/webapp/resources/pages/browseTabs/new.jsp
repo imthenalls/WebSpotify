@@ -1,106 +1,24 @@
-<div id="browseNew">
-    <div class="row cardRow">
-        <a href="#">
-            <div class="col-xs-2 col-xs-offset-2 card">
-                <img src="resources/img/genres/rock.png" alt="Rock">
-                <div class="row">
-                   <span>New 1</span>
-                </div>
-            </div>                            
-        </a>
-        <a href='#'>
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/pop.png" alt="Pop"><br>
-                <div class="row">
-                    <span>Chart 2</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/hiphop.png" alt="HipHop"><br>
-                <div class="row">
-                    <span>Chart 3</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/house.png" alt="House"><br>
-                <div class="row">
-                    <span>Chart 4</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="row cardRow">
-        <a href="#">
-            <div class="col-xs-2 col-xs-offset-2 card ">
-                <img src="resources/img/genres/rock.png" alt="Rock">
-                <div class="row">
-                   <span>Rock</span>
-                </div>
-            </div>                            
-        </a>
-        <a href='#'>
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/pop.png" alt="Pop"><br>
-                <div class="row">
-                    <span>Pop</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/hiphop.png" alt="HipHop"><br>
-                <div class="row">
-                    <span>Hip Hop</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/house.png" alt="House"><br>
-                <div class="row">
-                    <span>House</span>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="row cardRow">
-        <a href="#">
-            <div class="col-xs-2 col-xs-offset-2 card ">
-                <img src="resources/img/genres/rock.png" alt="Rock">
-                <div class="row">
-                   <span>Rock</span>
-                </div>
-            </div>                            
-        </a>
-        <a href='#'>
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/pop.png" alt="Pop"><br>
-                <div class="row">
-                    <span>Pop</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/hiphop.png" alt="HipHop"><br>
-                <div class="row">
-                    <span>Hip Hop</span>
-                </div>
-            </div>
-        </a>
-        <a href="#">
-            <div class="col-xs-2 card">
-                <img src="resources/img/genres/house.png" alt="House"><br>
-                <div class="row">
-                    <span>House</span>
-                </div>
-            </div>
-        </a>
-    </div>
+<div class="container" id="browseNew">
+  <div class="row">
+    <h3>New Artists</h3>
+    <c:forEach items="${newArtists}" var="newArtist">
+      <div class="col-sm-3">
+          <div class="thumbnail">
+              <a href="#x"><img src="${newArtist.imagePath}" alt="Image" class="img-responsive"></a>
+              <a href=""><h4>${newArtist.artistName}</h4></a>
+          </div>
+      </div>
+    </c:forEach>
+  </div>
+  <div class="row">
+    <h3>New Albums</h3>
+    <c:forEach items="${newAlbums}" var="newAlbum">
+      <div class="col-sm-3">
+          <div class="thumbnail">
+              <a href="#x"><img src="${newAlbum.imagePath}" alt="Image" class="img-responsive"></a>
+              <a href=""><h4>${newAlbum.albumName}</h4></a>
+          </div>
+      </div>      
+    </c:forEach>
+  </div>
 </div>
