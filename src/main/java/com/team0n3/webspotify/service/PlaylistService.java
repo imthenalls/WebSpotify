@@ -17,5 +17,6 @@ public interface PlaylistService {
   public List<Playlist> search(String keyword, boolean limit);
   public Playlist updatePlaylist(int id, String name, String path, String description);
   public Playlist getGenrePlaylist();
-
+  public Playlist toggleCollab(int playlistID);
+  public Playlist togglePublic(int playlistID);
 }
