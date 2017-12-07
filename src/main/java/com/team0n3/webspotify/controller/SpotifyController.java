@@ -308,8 +308,10 @@ public class SpotifyController {
   
   @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
   @ResponseBody
-  public void deleteAccount(HttpSession session){
-    User user= userService.getUser((String)session.getAttribute("currentUser"));
-    userService.adminDeleteUser(user);
+  public boolean deleteAccount(@RequestParam String password, HttpSession session){
+    System.out.println(password);
+    User user=(User)session.getAttribute("currentUser");
+    boolean b=userService.removeUser(user.getUsername(), password);
+    return b;
   }
 }

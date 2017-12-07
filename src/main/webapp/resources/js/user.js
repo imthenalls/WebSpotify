@@ -33,25 +33,29 @@ $(document).ready(function(){
     $(document).on({
       submit: function(){
         var password=$("#delete-pass").val();
-        var confirm=$("delete-pass-confirm").val();
+        var confirm=$("#delete-pass-confirm").val();
+        console.log(password);
+        console.log(confirm);
         if(password!=confirm){
           bootbox.alert("Password and confirm password do not match");
           return false;
         }
-        var username=$("deleteAccount").attr("username");
         $.ajax({
           url: "deleteUser",
           type: "POST",
-          data: password,
-          success:function(){
-              $.ajax({
-                url: "logoutUser"
-              });
+          data: ({
+            password: password
+          }),
+          success:function(response){
+            if(response){
+              window.location.href = '/logout';
+            }
+            else{
+              bootbox.alert("Invalid password!");
+            }
           },
-          error: function(){
-            bootbox.alert("Invalid password!");
-          }
       });
+      return false;
       }
     }, '#deleteAccountForm');
 });
