@@ -109,7 +109,7 @@
           <a class="playHide">
             
           </a>
-          <a href="#" onclick="playSong(${Song.songId},'playlist',${loop.index+1})">
+          <a href="#" onclick="playSong(${Song.songId},'playlist',${loop.index})">
             <i class="playShow fa fa-play fa-fw"></i>
           </a>
         </td>
