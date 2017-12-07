@@ -17,5 +17,7 @@ public interface RoyaltyPaymentService {
   public RoyaltyPayment getRoyaltyPayment(int paymentId);
   public void adminPayArtistBySong(int songId, int artistId);
   public List<RoyaltyPayment> listAllUnpaidRequests();
+  public void adminPayAllArtists();
+  public List<RoyaltyPayment> listUnpaidRoyaltyPayments();
   
 }

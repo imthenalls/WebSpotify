@@ -68,7 +68,7 @@ public class Song implements Serializable {
     
     @OneToMany(cascade=CascadeType.ALL,mappedBy="songId")
     private Collection<RoyaltyPayment> royaltyPayments;
-     
+        
     public Song() {
     }
     

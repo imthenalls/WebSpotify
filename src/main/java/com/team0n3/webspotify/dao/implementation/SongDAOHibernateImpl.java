@@ -47,7 +47,8 @@ public class SongDAOHibernateImpl implements SongDAO{
   public void updateSong(Song song) {
     sessionFactory.getCurrentSession().update(song);
   }
-@Override
+  
+  @Override
   public void mergeSong(Song song) {
     sessionFactory.getCurrentSession().merge(song);
   }
