@@ -216,11 +216,19 @@ public class SpotifyController {
     List<Artist> searchArtists = artistService.search(keyword,true);
     List<Song> searchSongs = songService.search(keyword,true);
     List<Playlist> searchPlaylists = playlistService.search(keyword,true);
+    if(searchArtists.size()!=0){
+      session.setAttribute("topResultArtist", searchArtists.get(0));
+      session.setAttribute("topResultSong", null);
+    }
+    else if(searchSongs.size()!=0){
+      session.setAttribute("topResultSong", searchSongs.get(0));
+      session.setAttribute("topResultArtist", null);
+    }
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
-    session.setAttribute("playlistList", searchPlaylists);
+    session.setAttribute("publicPlaylists", searchPlaylists);
     session.setAttribute("lastSearch",keyword);
   }
   

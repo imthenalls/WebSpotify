@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-                <a id="playlistID" style="display: none;">${currentPlaylist.playlistID}</a>
+                <a playlistID="${currentPlaylist.playlistID}" id="playlistID" style="display: none;">${currentPlaylist.playlistID}</a>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
@@ -35,6 +35,23 @@
               <ul class="dropdown-menu">
                 <li><a href="#" onclick="deletePlaylist()">Delete</a></li>
                 <li><a href="#editPlaylistModal" data-toggle="modal">Edit Playlist</a></li>
+            <!-- Rounded switch -->
+                <c:choose>
+                  <c:when test="${currentPlaylist.isPublic}">
+                    <li><a href="#makePrivate" id="makePrivate">Make Private</a></li>
+                    <c:choose>
+                      <c:when test="${currentPlaylist.isCollaborative}">
+                        <li><a href="#removeCollab" id="removeCollab">Collaborative<i class="fa fa-check" aria-hidden="true"></i></a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li><a href="#makeCollab" id="makeCollab">Collaborative</a></li>
+                      </c:otherwise>
+                    </c:choose>
+                  </c:when>
+                  <c:otherwise>
+                    <li><a href="#makePublic" id="makePublic">Make Public</a></li>
+                  </c:otherwise>
+                </c:choose>
               </ul>
             </c:when>
             <c:when test = "${currentUser.isFollowingPlaylist(currentPlaylist)}">
