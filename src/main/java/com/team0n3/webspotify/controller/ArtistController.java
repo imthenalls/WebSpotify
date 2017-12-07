@@ -135,7 +135,7 @@ public class ArtistController {
       List<RoyaltyPayment> paymentRequests = royaltyPaymentService.listUnpaidPaymentsByArtist(artist.getArtistId());
       session.setAttribute("paymentRequests",paymentRequests);
     }else if(user.getAccountType() == AccountType.Admin){
-      List<RoyaltyPayment> allPayRequests = royaltyPaymentService.listAllUnpaidRequests();
+      List<RoyaltyPayment> allPayRequests = royaltyPaymentService.listUnpaidRoyaltyPayments();
       session.setAttribute("paymentRequests",allPayRequests);//REMEMBER TO REMOVE THIS AND ALL OTHER ADMIN SHIT FROM THE SESSION WHEN LOGGING OUT AS ADMIN
     }
   }
@@ -165,12 +165,22 @@ public class ArtistController {
       royaltyPaymentService.adminPayArtist(artist.getArtistId());
     }
   }
+  
   @RequestMapping(value = "/adminPaySongRoyalties", method = RequestMethod.POST)
   @ResponseBody
   public void adminPaySongRoyalties(@RequestParam int songId, @RequestParam int artistId, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Admin){
       royaltyPaymentService.adminPayArtistBySong(songId, artistId);
+    }
+  }
+  
+  @RequestMapping(value = "/adminPayAllRoyalties", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminPayAllRoyalties(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      royaltyPaymentService.adminPayAllArtists();
     }
   }
   

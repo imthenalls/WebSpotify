@@ -103,11 +103,11 @@ public class User implements Serializable{
     this.email = email;
     this.password = password;
     this.salt = salt;
-    createdPlaylists=null;
-    followedPlaylists=null;
-    collabPlaylists=null;
-    paymentInfo=null;
-    accountType=AccountType.Unapproved;
+    createdPlaylists = null;
+    followedPlaylists = null;
+    collabPlaylists = null;
+    paymentInfo = null;
+    accountType = AccountType.Free;
   }
 
   public Collection<Song> getFollowedSongs() {

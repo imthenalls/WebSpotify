@@ -41,6 +41,25 @@
                 </div>
                 </form>
             </c:when>
+            <c:when test="${currentUser.accountType == 'Premium'}">
+              <form id="upgradeForm" class="">
+                <div id="cardWrapper" class="card-wrapper">
+                    <!-- Used by cardjs-->
+                </div>
+                <span id="upgradeError" align="center"></span>
+                <h2>Update Your Credit Card Information</h2>
+                <div>
+                    <input id='cardHold' type="text" name="name" value="${currentUser.paymentInfo.cardHolder}" class="form-control" required autofocus>
+                    <input id='cardNum' type="text" name="number" maxlength="19" placeholder="Credit Card Number" value="" class="form-control" required>
+                    <input id='ccv' type="text" name="cvc" maxlength="4" placeholder="CVC" value=""class="form-control"  required>
+                    <input id='month' type="text" name="expiry" maxlength="7" minlength="7" placeholder="MM/YY" value = "${currentUser.paymentInfo.expirationMonth} / ${currentUser.paymentInfo.expirationYear}"class="form-control"  required>
+                    <input id='creditCompany' type="text" name="creditCompany" placeholder="Credit Card Company" value="${currentUser.paymentInfo.creditCompany}"class="form-control" required>
+                    <input id='address' type="text" name="address" placeholder="Address" value="${currentUser.paymentInfo.address}" class="form-control"  required>
+                    <input id='zipcode' type="text" maxlength="5" minlength="5" name="zipcode" placeholder="Zip Code" value="${currentUser.paymentInfo.zipCode}"class="form-control"  required>
+                    <button class="btn btn-primary" type="button" onclick="editPaymentInfo()">Edit Payment Information</button>
+                </div>
+                </form>
+            </c:when>
               <c:otherwise>
                   <div>
                       <h3>You are a Premium Owner</h3>

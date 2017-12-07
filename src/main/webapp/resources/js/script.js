@@ -201,6 +201,50 @@ function toggleMute(){
     audio.volume=oldVolume;
   }
 }
+function editPaymentInfo(){
+  var cardHold = $("#cardHold").val();
+    var cardNum = $("#cardNum").val();
+    var ccv = $("#ccv").val();
+    var creditCompany = $("#creditCompany").val();
+    var address = $("#address").val();
+    var monthYear = ($("#month").val());
+    var zipCode = parseInt($('#zipcode').val());
+    var dateData = monthYear.split(" "); 
+    var month = parseInt(dateData[0]);
+    var year = parseInt(dateData[2]);
+    var currYear = (new Date()).getFullYear() - 2000;
+    if(month > 12 || year < currYear || year > (currYear + 25)){
+      console.log(month, year, currYear);
+      $("#upgradeError").html('Invalid Experation Date');
+    }
+    else{
+      $.ajax({
+         url: "editPaymentInfo",
+         type: "POST",
+         data:({
+             cardNumber: cardNum,
+             cardHolder: cardHold,
+             ccv: ccv,
+             expirationMonth: month,
+             expirationYear: year,
+             creditCompany: creditCompany,
+             address: address,
+             zipCode : zipCode
+         }),
+         success:function(){
+             $("#center-pane").load("/resources/pages/profile.jsp",function(){
+                 console.log("success upgrading");
+             });
+
+         },
+         error:function(){
+             console.log("failure upgrading");
+             $("#upgradeError").html('Invalid Information');
+         }
+      });
+    return false;      
+    }
+}
 
 function upgradeToPremium(){
     console.log("trying to upgrade");
