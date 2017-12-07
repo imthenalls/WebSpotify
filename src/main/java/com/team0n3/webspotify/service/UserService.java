@@ -52,5 +52,5 @@ public interface UserService {
   public void adminDeletePlaylist(Playlist p);
   public void adminSendRoyaltyChecks(String artistId);
   public boolean removeUser(String username, String password);
-  
+  public void banUser(String username); 
 }

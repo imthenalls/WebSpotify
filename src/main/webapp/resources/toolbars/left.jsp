@@ -34,6 +34,9 @@
          <li> 
             <a data-toggle="tab" href="#" onclick="adminViewUnapprovedUsers()">Admin Unapproved Users</a>
         </li>
+         <li> 
+            <a data-toggle="tab" href="#" onclick="adminViewAllUsers()">Admin View All</a>
+        </li>
         <li> 
             <a data-toggle="tab" href="#" id="view-unapproved-artists" onclick="adminViewUnapprovedArtists()">Admin Unapproved Artists</a>
         </li>

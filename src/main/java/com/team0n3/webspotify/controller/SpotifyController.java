@@ -74,7 +74,6 @@ public class SpotifyController {
       for(Artist a : allArtists){       
         if(a.getUser() != null){
           System.out.println(a.getUser().getUsername());
-          System.out.println("fuck me please "+username);
           if((a.getUser().getUsername()).equals(username)){
             System.out.println("he;llo");
             session.setAttribute("currentArtist", a);
@@ -83,6 +82,10 @@ public class SpotifyController {
         
       }
       return model;
+    }
+    
+    if(user.getAccountType() == AccountType.Banned){
+      return(new ModelAndView("redirect:/viewBanned"));
     }
     
     List<Playlist> createdPlaylists = new ArrayList<>();
@@ -125,7 +128,6 @@ public class SpotifyController {
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
   public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
-    System.out.println(artist+" fuck me please");
     /*
     boolean isArtist = false;
     if(artist.equals("true")||artist.equals("true,false")){
@@ -173,6 +175,11 @@ public class SpotifyController {
       return new ModelAndView("login");
     }
     return new ModelAndView("artist_browse");
+  }
+  
+  @RequestMapping(value = "/viewBanned", method = RequestMethod.GET)
+  public ModelAndView viewBanned(HttpSession session) {
+    return new ModelAndView("banned");
   }
   
   @RequestMapping("/logoutUser")
@@ -329,5 +336,11 @@ public class SpotifyController {
     User user=(User)session.getAttribute("currentUser");
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;
+  }
+  
+  @RequestMapping(value = "/banUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void banUser(@RequestParam String username, HttpSession session){
+    userService.banUser(username);
   }
 }

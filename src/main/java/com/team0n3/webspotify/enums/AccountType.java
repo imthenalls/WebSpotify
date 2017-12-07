@@ -16,5 +16,6 @@ public enum AccountType {
   Admin,
   Unapproved,
   UnapprovedArtist,
-  Artist
+  Artist,
+  Banned
 }

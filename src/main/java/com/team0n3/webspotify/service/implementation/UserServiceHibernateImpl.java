@@ -419,4 +419,12 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.deleteUser(user);
     return true;
   }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public void banUser(String username){
+    User user = userDao.getUser(username); 
+    user.setAccountType(AccountType.Banned);
+    userDao.updateUser(user);
+  }
 }

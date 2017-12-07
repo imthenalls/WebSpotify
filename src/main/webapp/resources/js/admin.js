@@ -6,10 +6,12 @@ $(document).ready(function(){
       adminApproveArtist($(this).attr("username"));
   });
   $(document).on('click','#view-unapproved-artists', function(){
-      console.log("FUCK U ");
       adminViewUnapprovedArtists();
   });
   
+  $(document).on('click', '.ban-button', function(){
+    banUser($(this).attr('username'))
+  });
     
 }); 
 
@@ -173,6 +175,21 @@ function adminViewUnapprovedUsers(){
     return false; // Makes sure that the link isn't followed
 }
 
+function adminViewAllUsers(){
+    $.ajax({
+        url: "viewUsers",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allUsers.jsp",function(){
+            });
+        },
+        error:function(){
+          console.log("Error viewing admin  all users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
 function adminViewUnapprovedArtists(){
     $.ajax({
         url: "adminViewUnapprovedArtists",
@@ -235,4 +252,22 @@ function adminViewAllArtists(){
         }
     });
     return false; // Makes sure that the link isn't followed
+}
+
+function banUser(username){
+  console.log(username);
+  $.ajax({
+    url: "banUser",
+    type: "POST",
+    data:({
+      username: username
+    }),
+    sucess: function(){
+      $(document).remove();
+    },
+    error: function(){
+      console.log("ban error:" + username);
+    }
+    
+  }); 
 }
