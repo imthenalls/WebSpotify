@@ -79,6 +79,7 @@ $(document).ready(function(){
         return false;
       }
     },'#makePublic');
+    
     $(document).on({
       click: function(){
         var id = $("#playlistID").attr("playlistID");
@@ -86,6 +87,7 @@ $(document).ready(function(){
         return false;
       }
     },'#makePrivate');
+    
     $(document).on({
       click: function(){
         var id = $("#playlistID").attr("playlistID");
@@ -400,10 +402,7 @@ function togglePublic(id){
             id: id
         }),
         success:function(){
-          
-            $("#centerPane").load("/resources/pages/playlist.jsp",function(){
-               
-            });
+            $("#center-pane").load("/resources/pages/playlist.jsp");
         },
         error: function(){
             console.log("Error viewing playlist");

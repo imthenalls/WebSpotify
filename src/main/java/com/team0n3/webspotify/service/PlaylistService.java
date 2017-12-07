@@ -19,4 +19,5 @@ public interface PlaylistService {
   public Playlist getGenrePlaylist();
   public Playlist toggleCollab(int playlistID);
   public Playlist togglePublic(int playlistID);
+  public List<Playlist> getTopPlaylists();
 }

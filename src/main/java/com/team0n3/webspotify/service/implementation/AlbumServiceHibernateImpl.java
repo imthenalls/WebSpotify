@@ -71,5 +71,10 @@ public class AlbumServiceHibernateImpl implements AlbumService{
     Album a = albumDao.getAlbum(albumId);
     return a.getFollowers();
   }
+
+  @Override
+  public List<Album> getTopAlbums() {
+    return albumDao.getTopAlbums();
+  }
   
 }

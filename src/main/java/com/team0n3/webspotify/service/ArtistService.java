@@ -27,4 +27,6 @@ import java.util.Collection;
     public void genre(String genre);
     
     public Collection<User> viewFollowers(int artistId);
+    
+    public List<Artist> getTopArtists();
  }

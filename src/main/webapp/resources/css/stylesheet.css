@@ -540,7 +540,7 @@ a:hover{
     display: flex;
     position: relative;
     height: 100px;
-    width: 400px;
+    width: 470px;
 }
 
 .x-button {
@@ -621,4 +621,14 @@ border-bottom-color: #3399ff;
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
+}
+.playlist-container {
+    display: flex;
+    position: relative;
+    height: 350px;
+    width: 350px;
+}
+.albumPic{
+  height: 100%;
+  width: 100%;
 }

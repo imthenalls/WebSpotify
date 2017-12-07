@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,8 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
   @Value("${album.maxResult}")
   private int maxResults;
   
+  @Value("${album.chartsResult}")
+  private int chartsResults;
   public AlbumDAOHibernateImpl(SessionFactory sessionFactory){
     this.sessionFactory=sessionFactory;
   }
@@ -58,6 +61,14 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
     if(limit){
       c.setMaxResults(maxResults);
     }
+    return c.list();
+  }
+
+  @Override
+  public List<Album> getTopAlbums() {
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Album.class);
+    c.setMaxResults(chartsResults);
+    c.addOrder(Order.desc("popularity"));
     return c.list();
   }
 

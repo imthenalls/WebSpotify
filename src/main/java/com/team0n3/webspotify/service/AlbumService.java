@@ -19,4 +19,6 @@ public interface AlbumService {
   public List<Album> search(String keyword, boolean limit);
   
   public Collection<User> viewFollowers(int albumId);
+  
+  public List<Album> getTopAlbums();
 }

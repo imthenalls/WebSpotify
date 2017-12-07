@@ -255,3 +255,6 @@ function adminViewAllArtists(){
     });
     return false; // Makes sure that the link isn't followed
 }
+function viewUploadPage(){
+  $("#center-pane").load("/resources/pages/songUpload.jsp");
+}

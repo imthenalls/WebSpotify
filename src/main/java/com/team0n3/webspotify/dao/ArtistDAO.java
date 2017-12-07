@@ -13,5 +13,5 @@ public interface ArtistDAO {
     public void updateArtist(Artist artist);
     public List<Artist> search(String keyword, boolean limit);
     public List<Song> genre(String genre);
-
+    public List<Artist> getTopArtists();
 }

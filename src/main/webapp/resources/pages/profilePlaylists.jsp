@@ -3,7 +3,7 @@
 <div>
   <div class="container-fluid">
     <c:forEach items="${publicPlaylists}" varStatus='loop' var="Play">
-      <div class="col-md-3" style="height:380px;">
+      <div class="col-md-3 playlist-container">
         <div class="albumCard">
           <a href="#"><img src="${Play.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic"></a>
           <div class="albumOverlay">     
