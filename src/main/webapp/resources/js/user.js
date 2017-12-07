@@ -48,7 +48,7 @@ $(document).ready(function(){
           }),
           success:function(response){
             if(response){
-              window.location.href = '/logout';
+              window.location.href = '/logoutUser';
             }
             else{
               bootbox.alert("Invalid password!");

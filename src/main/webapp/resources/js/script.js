@@ -90,7 +90,36 @@ $(document).ready(function(){
   },'.viewHistory');
   
 });
-
+function viewSongRemovalRequests(){
+    console.log("init viewing removal requests ");
+  $.ajax({
+      url: "artist/viewSongRemovalRequests",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/removalRequests.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing removal requests ");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+function artistRequestSongRemoval(songId,currentPage){
+    $.ajax({
+        url: "artist/artistRequestSongRemoval",
+        type: "POST",
+        data: ({
+            songId: songId,
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+        },
+        error: function(){
+            console.log("Error remove song request");
+        }
+    });    
+    }
 function viewHelp(){
   console.log("2");
   $("#center-pane").load("/resources/pages/help.jsp",function(){
@@ -602,3 +631,4 @@ function addPlaylistToQueue(playlistId){
   });
   return false;
 }
+

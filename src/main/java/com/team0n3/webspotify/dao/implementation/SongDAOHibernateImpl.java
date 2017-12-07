@@ -3,10 +3,12 @@ package com.team0n3.webspotify.dao.implementation;
 
 import com.team0n3.webspotify.dao.SongDAO;
 import com.team0n3.webspotify.model.Song;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -75,5 +77,16 @@ public class SongDAOHibernateImpl implements SongDAO{
    Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
     c.setMaxResults(50);
     c.addOrder(Order.desc("totalPlays"));
-    return c.list();  }
+    return c.list();  
+  }
+  
+  @Override
+  public List<String> getGenreList(){
+    SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("select * from genres");
+    List<Object[]> rows = query.list();
+    List<String> genres = new ArrayList();
+    for(Object[] row : rows)
+      genres.add(row[1].toString());
+    return genres;
+  }
 }

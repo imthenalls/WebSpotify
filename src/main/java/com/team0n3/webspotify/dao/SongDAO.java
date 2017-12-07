@@ -2,6 +2,7 @@
 package com.team0n3.webspotify.dao;
 
 import com.team0n3.webspotify.model.Song;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface SongDAO {
@@ -21,4 +22,6 @@ public interface SongDAO {
   public List<Song> search(String keyword, boolean limit);
   
   public List<Song> getTop50();
+  
+  public List<String> getGenreList();
 }

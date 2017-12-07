@@ -4,6 +4,7 @@ package com.team0n3.webspotify.service.implementation;
 import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.AlbumService;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,4 +64,12 @@ public class AlbumServiceHibernateImpl implements AlbumService{
       List<Album> listAlbums = albumDao.search(keyword, limit);
       return listAlbums;
   }
+  
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<User> viewFollowers(int albumId){
+    Album a = albumDao.getAlbum(albumId);
+    return a.getFollowers();
+  }
+  
 }

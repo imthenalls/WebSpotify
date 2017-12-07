@@ -558,6 +558,20 @@ a:hover{
 .search-text{
   font-size: 12px;
 }
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover,.nav-pills > li > a:hover {
+text-decoration: none;
+font-weight: bold;
+border-radius:0px;
+border-bottom-width: 4px;
+border-bottom-style: solid;
+border-bottom-color: #3399ff;
+    color: #000 !important;
+  background-color: transparent !important;
+}
+.nav-pills > li > a{
+    border-radius:0px;
+}
 
 /** Found at https://bootsnipp.com/snippets/featured/multi-level-dropdown-menu-bs3 **/
 

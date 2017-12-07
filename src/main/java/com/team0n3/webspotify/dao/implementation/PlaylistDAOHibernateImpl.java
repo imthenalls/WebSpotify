@@ -55,6 +55,7 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
   public List<Playlist> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Playlist.class);
     c.add(Restrictions.like("playlistName", "%"+keyword+"%"));
+    c.add(Restrictions.eq( "isPublic", true ));
     if(limit){
       c.setMaxResults(maxResults);
     }
