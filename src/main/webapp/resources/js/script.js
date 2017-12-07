@@ -77,7 +77,21 @@ $(document).ready(function(){
     }
   },'.addPlaylistToQueue');
   
+  $(document).on({
+    click:function(){
+      console.log("1");
+      viewHelp();
+    }
+  },'.viewHelp');
+  
 });
+
+function viewHelp(){
+  console.log("2");
+  $("#center-pane").load("/resources/pages/help.jsp",function(){
+    console.log("3");
+  });
+}
 
 function viewPendingRoyaltyPayments(){
   console.log("init pending royalty");

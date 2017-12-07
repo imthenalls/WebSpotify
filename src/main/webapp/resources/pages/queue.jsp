@@ -17,7 +17,7 @@
       <th class="col-md-3">Title</th>
       <th class="col-md-2">Artist</th>
       <th class="col-md-2">Album</th> 
-      <th class="col-md-2 text-right"></th>
+      <th class="col-md-2 text-right">Options</th>
       <th class="col-md-2 text-right">Duration</th>
     </tr>
     <c:forEach items="${queueSongs}" varStatus="loop" var="Song">

@@ -41,8 +41,8 @@
     <tr>
       <th class="col-md-2">#</th>
       <th class="col-md-4">Title</th>
-      <th class="col-md-4 text-right">Duration</th>
       <th class="col-md-2 text-right">Options</th>
+      <th class="col-md-4 text-right">Duration</th>
     </tr>
     <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
@@ -55,9 +55,6 @@
           </a>
         </td>
         <td>${Song.title}</td>
-        <td class="text-right">
-            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
-        </td>
         <td class="text-right">
           <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +70,7 @@
                 </c:otherwise>
               </c:choose>
                   <li class="dropdown-submenu">
-                    <a href="#">Add to playlist<span class="caret"></span></a>
+                    <a href="#">Add to playlist</a>
                     <ul class="dropdown-menu">
                       <c:forEach items="${createdPlaylists}" var="Playlist">
                         <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
@@ -83,6 +80,9 @@
               <li><a href="#" class="addSongToQueue" songId="${Song.songId}">Add Song to Queue</a></li>
             </ul>
           </div>
+        </td>
+        <td class="text-right">
+          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
       </tr>
     </c:forEach> 
