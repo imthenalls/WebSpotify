@@ -29,4 +29,6 @@ import java.util.Collection;
     public Collection<User> viewFollowers(int artistId);
     
     public List<Artist> getTopArtists();
+    
+    public List<Artist> getNewArtists();
  }

@@ -21,4 +21,6 @@ public interface AlbumService {
   public Collection<User> viewFollowers(int albumId);
   
   public List<Album> getTopAlbums();
+  
+  public List<Album> getNewAlbums();
 }

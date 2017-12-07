@@ -117,6 +117,10 @@ public class SpotifyController {
     session.setAttribute("followedArtists",followedArtists);
     session.setAttribute("genres",genres);
     session.setAttribute("ad", adService.randomAd());
+    session.setAttribute("newArtists", artistService.getNewArtists());
+    session.setAttribute("newAlbums", albumService.getNewAlbums());
+
+    
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
    

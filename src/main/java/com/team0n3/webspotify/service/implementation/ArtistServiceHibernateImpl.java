@@ -141,5 +141,10 @@ public class ArtistServiceHibernateImpl implements ArtistService{
   public List<Artist> getTopArtists() {
     return artistDao.getTopArtists();
   }
+
+  @Override
+  public List<Artist> getNewArtists() {
+    return artistDao.getNewArtists();
+  }
   
 }

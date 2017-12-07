@@ -19,4 +19,6 @@ public interface AlbumDAO {
   public List<Album> search(String keyword, boolean limit);
   
   public List<Album> getTopAlbums();
+  
+  public List<Album> getNewAlbums();
 }

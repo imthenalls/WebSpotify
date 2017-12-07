@@ -14,4 +14,5 @@ public interface ArtistDAO {
     public List<Artist> search(String keyword, boolean limit);
     public List<Song> genre(String genre);
     public List<Artist> getTopArtists();
+    public List<Artist> getNewArtists();
 }

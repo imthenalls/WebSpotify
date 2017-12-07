@@ -140,4 +140,12 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     return c.list();
   }
   
+  @Override
+  public List<Artist> getNewArtists() {
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
+    c.setMaxResults(chartsResults);
+    c.addOrder(Order.asc("artistId"));
+    return c.list();
+  }
+  
 }

@@ -71,5 +71,13 @@ public class AlbumDAOHibernateImpl implements AlbumDAO{
     c.addOrder(Order.desc("popularity"));
     return c.list();
   }
+  
+  @Override
+  public List<Album> getNewAlbums() {
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Album.class);
+    c.setMaxResults(chartsResults);
+    c.addOrder(Order.asc("albumId"));
+    return c.list();
+  }
 
 }
