@@ -55,6 +55,10 @@ public class SongPlayerController {
       Collection<Song> playlistSongs = currentPlaylist.getSongs();
       player.setQueues(playlistSongs,songIndex);
     }
+    else if(setType.equals("artist")){
+      Collection<Song> popularSongs = (Collection<Song>)session.getAttribute("popularSongs");
+      player.setQueues(popularSongs,songIndex);
+    }
     else if (setType.equals("followedSongs")){
       Collection<Song> followedSongs = (Collection<Song>)session.getAttribute("followedSongs");
       player.setQueues(followedSongs,songIndex);
