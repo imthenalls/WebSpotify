@@ -2,6 +2,7 @@ package com.team0n3.webspotify.service;
 
 import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.User;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface AlbumService {
   public List<Song> getAllSongsInAlbum(int albumId);
   
   public List<Album> search(String keyword, boolean limit);
+  
+  public Collection<User> viewFollowers(int albumId);
 }

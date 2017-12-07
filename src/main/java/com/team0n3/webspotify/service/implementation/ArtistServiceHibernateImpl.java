@@ -130,4 +130,11 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     artistDao.genre("rock");
   }
   
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<User> viewFollowers(int artistId){
+    Artist a = artistDao.getArtist(artistId);
+    return a.getFollowers();
+  }
+  
 }

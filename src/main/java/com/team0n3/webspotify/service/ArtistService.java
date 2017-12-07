@@ -3,6 +3,7 @@ package com.team0n3.webspotify.service;
  
 import com.team0n3.webspotify.model.Artist; 
 import com.team0n3.webspotify.model.Song;
+import com.team0n3.webspotify.model.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Collection;
@@ -24,4 +25,6 @@ import java.util.Collection;
     public List<Song> getSongRemovalRequests();
     
     public void genre(String genre);
+    
+    public Collection<User> viewFollowers(int artistId);
  }

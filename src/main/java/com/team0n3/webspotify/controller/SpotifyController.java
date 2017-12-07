@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
+import java.util.Collection;
 /**
  * Handles requests for the application home page.
  */
@@ -56,7 +57,9 @@ public class SpotifyController {
   @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
-    artistService.genre("rock");
+    
+
+// artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
@@ -341,4 +344,6 @@ public class SpotifyController {
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;
   }
+  
+  
 }
