@@ -1,7 +1,7 @@
 <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand click" href="#browseToggle" style='color:#3399ff'>
+            <a class="navbar-brand click" href="#browseToggle" onclick="viewBrowse()" style='color:#3399ff'>
                 Team 0n3
             </a>
             <form class="navbar-form navbar-left" action="/resources/pages/search_results.jsp" role="search" id="searchForm">
@@ -28,7 +28,7 @@
         </div>
         <div class="nav navbar-right">
             <div id="container">
-                <img src="${currentUser.imagePath}" class="img-responsive img-circle" id="user-img-sm">
+              <a href="#" class="click" onclick="viewProfile()"><img src="${currentUser.imagePath}" class="img-responsive img-circle" id="user-img-sm"></a>
             </div>
         </div>
     </div>

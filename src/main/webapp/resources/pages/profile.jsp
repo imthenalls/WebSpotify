@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="main-section">
   <div class="row">
   <div class="col-xs-2"  id="user-img-div">
@@ -23,44 +24,32 @@
       <a data-toggle="pill" href="#overview" class="cat-option">Overview</a>                      
     </li>
     <li role="presentation">
-      <a data-toggle="pill" href="#hi" class="cat-option">Recently Played</a>     
+      <a data-toggle="pill" href="#recent" class="cat-option">Recently Played</a>     
     </li>
     <li role="presentation">
-      <a data-toggle="pill" href="#hello" class="cat-option" id="profilePlay">Public Playlists</a>                      
+      <a data-toggle="pill" href="#publicPlaylists" class="cat-option" id="profilePlay">Public Playlists</a>                      
     </li>
     <li role="presentation">
-      <a data-toggle="pill" href="#howdy" class="cat-option">Following</a>     
+      <a data-toggle="pill" href="#following" class="cat-option">Following</a>     
     </li>
     <li role="presentation">
-      <a data-toggle="pill" href="#sup" class="cat-option">Followers</a>     
-    </li>                 
-    
+      <a data-toggle="pill" href="#followers" class="cat-option">Followers</a>     
+    </li>
+    <c:choose>
+    <c:when test="${currentUser.accountType == 'Admin'}">
+      <li role="presentation">
+        <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>     
+      </li>      
+    </c:when>
+    <c:otherwise></c:otherwise>
+  </c:choose>
   </ul>
 </div>
   
-  <div class="tab-content" id="profilePane">
+  <div id="profilePane" user="${currentUser.username}">
     
-  <div id="profileOverview" class="tab-pane fade active in">
 
   </div>
-  <div id="profileRecent" class="tab-pane fade">
-    <h3>Recently Listened To</h3>
-      <hr />
-  </div>
-  <div id="profilePlaylists" class="tab-pane fade" user='${currentUser.username}'>
-    <h3>Playlist</h3>
-      <hr />
-  </div>
-  <div id="profileFollowing" class="tab-pane fade">
-    <h3>Following</h3>
-      <hr />
-  </div>
-  <div id="profileFollowers" class="tab-pane fade">
-    <h3>Followers</h3>
-      <hr />
-  </div>                    
-                         
-</div>
   
   </div>
 </div>

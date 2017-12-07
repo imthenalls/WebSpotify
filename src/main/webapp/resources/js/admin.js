@@ -9,6 +9,14 @@ $(document).ready(function(){
       console.log("FUCK U ");
       adminViewUnapprovedArtists();
   });
+  $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("HIIIIII");
+        $("#profilePane").load("/resources/pages/adminPanel.jsp");
+        return false;
+      }
+    },'#adminPill');
   
     
 }); 

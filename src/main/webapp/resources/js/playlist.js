@@ -65,8 +65,7 @@ $(document).ready(function(){
     
     $(document).on({
       click: function(){
-        var $files = document.getElementById('iPath2');
-        var name = $("#profilePlaylists").attr("user");
+        var name = $("#profilePane").attr("user");
         console.log("HIIIIII");
         viewPublicPlaylists(name);
         return false;
