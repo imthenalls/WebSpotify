@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("royaltyPaymentService")
 @Transactional(readOnly = true)
 public class RoyaltyPaymentServiceHibernateImpl implements RoyaltyPaymentService{
   
@@ -41,13 +41,93 @@ public class RoyaltyPaymentServiceHibernateImpl implements RoyaltyPaymentService
   @Override
   @Transactional(readOnly = true)
   public List<RoyaltyPayment> listAllRoyaltyPayments(){
+    
     return royaltyPaymentDao.listRoyaltyPayments();
   }
 
+  
+  @Override
+  @Transactional(readOnly = true)
+  public List<RoyaltyPayment> listUnpaidRoyaltyPayments(){
+    List<RoyaltyPayment> all = royaltyPaymentDao.listRoyaltyPayments();
+     List<RoyaltyPayment> unpaid = new ArrayList();
+     for(RoyaltyPayment r : all){
+       if(!r.isIsPaid())
+         unpaid.add(r);
+     }
+    return unpaid;
+  }
+  
   @Override
   @Transactional(readOnly = true)
   public RoyaltyPayment getRoyaltyPayment(int paymentId){
     return royaltyPaymentDao.getRoyaltyPayment(paymentId);
+  }
+  
+  @Override
+  @Transactional(readOnly = true)
+  public ArrayList<Song> listUnpaidSongsByArtist(int artistId){
+    List<Song> allSongs = songDao.listSongs();
+    ArrayList<Song> unPaidSongs = new ArrayList();
+    for(Song s : allSongs){
+      if(s.getUnpayedPlays() > 0 && s.getArtistId().getArtistId() == artistId)
+        unPaidSongs.add(s);
+    }
+    return unPaidSongs;
+  }
+  
+  @Override
+  @Transactional(readOnly = true)
+  public List<RoyaltyPayment> listUnpaidPaymentsByArtist(int artistId){
+    List<RoyaltyPayment> allPayments = royaltyPaymentDao.listRoyaltyPayments();
+    List<RoyaltyPayment> artistPayments = new ArrayList();
+    for(RoyaltyPayment r : allPayments){
+      if(!(r.isIsPaid())&& r.getArtistId().getArtistId() == artistId )
+        artistPayments.add(r);
+      System.out.println(r.toString()+"hello");
+    }
+    return artistPayments;
+  }
+  
+  @Override
+  @Transactional(readOnly = true)//for admin
+  public List<RoyaltyPayment> listAllUnpaidRequests(){
+    List<RoyaltyPayment> allPayments = royaltyPaymentDao.listRoyaltyPayments();
+    return allPayments;
+  }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public RoyaltyPayment artistRequestRoyaltyOnSong(int songId, int artistId){
+    Song song = songDao.getSong(songId);
+    Artist artist = artistDao.getArtist(artistId);
+    System.out.println(song.toString()+" "+artist.toString());
+    System.out.println("asdasdasdasdasdasd "+song.currentPayOut());
+    RoyaltyPayment payment = new RoyaltyPayment(song, artist, song.currentPayOut(),false);
+    royaltyPaymentDao.addRoyaltyPayment(payment);
+    return payment;
+  }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public void adminPayArtistBySong(int songId, int artistId){
+    List<RoyaltyPayment> allPayments = royaltyPaymentDao.listRoyaltyPayments();
+    RoyaltyPayment pay = null;
+    for(RoyaltyPayment r : allPayments){
+      if(!r.isIsPaid() && r.getArtistId().getArtistId() == artistId && r.getSongId().getSongId() == songId)
+         pay = r;
+    }
+    Artist artist = artistDao.getArtist(artistId);
+    int total = artist.getTotalRoyalties();
+    if(pay != null){
+      total += pay.getPaymentAmount();
+      pay.setIsPaid(true);
+      royaltyPaymentDao.updateRoyaltyPayment(pay);
+      artist.setTotalRoyalties(total);
+      artistDao.updateArtist(artist);
+      pay.getSongId().setUnpayedPlays(0);//reset song play count
+      songDao.updateSong(pay.getSongId());
+    }
   }
   
   @Override
@@ -64,46 +144,28 @@ public class RoyaltyPaymentServiceHibernateImpl implements RoyaltyPaymentService
     for(RoyaltyPayment r : artistPayments){
       total += r.getPaymentAmount();
       r.setIsPaid(true);
+      royaltyPaymentDao.updateRoyaltyPayment(r);
+      r.getSongId().setUnpayedPlays(0);//reset song play count
+      songDao.updateSong(r.getSongId());
     } 
     artist.setTotalRoyalties(total);
     artistDao.updateArtist(artist);
     
   }
-  
   @Override
   @Transactional(readOnly = false)
-  public RoyaltyPayment artistRequestRoyaltyOnSong(int songId, int artistId){
-    Song song = songDao.getSong(songId);
-    Artist artist = artistDao.getArtist(artistId);
-    if(song.getUnpayedPlays() > 0){
-      RoyaltyPayment payment = new RoyaltyPayment(song, artist,song.currentPayOut(),false);
-      royaltyPaymentDao.addRoyaltyPayment(payment);
-      return payment;
-    }
-    return null;
-  }
-  
-  @Override
-  @Transactional(readOnly = true)
-  public List<Song> listUnpaidSongsByArtist(int artistId){
-    List<Song> allSongs = songDao.listSongs();
-    List<Song> unPaidSongs = new ArrayList();
-    for(Song s : allSongs){
-      if(s.getUnpayedPlays() > 0)
-        unPaidSongs.add(s);
-    }
-    return unPaidSongs;
-  }
-  
-  @Override
-  @Transactional(readOnly = true)
-  public List<RoyaltyPayment> listUnpaidPaymentsByArtist(int artistId){
+  public void adminPayAllArtists(){
     List<RoyaltyPayment> allPayments = royaltyPaymentDao.listRoyaltyPayments();
-    List<RoyaltyPayment> artistPayments = new ArrayList();
+    int total = 0;
     for(RoyaltyPayment r : allPayments){
-      if(!(r.isIsPaid()) )
-        artistPayments.add(r);
-    }
-    return artistPayments;
+      total = r.getArtistId().getTotalRoyalties();
+      total += r.getPaymentAmount();
+      r.getArtistId().setTotalRoyalties(total);
+      r.setIsPaid(true);
+      r.getSongId().setUnpayedPlays(0);
+      artistDao.updateArtist(r.getArtistId());
+      songDao.updateSong(r.getSongId());
+      royaltyPaymentDao.updateRoyaltyPayment(r);
+    } 
   }
 }

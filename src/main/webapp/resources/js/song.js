@@ -12,6 +12,43 @@ $(document).ready(function(){
      }  
     },'.followSong');
     
+    $(document).on({
+      click: function(){
+        $.ajax({
+        url: "song/top",
+        type: "GET",
+        success:function(){
+          $("#center-pane").load("/resources/pages/topSongs.jsp",function(){
+                    console.log("Success unfollowing song");
+                });
+        },
+        error: function(){
+                console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+          }
+    },'#topWorld');
+    
+    $(document).on({
+      click: function(){
+        $.ajax({
+        url: "song/seeMore",
+        type: "GET",
+
+        success:function(){
+          $("#center-pane").load("/resources/pages/searchSongs.jsp",function(){
+                    console.log("Success unfollowing song");
+                });
+        },
+        error: function(){
+                console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+      }
+    },'#moreSongs');
+    
 });
 
 function followSong(songId,currentPage) {

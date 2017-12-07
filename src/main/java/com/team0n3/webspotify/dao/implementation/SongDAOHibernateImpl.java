@@ -8,6 +8,7 @@ import java.util.ListIterator;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,8 @@ public class SongDAOHibernateImpl implements SongDAO{
   public void updateSong(Song song) {
     sessionFactory.getCurrentSession().update(song);
   }
-@Override
+  
+  @Override
   public void mergeSong(Song song) {
     sessionFactory.getCurrentSession().merge(song);
   }
@@ -58,10 +60,20 @@ public class SongDAOHibernateImpl implements SongDAO{
   
     
   @Override
-  public List<Song> search(String keyword){
+  public List<Song> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
     c.add(Restrictions.like("title", "%"+keyword+"%"));
-    c.setMaxResults(maxResults);
+    if(limit){
+      c.setMaxResults(maxResults);
+    }
+    c.addOrder(Order.desc("totalPlays"));
     return c.list();
   }
+
+  @Override
+  public List<Song> getTop50() {
+   Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
+    c.setMaxResults(50);
+    c.addOrder(Order.desc("totalPlays"));
+    return c.list();  }
 }

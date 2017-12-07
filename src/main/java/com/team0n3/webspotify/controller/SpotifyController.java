@@ -103,6 +103,10 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    
+    session.setMaxInactiveInterval(30*60);
+    System.out.println(session.getMaxInactiveInterval());
+    
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
@@ -121,10 +125,14 @@ public class SpotifyController {
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
   public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
+    System.out.println(artist+" fuck me please");
+    /*
     boolean isArtist = false;
-    if(artist.equals("true")){
+    if(artist.equals("true")||artist.equals("true,false")){
+      System.out.println("oh hi sp[ringa re u fucking with me again");
       isArtist = true;
-    }
+    }*/
+    boolean isArtist = !(artist.equals("false"));
     String errorMessage = userService.signup(username, password, email, isArtist);
     if(errorMessage.equals("duplicate")){
       session.setAttribute("duplicate",true);
@@ -215,16 +223,17 @@ public class SpotifyController {
   @RequestMapping(value = "/search", method= RequestMethod.GET)
   @ResponseBody
   public void search(@RequestParam String keyword, HttpSession session){
-    List<User> searchUsers = userService.search(keyword);
-    List<Album> searchAlbums = albumService.search(keyword);
-    List<Artist> searchArtists = artistService.search(keyword);
-    List<Song> searchSongs = songService.search(keyword);
-    List<Playlist> searchPlaylists = playlistService.search(keyword);
+    List<User> searchUsers = userService.search(keyword,true);
+    List<Album> searchAlbums = albumService.search(keyword,true);
+    List<Artist> searchArtists = artistService.search(keyword,true);
+    List<Song> searchSongs = songService.search(keyword,true);
+    List<Playlist> searchPlaylists = playlistService.search(keyword,true);
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
     session.setAttribute("playlistList", searchPlaylists);
+    session.setAttribute("lastSearch",keyword);
   }
   
   @RequestMapping( value = "/adminViewUnapprovedUsers", method = RequestMethod.GET)
@@ -313,5 +322,12 @@ public class SpotifyController {
       session.setAttribute("currentUser",user);
   }
   
- 
+  @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+  @ResponseBody
+  public boolean deleteAccount(@RequestParam String password, HttpSession session){
+    System.out.println(password);
+    User user=(User)session.getAttribute("currentUser");
+    boolean b=userService.removeUser(user.getUsername(), password);
+    return b;
+  }
 }

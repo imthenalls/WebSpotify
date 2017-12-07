@@ -230,8 +230,8 @@ public class UserServiceHibernateImpl implements UserService{
     
   @Transactional(readOnly = true)
   @Override
-  public List<User> search(String keyword){
-      List<User> listUsers = userDao.search(keyword);
+  public List<User> search(String keyword, boolean limit){
+      List<User> listUsers = userDao.search(keyword, limit);
       return listUsers;
   }
 
@@ -395,5 +395,28 @@ public class UserServiceHibernateImpl implements UserService{
   @Override
   public void adminRemoveUser(String admin, String removeUser) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public boolean removeUser(String username, String password) {
+    User user= userDao.getUser(username);
+    if(user == null){
+      return false;
+    }
+    MessageDigest md = null;
+    try {
+      md = MessageDigest.getInstance("SHA-256");
+    } catch (NoSuchAlgorithmException ex) {
+      return false;
+    }
+    md.update(user.getSalt());
+    md.update(password.getBytes());
+    byte hashedPass[] = md.digest();
+    if(!Arrays.equals(user.getPassword(), hashedPass)){
+      return false;
+    }
+    userDao.deleteUser(user);
+    return true;
   }
 }

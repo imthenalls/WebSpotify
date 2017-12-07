@@ -18,5 +18,7 @@ public interface SongDAO {
   
   public void mergeSong(Song song);
   
-  public List<Song> search(String keyword);
+  public List<Song> search(String keyword, boolean limit);
+  
+  public List<Song> getTop50();
 }

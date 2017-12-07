@@ -10,7 +10,7 @@
     </div>
   </div>
 </div>
-<div class="row" id="tableContainer">
+<div class="row tableContainer">
   <table class="table songTable">
     <tr>
       <th class="col-md-1"></th>

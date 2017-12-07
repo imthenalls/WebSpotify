@@ -1,4 +1,5 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
         <div id="albumArt" class="col-xs-3">
@@ -48,9 +49,7 @@
 
             </div>
             <div class="col-xs-3" id="songDuration">
-              <fmt:formatNumber value="${(currentSong.duration/60) - ((currentSong.duration/60)%1)}" maxFractionDigits="0"/>
-              :
-              <fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
+              <fmt:formatNumber value="${(currentSong.duration/60) - ((currentSong.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${currentSong.duration%60}" minIntegerDigits="2"/>
             </div>            
         </div>
 

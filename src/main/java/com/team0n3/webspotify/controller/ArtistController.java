@@ -9,9 +9,12 @@ import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
 import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.RoyaltyPaymentService;
+import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
+import comparator.SongComparator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,10 @@ public class ArtistController {
   @Autowired
   private ArtistService artistService;
   @Autowired
+  private SongService songService;
+  @Autowired
   private RoyaltyPaymentService royaltyPaymentService;
+  
   @RequestMapping(value="/followArtist", method=RequestMethod.POST)
   @ResponseBody
   public void followArtist(@RequestParam int artistId, HttpSession session){
@@ -65,9 +71,12 @@ public class ArtistController {
   public void viewArtist(@RequestParam int artistID, HttpSession session){
       Artist artist = artistService.getArtist(artistID);
       List<Album> artistAlbums = (List<Album>) artist.getAlbums();
-      List<Song> artistSongs = (List<Song>) artist.getSongs();
+      List<Song> popularSongs = (List<Song>) artist.getSongs();
+      System.out.println(popularSongs);
+      Collections.sort(popularSongs,new SongComparator());
+      System.out.println(popularSongs);
       session.setAttribute("currentArtist",artist);
-      session.setAttribute("artistSongs",artistSongs);
+      session.setAttribute("popularSongs",popularSongs);
       session.setAttribute("artistAlbums",artistAlbums);
   }
   
@@ -105,40 +114,83 @@ public class ArtistController {
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
       Artist artist = (Artist)session.getAttribute("currentArtist");
-      System.out.println(artist.toString());
-      //List<Song> unPaidSongs = royaltyPaymentService.listUnpaidSongsByArtist(artist.getArtistId());
-     // session.setAttribute("unPaidSongs",unPaidSongs);
+      System.out.println("hello "+artist.toString());
+      List<Song> unPaidSongs = royaltyPaymentService.listUnpaidSongsByArtist(artist.getArtistId());
+     
+      System.out.println("hello size "+unPaidSongs.size());
+      for(Song s : unPaidSongs){
+        System.out.println(s.toString());
+      }
+      session.setAttribute("unPaidSongs",unPaidSongs);
     }
   }
 
-  @RequestMapping(value = "/viewPendingRoyaltyPayments", method = RequestMethod.POST)
+  @RequestMapping(value = "/viewPendingRoyaltyPayments", method = RequestMethod.GET)
   @ResponseBody
-  public void viewPendingRoyaltyPayments(@RequestParam int artistId, HttpSession session){
+  public void viewPendingRoyaltyPayments( HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
-      List<RoyaltyPayment> paymentRequests = royaltyPaymentService.listUnpaidPaymentsByArtist(artistId);
+      System.out.println("do i get to die yet?");
+      Artist artist = (Artist)session.getAttribute("currentArtist");
+      List<RoyaltyPayment> paymentRequests = royaltyPaymentService.listUnpaidPaymentsByArtist(artist.getArtistId());
       session.setAttribute("paymentRequests",paymentRequests);
+    }else if(user.getAccountType() == AccountType.Admin){
+      List<RoyaltyPayment> allPayRequests = royaltyPaymentService.listUnpaidRoyaltyPayments();
+      session.setAttribute("paymentRequests",allPayRequests);//REMEMBER TO REMOVE THIS AND ALL OTHER ADMIN SHIT FROM THE SESSION WHEN LOGGING OUT AS ADMIN
     }
   }
   
-  @RequestMapping(value = "/requestRoyaltyPayment", method = RequestMethod.POST)
+  @RequestMapping(value = "/requestRoyaltyOnSong", method = RequestMethod.POST)
   @ResponseBody
-  public void requestRoyaltyPayment(@RequestParam int songId, @RequestParam int artistId, HttpSession session){
+  public void requestRoyaltyOnSong(@RequestParam int songId, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
-      RoyaltyPayment payment = royaltyPaymentService.artistRequestRoyaltyOnSong(songId, artistId);
-      List<RoyaltyPayment> paymentRequests = (ArrayList)session.getAttribute("paymentRequests");
-      paymentRequests.add(payment);
-      session.setAttribute("paymentRequests",paymentRequests);
+      Artist artist = (Artist)session.getAttribute("currentArtist");
+      RoyaltyPayment payment = royaltyPaymentService.artistRequestRoyaltyOnSong(songId, artist.getArtistId());
+     /*
+      Song song = songService.getSong(songId);
+      List<Song> unPaidSongs = (ArrayList)session.getAttribute("unPaidSongs").remove(song);
+      unPaidSongs.;
+      Session.setAttribute("unPaidSongs",unPaidSongs);    
+     */
     }
   }
   
   @RequestMapping(value = "/adminPayArtistRoyalties", method = RequestMethod.POST)
   @ResponseBody
-  public void adminPayArtistRoyalties(@RequestParam int artistId, HttpSession session){
+  public void adminPayArtistRoyalties( HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Admin){
-      royaltyPaymentService.adminPayArtist(artistId);
+      Artist artist = (Artist)session.getAttribute("currentArtist");
+      royaltyPaymentService.adminPayArtist(artist.getArtistId());
     }
+  }
+  
+  @RequestMapping(value = "/adminPaySongRoyalties", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminPaySongRoyalties(@RequestParam int songId, @RequestParam int artistId, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      royaltyPaymentService.adminPayArtistBySong(songId, artistId);
+    }
+  }
+  
+  @RequestMapping(value = "/adminPayAllRoyalties", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminPayAllRoyalties(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Admin){
+      royaltyPaymentService.adminPayAllArtists();
+    }
+  }
+  
+    
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<Artist> songs=artistService.search((String)session.getAttribute("lastSearch"), false);
+    System.out.println(songs.size());
+    session.setAttribute("allSongs", songs);
   }
 }

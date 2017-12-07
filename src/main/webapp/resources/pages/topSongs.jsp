@@ -18,7 +18,7 @@
       <th>Duration</th>
       <th></th>
     </tr>
-    <c:forEach items="${unPaidSongs}" var="Song">
+    <c:forEach items="${allSongs}" var="Song">
       <tr>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
@@ -29,7 +29,7 @@
           <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
         <td>
           <c:choose>
-             <c:when test="${currentUser.accountType == 'Artist'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">'
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
@@ -37,7 +37,7 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick=requestRoyaltyOnSong(${Song.songId})>Request royalty songs</a></li>
+                        <li><a href="#" onclick=adminRemoveSong(${Song.songId})>Remove From songs</a></li>
                     </ul>
                 </div>
              </td>
