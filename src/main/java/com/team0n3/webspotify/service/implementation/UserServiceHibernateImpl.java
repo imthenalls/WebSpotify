@@ -71,6 +71,7 @@ public class UserServiceHibernateImpl implements UserService{
     if(!Arrays.equals(user.getPassword(), hashedPass)){
       return null;
     }
+    
     return user;
   }
 

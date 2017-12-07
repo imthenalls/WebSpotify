@@ -38,4 +38,9 @@ public class PaymentDAOHibernateImpl implements PaymentDAO{
   public void deletePayment(PaymentInfo paymentInfo){
     sessionFactory.getCurrentSession().delete(paymentInfo);
   }
+  
+  @Override
+  public void updatePayment(PaymentInfo paymentInfo){
+    sessionFactory.getCurrentSession().update(paymentInfo);
+  }
 }

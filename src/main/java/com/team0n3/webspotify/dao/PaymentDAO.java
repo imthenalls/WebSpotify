@@ -18,4 +18,6 @@ public interface PaymentDAO {
   public PaymentInfo getPayment(int paymentId);
   
   public void deletePayment(PaymentInfo paymentInfo);
+  
+  public void updatePayment(PaymentInfo paymentInfo);
 }

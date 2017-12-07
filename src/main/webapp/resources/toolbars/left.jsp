@@ -46,6 +46,9 @@
         <li> 
             <a data-toggle="tab" href="#" onclick="viewPendingRoyaltyPayments()">Pending Payments</a>
         </li>
+        <li> 
+            <a data-toggle="tab" href="#" onclick="viewSongRemovalRequests()">Removal Requests </a>
+        </li>
         <li>
             <span style="color:#3399ff;">Your Playlists</span>
         </li>

@@ -15,9 +15,10 @@
             <div class="dropdown"> <span class="fa fa-chevron-down dropdown-toggle" data-toggle="dropdown"></span>
 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Private Session</a></li>
-                    <li><a href="#" class="settings-drop">Settings</a> </li>
-                    <li><a href="/logoutUser">Logout</a></li>
+                  <li><a href="#" class="viewHelp">Help</a></li>
+                  <li><a href="#">Private Session - not done</a></li>
+                  <li><a href="#" class="settings-drop">Settings</a> </li>
+                  <li><a href="/logoutUser">Logout</a></li>
                 </ul>
             </div>
         </div>

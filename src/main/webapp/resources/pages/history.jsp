@@ -3,17 +3,14 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div id="mediaInfo" class="col-xs-8">
-          <h2 class="mediaName">Queue</h2>   
+          <h2 class="mediaName">History</h2>   
       <div class="row" id="mediaSpecs">
         <!-- Insert Play Button -->
       </div>
     </div>
-    <div class='col-xs-4'>
-      <h2><a href='#' class="viewHistory">View History</a></h2>
-    </div>
   </div>
 </div>
-<div class="row tableContainer" id="queue">
+<div class="row tableContainer" id="history">
   <table class="table songTable">
     <tr>
       <th class="col-md-l">#</th>
@@ -23,13 +20,13 @@
       <th class="col-md-2 text-right">Options</th>
       <th class="col-md-2 text-right">Duration</th>
     </tr>
-    <c:forEach items="${queueSongs}" varStatus="loop" var="Song">
+    <c:forEach items="${historySongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
         <td>
           <a class="playHide">
             ${loop.index+1}
           </a>        
-          <a href="#" onclick="playSong(${Song.songId},'queue',${loop.index})">
+          <a href="#" onclick="playSong(${Song.songId},'history',${loop.index})">
             <i class="playShow fa fa-play fa-fw"></i>
           </a>
         </td>
@@ -44,10 +41,10 @@
             <ul class="dropdown-menu multi-level">
               <c:choose>
                 <c:when test="${currentUser.isFollowingSong(Song)}">
-                  <li><a href="#" songId="${Song.songId}" currentPage="queue.jsp" class="unfollowSong">Unfollow Song</a></li>
+                  <li><a href="#" songId="${Song.songId}" currentPage="history.jsp" class="unfollowSong">Unfollow Song</a></li>
                 </c:when>
                 <c:otherwise>
-                  <li><a href="#" songId="${Song.songId}" currentPage="queue.jsp" class="followSong">Follow Song</a></li>
+                  <li><a href="#" songId="${Song.songId}" currentPage="history.jsp" class="followSong">Follow Song</a></li>
                 </c:otherwise>
               </c:choose>
                 <li class="divider"></li>

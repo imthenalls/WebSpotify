@@ -72,6 +72,13 @@ and open the template in the editor.
     
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
 
+    <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/resources/js/playlist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/song.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/artist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
     <!-- Script to display images-->
     <script>
       $(function () {

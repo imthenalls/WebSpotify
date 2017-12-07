@@ -136,7 +136,7 @@ public class SongController {
   @RequestMapping( value = "/top", method = RequestMethod.GET)
   @ResponseBody
   public void getTopSongs(HttpSession session){
-    List<Song> songs=songService.getTop50Songs();
+    List<Song> songs = songService.getTop50Songs();
     session.setAttribute("allSongs", songs);
   }
   
@@ -144,8 +144,27 @@ public class SongController {
   @ResponseBody
   public void seeMore(HttpSession session){
     System.out.println((String)session.getAttribute("lastSearch"));
-    List<Song> songs=songService.search((String)session.getAttribute("lastSearch"), false);
+    List<Song> songs = songService.search((String)session.getAttribute("lastSearch"), false);
     System.out.println(songs.size());
     session.setAttribute("allSongs", songs);
   }
+  
+  @RequestMapping( value = "/adminSongRequestRemove", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminSongRequestRemove(@RequestParam int songId, HttpSession session){
+    List<Song> removalRequests = (ArrayList)session.getAttribute("removalRequests");
+    for(Song s : removalRequests){
+      if(s.getSongId() == songId){
+        Song delete = s;
+        if(delete.isRemoveSong()){
+          userService.adminDeleteSong(delete);
+          removalRequests.remove(s);
+          session.setAttribute("removalRequests",removalRequests);
+        }
+        break;
+      }
+    }
+    
+  }
+  
 }

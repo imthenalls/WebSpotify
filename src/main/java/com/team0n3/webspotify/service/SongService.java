@@ -23,4 +23,7 @@ public interface SongService {
   public void updateFollowerCount(int songId);
   
   public List<Song> getTop50Songs();
+  
+  public List<String> getGenreList();
+  
 }

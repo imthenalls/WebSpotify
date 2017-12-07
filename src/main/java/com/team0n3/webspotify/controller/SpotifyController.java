@@ -56,6 +56,7 @@ public class SpotifyController {
   @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
+    artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
@@ -84,7 +85,7 @@ public class SpotifyController {
       }
       return model;
     }
-    
+    List<String> genres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -96,6 +97,8 @@ public class SpotifyController {
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
+    genres.addAll(songService.getGenreList());
+  
     
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
@@ -103,10 +106,10 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    session.setAttribute("genres",genres);
     
-    session.setMaxInactiveInterval(30*60);
-    System.out.println(session.getMaxInactiveInterval());
-    
+    session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
+   
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
@@ -188,6 +191,18 @@ public class SpotifyController {
   {
     User user = (User)session.getAttribute("currentUser");
     user = paymentInfoService.addNewPayment(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
+        creditCompany,address);
+    session.setAttribute("currentUser",user);
+  }
+  
+  @RequestMapping(value="/editPaymentInfo",method=RequestMethod.POST)
+  @ResponseBody
+  public void editPaymentInfo(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,
+      @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, @RequestParam int zipCode, HttpSession session)
+  {
+    User user = (User)session.getAttribute("currentUser");
+    //System.out.println(user.toString());
+    paymentInfoService.updatePaymentInfo(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
         creditCompany,address);
     session.setAttribute("currentUser",user);
   }

@@ -27,8 +27,8 @@
                   <li><a href="#" onclick="followAlbum(${currentAlbum.albumId},'album.jsp')">Follow</a></li>
               </c:otherwise>
             </c:choose>
-              <li><a href='#' id="addAlbumToQueue" album="${currentAlbum.albumId}">Add to Queue - not done</a></li>
-              <li><a href='#' class='viewArtist' artist='${currentAlbum.artistId.artistId}'>View Artist - not done</a></li>
+              <li><a href='#' id="addAlbumToQueue" albumId="${currentAlbum.albumId}">Add to Queue - not done</a></li>
+              <li><a href='#' class='viewArtist' artistId='${currentAlbum.artistId.artistId}'>View Artist</a></li>
               <li><a href='#'>Add to Playlist - not done</a></li>
           </ul>
         </div>
@@ -41,8 +41,8 @@
     <tr>
       <th class="col-md-2">#</th>
       <th class="col-md-4">Title</th>
-      <th class="col-md-4 text-right">Duration</th>
       <th class="col-md-2 text-right">Options</th>
+      <th class="col-md-4 text-right">Duration</th>
     </tr>
     <c:forEach items="${albumSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
@@ -55,9 +55,6 @@
           </a>
         </td>
         <td>${Song.title}</td>
-        <td class="text-right">
-            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
-        </td>
         <td class="text-right">
           <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -72,11 +69,20 @@
                   <li><a href="#" songId="${Song.songId}" currentPage="album.jsp" class="followSong">Follow Song</a></li>
                 </c:otherwise>
               </c:choose>
-              <c:forEach items="${createdPlaylists}" var="Playlist">
-                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
-              </c:forEach>
+                  <li class="dropdown-submenu">
+                    <a href="#">Add to playlist</a>
+                    <ul class="dropdown-menu">
+                      <c:forEach items="${createdPlaylists}" var="Playlist">
+                        <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                      </c:forEach>  
+                    </ul>
+                  </li>
+              <li><a href="#" class="addSongToQueue" songId="${Song.songId}">Add Song to Queue</a></li>
             </ul>
           </div>
+        </td>
+        <td class="text-right">
+          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
       </tr>
     </c:forEach> 

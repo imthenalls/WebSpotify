@@ -29,10 +29,7 @@
     </li>
     <li role="presentation">
       <a data-toggle="pill" href="#discover" class="cat-option">Discover</a>     
-    </li>
-    <li role="presentation">
-      <a data-toggle="pill" href="#concerts" class="cat-option">Concerts</a>     
-    </li>                        
+    </li>                   
   </ul>
 </div>
 
@@ -51,8 +48,5 @@
   </div>                    
   <div id="discover" class="tab-pane fade">
     <%@include file="/resources/pages/browseTabs/discover.jsp" %>
-  </div>
-  <div id="concerts" class="tab-pane fade">
-    <%@include file="/resources/pages/browseTabs/concerts.jsp" %>
   </div>                          
 </div>
