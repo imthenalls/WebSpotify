@@ -123,4 +123,11 @@ public class ArtistServiceHibernateImpl implements ArtistService{
     }
     return remove;
   }
+  @Override
+  @Transactional(readOnly = true)
+  public void genre(String genre){
+    System.out.println("hello in artist service genre FUCK");
+    artistDao.genre("rock");
+  }
+  
 }

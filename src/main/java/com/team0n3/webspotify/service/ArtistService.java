@@ -22,4 +22,6 @@ import java.util.Collection;
     public void artistRequestSongRemoval(int songId, int artistId);
     
     public List<Song> getSongRemovalRequests();
+    
+    public void genre(String genre);
  }

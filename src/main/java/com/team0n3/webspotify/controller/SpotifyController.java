@@ -56,6 +56,7 @@ public class SpotifyController {
   @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
+    artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
@@ -108,7 +109,7 @@ public class SpotifyController {
     session.setAttribute("genres",genres);
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
-    
+   
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
