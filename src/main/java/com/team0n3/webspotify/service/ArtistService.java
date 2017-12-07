@@ -31,4 +31,6 @@ import java.util.Collection;
     public List<Artist> getTopArtists();
     
     public List<Artist> getNewArtists();
+    
+    public List<Artist> getNotFollowedArtists(String username);
  }

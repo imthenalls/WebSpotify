@@ -21,4 +21,6 @@ public interface AlbumDAO {
   public List<Album> getTopAlbums();
   
   public List<Album> getNewAlbums();
+  
+  public List<Album> getNotFollowedAlbums(String username);
 }

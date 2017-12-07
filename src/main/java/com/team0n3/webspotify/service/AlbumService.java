@@ -23,4 +23,5 @@ public interface AlbumService {
   public List<Album> getTopAlbums();
   
   public List<Album> getNewAlbums();
+  public List<Album> getNotFollowedAlbums(String username);
 }

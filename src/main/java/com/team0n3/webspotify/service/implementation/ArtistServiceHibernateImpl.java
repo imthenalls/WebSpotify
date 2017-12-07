@@ -146,5 +146,10 @@ public class ArtistServiceHibernateImpl implements ArtistService{
   public List<Artist> getNewArtists() {
     return artistDao.getNewArtists();
   }
+
+  @Override
+  public List<Artist> getNotFollowedArtists(String username) {
+    return artistDao.getNotFollowedArtists(username);
+  }
   
 }

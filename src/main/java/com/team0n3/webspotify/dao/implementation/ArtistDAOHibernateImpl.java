@@ -12,8 +12,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -146,6 +148,19 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     c.setMaxResults(chartsResults);
     c.addOrder(Order.asc("artistId"));
     return c.list();
+  }
+  
+  @Override
+  public List<Artist> getNotFollowedArtists(String username){
+    Criteria crit = sessionFactory.getCurrentSession().createCriteria(Artist.class);
+    Junction or = Restrictions.disjunction();
+    or.add(Restrictions.isEmpty("followers"));
+    crit.createAlias("followers", "fol", JoinType.LEFT_OUTER_JOIN);
+    or.add(Restrictions.ne("fol.username", username));
+    crit.add(or);
+    crit.addOrder(Order.desc("popularity"));
+    crit.setMaxResults(chartsResults);
+    return crit.list();
   }
   
 }

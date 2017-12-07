@@ -108,7 +108,9 @@ public class SpotifyController {
     System.out.println(playlistService.getTopPlaylists().size());
     System.out.println(artistService.getTopArtists().size());
     
-  
+    List<Album> nonFollowAlbum= albumService.getNotFollowedAlbums(username);
+    List<Artist> nonFollowArtist= artistService.getNotFollowedArtists(username);
+    
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
     session.setAttribute("followedPlaylists", followedPlaylists);
@@ -119,8 +121,13 @@ public class SpotifyController {
     session.setAttribute("ad", adService.randomAd());
     session.setAttribute("newArtists", artistService.getNewArtists());
     session.setAttribute("newAlbums", albumService.getNewAlbums());
+    session.setAttribute("discoverAlbums", nonFollowAlbum);
+    session.setAttribute("discoverArtists", nonFollowArtist);
+    for( Artist a:artistService.getNewArtists()){
+      System.out.println(a.getArtistName());
+  }
 
-    
+
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
    
@@ -354,6 +361,12 @@ public class SpotifyController {
     User user=(User)session.getAttribute("currentUser");
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;
+  }
+  
+  @RequestMapping(value = "/ad", method = RequestMethod.GET)
+  @ResponseBody
+  public String getAd(HttpSession session){
+    return adService.randomAd().getImagePath();
   }
   
   
