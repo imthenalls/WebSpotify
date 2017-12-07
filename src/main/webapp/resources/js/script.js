@@ -79,10 +79,15 @@ $(document).ready(function(){
   
   $(document).on({
     click:function(){
-      console.log("1");
       viewHelp();
     }
   },'.viewHelp');
+  
+  $(document).on({
+    click:function(){
+      viewHistory();
+    }
+  },'.viewHistory');
   
 });
 
@@ -174,6 +179,21 @@ function viewQueue(){
       },
       error: function(){
           console.log("Error viewing queue");
+      }
+  });
+  return false; // Makes sure that the link isn't followed
+}
+
+function viewHistory(){
+  $.ajax({
+      url: "songPlayer/viewHistory",
+      type: "GET",
+      success:function(){
+          $("#center-pane").load("/resources/pages/history.jsp",function(){
+          });
+      },
+      error: function(){
+          console.log("Error viewing history");
       }
   });
   return false; // Makes sure that the link isn't followed
@@ -364,10 +384,10 @@ function playSong(songId,setType,songIndex){
   var repeatTag = $("#repeatTag");
   var shuffleTag = $("#shuffleTag");
   var sliderVal=($('#myRange')[0]).value;
-  var queue = $("#center-pane").children().eq(1);;
-  var q = $(queue);
-  var onQueuePage = ($(q).attr("id")=='queue');
-  console.log("alsjflkajsdlkfasdjlfjalskdfjlkasj");
+  var pageType = $("#center-pane").children().eq(1);;
+  var elem = $(pageType);
+  var onQueuePage = ($(elem).attr("id")=='queue');
+  var onHistoryPage = ($(elem).attr("id")=='history');
   $.ajax({
     url: "songPlayer/playSong",
     type: "GET",
@@ -397,6 +417,9 @@ function playSong(songId,setType,songIndex){
       if(onQueuePage){
         viewQueue();
       }
+      if(onHistoryPage){
+        viewHistory();
+      }
     },
     failure: function(){
       console.log("Failure playing song");
@@ -409,16 +432,15 @@ function playNext(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
-   var queue = $("#center-pane").children().eq(1);;
-   var q = $(queue);
-   var onQueuePage = ($(q).attr("id")=='queue');
-   var queue = $('#queue');
+   var pageType = $("#center-pane").children().eq(1);;
+   var elem = $(pageType);
+   var onQueuePage = ($(elem).attr("id")=='queue');
+   var onHistoryPage = ($(elem).attr("id")=='history');
    adCount+=1;
    if(adCount>=5){
      $("#ad").show();
      adCount=0;
    }
-   console.log(queue);
   $.ajax({
     url:"songPlayer/playNext",
     type:"GET",
@@ -446,6 +468,9 @@ function playNext(){
       if(onQueuePage){
         viewQueue();
       }
+      if(onHistoryPage){
+        viewHistory();
+      }
     },
     failure:function(){
       console.log("Failure playing next song");
@@ -458,9 +483,10 @@ function playPrev(){
    var repeatTag = $("#repeatTag");
    var shuffleTag = $("#shuffleTag");
    var sliderVal=($('#myRange')[0]).value;
-   var queue = $("#center-pane").children().eq(1);;
-   var q = $(queue);
-   var onQueuePage = ($(q).attr("id")=='queue');
+  var pageType = $("#center-pane").children().eq(1);;
+  var elem = $(pageType);
+  var onQueuePage = ($(elem).attr("id")=='queue');
+  var onHistoryPage = ($(elem).attr("id")=='history');
   $.ajax({
     url:"songPlayer/playPrev",
     type:"GET",
@@ -485,6 +511,9 @@ function playPrev(){
       });
       if(onQueuePage){
         viewQueue();
+      }
+      if(onHistoryPage){
+        viewHistory();
       }
     },
     failure:function(){

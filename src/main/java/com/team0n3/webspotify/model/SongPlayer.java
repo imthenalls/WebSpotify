@@ -18,15 +18,22 @@ public class SongPlayer {
     
     private List<Song> queue = new ArrayList();
     private List<Song> shuffledQueue = new ArrayList();
+    private List<Song> history = new ArrayList();
     
     private boolean isRepeatSet=false;
     private boolean isRepeatSong=false;
     private boolean isShuffle=false;
     
     private int tailIndex;
+    
+    private int maxHistorySize = 30;
 
     public Song getNextSong(){
-      if(isShuffle){
+      if(history.size()==maxHistorySize){ //if history list full, remove oldest element
+        history.remove(maxHistorySize-1);
+      }
+      if(isShuffle){ //if shuffle is enabled
+        history.add(0,shuffledQueue.get(shuffledPosition));
         if(isRepeatSong){
           currentSong = shuffledQueue.get(shuffledPosition);
           return currentSong;
@@ -46,7 +53,8 @@ public class SongPlayer {
           return currentSong;
         }
       }
-      else{
+      else{ //shuffle is not enabled
+        history.add(0,queue.get(position));
         if(isRepeatSong) //if repeat is toggled, send back the same song
           return (Song)queue.get(position); 
         if(position == tailIndex){ //currently at last element of queue
@@ -143,6 +151,10 @@ public class SongPlayer {
         Collections.rotate(shuffledQueue,-shift);
       }
       shuffledPosition=0;
+    }
+    
+    public List<Song> getHistory(){
+      return history;
     }
 
   public void toggleRepeat(String setting) {

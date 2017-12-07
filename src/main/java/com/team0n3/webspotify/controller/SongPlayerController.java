@@ -63,6 +63,10 @@ public class SongPlayerController {
       Collection<Song> queueSongs = (Collection<Song>)session.getAttribute("queueSongs");
       player.setQueues(queueSongs,songIndex);
     }
+    else if (setType.equals("history")){
+      Collection<Song> historySongs = (Collection<Song>)session.getAttribute("historySongs");
+      player.setQueues(historySongs,songIndex);
+    }
     songService.incrementTotalPlays(song.getSongId());
 
     session.setAttribute("currentSong",song);
@@ -111,6 +115,13 @@ public class SongPlayerController {
   public void viewQueue(HttpSession session){
     List<Song> queueSongs = player.getCorrectQueue();
     session.setAttribute("queueSongs",queueSongs);
+  }
+  
+  @RequestMapping(value="/viewHistory",method=RequestMethod.GET)
+  @ResponseBody
+  public void viewHistory(HttpSession session){
+    List<Song> historySongs = player.getHistory();
+    session.setAttribute("historySongs",historySongs);
   }
   
   @RequestMapping(value="/addSongToQueue",method=RequestMethod.GET)
