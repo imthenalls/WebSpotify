@@ -2,7 +2,7 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div id="mediaInfo" class="col-xs-8">
-          <h2 class="mediaName">Songs</h2>   
+          <h3 class="mediaName">Songs</h3>   
       <div class="row" id="mediaSpecs">
         <!-- Insert Play Button -->
       </div>
@@ -24,12 +24,12 @@
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
         <td>            
-          <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
+          <fmt:formatNumber value="${Song.duration / 60}" maxFractionDigits="0"/>
           :
-          <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
+          <fmt:formatNumber value="${Song.duration % 60}" minIntegerDigits="2"/>
+        </td>
           <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
@@ -46,8 +46,6 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        </td>
-
       </tr>
     </c:forEach> 
   </table>

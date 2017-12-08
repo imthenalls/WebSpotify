@@ -18,9 +18,12 @@ $(document).ready(function(){
     },'#adminPill');
   
   $(document).on('click', '.ban-button', function(){
-    banUser($(this).attr('username'))
+    banUser($(this).attr('username'));
   });
-    
+  
+  $(document).on('click', '#addUserSubmit',function(){
+      addUser();
+  });
 }); 
 function adminSongRequestRemove(songId,currentPage){
     console.log("asdasdasdasdasdasd");
@@ -41,7 +44,6 @@ function adminSongRequestRemove(songId,currentPage){
     return false;
 }
 function adminApproveUser(username){
-    console.log("asdasdasdasdasdasd");
     $.ajax({
         url: "adminApproveUser",
         type: "POST",
@@ -50,10 +52,11 @@ function adminApproveUser(username){
         }),
         success:function(){
           console.log("Success approving user");
-              $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
+          $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
         },
         error: function(){
-                console.log("Failure approving user");
+          alert("error");
+          $("#center-pane").load("/resources/pages/unapprovedUsers.jsp");
         }
     });
     return false;
@@ -272,9 +275,34 @@ function adminViewAllArtists(){
     });
     return false; // Makes sure that the link isn't followed
 }
+
 function viewUploadPage(){
   $("#center-pane").load("/resources/pages/songUpload.jsp");
-  }
+}
+
+function adminViewAddUser(){
+  $("#center-pane").load("/resources/pages/addUser.jsp");
+}
+
+function addUser(){
+  $.ajax({
+    url: 'addUser',
+    type: 'POST',
+    data:({
+      username: $('username').val(),
+      password: $('password').val(),
+      email: $('email').val()
+    }),
+    sucess: function(data){
+      console.log('here');
+      $("#center-pane").load("/resources/pages/profile.jsp");
+    },
+    error: function(data){
+      console.log('error');
+    }
+  }); 
+}
+
 function banUser(username){
   console.log(username);
   $.ajax({

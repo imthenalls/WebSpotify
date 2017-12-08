@@ -111,6 +111,25 @@ public class UserServiceHibernateImpl implements UserService{
     userDao.addUser(user);
     return "noError";
   }
+  @Transactional(readOnly = false)
+  @Override
+  public void addUser(String username, String password, String email, boolean isArtist) {
+    
+    SecureRandom random = new SecureRandom();
+    byte salt[] = new byte[12];
+    MessageDigest md = null;
+    random.nextBytes(salt);
+    md.update(salt);
+    md.update(password.getBytes());
+    byte hashedPass[] = md.digest();
+    User user = new User(username, email, hashedPass, salt);   
+    user.setImagePath(defaultPath);
+    if(isArtist){
+      user.setAccountType(AccountType.UnapprovedArtist);
+    }
+    userDao.addUser(user);
+  }
+  
   @Override
   @Transactional(readOnly = true)
    public User getUser(String username){

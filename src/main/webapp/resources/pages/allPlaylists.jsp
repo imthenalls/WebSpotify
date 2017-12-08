@@ -1,22 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
-    <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
-    </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Playlist</span>
+        <h2 class="mediaType">Playlists</h2>
       </div>
       <div class="row">
-        <a href="#">
-          <h3 class="mediaName">Songs</h3>    
-        </a>
-      </div>
-      <div class="row" id="mediaSpecs">
-        <span>
-          ${currentPlaylist.description}
-        </span>
       </div>
     </div>
   </div>
@@ -25,13 +14,13 @@
   <table class="table playlistTable">
     <tr>
       <th>Name</th>
-      <th>aaaa</th>
+      <th></th>
     </tr>
     <c:forEach items="${allPlaylists}" var="Playlist">
         <tr class="tableRow">
         <td><a href="#" onclick=viewPlaylist(${Playlist.playlistID})>${Playlist.playlistName}</a></td>
          <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >

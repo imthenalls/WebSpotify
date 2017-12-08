@@ -33,5 +33,8 @@
     <li> 
         <a data-toggle="tab" href="#" onclick="adminViewAllUsers()">View Users' Status </a>
     </li>
+    <li> 
+        <a data-toggle="tab" href="#" onclick="adminViewAddUser()">Add User</a>
+    </li>
   </ul>
 </div>

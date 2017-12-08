@@ -13,6 +13,7 @@ public interface UserService {
   
   public User login(String username, String password);
   public String signup(String username, String password, String email, boolean isArtist);
+  public void addUser(String username, String password, String email, boolean isArtist);
   public List<Playlist> getCreatedPlaylists(String username);
   public List<User> listAllUsers();
   public User getUser(String username);

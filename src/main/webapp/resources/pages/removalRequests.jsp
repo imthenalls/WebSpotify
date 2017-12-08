@@ -27,9 +27,8 @@
           <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
           :
           <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
           <c:choose>
-             <c:when test="${currentUser.accountType == 'Admin'}">'
+             <c:when test="${currentUser.accountType == 'Admin'}">
              <td>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
@@ -46,8 +45,6 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        </td>
-
       </tr>
     </c:forEach> 
   </table>

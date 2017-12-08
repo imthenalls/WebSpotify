@@ -2,7 +2,7 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div id="mediaInfo" class="col-xs-8">
-          <h2 class="mediaName">Songs</h2>   
+          <h2 class="mediaName">Albums</h2>   
       <div class="row" id="mediaSpecs">
         <!-- Insert Play Button -->
       </div>
