@@ -467,8 +467,7 @@ function playNext(){
    var onHistoryPage = ($(elem).attr("id")=='history');
    adCount+=1;
    if(adCount>=5){
-     $("#ad").show();
-     adCount=0;
+     showAd();
    }
   $.ajax({
     url:"songPlayer/playNext",
@@ -632,3 +631,16 @@ function addPlaylistToQueue(playlistId){
   return false;
 }
 
+function showAd(){
+  
+  $.ajax({
+    url: "/ad",
+    type: "GET",
+    success:function(response){
+      $("#adImg").attr("src", response)
+      $("#ad").show();
+      adCount=0;
+    }
+  });
+  
+}

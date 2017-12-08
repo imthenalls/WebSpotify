@@ -80,7 +80,6 @@ a:hover{
 }
 
 #navPill{
-    background-color: #999999;
     text-align:center;
     font-weight:bold;
 }
@@ -566,7 +565,6 @@ border-radius:0px;
 border-bottom-width: 4px;
 border-bottom-style: solid;
 border-bottom-color: #3399ff;
-    color: #000 !important;
   background-color: transparent !important;
 }
 .nav-pills > li > a{
@@ -631,4 +629,14 @@ border-bottom-color: #3399ff;
 .albumPic{
   height: 100%;
   width: 100%;
+}
+.search-btn{
+  color:#fff;
+  background-color: #000;
+  border-color: #999999;
+}
+
+.search-btn:hover{
+    color: #3399ff;
+    background-color: #000;
 }

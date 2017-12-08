@@ -15,4 +15,5 @@ public interface ArtistDAO {
     public List<Song> genre(String genre);
     public List<Artist> getTopArtists();
     public List<Artist> getNewArtists();
+    public List<Artist> getNotFollowedArtists(String username);
 }

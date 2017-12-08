@@ -90,7 +90,7 @@ public class SpotifyController {
       }
       return model;
     }
-    List<String> genres = new ArrayList();
+    List<String> allGenres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -102,7 +102,7 @@ public class SpotifyController {
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
-    genres.addAll(songService.getGenreList());
+    allGenres.addAll(songService.getGenreList());
     
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
@@ -110,7 +110,7 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
-    session.setAttribute("genres",genres);
+    session.setAttribute("allGenres",allGenres);
     session.setAttribute("ad", adService.randomAd());
     
     List<Album> topAlbums = albumService.getTopAlbums();
@@ -128,8 +128,12 @@ public class SpotifyController {
       
     session.setAttribute("newArtists", newArtists);
     session.setAttribute("newAlbums", newAlbums);
-
     
+    List<Album> nonFollowAlbum= albumService.getNotFollowedAlbums(username);
+    List<Artist> nonFollowArtist= artistService.getNotFollowedArtists(username);
+    
+    session.setAttribute("discoverAlbums", nonFollowAlbum);
+    session.setAttribute("discoverArtists", nonFollowArtist);
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
    
@@ -363,6 +367,12 @@ public class SpotifyController {
     User user=(User)session.getAttribute("currentUser");
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;
+  }
+  
+  @RequestMapping(value = "/ad", method = RequestMethod.GET)
+  @ResponseBody
+  public String getAd(HttpSession session){
+    return adService.randomAd().getImagePath();
   }
   
   

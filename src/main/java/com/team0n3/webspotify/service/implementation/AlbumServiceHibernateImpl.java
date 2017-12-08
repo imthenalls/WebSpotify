@@ -81,5 +81,10 @@ public class AlbumServiceHibernateImpl implements AlbumService{
   public List<Album> getNewAlbums() {
     return albumDao.getNewAlbums();
   }
+
+  @Override
+  public List<Album> getNotFollowedAlbums(String username) {
+    return albumDao.getNotFollowedAlbums(username);
+  }
   
 }
