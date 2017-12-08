@@ -16,7 +16,7 @@
         <a data-toggle="tab" href="#" id="view-unapproved-artists" onclick="adminViewUnapprovedArtists()">Admin Unapproved Artists</a>
     </li>
     <li> 
-        <a data-toggle="tab" href="#" onclick="adminViewAllPlaylists()">ALL Playlists</a>
+        <a data-toggle="tab" href="#" onclick="adminViewAllPlaylists()">All Playlists</a>
     </li>
     <li> 
         <a data-toggle="tab" href="#" onclick="viewUnpaidSongs()">Unpaid Songs</a>
@@ -29,6 +29,9 @@
     </li>
     <li> 
         <a data-toggle="tab" href="#" onclick="viewUploadPage()">Upload</a>
+    </li>
+    <li> 
+        <a data-toggle="tab" href="#" onclick="adminViewAllUsers()">View Users' Status </a>
     </li>
   </ul>
 </div>

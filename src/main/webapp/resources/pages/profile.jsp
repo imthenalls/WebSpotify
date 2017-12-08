@@ -40,6 +40,11 @@
         <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>     
       </li>      
     </c:when>
+      <c:when test="${viewedUser.accountType == 'Artist'}">
+      <li role="presentation">
+        <a data-toggle="pill" href="#artist" class="cat-option" id="artistPill">Artist</a>     
+      </li>      
+    </c:when>
     <c:otherwise></c:otherwise>
   </c:choose>
   </ul>

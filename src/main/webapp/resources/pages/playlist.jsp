@@ -96,7 +96,7 @@
   <table class="table songTable">
     <tr>
       <th class="col-md-2"></th>
-      <th class="col-md-4">Title</th>
+      <th class="col-md-4"><a href="#" class="sortTitle" playlistId="${currentPlaylist.playlist.ID}">Title</a></th>
       <th class="col-md-2">Artist</th>
       <th class="col-md-2">Album</th> 
       <th class="col-md-2 text-right">Duration</th>
