@@ -35,12 +35,12 @@
       <a data-toggle="pill" href="#followers" class="cat-option">Followers</a>     
     </li>
     <c:choose>
-    <c:when test="${viewedUser.accountType == 'Admin'}">
+    <c:when test="${currentUser.accountType == 'Admin'}">
       <li role="presentation">
         <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>     
       </li>      
     </c:when>
-      <c:when test="${viewedUser.accountType == 'Artist'}">
+      <c:when test="${currentUser.accountType == 'Artist'}">
       <li role="presentation">
         <a data-toggle="pill" href="#artist" class="cat-option" id="artistPill">Artist</a>     
       </li>      

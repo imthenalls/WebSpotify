@@ -1,6 +1,7 @@
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
+import com.team0n3.webspotify.model.Ad;
 import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
@@ -392,5 +393,26 @@ public class SpotifyController {
   @ResponseBody
   public void banUser(@RequestParam String username, HttpSession session){
     userService.banUser(username);
+  }
+  
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<User> users=userService.search((String)session.getAttribute("lastSearch"), false);
+    session.setAttribute("userList", users);
+  }
+  
+  
+  @RequestMapping( value = "/viewAds", method = RequestMethod.GET)
+  @ResponseBody
+  public void adminViewAds(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+       List<Ad> ads = adService.listAllAds();
+       session.setAttribute("adList",ads);
+    }
   }
 }

@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 /**
  *
  * @author spike
@@ -69,13 +71,13 @@ public class PlaylistController {
 
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
   @ResponseBody
-  public String viewPlaylist(@RequestParam int playlistID, HttpSession session){
+  public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
     System.out.println("hiiiiiiiiii");
     Playlist playlist = playlistService.getPlaylist(playlistID);
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
     session.setAttribute("songList",playlistSongs);
-    return playlist.getImagePath();
+    //return playlist.getImagePath();
   }
   
   @RequestMapping(value = "/renamePlaylist", method= RequestMethod.POST)
@@ -263,6 +265,20 @@ public class PlaylistController {
     List<Playlist> playlists=playlistService.getTopPlaylists();
     session.setAttribute("publicPlaylists", playlists);
   }
-  
+  @RequestMapping( value = "/sortTitle", method = RequestMethod.GET)
+  @ResponseBody
+  public void sortByTitle(@RequestParam int playlistId ,HttpSession session){
+    Playlist p = (Playlist)session.getAttribute("currentPlaylist");
+    ArrayList<Song> psongs = new ArrayList();
+    psongs.addAll(p.getSongs());
+    p.setSongs(psongs);
+    Collections.sort(psongs, new Comparator<Song>() {
+      @Override
+      public int compare(Song s1, Song s2) {
+        return  s1.getTitle().compareTo(s2.getTitle());
+          }
+      });
+     session.setAttribute("currentPlaylist",p);
+  }
    
 }

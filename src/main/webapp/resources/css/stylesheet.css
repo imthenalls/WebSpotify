@@ -535,9 +535,14 @@ a:hover{
   max-height: 100%;
   max-width: 100%;
 }
+#ad-no-pos{
+  overflow: hidden;
+  max-height: 100%;
+  max-width: 100%;
+  text-align: center;
+}
 .ad-container {
-    display: flex;
-    position: relative;
+    display:inline-block;
     height: 100px;
     width: 470px;
 }

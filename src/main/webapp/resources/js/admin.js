@@ -292,3 +292,15 @@ function banUser(username){
     
   }); 
 }
+function viewAds(){
+  console.log("hi");
+  $.ajax({
+    url: "viewAds",
+    type: "GET",
+    success: function(){
+      $("#center-pane").load("/resources/pages/azz.jsp");
+    }
+    
+  }); 
+  return false;
+}

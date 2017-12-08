@@ -64,6 +64,25 @@ $(document).ready(function(){
       return false;
       }
     }, '#deleteAccountForm');
+    
+    $(document).on({
+      click: function(){
+        $.ajax({
+        url: "/seeMore",
+        type: "GET",
+
+        success:function(){
+          $("#center-pane").load("/resources/pages/searchUsers.jsp",function(){
+              console.log("Success unfollowing song");
+          });
+        },
+        error: function(){
+          console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+      }
+    },'#moreUsers');
 });
 
 function uploadImage($files, handler) {
