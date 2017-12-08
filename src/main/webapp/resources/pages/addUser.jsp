@@ -10,7 +10,7 @@
           <label for="artistAccount Opt">Artist?</label>
           <input id="artistAccountOpt" name="artist" type="checkbox" value="true">
           <input id="artistAccountOpt" name="artist" type="hidden" value="false" >
-          <button class="btn btn-lg btn-primary btn-block" id="addUserSubmit" >Add User</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" >Add User</button>
         </form>
       </div>
     </div>

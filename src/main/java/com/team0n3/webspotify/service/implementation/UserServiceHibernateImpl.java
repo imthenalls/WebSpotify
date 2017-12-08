@@ -114,10 +114,13 @@ public class UserServiceHibernateImpl implements UserService{
   @Transactional(readOnly = false)
   @Override
   public void addUser(String username, String password, String email, boolean isArtist) {
-    
     SecureRandom random = new SecureRandom();
     byte salt[] = new byte[12];
     MessageDigest md = null;
+    try {
+          md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+        }
     random.nextBytes(salt);
     md.update(salt);
     md.update(password.getBytes());
@@ -460,7 +463,7 @@ public class UserServiceHibernateImpl implements UserService{
     session.setAttribute("allUsersTest", allUsersTest);
   */
 
-
+  @Override
   @Transactional(readOnly = false)
   public void banUser(String username){
     User user = userDao.getUser(username); 

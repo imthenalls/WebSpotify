@@ -11,7 +11,6 @@ $(document).ready(function(){
   $(document).on({
       click: function(){
         var name = $("#profilePane").attr("user");
-        console.log("HIIIIII");
         $("#profilePane").load("/resources/pages/adminPanel.jsp");
         return false;
       }
@@ -21,8 +20,10 @@ $(document).ready(function(){
     banUser($(this).attr('username'));
   });
   
-  $(document).on('click', '#addUserSubmit',function(){
+  $(document).on('submit', '#addUserForm',function(){
       addUser();
+      $("#center-pane").load("/resources/pages/profile.jsp");
+      alert("User Added");
   });
 }); 
 function adminSongRequestRemove(songId,currentPage){
@@ -286,18 +287,13 @@ function adminViewAddUser(){
 
 function addUser(){
   $.ajax({
-    url: 'addUser',
-    type: 'POST',
-    data:({
-      username: $('username').val(),
-      password: $('password').val(),
-      email: $('email').val()
-    }),
-    sucess: function(data){
+    url: "addUser",
+    type: "POST",
+    data: $("#addUserForm").serialize(),
+    success: function(){
       console.log('here');
-      $("#center-pane").load("/resources/pages/profile.jsp");
     },
-    error: function(data){
+    error: function(){
       console.log('error');
     }
   }); 
