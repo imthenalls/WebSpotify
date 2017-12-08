@@ -4,7 +4,7 @@ var muteToggle = $("#toggleMute")[0];
 var adCount=0;
 
 $(document).ready(function(){
-  
+
   $("#center-pane").load("/resources/pages/center.jsp");
   w3.includeHTML(playBack);
   $('#myCarousel').carousel({

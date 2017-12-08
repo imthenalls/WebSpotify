@@ -10,10 +10,12 @@
   
   <div class="userFollow">
     <c:choose>
-      <c:when test="${viewedUser.username != currentUser.username}">
+      <c:when test="${viewedUser.username != currentUser.username && !currentUser.isFollowingUser(viewedUser)}">
           <button class="btn btn-primary" id="followUser" >Follow</button>
-        
       </c:when>
+      <c:otherwise>
+        <button class="btn btn-primary" id="unfollowUser" >Unfollow</button>
+      </c:otherwise>
     </c:choose>
   </div>
   <div class="row" id="profileSections">
@@ -31,10 +33,10 @@
         <a data-toggle="pill" href="#publicPlaylists" class="cat-option" id="profilePlay">Public Playlists</a>                      
       </li>
       <li role="presentation">
-        <a data-toggle="pill" href="#following" class="cat-option">Following</a>     
+        <a data-toggle="pill" href="#following" class="cat-option" id="profileFollowing">Following</a>     
       </li>
       <li role="presentation">
-       <a data-toggle="pill" href="#followers" class="cat-option">Followers</a>     
+       <a data-toggle="pill" href="#followers" class="cat-option" id="profileFollower">Followers</a>     
       </li>
     </c:when>
     <c:when test="${currentUser.accountType == 'Admin'}">

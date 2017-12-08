@@ -428,6 +428,9 @@ public class UserServiceHibernateImpl implements UserService{
     following.remove(followed);
     user.setFollowing(following);
     userDao.updateUser(user);
+    for(User u : following){
+      System.out.println(u.toString());
+    }
     return user;
   }
   

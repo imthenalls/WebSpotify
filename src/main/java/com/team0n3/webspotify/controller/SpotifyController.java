@@ -116,6 +116,7 @@ public class SpotifyController {
     List<Song> followedSongs = new ArrayList<>();
     List<Artist> followedArtists = new ArrayList<>();
     List<User> followedUsers = new ArrayList();
+    List<User> followerUsers = new ArrayList();
     
     createdPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
@@ -123,6 +124,7 @@ public class SpotifyController {
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
     followedUsers.addAll(user.getFollowing());
+    followerUsers.addAll(user.getFollowers());
     allGenres.addAll(songService.getGenreList());
     
     session.setAttribute("currentUser", user);
@@ -132,6 +134,7 @@ public class SpotifyController {
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
     session.setAttribute("followedUsers",followedUsers);
+    session.setAttribute("followerUsers",followerUsers);
     session.setAttribute("allGenres",allGenres);
     session.setAttribute("ad", adService.randomAd());
     
@@ -144,6 +147,7 @@ public class SpotifyController {
     session.setAttribute("topPlaylists", topPlaylists);
     session.setAttribute("topArtists", topArtists);
     session.setAttribute("topSongs", topSongs);    
+
     
     List<Artist> newArtists = artistService.getNewArtists();
     List<Album> newAlbums = albumService.getNewAlbums();
@@ -452,9 +456,31 @@ public class SpotifyController {
   @ResponseBody
   public void followUser(@RequestParam String username, HttpSession session){
     User user = (User)session.getAttribute("currentUser");
+    List<User> followedUsers = (List<User>)session.getAttribute("followedUsers");
+    followedUsers.add(userService.getUser(username));
+    session.setAttribute("followedUsers",followedUsers);
     user = userService.followUser(user.getUsername(),  username);
     session.setAttribute("currentUser",user);
   }
+  
+  @RequestMapping(value="/unfollowUser", method=RequestMethod.POST)
+  @ResponseBody
+  public void unfollowUser(@RequestParam String username, HttpSession session){
+    User currentUser = (User)session.getAttribute("currentUser");
+    List<User> followedUsers = (List<User>)session.getAttribute("followedUsers");
+    for(User s:followedUsers){
+      System.out.println("in controeller111111"+s.toString());
+      if(s.getUsername().equals(username)){
+        System.out.println("in un following okay?");
+        currentUser = userService.unfollowUser(currentUser.getUsername(), username);
+        followedUsers.remove(s);
+        session.setAttribute("followedUsers",followedUsers);
+        session.setAttribute("currentUser",currentUser);
+        return;
+      }
+    }
+  }
+  
   @RequestMapping( value = "/adminDeleteUser", method = RequestMethod.POST)
   @ResponseBody
   public void adminDeleteUser(@RequestParam String username, HttpSession session){
@@ -464,4 +490,26 @@ public class SpotifyController {
     session.setAttribute("userList",userList);
   }
   
+  
+  @RequestMapping( value = "/viewFollowers", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewFollowers(HttpSession session){
+    User user = (User)session.getAttribute("viewedUser");
+    
+    session.setAttribute("userList", user.getFollowers());
+    for(User u : user.getFollowers()){
+      System.out.println("this is a follower"+u.toString());
+    }
+    
+  }
+  
+   @RequestMapping( value = "/viewFollowing", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewFollowing(HttpSession session){
+    User user = (User)session.getAttribute("viewedUser");
+    session.setAttribute("userList", user.getFollowing());
+    for(User u : user.getFollowing()){
+      System.out.println("this is a follower"+u.toString());
+    }
+  }
 }

@@ -211,4 +211,19 @@ public class ArtistController {
     List<Song> removals = artistService.getSongRemovalRequests();
     session.setAttribute("removalRequests",removals);
   }
+  
+  @RequestMapping(value = "/discoverArtist", method = RequestMethod.POST)
+  @ResponseBody
+  public void discoverArtist(@RequestParam int artistId, HttpSession session){
+    User currentUser = (User)session.getAttribute("currentUser");
+    List<Artist> followedArtists = (List<Artist>)session.getAttribute("followedArtists");
+    followedArtists.add(artistService.getArtist(artistId));
+    session.setAttribute("followedArtists",followedArtists);
+    currentUser = userService.followArtist(currentUser.getUsername(), artistId);
+    session.setAttribute("currentUser",currentUser);
+     currentUser = (User)session.getAttribute("currentUser");
+    List<Artist> allArtists = artistService.getNotFollowedArtists(currentUser.getUsername());
+    session.setAttribute("discoverArtists",allArtists);
+  }
+  
 }
