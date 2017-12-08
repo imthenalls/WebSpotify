@@ -2,8 +2,8 @@
   <h1>Help</h1>
   <div class="row">
           <div class="col-xs-offset-8">
-              <a class="btn btn-outline-secondary prev" href="#helpCarousel" title="go back" data-slide="prev"><i class="fa fa-lg fa-chevron-left"></i></a>
-              <a class="btn btn-outline-secondary next" href="#helpCarousel" title="more" data-slide="next"><i class="fa fa-lg fa-chevron-right"></i></a>
+              <a class="btn btn-outline-secondary prev" href="#helpCarousel" title="Prev" data-slide="prev"><i class="fa fa-lg fa-chevron-left"></i></a>
+              <a class="btn btn-outline-secondary next" href="#helpCarousel" title="Next" data-slide="next"><i class="fa fa-lg fa-chevron-right"></i></a>
           </div>
   </div>
   <div id="helpCarousel" class="carousel slide">
@@ -14,7 +14,7 @@
                 <div class="thumbnail">
                     <p>This is what the homepage looks like for your Team 0n3 Application!  You can click on any
                     of the tabs in the browse page to view some interesting new content.</p>
-                    <img src="/resources/img/help/help1.png" alt="Image" class="img-responsive">
+                    <img src="/resources/img/help/browse.png" alt="Image" class="img-responsive">
                 </div>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="thumbnail">
                     <p>On any of these pages, you will see new and interesting content every day.</p>
-                    <img src="/resources/img/help/help1.png" alt="Image" class="img-responsive">
+                    <img src="/resources/img/help/tab.png" alt="Image" class="img-responsive">
                 </div>
             </div>
           </div>

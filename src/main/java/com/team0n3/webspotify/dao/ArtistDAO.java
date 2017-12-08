@@ -12,7 +12,7 @@ public interface ArtistDAO {
     public void deleteArtist(Artist artist);
     public void updateArtist(Artist artist);
     public List<Artist> search(String keyword, boolean limit);
-    public List<Song> genre(String genre);
+    public List<Song> getGenrePlaylist(String genre);
     public List<Artist> getTopArtists();
     public List<Artist> getNewArtists();
     public List<Artist> getNotFollowedArtists(String username);

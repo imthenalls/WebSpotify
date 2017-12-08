@@ -86,6 +86,7 @@ function unfollowArtist(artistId,currentPage) {
 };
 
 function viewArtist(id){
+  console.log("hey");
   $.ajax({
     url: "artist/viewArtist",
     type: "GET",
