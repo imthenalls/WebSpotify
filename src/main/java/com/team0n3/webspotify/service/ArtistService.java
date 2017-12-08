@@ -24,7 +24,7 @@ import java.util.Collection;
     
     public List<Song> getSongRemovalRequests();
     
-    public void genre(String genre);
+    public List<Song> getGenrePlaylist(String genre);
     
     public Collection<User> viewFollowers(int artistId);
     

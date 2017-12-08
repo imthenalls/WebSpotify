@@ -9,6 +9,7 @@ import com.team0n3.webspotify.enums.AccountType;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
+import com.team0n3.webspotify.service.ArtistService;
 import com.team0n3.webspotify.service.PlaylistService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.UserService;
@@ -53,6 +54,9 @@ public class PlaylistController {
   
   @Autowired
   private UserService userService;
+  
+  @Autowired
+  private ArtistService artistService;
   
   @Autowired
   private ServletContext context;
@@ -281,4 +285,12 @@ public class PlaylistController {
      session.setAttribute("currentPlaylist",p);
   }
    
+  
+  @RequestMapping(value="/viewGenrePlaylist",method=RequestMethod.GET)
+  @ResponseBody
+  public void viewGenrePlaylist(@RequestParam String genre, HttpSession session){
+    List<Song> genreSongs = artistService.getGenrePlaylist(genre);
+    session.setAttribute("genreSongs",genreSongs);
+    session.setAttribute("currentGenre",genre);
+  }
 }

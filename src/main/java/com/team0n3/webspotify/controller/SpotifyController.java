@@ -78,16 +78,30 @@ public class SpotifyController {
       session.setAttribute("currentUser", user);
       ModelAndView model= new ModelAndView("redirect:/viewArtistBrowse");
       List<Artist> allArtists = artistService.listAllArtists();
+      Artist artist = null;
       for(Artist a : allArtists){       
         if(a.getUser() != null){
           System.out.println(a.getUser().getUsername());
           if((a.getUser().getUsername()).equals(username)){
-            System.out.println("he;llo");
+            artist = a;
             session.setAttribute("currentArtist", a);
+            break;
           }
         }
         
       }
+      List<Song> allSongs = new ArrayList();
+      allSongs.addAll(songService.listAllSongs());
+      session.setAttribute("allSongs",allSongs);
+      List<Song> artistSongs = new ArrayList();
+      for(Song s : allSongs){
+        if(s.getArtistId().getArtistId() == ((Artist)session.getAttribute("currentArtist")).getArtistId()){
+          artistSongs.add(s);
+        }
+      }       
+      session.setAttribute("artistSongs", artistSongs);
+      
+
       return model;
     }
     
@@ -371,7 +385,6 @@ public class SpotifyController {
   @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
   @ResponseBody
   public boolean deleteAccount(@RequestParam String password, HttpSession session){
-    System.out.println(password);
     User user=(User)session.getAttribute("currentUser");
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;

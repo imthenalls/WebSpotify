@@ -24,6 +24,14 @@ $(document).ready(function(){
     }, '#playlist-image2');
     
     $(document).on({
+      click:function(){
+        console.log("boo");
+        viewGenrePlaylist($(this).attr("genre"));
+      }
+    },'.viewGenrePlaylist');
+    
+    
+    $(document).on({
      change: function(){
       var $files = document.getElementById('iPath2');
       if ($files.files && $files.files[0]) {
@@ -451,6 +459,21 @@ function toggleCollab(id){
 
 function viewTopPlaylists(){
   $("#center-pane").load("/resources/pages/charts/topPlaylists.jsp");
+}
+
+function viewGenrePlaylist(genre){
+  console.log("here",genre);
+  $.ajax({
+    url: "playlist/viewGenrePlaylist",
+    type: "GET",
+    data:({
+      genre: genre
+    }),
+    success: function(){
+      $("#center-pane").load("/resources/pages/genre.jsp");
+    }
+  });
+  return false;
 }
 function sortPlaylistTitle(playlistId){
   $.ajax({

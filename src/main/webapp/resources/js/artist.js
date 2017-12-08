@@ -86,6 +86,7 @@ function unfollowArtist(artistId,currentPage) {
 };
 
 function viewArtist(id){
+  console.log("hey");
   $.ajax({
     url: "artist/viewArtist",
     type: "GET",
@@ -112,4 +113,10 @@ function viewFollowedArtists(){
 function viewTopArtists(){
   $("#center-pane").load("/resources/pages/charts/topArtists.jsp");
 }
+
+function artistViewArtistSongs(){
+  $("#center-pane").load("/resources/pages/artistSongs.jsp",function(){});
+        
+}
+
 

@@ -1,9 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
-    <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
-    </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
         <span class="mediaType"></span>
@@ -21,7 +18,7 @@
     <tr>
       <th>Name</th>
       <th>Account Status</th>
-      <th>Ban</th>
+      <th>Ban/Unban</th>
     </tr>
     <c:forEach items="${userList}" var="User">
         <tr class="tableRow">
@@ -36,19 +33,25 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-         <c:choose>
-           <c:when test="${User.accountType == 'Banned'}">           
-             <td class="tableRow">
-              <button class="btn btn-primary ban-button" username="${User.username}">Unban</button>
-             </td>
-           </c:when>
-           <c:otherwise>        
-             <td class="tableRow">
-              <button class="btn btn-primary ban-button" username="${User.username}">Ban</button>
-             </td>
-           </c:otherwise>
-         </c:choose>
-
+          <td>
+           <div class="dropdown">
+             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+               Options
+               <span class="caret"></span>
+             </button>
+             <ul class="dropdown-menu">
+               <c:choose>
+                 <c:when test="${User.accountType == 'Banned'}">
+                   <li><a class="ban-button" username="${User.username}">Unban</a></li>
+                 </c:when>
+                 <c:otherwise> 
+                   <li><a class="ban-button" username="${User.username}">Ban</a></li>
+                 </c:otherwise>
+                 </c:choose>
+               <li><a class = "delete-user" href="#" username="${User.username}">delete user</a></li>
+             </ul>
+           </div>
+          </td>
         </tr>
     </c:forEach> 
 

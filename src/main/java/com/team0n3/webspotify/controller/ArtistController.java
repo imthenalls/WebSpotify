@@ -187,14 +187,14 @@ public class ArtistController {
     session.setAttribute("allSongs", songs);
   }
   
-  @RequestMapping(value = "/viewArtistSongs", method = RequestMethod.GET)
+  @RequestMapping(value = "/artistViewArtistSongs", method = RequestMethod.GET)
   @ResponseBody
-  public void viewArtistSongs(HttpSession session){
+  public void artistViewArtistSongs(HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
       Artist artist = (Artist)session.getAttribute("currentArtist");
-      Collection<Song> songs = artist.getSongs();
-      session.setAttribute("artistSongs", songs);
+      //Collection<Song> songs = artist.getSongs();
+     // session.setAttribute("artistSongs", songs);
     }
   }
   
