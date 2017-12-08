@@ -640,3 +640,7 @@ border-bottom-color: #3399ff;
     color: #3399ff;
     background-color: #000;
 }
+#adImg{
+  height:100%;
+  width:100%;
+}

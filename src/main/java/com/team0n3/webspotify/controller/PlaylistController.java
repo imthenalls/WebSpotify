@@ -194,6 +194,7 @@ public class PlaylistController {
         break;
       }
     }
+    session.setAttribute("currentPlaylist", playlist);
     session.setAttribute("createdPlaylists", createdPlaylists);
   }
   

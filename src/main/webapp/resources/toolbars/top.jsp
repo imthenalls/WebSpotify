@@ -24,11 +24,11 @@
         </div>
     
         <div class="nav navbar-right">
-            <p><a href="#" class="click" onclick="viewProfile()">${currentUser.username}</a></p>
+            <p><a href="#" class="click viewUser" username="${currentUser.username}">${currentUser.username}</a></p>
         </div>
         <div class="nav navbar-right">
             <div id="container">
-              <a href="#" class="click" onclick="viewProfile()"><img src="${currentUser.imagePath}" class="img-responsive img-circle" id="user-img-sm"></a>
+              <a href="#" class="click viewUser" username="${currentUser.username}"><img src="${currentUser.imagePath}" class="img-responsive img-circle" id="user-img-sm"></a>
             </div>
         </div>
     </div>
