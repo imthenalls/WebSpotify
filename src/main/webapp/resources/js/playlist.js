@@ -121,6 +121,19 @@ $(document).ready(function(){
       return false;
       }
     },'#morePlaylists');
+    
+    $(document).on({
+      submit: function(){
+        sortPlaylist($(this).attr("playlistId"));
+        return false;
+      }
+    },".sortTitle");
+    
+    $(document).on({
+      click:function(){
+        $("#iPath2").click();
+      }
+    }, '#playlist-image2');
  });
  
  function viewPlaylist(id){
@@ -427,6 +440,24 @@ function toggleCollab(id){
           
             $("#centerPane").load("/resources/pages/playlist.jsp",function(){
                
+            });
+        },
+        error: function(){
+            console.log("Error viewing playlist");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function sortPlaylistTitle(playlistId){
+  $.ajax({
+        url: "playlist/sortTitle",
+        type: "POST",
+        data: ({
+            playlistId: playlistId
+        }),
+        success:function(){
+            $("#centerPane").load("/resources/pages/playlist.jsp",function(){
             });
         },
         error: function(){

@@ -18,7 +18,7 @@
       <th>Duration</th>
       <th></th>
     </tr>
-    <c:forEach items="${allSongs}" var="Song">
+    <c:forEach items="${allSongs}" var="Song" begin="0" end="34">
       <tr>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
