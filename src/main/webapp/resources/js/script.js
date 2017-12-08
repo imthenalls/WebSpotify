@@ -32,8 +32,8 @@ $(document).ready(function(){
       audio.addEventListener("ended",playNext,false);
       slider.addEventListener("input",changeVolume,false);
       muteToggle.addEventListener("mouseup",toggleMute,false);
-
   } 
+  
   //var activeToggle = $("#browseToggle"); //By default, the center pane shown is the browse overview
   function scrub(event){
       if(!audio.ended){
@@ -470,6 +470,7 @@ function playNext(){
    var onQueuePage = ($(elem).attr("id")=='queue');
    var onHistoryPage = ($(elem).attr("id")=='history');
    adCount+=1;
+   audio.pause();
    if(adCount>=5){
      showAd();
    }
@@ -600,10 +601,13 @@ function toggleShuffle(){
     $(shuffleTag).addClass("shuffleOn");
   $.ajax({
     url: "songPlayer/toggleShuffle",
-    type: "GET"
+    type: "GET",
+    success: function(){
+      if(onQueuePage){
+        viewQueue();
+      }
+    }
   });
-  if(onQueuePage)
-    viewQueue();
   return false;
 }
 

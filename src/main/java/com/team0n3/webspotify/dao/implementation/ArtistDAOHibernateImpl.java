@@ -76,13 +76,11 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     @Override
     public List<Song> getGenrePlaylist(String genre){
       SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("select * from artistgenres");
-      System.out.println("hello genre in artistdao");
       List<Object[]> rows = query.list();
       List<String> artistsInGenre = new ArrayList();
       for(Object[] row : rows){
         if(row[3].toString().equals(genre)){
           artistsInGenre.add(row[1].toString());
-          System.out.println(row[1].toString());
         }
       }
       List<Song> allSongs = new ArrayList();
@@ -130,8 +128,6 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
             }
        });
       Collections.reverse(top50Songs);
-      for(Song s : top50Songs)
-        System.out.println(s.toString()+"-"+s.getArtistId().getArtistName()+"-"+s.getTotalPlays());
       return top50Songs;
     }       
 

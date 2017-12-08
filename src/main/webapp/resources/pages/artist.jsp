@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="col-md-12">
-    <button class="btn btn-primary" id="artistPlayButton">Play</button>
+    <button class="btn btn-primary" onclick="playSong(${popularSongs[0].songId},'artist',0)" id="artistPlayButton">Play</button>
     <c:choose>
       <c:when test="${currentUser.isFollowingArtist(currentArtist)}">
         <button class="btn btn-info unfollowArtist" artistId="${currentArtist.artistId}" currentPage="artist.jsp">Unfollow</button>

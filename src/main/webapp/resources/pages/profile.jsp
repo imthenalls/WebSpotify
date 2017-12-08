@@ -10,7 +10,10 @@
   
   <div class="userFollow">
     <c:choose>
-      <c:when test="${viewedUser.username != currentUser.username && !currentUser.isFollowingUser(viewedUser)}">
+      <c:when test="${viewedUser.username == currentUser.username}">
+        
+      </c:when>
+      <c:when test="${!currentUser.isFollowingUser(viewedUser)}">
           <button class="btn btn-primary" id="followUser" >Follow</button>
       </c:when>
       <c:otherwise>
@@ -25,9 +28,6 @@
     <c:when test="${currentUser.accountType == 'Free' || currentUser.accountType == 'Premium' || currentUser.accountType == 'Unapproved'}">
       <li role="presentation" class="active">
         <a data-toggle="pill" href="#overview" class="cat-option">Overview</a>                      
-      </li>
-      <li role="presentation">
-        <a data-toggle="pill" href="#recent" class="cat-option">Recently Played</a>     
       </li>
       <li role="presentation">
         <a data-toggle="pill" href="#publicPlaylists" class="cat-option" id="profilePlay">Public Playlists</a>                      
@@ -56,7 +56,6 @@
   
   <div id="profilePane" user="${viewedUser.username}">
     
-
   </div>
   
   </div>

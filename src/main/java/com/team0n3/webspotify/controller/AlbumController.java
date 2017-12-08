@@ -90,7 +90,6 @@ public class AlbumController {
   public void adminAddAlbum(@RequestParam String albumName,@RequestParam int popularity, @RequestParam String imagePath, HttpSession session)
   {
     User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
       userService.adminAddAlbum(albumName,  popularity,  imagePath);    
   }
@@ -119,9 +118,7 @@ public class AlbumController {
    @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
-    System.out.println((String)session.getAttribute("lastSearch"));
     List<Album> songs=albumService.search((String)session.getAttribute("lastSearch"), false);
-    System.out.println(songs.size());
     session.setAttribute("allSongs", songs);
   }
 }

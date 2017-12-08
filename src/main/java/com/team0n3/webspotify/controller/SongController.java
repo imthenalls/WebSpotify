@@ -73,7 +73,6 @@ public class SongController {
       List<Song> allSongs = songService.listAllSongs();
       session.setAttribute("allSongs",allSongs); 
       List<Song> topSongs = songService.getTop50Songs();
-      int i = 0;
       Collections.sort(topSongs, new Comparator<Song>() {
         @Override
         public int compare(Song s1, Song s2) {
@@ -81,12 +80,6 @@ public class SongController {
             }
       });
       Collections.reverse(topSongs);
-      //Collections.sort(topSongs,);
-      //topSongs.sort((s1, s2) -> s1.totalPlays - s2.totalPlays); 
-      for(Song s : topSongs){
-        System.out.println(i+": "+s.toString()+"-"+s.getTotalPlays());
-        i++;
-      }
     }
     
   }
@@ -96,7 +89,6 @@ public class SongController {
   public void adminAddSong(@RequestParam String title, HttpSession session)
   {
     User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
     {
         userService.adminAddSong(title);    
@@ -136,9 +128,7 @@ public class SongController {
   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
-    System.out.println((String)session.getAttribute("lastSearch"));
     List<Song> songs = songService.search((String)session.getAttribute("lastSearch"), false);
-    System.out.println(songs.size());
     session.setAttribute("allSongs", songs);
   }
   
@@ -157,7 +147,5 @@ public class SongController {
         break;
       }
     }
-    
   }
-  
 }

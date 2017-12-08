@@ -32,41 +32,43 @@ public class SongPlayer {
       if(history.size()==maxHistorySize){ //if history list full, remove oldest element
         history.remove(maxHistorySize-1);
       }
-      if(isShuffle){ //if shuffle is enabled
+      if(isShuffle)
+      {
         history.add(0,shuffledQueue.get(shuffledPosition));
-        if(isRepeatSong){
+        if(isRepeatSong){ //shuffle and repeatSong
           currentSong = shuffledQueue.get(shuffledPosition);
           return currentSong;
         }
+        
         if(shuffledPosition == tailIndex){
-          if(isRepeatSet){
+          if(isRepeatSet){ //shuffle,endOfQueue,repeat
             shuffledPosition=0;
             currentSong = shuffledQueue.get(shuffledPosition);
             return currentSong;
           }
-          else
+          else //shuffle,endOfQueue,noRepeat
             return null;
         }
-        else{
+        else{ //shuffle
           shuffledPosition++;
           currentSong = shuffledQueue.get(shuffledPosition);
           return currentSong;
         }
       }
-      else{ //shuffle is not enabled
+      else{ 
         history.add(0,queue.get(position));
-        if(isRepeatSong) //if repeat is toggled, send back the same song
+        if(isRepeatSong)
           return (Song)queue.get(position); 
-        if(position == tailIndex){ //currently at last element of queue
+        if(position == tailIndex){ //noShuffle,endOfQueue,repeat
           if(isRepeatSet){
             position = 0;
             currentSong = queue.get(position);
             return currentSong;
           }
-          else
+          else //noShuffle,endOfQueue,noRepeat
             return null;
         }
-        else{ //simply moving to next song in queue
+        else{ //noShuffle
           position++;
           currentSong = queue.get(position);
           return currentSong;
@@ -123,7 +125,7 @@ public class SongPlayer {
 
     public List<Song> getCorrectQueue(){
       if(isShuffle){
-        List<Song> returnList = new ArrayList<>(shuffledQueue.subList(shuffledPosition,shuffledQueue.size()-1));
+        List<Song> returnList = new ArrayList<>(shuffledQueue.subList(shuffledPosition,shuffledQueue.size()));
         return returnList;
       }
       else{

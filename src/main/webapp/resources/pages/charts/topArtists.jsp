@@ -14,7 +14,6 @@
           <a href="#" onclick="viewArtist(${Artist.artistId})"><img src="${Artist.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic"></a>
           <div class="albumOverlay">     
             <button class="fa fa-remove albumButton" onclick="unfollowArtist(${Artist.artistId},'topArtists.jsp')"></button>
-            <button class="fa fa-play albumButton"></button>
             </div>
         </div>
         <a href="#" onclick="viewArtist(${Artist.artistId})"><h4>${Artist.artistName}</h4></a>
