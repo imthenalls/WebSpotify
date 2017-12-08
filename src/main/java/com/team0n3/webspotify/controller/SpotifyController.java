@@ -1,6 +1,7 @@
 package com.team0n3.webspotify.controller;
 
 import com.team0n3.webspotify.enums.AccountType;
+import com.team0n3.webspotify.model.Ad;
 import javax.servlet.http.HttpSession;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.User;
@@ -77,16 +78,30 @@ public class SpotifyController {
       session.setAttribute("currentUser", user);
       ModelAndView model= new ModelAndView("redirect:/viewArtistBrowse");
       List<Artist> allArtists = artistService.listAllArtists();
+      Artist artist = null;
       for(Artist a : allArtists){       
         if(a.getUser() != null){
           System.out.println(a.getUser().getUsername());
           if((a.getUser().getUsername()).equals(username)){
-            System.out.println("he;llo");
+            artist = a;
             session.setAttribute("currentArtist", a);
+            break;
           }
         }
         
       }
+      List<Song> allSongs = new ArrayList();
+      allSongs.addAll(songService.listAllSongs());
+      session.setAttribute("allSongs",allSongs);
+      List<Song> artistSongs = new ArrayList();
+      for(Song s : allSongs){
+        if(s.getArtistId().getArtistId() == ((Artist)session.getAttribute("currentArtist")).getArtistId()){
+          artistSongs.add(s);
+        }
+      }       
+      session.setAttribute("artistSongs", artistSongs);
+      
+
       return model;
     }
     
@@ -398,5 +413,26 @@ public class SpotifyController {
   @ResponseBody
   public void banUser(@RequestParam String username, HttpSession session){
     userService.banUser(username);
+  }
+  
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<User> users=userService.search((String)session.getAttribute("lastSearch"), false);
+    session.setAttribute("userList", users);
+  }
+  
+  
+  @RequestMapping( value = "/viewAds", method = RequestMethod.GET)
+  @ResponseBody
+  public void adminViewAds(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    System.out.println(user.toString());
+    if(user.getAccountType() == AccountType.Admin)
+    {
+       List<Ad> ads = adService.listAllAds();
+       session.setAttribute("adList",ads);
+    }
   }
 }

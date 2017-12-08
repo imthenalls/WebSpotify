@@ -83,7 +83,6 @@ and open the template in the editor.
         <div id="ad">
           <div class="ad-container">
             <img id="adImg" src="${pageContext.request.contextPath}${ad.imagePath}">
-            <span id="closeAdSpan" class="fa fa-close x-button"></span>
           </div>
         </div>
       </div>

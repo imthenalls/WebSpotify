@@ -114,3 +114,9 @@ function viewTopArtists(){
   $("#center-pane").load("/resources/pages/charts/topArtists.jsp");
 }
 
+function artistViewArtistSongs(){
+  $("#center-pane").load("/resources/pages/artistSongs.jsp",function(){});
+        
+}
+
+
