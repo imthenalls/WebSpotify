@@ -7,12 +7,6 @@
         <li> 
             <span style="color:#3399ff;">Your Library</span>
         </li>
-        <li> 
-            <a data-toggle="tab" href="#">Your Daily Mix</a>
-        </li>
-        <li> 
-            <a data-toggle="tab" href="#">Recently Played</a>
-        </li>
         <li>
           <a data-toggle="tab" href="#" onclick="viewFollowedSongs()">Songs</a>
         </li>

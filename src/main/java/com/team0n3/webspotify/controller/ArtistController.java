@@ -72,9 +72,7 @@ public class ArtistController {
       Artist artist = artistService.getArtist(artistID);
       List<Album> artistAlbums = (List<Album>) artist.getAlbums();
       List<Song> popularSongs = (List<Song>) artist.getSongs();
-      System.out.println(popularSongs);
       Collections.sort(popularSongs,new SongComparator());
-      System.out.println(popularSongs);
       session.setAttribute("currentArtist",artist);
       session.setAttribute("popularSongs",popularSongs);
       session.setAttribute("artistAlbums",artistAlbums);
@@ -114,13 +112,7 @@ public class ArtistController {
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
       Artist artist = (Artist)session.getAttribute("currentArtist");
-      System.out.println("hello "+artist.toString());
       List<Song> unPaidSongs = royaltyPaymentService.listUnpaidSongsByArtist(artist.getArtistId());
-     
-      System.out.println("hello size "+unPaidSongs.size());
-      for(Song s : unPaidSongs){
-        System.out.println(s.toString());
-      }
       session.setAttribute("unPaidSongs",unPaidSongs);
     }
   }
@@ -130,7 +122,6 @@ public class ArtistController {
   public void viewPendingRoyaltyPayments( HttpSession session){
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
-      System.out.println("do i get to die yet?");
       Artist artist = (Artist)session.getAttribute("currentArtist");
       List<RoyaltyPayment> paymentRequests = royaltyPaymentService.listUnpaidPaymentsByArtist(artist.getArtistId());
       session.setAttribute("paymentRequests",paymentRequests);
@@ -181,9 +172,7 @@ public class ArtistController {
   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
-    System.out.println((String)session.getAttribute("lastSearch"));
     List<Artist> songs=artistService.search((String)session.getAttribute("lastSearch"), false);
-    System.out.println(songs.size());
     session.setAttribute("allSongs", songs);
   }
   
@@ -221,9 +210,12 @@ public class ArtistController {
     session.setAttribute("followedArtists",followedArtists);
     currentUser = userService.followArtist(currentUser.getUsername(), artistId);
     session.setAttribute("currentUser",currentUser);
-     currentUser = (User)session.getAttribute("currentUser");
+    currentUser = (User)session.getAttribute("currentUser");
     List<Artist> allArtists = artistService.getNotFollowedArtists(currentUser.getUsername());
     session.setAttribute("discoverArtists",allArtists);
+    for(Artist a : allArtists){
+        System.out.println(a.toString());
+    }
   }
   
 }

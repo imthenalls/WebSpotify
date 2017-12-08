@@ -97,7 +97,6 @@ public class SongServiceHibernateImpl implements SongService{
     unpayedPlays++;
     song.setUnpayedPlays(unpayedPlays);
     songDao.updateSong(song);
-    System.out.println(song.getUnpayedPlays()+"the song is fucking retarded");
   }
  
   @Override

@@ -84,7 +84,6 @@ public class RoyaltyPaymentServiceHibernateImpl implements RoyaltyPaymentService
     for(RoyaltyPayment r : allPayments){
       if(!(r.isIsPaid())&& r.getArtistId().getArtistId() == artistId )
         artistPayments.add(r);
-      System.out.println(r.toString()+"hello");
     }
     return artistPayments;
   }
@@ -101,8 +100,6 @@ public class RoyaltyPaymentServiceHibernateImpl implements RoyaltyPaymentService
   public RoyaltyPayment artistRequestRoyaltyOnSong(int songId, int artistId){
     Song song = songDao.getSong(songId);
     Artist artist = artistDao.getArtist(artistId);
-    System.out.println(song.toString()+" "+artist.toString());
-    System.out.println("asdasdasdasdasdasd "+song.currentPayOut());
     RoyaltyPayment payment = new RoyaltyPayment(song, artist, song.currentPayOut(),false);
     royaltyPaymentDao.addRoyaltyPayment(payment);
     return payment;

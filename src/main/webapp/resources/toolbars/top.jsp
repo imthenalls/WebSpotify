@@ -16,8 +16,8 @@
 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                   <li><a href="#" class="viewHelp">Help</a></li>
-                  <li><a href="#">Private Session - not done</a></li>
                   <li><a href="#" class="settings-drop">Settings</a> </li>
+                  <li class="divider"></li>
                   <li><a href="/logoutUser">Logout</a></li>
                 </ul>
             </div>

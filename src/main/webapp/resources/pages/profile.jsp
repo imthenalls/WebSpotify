@@ -13,7 +13,7 @@
       <c:when test="${viewedUser.username == currentUser.username}">
         
       </c:when>
-      <c:when test="${viewedUser.username != currentUser.username && !currentUser.isFollowingUser(viewedUser)}">
+      <c:when test="${!currentUser.isFollowingUser(viewedUser)}">
           <button class="btn btn-primary" id="followUser" >Follow</button>
       </c:when>
       <c:otherwise>

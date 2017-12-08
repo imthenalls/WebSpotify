@@ -65,14 +65,20 @@ and open the template in the editor.
       <div id="editModalLocation"></div>
       
       
-      <div id="lyricModal"class="modal fade" role="dialog">
-        <div class="modal-header">
-              <span id="closeSpan"><button id="closeButton" type="button" class="btn fa fa-close" data-dismiss="modal"></button></span>
+      <div id="lyricModal" class="modal fade" role="dialog">
+         <div class="modal-dialog" role="document">  
+          <div class="modal-content"> 
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          <div class="modal-dialog">
-              <div id="lyricsHere"></div>
+            <div id="lyricsHere" class="modal-body">
+            </div>
           </div>
+        </div>
       </div>
+      
       <div id="main-section">
         <div id="leftTool">
           <%@include file="/resources/toolbars/left.jsp" %>

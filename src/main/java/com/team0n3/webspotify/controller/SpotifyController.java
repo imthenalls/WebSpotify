@@ -61,8 +61,6 @@ public class SpotifyController {
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
     
-    
-// artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
@@ -70,20 +68,17 @@ public class SpotifyController {
     
     if(user.getAccountType() == AccountType.Admin){
         session.setAttribute("currentUser", user);
-
         ModelAndView model= new ModelAndView("redirect:/viewAdminBrowse");
         session.setAttribute("viewedUser", user);
         return model;   
     }
     if(user.getAccountType() == AccountType.Artist){
-      // System.out.println("he;llo");
       session.setAttribute("currentUser", user);
       ModelAndView model= new ModelAndView("redirect:/viewArtistBrowse");
       List<Artist> allArtists = artistService.listAllArtists();
       Artist artist = null;
       for(Artist a : allArtists){       
         if(a.getUser() != null){
-          System.out.println(a.getUser().getUsername());
           if((a.getUser().getUsername()).equals(username)){
             artist = a;
             session.setAttribute("currentArtist", a);
@@ -91,8 +86,8 @@ public class SpotifyController {
             break;
           }
         }
-        
       }
+      
       List<Song> allSongs = new ArrayList();
       allSongs.addAll(songService.listAllSongs());
       session.setAttribute("allSongs",allSongs);
@@ -103,14 +98,13 @@ public class SpotifyController {
         }
       }       
       session.setAttribute("artistSongs", artistSongs);
-      
-
       return model;
     }
     
     if(user.getAccountType() == AccountType.Banned){
       return(new ModelAndView("redirect:/viewBanned"));
     }
+    
     List<String> allGenres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
@@ -185,12 +179,7 @@ public class SpotifyController {
   @RequestMapping(value = "/signupUser", method = RequestMethod.POST)
   public ModelAndView signupUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
-    /*
-    boolean isArtist = false;
-    if(artist.equals("true")||artist.equals("true,false")){
-      System.out.println("oh hi sp[ringa re u fucking with me again");
-      isArtist = true;
-    }*/
+
     boolean isArtist = !(artist.equals("false"));
     String errorMessage = userService.signup(username, password, email, isArtist);
     if(errorMessage.equals("duplicate")){
@@ -214,7 +203,6 @@ public class SpotifyController {
   public void addUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
           @RequestParam String artist, HttpSession session) {
     boolean isArtist = !(artist.equals("false"));
-    System.out.println("QQQQQQQQQQQQQQ"); 
     userService.addUser(username, password, email, isArtist);
   }
   
@@ -269,7 +257,6 @@ public class SpotifyController {
       @RequestParam int expirationYear, @RequestParam String creditCompany, @RequestParam String address, @RequestParam int zipCode, HttpSession session)
   {
     User user = (User)session.getAttribute("currentUser");
-    //System.out.println(user.toString());
     paymentInfoService.updatePaymentInfo(user, cardNumber,cardHolder, ccv, zipCode, expirationMonth, expirationYear,
         creditCompany,address);
     session.setAttribute("currentUser",user);
@@ -299,11 +286,11 @@ public class SpotifyController {
     List<Artist> searchArtists = artistService.search(keyword,true);
     List<Song> searchSongs = songService.search(keyword,true);
     List<Playlist> searchPlaylists = playlistService.search(keyword,true);
-    if(searchArtists.size()!=0){
+    if(searchArtists.size()!=0){ //Artist found with search term
       session.setAttribute("topResultArtist", searchArtists.get(0));
       session.setAttribute("topResultSong", null);
     }
-    else if(searchSongs.size()!=0){
+    else if(searchSongs.size()!=0){ //Song found with search term
       session.setAttribute("topResultSong", searchSongs.get(0));
       session.setAttribute("topResultArtist", null);
     }
@@ -319,7 +306,6 @@ public class SpotifyController {
   @ResponseBody
   public void adminViewUnapprovedUsers(HttpSession session){
     User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
     {
        List<User> allUsers = userService.listAllUsers();
@@ -328,11 +314,7 @@ public class SpotifyController {
            if(u.getAccountType() == AccountType.Unapproved)
            {
                unapprovedUsers.add(u);
-               System.out.println(u.getUsername());
            }
-       }
-       for(User u:unapprovedUsers){  
-         System.out.println(u.getUsername());  
        }
        session.setAttribute("unapprovedUsers",unapprovedUsers);
     }
@@ -342,7 +324,6 @@ public class SpotifyController {
   @ResponseBody
   public void adminViewUnapprovedArtists(HttpSession session){  
     User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
     {
        List<User> allUsers = userService.listAllUsers();
@@ -351,11 +332,7 @@ public class SpotifyController {
            if(u.getAccountType() == AccountType.UnapprovedArtist)
            {
                unapprovedArtists.add(u);
-               System.out.println(u.getUsername());
            }
-       }
-       for(User u:unapprovedArtists){  
-         System.out.println(u.getUsername());  
        }
        session.setAttribute("unapprovedArtists",unapprovedArtists);
     }
@@ -437,7 +414,6 @@ public class SpotifyController {
    @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
-    System.out.println((String)session.getAttribute("lastSearch"));
     List<User> users=userService.search((String)session.getAttribute("lastSearch"), false);
     session.setAttribute("userList", users);
   }
@@ -447,7 +423,6 @@ public class SpotifyController {
   @ResponseBody
   public void adminViewAds(HttpSession session){
     User user = (User)session.getAttribute("currentUser");
-    System.out.println(user.toString());
     if(user.getAccountType() == AccountType.Admin)
     {
        List<Ad> ads = adService.listAllAds();
@@ -471,9 +446,7 @@ public class SpotifyController {
     User currentUser = (User)session.getAttribute("currentUser");
     List<User> followedUsers = (List<User>)session.getAttribute("followedUsers");
     for(User s:followedUsers){
-      System.out.println("in controeller111111"+s.toString());
       if(s.getUsername().equals(username)){
-        System.out.println("in un following okay?");
         currentUser = userService.unfollowUser(currentUser.getUsername(), username);
         followedUsers.remove(s);
         session.setAttribute("followedUsers",followedUsers);
@@ -497,12 +470,7 @@ public class SpotifyController {
   @ResponseBody
   public void viewFollowers(HttpSession session){
     User user = (User)session.getAttribute("viewedUser");
-    
     session.setAttribute("userList", user.getFollowers());
-    for(User u : user.getFollowers()){
-      System.out.println("this is a follower"+u.toString());
-    }
-    
   }
   
    @RequestMapping( value = "/viewFollowing", method = RequestMethod.GET)
@@ -510,8 +478,5 @@ public class SpotifyController {
   public void viewFollowing(HttpSession session){
     User user = (User)session.getAttribute("viewedUser");
     session.setAttribute("userList", user.getFollowing());
-    for(User u : user.getFollowing()){
-      System.out.println("this is a follower"+u.toString());
-    }
   }
 }

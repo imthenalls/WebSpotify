@@ -75,10 +75,8 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   @Transactional(readOnly = false)
   public void renamePlaylist(int playlistId, String playlistName){
       Playlist playlist = playlistDao.getPlaylist(playlistId);
-       System.out.println("pre helo rename "+playlist.getPlaylistName());
       playlist.setPlaylistName( playlistName);
       playlistDao.updatePlaylist( playlist);
-      System.out.println("hello rename "+playlist.getPlaylistName());
   }
   @Override
   public List<Playlist> search(String keyword, boolean limit){

@@ -17,8 +17,8 @@
       <th class="col-md-3">Title</th>
       <th class="col-md-2">Artist</th>
       <th class="col-md-2">Album</th> 
-      <th class="col-md-2 text-right">Duration</th>
       <th class="col-md-2 text-right">Options</th>
+      <th class="col-md-2 text-right">Duration</th>
     </tr>
     <c:forEach items="${followedSongs}" varStatus="loop" var="Song">
       <tr class="tableRow">
@@ -33,21 +33,26 @@
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
         <td><a href="#" onclick="viewArtist(${Song.artistId.artistId})">${Song.artistId.artistName}</a></td>
         <td><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.albumId.albumName}</a></td>
-        <td class="text-right">            
-          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
-        </td>
         <td class="text-right">
           <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu multi-level">
               <li><a href="#" songId="${Song.songId}" currentPage="followedSongs.jsp" class="unfollowSong">Unfollow Song</a></li>
-              <c:forEach items="${createdPlaylists}" var="Playlist">
-                <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
-              </c:forEach>
+              <li class="dropdown-submenu">
+                <a href="#">Add to Playlist</a>
+                <ul class="dropdown-menu">
+                  <c:forEach items="${createdPlaylists}" var="Playlist">
+                    <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                  </c:forEach>
+                </ul>
+              </li>
             </ul>
           </div>
+        </td>
+        <td class="text-right">            
+          <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
         </td>
 
       </tr>

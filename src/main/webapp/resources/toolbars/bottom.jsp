@@ -1,9 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <div id="bottom-toolbar">
     <div class="col-xs-3" id="songInfo">
+      <c:if test="${currentSong!=null}">
         <div id="albumArt" class="col-xs-3">
-            <a href='#"' onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
+            <a href='#"' class="hoverIcon" onclick="viewAlbum(${currentSong.albumId.albumId})"><img src="${currentSong.albumId.imagePath}" onerror="this.src='http://placehold.it/50x50'" height="50" width="50"></a>
         </div>
         <div class="col-xs-4">
             <div class="row">
@@ -13,9 +15,7 @@
                 <a href="#" id="artistNamePlayer" onclick="viewArtist(${currentSong.artistId.artistId})">${currentSong.artistId.artistName}</a>
             </div>
         </div>
-        <a href="#">
-            <i id="addSong" class="fa fa-plus" title="Add Song to Playlist"></i>
-        </a>
+      </c:if>
     </div>
     <div class="col-xs-6" id="musicPlayer">
         <div class="row" id="musicControl">

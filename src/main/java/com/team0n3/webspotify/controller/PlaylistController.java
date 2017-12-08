@@ -64,10 +64,8 @@ public class PlaylistController {
   @RequestMapping(value = "/createPlaylist",  method = RequestMethod.POST)
   @ResponseBody
   public void createPlaylist(@RequestParam String name, @RequestParam String description,@RequestParam String path,  HttpSession session) throws IOException{
-    System.out.println(path);
     User currentUser= (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.createPlaylist(name,path,description,currentUser);
-    System.out.println(playlist.toString());
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     createdPlaylists.add(playlist);
     session.setAttribute("createdPlaylists", createdPlaylists);
@@ -76,7 +74,6 @@ public class PlaylistController {
   @RequestMapping(value = "/viewPlaylist", method= RequestMethod.GET)
   @ResponseBody
   public void viewPlaylist(@RequestParam int playlistID, HttpSession session){
-    System.out.println("hiiiiiiiiii");
     Playlist playlist = playlistService.getPlaylist(playlistID);
     List<Song> playlistSongs = playlistService.getSongsInPlaylists(playlistID);
     session.setAttribute("currentPlaylist",playlist);
@@ -87,7 +84,6 @@ public class PlaylistController {
   @RequestMapping(value = "/renamePlaylist", method= RequestMethod.POST)
   @ResponseBody
   public void renamePlaylist(@RequestParam String playlistName, HttpSession session){ 
-      System.out.println("HELLO");
     Playlist playlist = (Playlist)session.getAttribute("currentPlaylist");
     playlistService.renamePlaylist(playlist.getPlaylistID(),playlistName);
   }
@@ -158,7 +154,6 @@ public class PlaylistController {
   @ResponseBody
   public void viewAllPlaylists(HttpSession session){
     List<Playlist> allPlaylists = playlistService.listAllPlaylists();
-    System.out.println(allPlaylists.get(0));
     session.setAttribute("allPlaylists",allPlaylists);
   }
 
@@ -188,10 +183,8 @@ public class PlaylistController {
   @RequestMapping(value = "/updatePlaylist",  method = RequestMethod.POST)
   @ResponseBody
   public void updatePlaylist(@RequestParam int id, @RequestParam String name, @RequestParam String description,@RequestParam String path,  HttpSession session) throws IOException{
-    System.out.println(path);
     User currentUser= (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.updatePlaylist(id, name,path,description);
-    System.out.println(playlist.toString());
     
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     for(int i=0; i<createdPlaylists.size(); i++){
@@ -215,10 +208,8 @@ public class PlaylistController {
     for (Playlist p : allPlaylists) {
       if(p.getIsPublic()){
         publicPlaylists.add(p);
-        System.out.println(p.getImagePath());
       }
     }
-    
     session.setAttribute("publicPlaylists",publicPlaylists);
   }
   
@@ -227,7 +218,6 @@ public class PlaylistController {
   public void toggleCollab(@RequestParam int id, HttpSession session){
     User currentUser= (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.toggleCollab(id);
-
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     for(int i=0; i<createdPlaylists.size(); i++){
       if(createdPlaylists.get(i).getPlaylistID()==playlist.getPlaylistID()){
@@ -244,7 +234,6 @@ public class PlaylistController {
   public void togglePublic(@RequestParam int id, HttpSession session){
     User currentUser= (User)session.getAttribute("currentUser");
     Playlist playlist = playlistService.togglePublic(id);
-
     List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
     for(int i=0; i<createdPlaylists.size(); i++){
       if(createdPlaylists.get(i).getPlaylistID()==playlist.getPlaylistID()){
@@ -256,19 +245,20 @@ public class PlaylistController {
     session.setAttribute("createdPlaylists", createdPlaylists);
   }
   
-   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
-    System.out.println((String)session.getAttribute("lastSearch"));
     List<Playlist> playlists=playlistService.search((String)session.getAttribute("lastSearch"), false);
     session.setAttribute("publicPlaylists", playlists);
   }
+  
    @RequestMapping( value = "/topPlaylists", method = RequestMethod.GET)
   @ResponseBody
   public void topPlaylists(HttpSession session){
     List<Playlist> playlists=playlistService.getTopPlaylists();
     session.setAttribute("publicPlaylists", playlists);
   }
+  
   @RequestMapping( value = "/sortTitle", method = RequestMethod.GET)
   @ResponseBody
   public void sortByTitle(@RequestParam int playlistId ,HttpSession session){
@@ -285,7 +275,6 @@ public class PlaylistController {
      session.setAttribute("currentPlaylist",p);
   }
    
-  
   @RequestMapping(value="/viewGenrePlaylist",method=RequestMethod.GET)
   @ResponseBody
   public void viewGenrePlaylist(@RequestParam String genre, HttpSession session){

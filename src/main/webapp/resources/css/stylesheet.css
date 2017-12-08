@@ -625,12 +625,7 @@ border-bottom-color: #3399ff;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
-.playlist-container {
-    display: flex;
-    position: relative;
-    height: 350px;
-    width: 350px;
-}
+
 .albumPic{
   height: 100%;
   width: 100%;
@@ -648,4 +643,8 @@ border-bottom-color: #3399ff;
 #adImg{
   height:100%;
   width:100%;
+}
+
+.hoverIcon:hover{
+  opacity: .7;
 }

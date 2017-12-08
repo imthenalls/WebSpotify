@@ -262,7 +262,6 @@ public class UserServiceHibernateImpl implements UserService{
   @Override
   public void adminAddSong(String title){
     Song song = new Song(title);
-    System.out.println(song.toString());
     songDao.addSong(song);
   }
 
@@ -270,7 +269,6 @@ public class UserServiceHibernateImpl implements UserService{
   @Override
   public void adminAddAlbum(String albumName, int popularity, String imagePath ){
      Album album = new Album(albumName,popularity,imagePath);
-     System.out.println(album.toString());
      albumDao.addAlbum(album);
   }
 
@@ -379,10 +377,8 @@ public class UserServiceHibernateImpl implements UserService{
     Collection<User> allUsers = userService.listAllUsers();
     session.setAttribute("allUsersTest", allUsers);
     Collection<User> allUsersTest = (ArrayList)session.getAttribute("allUsersTest");
-    System.out.println("ADDING FOLLOWERS NOW ");
     for(User u : allUsersTest){
       userService.followPlaylist(u.getUsername(),42);
-      System.out.println("add test followers "+u.toString());
     }
     session.setAttribute("allUsersTest", allUsersTest);
   */
@@ -428,9 +424,6 @@ public class UserServiceHibernateImpl implements UserService{
     following.remove(followed);
     user.setFollowing(following);
     userDao.updateUser(user);
-    for(User u : following){
-      System.out.println(u.toString());
-    }
     return user;
   }
   

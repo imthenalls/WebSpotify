@@ -16,7 +16,7 @@
         </a>
       </div>
       <div class="row">
-        <a href="#">
+        <a href="#" class="viewUser" username="${currentPlaylist.creator.username}">
           <span class="mediaCreator">${currentPlaylist.creator.username}</span>    
         </a>
       </div>

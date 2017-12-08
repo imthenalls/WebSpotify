@@ -24,8 +24,7 @@
                 <button class="fa fa-add albumButton" onclick="followAlbum(${Album.albumId},'topAlbums.jsp')"></button>
               </c:otherwise>
             </c:choose>
-            
-            <button class="fa fa-play albumButton"></button>
+      
             <button class="fa fa-ellipsis-h albumButton dropdown-toggle" data-toggle='dropdown'></button>
             <ul class='dropdown-menu'>
               <li><a href="#" onclick="unfollowAlbum(${currentAlbum.albumId},'topAlbums.jsp')">Unfollow</a></li>

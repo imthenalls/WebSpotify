@@ -16,8 +16,8 @@
     <c:forEach items="${newAlbums}" begin="0" end="15" var="newAlbum">
       <div class="col-sm-3" style="height:380px;">
         <div class="albumCard">
-          <a href="#" onclick="viewAlbum(${newAlbum.artistId})"><img src="${newAlbum.imagePath}" alt="Image" class="img-responsive albumPic"></a>        
-          <a href="#" onclick="viewAlbum(${newAlbum.artistId})"><h4>${newAlbum.albumName}</h4></a>
+          <a href="#" onclick="viewAlbum(${newAlbum.albumId})"><img src="${newAlbum.imagePath}" alt="Image" class="img-responsive albumPic"></a>        
+          <a href="#" onclick="viewAlbum(${newAlbum.albumId})"><h4>${newAlbum.albumName}</h4></a>
           <a href="#" onclick="viewArtist(${newAlbum.artistId.artistId})"><h6>${newAlbum.artistId.artistName}</h6>
         </div>
       </div>      

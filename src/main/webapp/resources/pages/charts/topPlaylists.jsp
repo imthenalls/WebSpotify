@@ -17,7 +17,6 @@
           <a href="#" onclick="viewPlaylist(${Playlist.playlistID})"><img src="${Playlist.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic"></a>
           <div class="albumOverlay">     
             <button class="fa fa-remove albumButton" onclick="unfollowPlaylist(${Playlist.playlistID},'topPlaylists.jsp')"></button>
-            <button class="fa fa-play albumButton"></button>
             <button class="fa fa-ellipsis-h albumButton dropdown-toggle" data-toggle='dropdown'></button>
             <ul class='dropdown-menu'>
               <li><a href="#" onclick="unfollowPlaylist(${currentPlaylist.playlistID},'topPlaylists.jsp')">Unfollow</a></li>
