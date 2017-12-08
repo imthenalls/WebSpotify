@@ -136,7 +136,7 @@ public class ArtistController {
       session.setAttribute("paymentRequests",paymentRequests);
     }else if(user.getAccountType() == AccountType.Admin){
       List<RoyaltyPayment> allPayRequests = royaltyPaymentService.listUnpaidRoyaltyPayments();
-      session.setAttribute("paymentRequests",allPayRequests);//REMEMBER TO REMOVE THIS AND ALL OTHER ADMIN SHIT FROM THE SESSION WHEN LOGGING OUT AS ADMIN
+      session.setAttribute("paymentRequests",allPayRequests);//REMEMBER TO REMOVE THIS AND ALL OTHER ADMIN things FROM THE SESSION WHEN LOGGING OUT AS ADMIN
     }
   }
   

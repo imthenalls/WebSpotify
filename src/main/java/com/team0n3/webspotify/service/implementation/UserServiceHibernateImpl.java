@@ -442,4 +442,16 @@ public class UserServiceHibernateImpl implements UserService{
   */
 
 
+  @Transactional(readOnly = false)
+  public void banUser(String username){
+    User user = userDao.getUser(username); 
+    if(user.getAccountType() == AccountType.Banned){
+      user.setAccountType(AccountType.Free);
+      userDao.updateUser(user);
+    }
+    else{
+      user.setAccountType(AccountType.Banned);
+      userDao.updateUser(user);
+    }
+  }
 }

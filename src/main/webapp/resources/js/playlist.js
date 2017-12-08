@@ -449,6 +449,9 @@ function toggleCollab(id){
     return false; // Makes sure that the link isn't followed
 }
 
+function viewTopPlaylists(){
+  $("#center-pane").load("/resources/pages/charts/topPlaylists.jsp");
+}
 function sortPlaylistTitle(playlistId){
   $.ajax({
         url: "playlist/sortTitle",

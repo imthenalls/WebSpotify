@@ -94,6 +94,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
         List<Song> songsInArtist = cr.list();
         allSongs.addAll(songsInArtist);
       }
+      
       List<Song> top50Songs = new ArrayList();
       Song least = null;
       Song most = null;
@@ -146,7 +147,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
   public List<Artist> getNewArtists() {
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Artist.class);
     c.setMaxResults(chartsResults);
-    c.addOrder(Order.asc("artistId"));
+    c.addOrder(Order.desc("artistId"));
     return c.list();
   }
   

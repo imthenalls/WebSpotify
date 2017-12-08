@@ -388,6 +388,10 @@ function viewBrowse(){
     $("#center-pane").load("/resources/pages/center.jsp");
 }
 
+function viewBanned(){
+  $("#center-pane").load("/views/banned.jsp");
+}
+
 function viewUpgradePage(){
     $("#center-pane").load("/resources/pages/upgrade.jsp");
 }

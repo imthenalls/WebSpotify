@@ -6,7 +6,6 @@ $(document).ready(function(){
       adminApproveArtist($(this).attr("username"));
   });
   $(document).on('click','#view-unapproved-artists', function(){
-      console.log("FUCK U ");
       adminViewUnapprovedArtists();
   });
   $(document).on({
@@ -18,6 +17,9 @@ $(document).ready(function(){
       }
     },'#adminPill');
   
+  $(document).on('click', '.ban-button', function(){
+    banUser($(this).attr('username'))
+  });
     
 }); 
 function adminSongRequestRemove(songId,currentPage){
@@ -138,7 +140,7 @@ function adminRemoveSong(songId){
         url: "song/adminRemoveSong",
         type: "POST",
         data: ({
-          songId: songId,
+          songId: songId
         }),
         success:function(){
           console.log("Success deleting song");
@@ -155,7 +157,7 @@ function adminRemoveAlbum(albumId){
         url: "album/adminRemoveAlbum",
         type: "POST",
         data: ({
-          albumId: albumId,
+          albumId: albumId
         }),
         success:function(){
           console.log("Success deleting Album");
@@ -193,6 +195,21 @@ function adminViewUnapprovedUsers(){
         },
         error:function(){
           console.log("Error viewing admin  unapproved users");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function adminViewAllUsers(){
+    $.ajax({
+        url: "viewUsers",
+        type: "GET",
+        success:function(){
+            $("#center-pane").load("/resources/pages/allUsers.jsp",function(){
+            });
+        },
+        error:function(){
+          console.log("Error viewing admin  all users");
         }
     });
     return false; // Makes sure that the link isn't followed
@@ -257,4 +274,21 @@ function adminViewAllArtists(){
 }
 function viewUploadPage(){
   $("#center-pane").load("/resources/pages/songUpload.jsp");
+  }
+function banUser(username){
+  console.log(username);
+  $.ajax({
+    url: "banUser",
+    type: "POST",
+    data:({
+      username: username
+    }),
+    sucess: function(){
+      $(document).remove();
+    },
+    error: function(){
+      console.log("ban error:" + username);
+    }
+    
+  }); 
 }

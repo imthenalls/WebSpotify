@@ -15,11 +15,10 @@
           <div class="albumOverlay">     
             <button class="fa fa-remove albumButton" onclick="unfollowArtist(${Artist.artistId},'followedArtists.jsp')"></button>
             <button class="fa fa-play albumButton"></button>
-            </div>
+          </div>
         </div>
         <a href="#" onclick="viewArtist(${Artist.artistId})"><h4>${Artist.artistName}</h4></a>
       </div>
     </c:forEach>
-    </div>
   </div>
 </div>

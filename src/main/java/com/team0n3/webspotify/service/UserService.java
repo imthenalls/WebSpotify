@@ -54,4 +54,5 @@ public interface UserService {
   public void adminSendRoyaltyChecks(String artistId);
   public boolean removeUser(String username, String password);
   public Collection<User> viewPlaylistFollowers(int playlistId);
+  public void banUser(String username); 
 }
