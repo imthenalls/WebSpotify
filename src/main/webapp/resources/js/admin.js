@@ -288,6 +288,20 @@ function adminViewAddUser(){
   $("#center-pane").load("/resources/pages/addUser.jsp");
 }
 
+function delteUser(){
+  $.ajax({
+    url: "deleteUser",
+    type: "POST",
+    data: "er",//get the username,
+    success: function(){
+      
+    },
+    error: function(){
+      
+    }
+  });
+}
+
 function addUser(){
   $.ajax({
     url: "addUser",
