@@ -224,6 +224,9 @@ public class ArtistController {
      currentUser = (User)session.getAttribute("currentUser");
     List<Artist> allArtists = artistService.getNotFollowedArtists(currentUser.getUsername());
     session.setAttribute("discoverArtists",allArtists);
+    for(Artist a : allArtists){
+        System.out.println(a.toString());
+    }
   }
   
 }
