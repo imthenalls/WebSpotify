@@ -74,7 +74,7 @@ public class ArtistDAOHibernateImpl implements ArtistDAO{
     }
     
     @Override
-    public List<Song> genre(String genre){
+    public List<Song> getGenrePlaylist(String genre){
       SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("select * from artistgenres");
       System.out.println("hello genre in artistdao");
       List<Object[]> rows = query.list();

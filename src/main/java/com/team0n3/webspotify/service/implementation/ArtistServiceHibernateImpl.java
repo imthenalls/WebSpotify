@@ -125,9 +125,8 @@ public class ArtistServiceHibernateImpl implements ArtistService{
   }
   @Override
   @Transactional(readOnly = true)
-  public void genre(String genre){
-    System.out.println("hello in artist service genre FUCK");
-    artistDao.genre("rock");
+  public List<Song> getGenrePlaylist(String genre){
+    return artistDao.getGenrePlaylist(genre);
   }
   
   @Override

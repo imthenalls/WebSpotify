@@ -14,24 +14,24 @@
             </div>
         </div>
         <a href="#">
-            <i id="addSong" class="fa fa-plus"></i>
+            <i id="addSong" class="fa fa-plus" title="Add Song to Playlist"></i>
         </a>
     </div>
     <div class="col-xs-6" id="musicPlayer">
         <div class="row" id="musicControl">
-            <a href="#" id="shuffleTag" onclick="toggleShuffle()">
+            <a href="#" id="shuffleTag" title="Shuffle" onclick="toggleShuffle()">
                 <i id="shuffleSong" class="fa fa-random"></i>
             </a>
-            <a href="#" onclick="playPrev()">
+            <a href="#" title="Prev" onclick="playPrev()">
                 <i id="prevButton" class="fa fa-step-backward"></i>
             </a>
-            <a href="#" id="playPause" onClick="togglePlayPause()">
+            <a href="#" id="playPause" title="Play/Pause" onClick="togglePlayPause()">
                 <i id="playPauseIcon" class="fa fa-play"></i>
             </a>
-            <a href="#" onclick='playNext()'>
+            <a href="#" title="Next" onclick='playNext()'>
                 <i id="nextButton" class="fa fa-step-forward"></i>
             </a>
-            <a href="#" id="repeatTag" onclick="toggleRepeat()">
+            <a href="#" id="repeatTag" title="Repeat" onclick="toggleRepeat()">
                 <i id="repeatButton" class="fa fa-repeat"></i>
             </a>
         </div>
@@ -56,13 +56,13 @@
     </div>
     
     <div class="col-xs-3" id="playerSettings">
-        <a href="#">
+        <a href="#" title="Mute/Unmute">
             <i id="toggleMute" class="fa fa-volume-up"></i>
         </a>
-        <a href="#">
+        <a href="#" title="Lyrics">
             <i id="lyrics" class="fa fa-book"></i>
         </a>
-        <a href="#" id="viewQueue" onclick="viewQueue()">
+        <a href="#" title="Queue" id="viewQueue" onclick="viewQueue()">
             <i id="queue" class="fa fa-list-ol"></i>
         </a>
       <div id="slidecontainer">

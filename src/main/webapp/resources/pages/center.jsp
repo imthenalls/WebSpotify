@@ -3,17 +3,6 @@
 <!-- OPTION FOR COLLAPSIBLE FEATURED SECTION -->
 <!-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#featured-media">Hide/Show</button> -->
 
-<div class="row" id="featured-media">
-  <div id="featuredAlbum" class="col-xs-6">
-    <img src="/resources/img/cali.jpg" alt="Cali" height="200" width="200">    
-  </div>
-  <div id="featuredDetails" class="col-xs-6">
-    <label>Album Name</label><br>
-    <label>Artist</label>
-    <p>This is a description of this album. You should listen to it</p>    
-  </div>
-</div>
-
 <div class="row" id="browse-categories">
   <ul class="nav nav-pills nav-justified" id="navPill">
     <!-- onClick changes selected element -->
