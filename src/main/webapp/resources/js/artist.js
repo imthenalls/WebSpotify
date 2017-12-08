@@ -40,6 +40,15 @@ $(document).ready(function(){
       viewArtist($(this).attr("artistId"));
     }
   },'.viewArtist');
+  
+  $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("HIIIIII");
+        $("#profilePane").load("/resources/pages/artistPanel.jsp");
+        return false;
+      }
+    },'#artistPill');
 });
 
 function followArtist(artistId,currentPage) {
