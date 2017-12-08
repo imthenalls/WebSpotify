@@ -20,7 +20,7 @@
                     Upgrade to Premium
                   </c:when>
                   <c:otherwise>
-                    View Your Premium Status
+                    Edit Payment Information
                   </c:otherwise>
                 </c:choose>
               </button>

@@ -72,6 +72,7 @@ public class SpotifyController {
         session.setAttribute("currentUser", user);
 
         ModelAndView model= new ModelAndView("redirect:/viewAdminBrowse");
+        session.setAttribute("viewedUser", user);
         return model;   
     }
     if(user.getAccountType() == AccountType.Artist){
@@ -86,6 +87,7 @@ public class SpotifyController {
           if((a.getUser().getUsername()).equals(username)){
             artist = a;
             session.setAttribute("currentArtist", a);
+            session.setAttribute("viewedUser", user);
             break;
           }
         }
@@ -249,7 +251,7 @@ public class SpotifyController {
     request.getSession().invalidate();
     return "login";
   }
-  
+ 
   @RequestMapping(value="/upgradeToPremium",method=RequestMethod.POST)
   @ResponseBody
   public void upgradeToPremium(@RequestParam String cardNumber, @RequestParam String cardHolder, @RequestParam String ccv, @RequestParam int expirationMonth,

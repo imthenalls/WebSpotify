@@ -10,6 +10,9 @@
   
   <div class="userFollow">
     <c:choose>
+      <c:when test="${viewedUser.username == currentUser.username}">
+        
+      </c:when>
       <c:when test="${viewedUser.username != currentUser.username && !currentUser.isFollowingUser(viewedUser)}">
           <button class="btn btn-primary" id="followUser" >Follow</button>
       </c:when>
@@ -23,12 +26,6 @@
     <!-- onClick changes selected element -->
     <c:choose>
     <c:when test="${currentUser.accountType == 'Free' || currentUser.accountType == 'Premium' || currentUser.accountType == 'Unapproved'}">
-      <li role="presentation" class="active">
-        <a data-toggle="pill" href="#overview" class="cat-option">Overview</a>                      
-      </li>
-      <li role="presentation">
-        <a data-toggle="pill" href="#recent" class="cat-option">Recently Played</a>     
-      </li>
       <li role="presentation">
         <a data-toggle="pill" href="#publicPlaylists" class="cat-option" id="profilePlay">Public Playlists</a>                      
       </li>
@@ -41,11 +38,12 @@
     </c:when>
     <c:when test="${currentUser.accountType == 'Admin'}">
       <li role="presentation">
-        <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>     
+        <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>  
+        
       </li>      
     </c:when>
       <c:when test="${currentUser.accountType == 'Artist'}">
-      <li role="presentation">
+      <li role="presentation" class="active">
         <a data-toggle="pill" href="#artist" class="cat-option" id="artistPill">Artist</a>     
       </li>      
     </c:when>
@@ -55,8 +53,15 @@
 </div>
   
   <div id="profilePane" user="${viewedUser.username}">
-    
-
+    <c:choose>
+      <c:when test="${currentUser.accountType == 'Admin'}">
+        <%@include  file="/resources/pages/adminPanel.jsp"%>
+      </c:when>
+      <c:when test="${currentUser.accountType == 'Artist'}">
+        <%@include  file="/resources/pages/artistPanel.jsp"%>
+      </c:when>
+      <c:otherwise></c:otherwise>
+    </c:choose>
   </div>
   
   </div>
