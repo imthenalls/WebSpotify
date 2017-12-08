@@ -11,6 +11,12 @@ $(document).ready(function(){
     }, '#user-img');
     
     $(document).on({
+      click: function(){
+        viewProfile($(this).attr("username"));
+      }
+    }, '.viewUser');
+    
+    $(document).on({
       change: function(){
         var $files = document.getElementById('my_file');
         if ($files.files.length) {
@@ -138,6 +144,19 @@ function viewEditProfile(){
     $("#center-pane").load("/resources/pages/editProfile.jsp");
 }
 
-function viewProfile(){
-  $("#center-pane").load("/resources/pages/profile.jsp");
+function viewProfile(username){
+  $.ajax({
+        url: "viewUserProfile",
+        type: "GET",
+        data: ({
+            username: username
+          }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/profile.jsp");
+        },
+        error: function(){
+            console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
 }

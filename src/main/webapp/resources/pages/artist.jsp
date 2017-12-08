@@ -88,10 +88,11 @@
           <a href="#" onclick="viewAlbum(${Album.albumId})"><img src="${Album.imagePath}" alt="Image" class="img-responsive albumPic"></a>
           <a href="#" onclick="viewAlbum(${Album.albumId})"><h4>${Album.albumName}</h4></a>
         </div>
-        </div>
+      </div>
     </c:forEach>
   </div>
 </div>
+      
 <div id="artistContentModal" class="modal fade" role="dialog">
    <div class="modal-dialog" role="document">  
     <div class="modal-content"> 

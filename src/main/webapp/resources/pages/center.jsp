@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!-- OPTION FOR COLLAPSIBLE FEATURED SECTION -->
 <!-- <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#featured-media">Hide/Show</button> -->
 

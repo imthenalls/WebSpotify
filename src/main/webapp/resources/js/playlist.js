@@ -235,11 +235,16 @@ $(document).ready(function(){
      path: path
     }),
     success: function(){
+      console.log(path);
+      console.log($("#playlistPic").attr("src"));
+        $("#playlistPic").attr("src", path);
+        console.log($("#playlistPic").attr("src"))
         console.log("Success creating playlist");
         $("#leftTool").load("/resources/toolbars/left.jsp",function(){
+          $("#center-pane").load("/resources/pages/playlist.jsp",function(){
         });
-        $("#center-pane").load("/resources/pages/playlist.jsp",function(){
         });
+        
     },
     error: function(){
         console.log("Failure creating playlist");
@@ -429,4 +434,8 @@ function toggleCollab(id){
         }
     });
     return false; // Makes sure that the link isn't followed
+}
+
+function viewTopPlaylists(){
+  $("#center-pane").load("/resources/pages/charts/topPlaylists.jsp");
 }

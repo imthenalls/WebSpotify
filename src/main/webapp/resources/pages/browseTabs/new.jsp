@@ -1,7 +1,7 @@
 <div class="container" id="browseNew">
   <div class="row">
     <h3>New Artists</h3>
-    <c:forEach items="${newArtists}" var="newArtist">
+    <c:forEach items="${newArtists}" begin="0" end="3" var="newArtist">
       <div class="col-sm-3">
           <div class="thumbnail">
               <a href="#x"><img src="${newArtist.imagePath}" alt="Image" class="img-responsive"></a>
@@ -12,7 +12,7 @@
   </div>
   <div class="row">
     <h3>New Albums</h3>
-    <c:forEach items="${newAlbums}" var="newAlbum">
+    <c:forEach items="${newAlbums}" begin="0" end="3" var="newAlbum">
       <div class="col-sm-3">
           <div class="thumbnail">
               <a href="#x"><img src="${newAlbum.imagePath}" alt="Image" class="img-responsive"></a>

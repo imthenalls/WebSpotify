@@ -4,7 +4,7 @@
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
     <div class="col-xs-2">
-      <img class="mediaPic" onerror="src='http://placehold.it/250x250'" src=${currentPlaylist.imagePath}>
+      <img class="mediaPic" id="playlistPic" onerror="src='http://placehold.it/250x250'" src="${currentPlaylist.imagePath}">
     </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
@@ -44,7 +44,6 @@
                     <li><a href="#makePublic" id="makePublic">Make Public</a></li>
                   </c:otherwise>
                 </c:choose>
-              </ul>
             </c:when>
             <c:when test = "${currentUser.isFollowingPlaylist(currentPlaylist)}">
                 <li><a href="#" onclick="unfollowPlaylist(${currentPlaylist.playlistID})">Unfollow</a></li>

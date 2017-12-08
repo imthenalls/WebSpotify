@@ -93,3 +93,7 @@ function unfollowSong(songId,currentPage) {
 function viewFollowedSongs(){
   $("#center-pane").load("/resources/pages/followedSongs.jsp");
 }
+
+function viewTopSongs(){
+  $("#center-pane").load("/resources/pages/charts/topSongs.jsp");
+}

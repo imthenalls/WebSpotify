@@ -80,7 +80,6 @@ a:hover{
 }
 
 #navPill{
-    background-color: #999999;
     text-align:center;
     font-weight:bold;
 }
@@ -640,4 +639,8 @@ border-bottom-color: #3399ff;
 .search-btn:hover{
     color: #3399ff;
     background-color: #000;
+}
+#adImg{
+  height:100%;
+  width:100%;
 }

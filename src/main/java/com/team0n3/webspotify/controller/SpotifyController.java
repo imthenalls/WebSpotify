@@ -93,7 +93,7 @@ public class SpotifyController {
     if(user.getAccountType() == AccountType.Banned){
       return(new ModelAndView("redirect:/viewBanned"));
     }
-    List<String> genres = new ArrayList();
+    List<String> allGenres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -105,14 +105,7 @@ public class SpotifyController {
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
-    genres.addAll(songService.getGenreList());
-    
-    System.out.println(albumService.getTopAlbums().size());
-    System.out.println(playlistService.getTopPlaylists().size());
-    System.out.println(artistService.getTopArtists().size());
-    
-    List<Album> nonFollowAlbum= albumService.getNotFollowedAlbums(username);
-    List<Artist> nonFollowArtist= artistService.getNotFollowedArtists(username);
+    allGenres.addAll(songService.getGenreList());
     
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
@@ -120,17 +113,30 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
-    session.setAttribute("genres",genres);
+    session.setAttribute("allGenres",allGenres);
     session.setAttribute("ad", adService.randomAd());
-    session.setAttribute("newArtists", artistService.getNewArtists());
-    session.setAttribute("newAlbums", albumService.getNewAlbums());
+    
+    List<Album> topAlbums = albumService.getTopAlbums();
+    List<Playlist> topPlaylists = playlistService.getTopPlaylists();
+    List<Artist> topArtists = artistService.getTopArtists();
+    List<Song> topSongs = songService.getTop50Songs();
+    
+    session.setAttribute("topAlbums", topAlbums);
+    session.setAttribute("topPlaylists", topPlaylists);
+    session.setAttribute("topArtists", topArtists);
+    session.setAttribute("topSongs", topSongs);    
+    
+    List<Artist> newArtists = artistService.getNewArtists();
+    List<Album> newAlbums = albumService.getNewAlbums();
+      
+    session.setAttribute("newArtists", newArtists);
+    session.setAttribute("newAlbums", newAlbums);
+    
+    List<Album> nonFollowAlbum= albumService.getNotFollowedAlbums(username);
+    List<Artist> nonFollowArtist= artistService.getNotFollowedArtists(username);
+    
     session.setAttribute("discoverAlbums", nonFollowAlbum);
     session.setAttribute("discoverArtists", nonFollowArtist);
-    for( Artist a:artistService.getNewArtists()){
-      System.out.println(a.getArtistName());
-  }
-
-
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
    
@@ -376,6 +382,11 @@ public class SpotifyController {
     return adService.randomAd().getImagePath();
   }
   
+  @RequestMapping(value = "/viewUserProfile", method = RequestMethod.GET)
+  @ResponseBody
+  public void getProfile(@RequestParam String username, HttpSession session){
+    session.setAttribute("viewedUser", userService.getUser(username));
+  }
   
   @RequestMapping(value = "/banUser", method = RequestMethod.POST)
   @ResponseBody

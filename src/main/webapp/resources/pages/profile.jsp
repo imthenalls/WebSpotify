@@ -2,21 +2,20 @@
 <div id="main-section">
   <div class="row">
   <div class="col-xs-2"  id="user-img-div">
-    <a href="#"><img src="${currentUser.imagePath}" class="img-circle userPic" id="user-img"></a>
+    <a href="#"><img src="${viewedUser.imagePath}" class="img-circle userPic" id="user-img"></a>
   </div>
   <div id="user-type"><p>User</p></div>
-  <div id="user-txt"><p>${currentUser.username}</p></div>
+  <div id="user-txt"><p>${viewedUser.username}</p></div>
 
   
-  <div class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-      <i class="fa fa-ellipsis-h" id="dropdownMenu3"></i>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="#" class="settings-drop">EditProfile</a></li>
-    </ul>
+  <div class="userFollow">
+    <c:choose>
+      <c:when test="${viewedUser.username!=currentUser.username}">
+          <button class="btn btn-primary" id="followUser" >Follow</button>
+        
+      </c:when>
+    </c:choose>
   </div>
-  
   <div class="row" id="profileSections">
   <ul class="nav nav-pills nav-justified" id="profilePill">
     <!-- onClick changes selected element -->
@@ -36,7 +35,7 @@
       <a data-toggle="pill" href="#followers" class="cat-option">Followers</a>     
     </li>
     <c:choose>
-    <c:when test="${currentUser.accountType == 'Admin'}">
+    <c:when test="${viewedUser.accountType == 'Admin'}">
       <li role="presentation">
         <a data-toggle="pill" href="#admin" class="cat-option" id="adminPill">Admin</a>     
       </li>      
@@ -46,7 +45,7 @@
   </ul>
 </div>
   
-  <div id="profilePane" user="${currentUser.username}">
+  <div id="profilePane" user="${viewedUser.username}">
     
 
   </div>
