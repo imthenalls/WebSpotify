@@ -7,6 +7,7 @@ import com.team0n3.webspotify.model.Playlist;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,9 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
   
   @Value("${playlist.maxResult}")
   private int maxResults;
+  
+  @Value("${playlist.chartsResults}")
+  private int chartsResults;
   public PlaylistDAOHibernateImpl(SessionFactory sessionFactory){
     this.sessionFactory=sessionFactory;
   }
@@ -55,9 +59,19 @@ public class PlaylistDAOHibernateImpl implements PlaylistDAO{
   public List<Playlist> search(String keyword, boolean limit){
     Criteria c = sessionFactory.getCurrentSession().createCriteria(Playlist.class);
     c.add(Restrictions.like("playlistName", "%"+keyword+"%"));
+    c.add(Restrictions.eq( "isPublic", true ));
     if(limit){
       c.setMaxResults(maxResults);
     }
+    return c.list();
+  }
+
+  @Override
+  public List<Playlist> getTopPlaylists() {
+    Criteria c = sessionFactory.getCurrentSession().createCriteria(Playlist.class);
+    c.add(Restrictions.eq( "isPublic", true ));
+    c.addOrder(Order.desc( "numFollowers"));
+    c.setMaxResults(chartsResults);
     return c.list();
   }
 }

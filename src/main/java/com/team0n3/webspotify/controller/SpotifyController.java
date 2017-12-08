@@ -9,6 +9,7 @@ import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.PaymentInfo;
 import com.team0n3.webspotify.model.RoyaltyPayment;
+import com.team0n3.webspotify.service.AdService;
 import com.team0n3.webspotify.service.UserService;
 import com.team0n3.webspotify.service.SongService;
 import com.team0n3.webspotify.service.AlbumService;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
+import java.util.Collection;
 /**
  * Handles requests for the application home page.
  */
@@ -44,7 +46,8 @@ public class SpotifyController {
   private PlaylistService playlistService;
   @Autowired
   private PaymentInfoService paymentInfoService;
-
+  @Autowired
+  private AdService adService;
  
   //need a play method here and next/prev method
   @RequestMapping(value="/", method=RequestMethod.GET)
@@ -56,6 +59,9 @@ public class SpotifyController {
   @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
+    
+
+// artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
         return new ModelAndView("redirect:/");
@@ -87,7 +93,7 @@ public class SpotifyController {
     if(user.getAccountType() == AccountType.Banned){
       return(new ModelAndView("redirect:/viewBanned"));
     }
-    
+    List<String> genres = new ArrayList();
     List<Playlist> createdPlaylists = new ArrayList<>();
     List<Playlist> followedPlaylists = new ArrayList<>();
     List<Album> followedAlbums = new ArrayList<>();
@@ -99,6 +105,14 @@ public class SpotifyController {
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
+    genres.addAll(songService.getGenreList());
+    
+    System.out.println(albumService.getTopAlbums().size());
+    System.out.println(playlistService.getTopPlaylists().size());
+    System.out.println(artistService.getTopArtists().size());
+    
+    List<Album> nonFollowAlbum= albumService.getNotFollowedAlbums(username);
+    List<Artist> nonFollowArtist= artistService.getNotFollowedArtists(username);
     
     session.setAttribute("currentUser", user);
     session.setAttribute("createdPlaylists",createdPlaylists);
@@ -106,10 +120,20 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    session.setAttribute("genres",genres);
+    session.setAttribute("ad", adService.randomAd());
+    session.setAttribute("newArtists", artistService.getNewArtists());
+    session.setAttribute("newAlbums", albumService.getNewAlbums());
+    session.setAttribute("discoverAlbums", nonFollowAlbum);
+    session.setAttribute("discoverArtists", nonFollowArtist);
+    for( Artist a:artistService.getNewArtists()){
+      System.out.println(a.getArtistName());
+  }
+
+
     
-    session.setMaxInactiveInterval(30*60);
-    System.out.println(session.getMaxInactiveInterval());
-    
+    session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
+   
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
@@ -235,11 +259,19 @@ public class SpotifyController {
     List<Artist> searchArtists = artistService.search(keyword,true);
     List<Song> searchSongs = songService.search(keyword,true);
     List<Playlist> searchPlaylists = playlistService.search(keyword,true);
+    if(searchArtists.size()!=0){
+      session.setAttribute("topResultArtist", searchArtists.get(0));
+      session.setAttribute("topResultSong", null);
+    }
+    else if(searchSongs.size()!=0){
+      session.setAttribute("topResultSong", searchSongs.get(0));
+      session.setAttribute("topResultArtist", null);
+    }
     session.setAttribute("userList",searchUsers);
     session.setAttribute("albumList",searchAlbums);
     session.setAttribute("artistList",searchArtists);
     session.setAttribute("songList",searchSongs);
-    session.setAttribute("playlistList", searchPlaylists);
+    session.setAttribute("publicPlaylists", searchPlaylists);
     session.setAttribute("lastSearch",keyword);
   }
   
@@ -337,6 +369,13 @@ public class SpotifyController {
     boolean b=userService.removeUser(user.getUsername(), password);
     return b;
   }
+  
+  @RequestMapping(value = "/ad", method = RequestMethod.GET)
+  @ResponseBody
+  public String getAd(HttpSession session){
+    return adService.randomAd().getImagePath();
+  }
+  
   
   @RequestMapping(value = "/banUser", method = RequestMethod.POST)
   @ResponseBody

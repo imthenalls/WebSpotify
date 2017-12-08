@@ -540,7 +540,7 @@ a:hover{
     display: flex;
     position: relative;
     height: 100px;
-    width: 400px;
+    width: 470px;
 }
 
 .x-button {
@@ -557,4 +557,87 @@ a:hover{
 }
 .search-text{
   font-size: 12px;
+}
+.nav-pills > .active > a,
+.nav-pills > .active > a:hover,.nav-pills > li > a:hover {
+text-decoration: none;
+font-weight: bold;
+border-radius:0px;
+border-bottom-width: 4px;
+border-bottom-style: solid;
+border-bottom-color: #3399ff;
+  background-color: transparent !important;
+}
+.nav-pills > li > a{
+    border-radius:0px;
+}
+
+/** Found at https://bootsnipp.com/snippets/featured/multi-level-dropdown-menu-bs3 **/
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+.playlist-container {
+    display: flex;
+    position: relative;
+    height: 350px;
+    width: 350px;
+}
+.albumPic{
+  height: 100%;
+  width: 100%;
+}
+.search-btn{
+  color:#fff;
+  background-color: #000;
+  border-color: #999999;
+}
+
+.search-btn:hover{
+    color: #3399ff;
+    background-color: #000;
 }

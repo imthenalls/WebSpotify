@@ -108,7 +108,7 @@ public class Playlist implements Serializable{
     this.songCount = songCount;
   }
 
-  public boolean isIsPublic() {
+  public boolean getIsPublic() {
     return isPublic;
   }
 
@@ -132,7 +132,7 @@ public class Playlist implements Serializable{
     this.dateCreated = dateCreated;
   }
 
-  public boolean isIsCollaborative() {
+  public boolean getIsCollaborative() {
     return isCollaborative;
   }
 

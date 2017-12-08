@@ -6,6 +6,7 @@ import com.team0n3.webspotify.model.Artist;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
@@ -52,5 +53,6 @@ public interface UserService {
   public void adminDeletePlaylist(Playlist p);
   public void adminSendRoyaltyChecks(String artistId);
   public boolean removeUser(String username, String password);
+  public Collection<User> viewPlaylistFollowers(int playlistId);
   public void banUser(String username); 
 }

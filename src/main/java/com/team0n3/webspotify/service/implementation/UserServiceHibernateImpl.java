@@ -71,6 +71,7 @@ public class UserServiceHibernateImpl implements UserService{
     if(!Arrays.equals(user.getPassword(), hashedPass)){
       return null;
     }
+    
     return user;
   }
 
@@ -421,10 +422,36 @@ public class UserServiceHibernateImpl implements UserService{
   }
   
   @Override
+  @Transactional(readOnly = true)
+  public Collection<User> viewPlaylistFollowers(int playlistId){
+    Playlist p = playlistDao.getPlaylist(playlistId);
+    return p.getFollowers();
+  }
+  /* put this in a controller to test following a playlist and viewing it
+    Playlist play = playlistService.getPlaylist(42);
+    session.setAttribute("testPlaylist",play);
+    Collection<User> allUsers = userService.listAllUsers();
+    session.setAttribute("allUsersTest", allUsers);
+    Collection<User> allUsersTest = (ArrayList)session.getAttribute("allUsersTest");
+    System.out.println("ADDING FOLLOWERS NOW ");
+    for(User u : allUsersTest){
+      userService.followPlaylist(u.getUsername(),42);
+      System.out.println("add test followers "+u.toString());
+    }
+    session.setAttribute("allUsersTest", allUsersTest);
+  */
+
+
   @Transactional(readOnly = false)
   public void banUser(String username){
     User user = userDao.getUser(username); 
-    user.setAccountType(AccountType.Banned);
-    userDao.updateUser(user);
+    if(user.getAccountType() == AccountType.Banned){
+      user.setAccountType(AccountType.Free);
+      userDao.updateUser(user);
+    }
+    else{
+      user.setAccountType(AccountType.Banned);
+      userDao.updateUser(user);
+    }
   }
 }

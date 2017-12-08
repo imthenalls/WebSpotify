@@ -27,7 +27,6 @@
           <fmt:formatNumber value="${Song.duration/60}" maxFractionDigits="0"/>
           :
           <fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/></td>
-        <td>
           <c:choose>
              <c:when test="${currentUser.accountType == 'Admin'}">'
              <td>
@@ -42,11 +41,23 @@
                 </div>
              </td>
              </c:when>
+             <c:when test="${currentUser.accountType == 'Artist'}">'
+             <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" >
+                      Options
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick=artistRequestSongRemoval(${Song.songId},'searchSongs.jsp')>Request remove song</a></li>
+                    </ul>
+                </div>
+             </td>
+             </c:when>
              <c:otherwise>
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        </td>
 
       </tr>
     </c:forEach> 

@@ -196,4 +196,70 @@ public class PlaylistController {
     }
     session.setAttribute("createdPlaylists", createdPlaylists);
   }
+  
+  
+  
+  @RequestMapping(value = "/viewPublicPlaylists", method= RequestMethod.GET)
+  @ResponseBody
+  public void viewPublicPlaylists(@RequestParam String username, HttpSession session){
+    User user= userService.getUser(username);
+    List<Playlist> allPlaylists = (List<Playlist>) user.getCreatedPlaylists();
+    List<Playlist> publicPlaylists = new ArrayList<Playlist>();
+    for (Playlist p : allPlaylists) {
+      if(p.getIsPublic()){
+        publicPlaylists.add(p);
+        System.out.println(p.getImagePath());
+      }
+    }
+    
+    session.setAttribute("publicPlaylists",publicPlaylists);
+  }
+  
+  @RequestMapping(value = "/toggleCollab",  method = RequestMethod.POST)
+  @ResponseBody
+  public void toggleCollab(@RequestParam int id, HttpSession session){
+    User currentUser= (User)session.getAttribute("currentUser");
+    Playlist playlist = playlistService.toggleCollab(id);
+
+    List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
+    for(int i=0; i<createdPlaylists.size(); i++){
+      if(createdPlaylists.get(i).getPlaylistID()==playlist.getPlaylistID()){
+        createdPlaylists.set(i, playlist);
+        break;
+      }
+    }
+    session.setAttribute("currentUser", currentUser);
+    session.setAttribute("createdPlaylists", createdPlaylists);
+  }
+  
+  @RequestMapping(value = "/togglePublic",  method = RequestMethod.POST)
+  @ResponseBody
+  public void togglePublic(@RequestParam int id, HttpSession session){
+    User currentUser= (User)session.getAttribute("currentUser");
+    Playlist playlist = playlistService.togglePublic(id);
+
+    List<Playlist> createdPlaylists = (List<Playlist>)session.getAttribute("createdPlaylists");
+    for(int i=0; i<createdPlaylists.size(); i++){
+      if(createdPlaylists.get(i).getPlaylistID()==playlist.getPlaylistID()){
+        createdPlaylists.set(i, playlist);
+        break;
+      }
+    }
+    session.setAttribute("currentUser", currentUser);
+    session.setAttribute("createdPlaylists", createdPlaylists);
+  }
+  
+   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @ResponseBody
+  public void seeMore(HttpSession session){
+    System.out.println((String)session.getAttribute("lastSearch"));
+    List<Playlist> playlists=playlistService.search((String)session.getAttribute("lastSearch"), false);
+    session.setAttribute("publicPlaylists", playlists);
+  }
+   @RequestMapping( value = "/topPlaylists", method = RequestMethod.GET)
+  @ResponseBody
+  public void topPlaylists(HttpSession session){
+    List<Playlist> playlists=playlistService.getTopPlaylists();
+    session.setAttribute("publicPlaylists", playlists);
+  }
 }

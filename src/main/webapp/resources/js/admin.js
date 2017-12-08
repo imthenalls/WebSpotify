@@ -8,13 +8,38 @@ $(document).ready(function(){
   $(document).on('click','#view-unapproved-artists', function(){
       adminViewUnapprovedArtists();
   });
+  $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("HIIIIII");
+        $("#profilePane").load("/resources/pages/adminPanel.jsp");
+        return false;
+      }
+    },'#adminPill');
   
   $(document).on('click', '.ban-button', function(){
     banUser($(this).attr('username'))
   });
     
 }); 
-
+function adminSongRequestRemove(songId,currentPage){
+    console.log("asdasdasdasdasdasd");
+    $.ajax({
+        url: "song/adminSongRequestRemove",
+        type: "POST",
+        data: ({
+          songId: songId,
+        }),
+        success:function(){
+          console.log("Success removing request song ");
+              $("#center-pane").load("/resources/pages/"+currentPage,function(){});
+        },
+        error: function(){
+                console.log("Failure removing request song");
+        }
+    });
+    return false;
+}
 function adminApproveUser(username){
     console.log("asdasdasdasdasdasd");
     $.ajax({
@@ -115,7 +140,7 @@ function adminRemoveSong(songId){
         url: "song/adminRemoveSong",
         type: "POST",
         data: ({
-          songId: songId,
+          songId: songId
         }),
         success:function(){
           console.log("Success deleting song");
@@ -132,7 +157,7 @@ function adminRemoveAlbum(albumId){
         url: "album/adminRemoveAlbum",
         type: "POST",
         data: ({
-          albumId: albumId,
+          albumId: albumId
         }),
         success:function(){
           console.log("Success deleting Album");
@@ -210,10 +235,7 @@ function adminViewAllPlaylists(){
         url: "playlist/viewAllPlaylists",
         type: "GET",
         success:function(){
-            console.log("View success");
-            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/allPlaylists.jsp",function(){});
         },
         error: function(){
             console.log("View error");
@@ -227,8 +249,7 @@ function adminViewAllSongs(){
         url: "song/adminViewAllSongs",
         type: "GET",
         success:function(){
-            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){
-            });
+            $("#center-pane").load("/resources/pages/allSongs.jsp",function(){});
         },
         error: function(){
             console.log("Error viewing all songs");
@@ -243,9 +264,7 @@ function adminViewAllArtists(){
         type: "GET",
         success:function(){
             console.log("View success");
-            $("#center-pane").load("resources/pages/allArtists.jsp",function(){
-                console.log("Loaded playlists into center pane!");
-            });
+            $("#center-pane").load("resources/pages/allArtists.jsp",function(){});
         },
         error: function(){
             console.log("View error");
@@ -253,7 +272,9 @@ function adminViewAllArtists(){
     });
     return false; // Makes sure that the link isn't followed
 }
-
+function viewUploadPage(){
+  $("#center-pane").load("/resources/pages/songUpload.jsp");
+  }
 function banUser(username){
   console.log(username);
   $.ajax({

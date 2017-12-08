@@ -1,7 +1,9 @@
 
 package com.team0n3.webspotify.service.implementation;
 
+import com.team0n3.webspotify.dao.AlbumDAO;
 import com.team0n3.webspotify.dao.SongDAO;
+import com.team0n3.webspotify.model.Album;
 import com.team0n3.webspotify.model.Playlist;
 import com.team0n3.webspotify.model.Song;
 import com.team0n3.webspotify.model.User;
@@ -21,7 +23,8 @@ public class SongServiceHibernateImpl implements SongService{
 
   @Autowired
   private SongDAO songDao;
-  
+  @Autowired
+  private AlbumDAO albumDao;
   @Autowired
   private PlaylistService playlistService;
   
@@ -76,7 +79,7 @@ public class SongServiceHibernateImpl implements SongService{
     
   }
   
-    @Transactional(readOnly = true)
+  @Transactional(readOnly = true)
   @Override
   public List<Song> search(String keyword, boolean limit)
   {
@@ -146,5 +149,16 @@ public class SongServiceHibernateImpl implements SongService{
     return songDao.getTop50();
   }
   
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<User> viewFollowers(int songId){
+    Song s = songDao.getSong(songId);
+    return s.getFollowers();
+  }
   
+  @Override
+  @Transactional(readOnly = true)
+  public List<String> getGenreList(){
+    return songDao.getGenreList();
+  }
 }

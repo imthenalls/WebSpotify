@@ -146,13 +146,7 @@ public class ArtistController {
     User user = (User)session.getAttribute("currentUser");
     if(user.getAccountType() == AccountType.Artist){
       Artist artist = (Artist)session.getAttribute("currentArtist");
-      RoyaltyPayment payment = royaltyPaymentService.artistRequestRoyaltyOnSong(songId, artist.getArtistId());
-     /*
-      Song song = songService.getSong(songId);
-      List<Song> unPaidSongs = (ArrayList)session.getAttribute("unPaidSongs").remove(song);
-      unPaidSongs.;
-      Session.setAttribute("unPaidSongs",unPaidSongs);    
-     */
+      royaltyPaymentService.artistRequestRoyaltyOnSong(songId, artist.getArtistId());
     }
   }
   
@@ -184,13 +178,37 @@ public class ArtistController {
     }
   }
   
-    
-   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
+  @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){
     System.out.println((String)session.getAttribute("lastSearch"));
     List<Artist> songs=artistService.search((String)session.getAttribute("lastSearch"), false);
     System.out.println(songs.size());
     session.setAttribute("allSongs", songs);
+  }
+  
+  @RequestMapping(value = "/viewArtistSongs", method = RequestMethod.GET)
+  @ResponseBody
+  public void viewArtistSongs(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Artist){
+      Artist artist = (Artist)session.getAttribute("currentArtist");
+      Collection<Song> songs = artist.getSongs();
+      session.setAttribute("artistSongs", songs);
+    }
+  }
+  
+  @RequestMapping(value = "/artistRequestSongRemoval", method = RequestMethod.POST)
+  @ResponseBody
+  public void artistRequestSongRemoval(int songId, HttpSession session){
+    Artist artist = songService.getSong(songId).getArtistId();
+    artistService.artistRequestSongRemoval(songId, artist.getArtistId());
+  }
+  
+  @RequestMapping(value = "/viewSongRemovalRequests", method = RequestMethod.GET)
+  @ResponseBody
+  public void getSongRemovalRequests(HttpSession session){
+    List<Song> removals = artistService.getSongRemovalRequests();
+    session.setAttribute("removalRequests",removals);
   }
 }

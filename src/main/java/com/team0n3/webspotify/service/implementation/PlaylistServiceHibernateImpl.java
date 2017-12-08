@@ -37,6 +37,7 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   @Transactional(readOnly = false)
   public Playlist createPlaylist(String playlistName, String imagePath, String description, User currentUser) {
     Playlist playlist = new Playlist(playlistName,imagePath,description,currentUser);
+    playlist.setIsPublic(true);
     playlistDao.addPlaylist(playlist);
     return playlist;
   }
@@ -107,5 +108,32 @@ public class PlaylistServiceHibernateImpl implements PlaylistService{
   public Playlist getGenrePlaylist(){
     Playlist playlist = new Playlist();
     return playlist;
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public Playlist toggleCollab(int playlistID) {
+    Playlist playlist=playlistDao.getPlaylist(playlistID);
+    playlist.setIsCollaborative(!playlist.getIsCollaborative());
+    playlistDao.updatePlaylist(playlist);
+    return playlist;
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public Playlist togglePublic(int playlistID) {
+    Playlist playlist=playlistDao.getPlaylist(playlistID);
+    playlist.setIsPublic(!playlist.getIsPublic());
+    if(!playlist.getIsPublic()){
+      playlist.setIsCollaborative(false);
+    }
+    playlistDao.updatePlaylist(playlist);
+    return playlist;
+  }
+
+  @Override
+  public List<Playlist> getTopPlaylists() {
+    List<Playlist> p = playlistDao.getTopPlaylists();
+    return p;
   }
 }

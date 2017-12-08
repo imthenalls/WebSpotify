@@ -36,9 +36,19 @@
                  <td>show nothing</td>
              </c:otherwise>
          </c:choose>
-        <td class="tableRow">
-          <button class="btn btn-primary ban-button" username="${User.username}">Ban</button>
-        </td>
+         <c:choose>
+           <c:when test="${User.accountType == 'Banned'}">           
+             <td class="tableRow">
+              <button class="btn btn-primary ban-button" username="${User.username}">Unban</button>
+             </td>
+           </c:when>
+           <c:otherwise>        
+             <td class="tableRow">
+              <button class="btn btn-primary ban-button" username="${User.username}">Ban</button>
+             </td>
+           </c:otherwise>
+         </c:choose>
+
         </tr>
     </c:forEach> 
 

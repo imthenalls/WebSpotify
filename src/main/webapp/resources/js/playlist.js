@@ -62,6 +62,65 @@ $(document).ready(function(){
         return false;
       }
     },'#editPlaylist');
+    
+    $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("HIIIIII");
+        viewPublicPlaylists(name);
+        return false;
+      }
+    },'#profilePlay');
+    
+    $(document).on({
+      click: function(){
+        var id = $("#playlistID").attr("playlistID");
+        togglePublic(id);
+        return false;
+      }
+    },'#makePublic');
+    
+    $(document).on({
+      click: function(){
+        var id = $("#playlistID").attr("playlistID");
+        togglePublic(id);
+        return false;
+      }
+    },'#makePrivate');
+    
+    $(document).on({
+      click: function(){
+        var id = $("#playlistID").attr("playlistID");
+        toggleCollab(id);
+        return false;
+      }
+    },'#makeCollab');
+    $(document).on({
+      click: function(){
+        var id = $("#playlistID").attr("playlistID");
+        toggleCollab(id);
+        return false;
+      }
+    },'#removeCollab');
+    
+    $(document).on({
+      click: function(){
+        $.ajax({
+        url: "playlist/seeMore",
+        type: "GET",
+
+        success:function(){
+          $("#center-pane").load("/resources/pages/searchPlaylists.jsp",function(){
+                    console.log("Success unfollowing song");
+                });
+        },
+        error: function(){
+                console.log("Failure unfollowing song");
+        }
+      });
+      return false;
+      }
+    },'#morePlaylists');
  });
  
  function viewPlaylist(id){
@@ -301,7 +360,6 @@ function viewPlaylist(id){
                
             });
             //$("#editModalLocation").load("/resources/pages/updatePlaylist.jsp",function(){});
-            console.log(data);
             if(data){
               //$("#playlist-image2").attr('src', data);
             }
@@ -311,6 +369,62 @@ function viewPlaylist(id){
             }
         },
         error: function(data){
+            console.log("Error viewing playlist");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function viewPublicPlaylists(name){
+    $.ajax({
+        url: "playlist/viewPublicPlaylists",
+        type: "GET",
+        data: ({
+            username: name
+        }),
+        success:function(){
+          
+            $("#profilePane").load("/resources/pages/profilePlaylists.jsp",function(){
+               
+            });
+        },
+        error: function(){
+            console.log("Error viewing playlist");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+function togglePublic(id){
+    $.ajax({
+        url: "playlist/togglePublic",
+        type: "POST",
+        data: ({
+            id: id
+        }),
+        success:function(){
+            $("#center-pane").load("/resources/pages/playlist.jsp");
+        },
+        error: function(){
+            console.log("Error viewing playlist");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function toggleCollab(id){
+    $.ajax({
+        url: "playlist/toggleCollab",
+        type: "POST",
+        data: ({
+            id: id
+        }),
+        success:function(){
+          
+            $("#centerPane").load("/resources/pages/playlist.jsp",function(){
+               
+            });
+        },
+        error: function(){
             console.log("Error viewing playlist");
         }
     });

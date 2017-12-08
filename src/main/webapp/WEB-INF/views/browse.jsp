@@ -13,7 +13,7 @@ and open the template in the editor.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="icon" href="/resources/img/kevinCost.png">
+    <link rel="icon" href="/resources/img/team0n3.png">
     
     <!-- Bootstrap Core CSS-->
     <link href="${pageContext.servletContext.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
@@ -24,7 +24,7 @@ and open the template in the editor.
     
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/card.css">
     
-    <link rel="icon" href="'/resources/img/team0n3.png'">
+    
   </head>
   <body>
     <div>
@@ -82,7 +82,7 @@ and open the template in the editor.
         </div>
         <div id="ad">
           <div class="ad-container">
-            <img src="${pageContext.request.contextPath}/resources/img/gorg.gif">
+            <img id="adImg" src="${pageContext.request.contextPath}${ad.imagePath}">
             <span id="closeAdSpan" class="fa fa-close x-button"></span>
 
           </div>
@@ -115,7 +115,7 @@ and open the template in the editor.
      <script src="${pageContext.request.contextPath}/resources/js/user.js"></script>
      <script src="${pageContext.request.contextPath}/resources/js/song.js"></script>
      <script src="${pageContext.request.contextPath}/resources/js/artist.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
     
     <script src="http://malsup.github.com/jquery.form.js"></script>
     

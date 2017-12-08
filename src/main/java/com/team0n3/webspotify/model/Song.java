@@ -62,6 +62,9 @@ public class Song implements Serializable {
     @Column(name = "royaltyPerPlay")
     private int royaltyPerPlay;
     
+    @Column(name = "remove")
+    private boolean removeSong;
+    
     @ManyToMany(cascade ={CascadeType.PERSIST, 
         CascadeType.MERGE }, mappedBy = "followedSongs")
     private Collection<User> followers;
@@ -82,7 +85,15 @@ public class Song implements Serializable {
       payOut = unpayedPlays*royaltyPerPlay;
       return payOut;
     }
+    
+    public boolean isRemoveSong() {
+      return removeSong;
+    }
 
+    public void setRemoveSong(boolean removeSong) {
+      this.removeSong = removeSong;
+    }
+    
     public Collection<RoyaltyPayment> getRoyaltyPayments() {
       return royaltyPayments;
     }

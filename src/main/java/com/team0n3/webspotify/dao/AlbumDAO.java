@@ -17,4 +17,10 @@ public interface AlbumDAO {
   public void updateAlbum(Album album);
   
   public List<Album> search(String keyword, boolean limit);
+  
+  public List<Album> getTopAlbums();
+  
+  public List<Album> getNewAlbums();
+  
+  public List<Album> getNotFollowedAlbums(String username);
 }

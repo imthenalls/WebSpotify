@@ -18,7 +18,7 @@ and open the template in the editor.
     <!-- Custom Theme CSS -->
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/stylesheet.css">
     
-    <link rel="icon" href="'/resources/img/team0n3.png'">
+    <link rel="icon" href="/resources/img/team0n3.png">
   </head>
   <body>
     <div>
@@ -73,6 +73,12 @@ and open the template in the editor.
     <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
     
     <script src="${pageContext.request.contextPath}/resources/js/lyrics.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/resources/js/playlist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/song.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/artist.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/album.js"></script>
 
     <!-- Script to display images-->
     <script>
