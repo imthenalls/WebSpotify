@@ -15,6 +15,10 @@ $(document).ready(function(){
         viewProfile($(this).attr("username"));
       }
     }, '.viewUser');
+
+    $(document).on('click','#followUser', function(){
+      followUser();
+    });
     
     $(document).on({
       change: function(){
@@ -84,7 +88,23 @@ $(document).ready(function(){
       }
     },'#moreUsers');
 });
-
+function followUser(username){
+    $.ajax({
+    url: "/followUser",
+    type: "POST",
+    //Sends the necessary form parameters to the servlet
+    data:({
+     username: $("#viewed-username").html()
+    }),
+    success: function(){
+      console.log("Success following user ");
+      $("#center-pane").load("/resources/pages/profile.jsp");
+    },
+    error: function(){
+      console.log("Failure following user");
+    }
+  });
+}
 function uploadImage($files, handler) {
     console.log("upload function");
     // Reject big files

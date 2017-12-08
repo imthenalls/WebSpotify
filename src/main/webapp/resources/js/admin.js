@@ -20,6 +20,10 @@ $(document).ready(function(){
   $(document).on('click', '.ban-button', function(){
     banUser($(this).attr('username'))
   });
+  $(document).on('click', '.admin-delete-user', function(){
+    adminDeleteUser($(this).attr('username'))
+  });
+  
     
 }); 
 function adminSongRequestRemove(songId,currentPage){
@@ -278,13 +282,13 @@ function viewUploadPage(){
 function banUser(username){
   console.log(username);
   $.ajax({
-    url: "banUser",
+    url: "/banUser",
     type: "POST",
     data:({
       username: username
     }),
-    sucess: function(){
-      $(document).remove();
+    success: function(){
+      $("#center-pane").load("resources/pages/allUsers.jsp",function(){});
     },
     error: function(){
       console.log("ban error:" + username);
@@ -303,4 +307,21 @@ function viewAds(){
     
   }); 
   return false;
+}
+function adminDeleteUser(username){
+  console.log("deleting user");
+  $.ajax({
+    url: "/adminDeleteUser",
+    type: "POST",
+    data:({
+      username: username
+    }),
+    success: function(){
+      $("#center-pane").load("resources/pages/allUsers.jsp",function(){});
+    },
+    error: function(){
+      console.log("delete user error:" + username);
+    }
+    
+  }); 
 }

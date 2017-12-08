@@ -247,15 +247,9 @@ public class UserServiceHibernateImpl implements UserService{
   @Transactional(readOnly = false)
   @Override
   public void adminAddAlbum(String albumName, int popularity, String imagePath ){
-
      Album album = new Album(albumName,popularity,imagePath);
      System.out.println(album.toString());
      albumDao.addAlbum(album);
-  }
-
-  @Transactional(readOnly = false)
-  @Override
-  public void adminEditArtistBio(int artistId){
   }
 
   @Transactional(readOnly = false)
@@ -280,7 +274,7 @@ public class UserServiceHibernateImpl implements UserService{
   }
 
   @Transactional(readOnly = false)
-  @Override
+  @Override//admin
   public void adminDeleteUser(User u){
     userDao.deleteUser(u);
   }
@@ -324,81 +318,11 @@ public class UserServiceHibernateImpl implements UserService{
   }
 
   @Override
-  public void adminAddArtist(String username, String artistName, int popularity, String imagePath) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminRemoveArtist(String username, int artistId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminAddPlaylist(String username, String playlistName, String imagePath, String description) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminRemovePlaylist(String username, int playlistId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminAddSong(String username, String title) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminRemoveSong(String username, int songId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminEditSong(String username, int songId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminAddAlbum(String username, String albumName, int popularity, String imagePath) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminRemoveAlbum(String username, int albumId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminEditArtistBio(String username, int artistId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
   public void artistCheckSongMetrics(String username, int artistId) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
-  @Override
-  public void artistCheckRoyalties(String username, int artistId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminApproveFreeUser(String username, String approve) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminApproveArtistUser(String username, String approve) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void adminRemoveUser(String admin, String removeUser) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
+  @Override//not admin
   @Transactional(readOnly = false)
   public boolean removeUser(String username, String password) {
     User user= userDao.getUser(username);
@@ -441,7 +365,7 @@ public class UserServiceHibernateImpl implements UserService{
     session.setAttribute("allUsersTest", allUsersTest);
   */
 
-
+  @Override
   @Transactional(readOnly = false)
   public void banUser(String username){
     User user = userDao.getUser(username); 
@@ -454,4 +378,35 @@ public class UserServiceHibernateImpl implements UserService{
       userDao.updateUser(user);
     }
   }
+  
+  @Override
+  @Transactional(readOnly = false)
+  public User followUser(String username, String follow){
+    
+    User user = userDao.getUser(username);
+    User followed = userDao.getUser(follow);
+    List<User> following = user.getFollowing();
+    for(User u : following){
+      if(u.getUsername().equals(follow)){
+        return user;
+      }
+    }
+    following.add(followed);
+    user.setFollowing(following);
+    userDao.updateUser(user);
+    return user;
+  }
+
+  @Override
+  @Transactional(readOnly = false)
+  public User unfollowUser(String username, String follow){
+    User user = userDao.getUser(username);
+    User followed = userDao.getUser(follow);
+    List<User> following = user.getFollowing();
+    following.remove(followed);
+    user.setFollowing(following);
+    userDao.updateUser(user);
+    return user;
+  }
+  
 }

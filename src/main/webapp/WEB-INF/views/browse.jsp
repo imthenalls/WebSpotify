@@ -80,11 +80,15 @@ and open the template in the editor.
         <div class="col-xs-10 col-xs-offset-2" id="center-pane">
               <!-- JQUERY LOADS COMPONENTS HERE -->
         </div>
+        <c:choose>
+        <c:when test="${currentUser.accountType == 'Free'}">
         <div id="ad">
           <div class="ad-container">
             <img id="adImg" src="${pageContext.request.contextPath}${ad.imagePath}">
           </div>
         </div>
+        </c:when>  
+        </c:choose>
       </div>
       <div id="bottomTool">
         <%@include file="/resources/toolbars/bottom.jsp" %>

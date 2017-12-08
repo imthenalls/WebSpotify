@@ -42,13 +42,13 @@
              <ul class="dropdown-menu">
                <c:choose>
                  <c:when test="${User.accountType == 'Banned'}">
-                   <li><a class="ban-button" username="${User.username}">Unban</a></li>
+                   <li><a class="ban-button" href="#" username="${User.username}">Unban</a></li>
                  </c:when>
                  <c:otherwise> 
-                   <li><a class="ban-button" username="${User.username}">Ban</a></li>
+                   <li><a class="ban-button" href="#" username="${User.username}">Ban</a></li>
                  </c:otherwise>
                  </c:choose>
-               <li><a class = "delete-user" href="#" username="${User.username}">delete user</a></li>
+               <li><a class = "admin-delete-user" href="#" username="${User.username}">delete user</a></li>
              </ul>
            </div>
           </td>

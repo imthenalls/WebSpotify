@@ -61,7 +61,7 @@ public class SpotifyController {
   public ModelAndView loginUser(@RequestParam String username, @RequestParam String password, HttpSession session){
     User user = userService.login(username, password);
     
-
+    
 // artistService.genre("rock");
     if(user==null){
         session.setAttribute("badLogin",true);
@@ -70,6 +70,7 @@ public class SpotifyController {
     
     if(user.getAccountType() == AccountType.Admin){
         session.setAttribute("currentUser", user);
+
         ModelAndView model= new ModelAndView("redirect:/viewAdminBrowse");
         return model;   
     }
@@ -114,12 +115,14 @@ public class SpotifyController {
     List<Album> followedAlbums = new ArrayList<>();
     List<Song> followedSongs = new ArrayList<>();
     List<Artist> followedArtists = new ArrayList<>();
+    List<User> followedUsers = new ArrayList();
     
     createdPlaylists.addAll(user.getCreatedPlaylists());
     followedPlaylists.addAll(user.getFollowedPlaylists());
     followedAlbums.addAll(user.getFollowedAlbums());
     followedSongs.addAll(user.getFollowedSongs());
     followedArtists.addAll(user.getFollowedArtists());
+    followedUsers.addAll(user.getFollowing());
     allGenres.addAll(songService.getGenreList());
     
     session.setAttribute("currentUser", user);
@@ -128,6 +131,7 @@ public class SpotifyController {
     session.setAttribute("followedAlbums",followedAlbums);
     session.setAttribute("followedSongs",followedSongs);
     session.setAttribute("followedArtists",followedArtists);
+    session.setAttribute("followedUsers",followedUsers);
     session.setAttribute("allGenres",allGenres);
     session.setAttribute("ad", adService.randomAd());
     
@@ -152,13 +156,15 @@ public class SpotifyController {
     
     session.setAttribute("discoverAlbums", nonFollowAlbum);
     session.setAttribute("discoverArtists", nonFollowArtist);
+    List<User> userList = userService.listAllUsers();
+    session.setAttribute("userList",userList);
     
     session.setMaxInactiveInterval(45*60); //set the inactive timeout to 45 minutes
-   
+    
     ModelAndView model= new ModelAndView("redirect:/viewBrowse");
     return model;   
   }
-
+  
   @RequestMapping(value = "/viewSignup", method = RequestMethod.GET)
   public ModelAndView viewSignup(HttpSession session) {
     ModelAndView model;
@@ -268,8 +274,8 @@ public class SpotifyController {
   @RequestMapping(value = "/viewUsers", method= RequestMethod.GET)
   @ResponseBody
   public void viewUsers(HttpSession session){
-    List<User> followUsers = userService.listAllUsers();
-    session.setAttribute("userList",followUsers);
+    List<User> userList = userService.listAllUsers();
+    session.setAttribute("userList",userList);
   }
   
   @RequestMapping(value = "/search", method= RequestMethod.GET)
@@ -385,14 +391,19 @@ public class SpotifyController {
   @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
   @ResponseBody
   public boolean deleteAccount(@RequestParam String password, HttpSession session){
-    User user=(User)session.getAttribute("currentUser");
-    boolean b=userService.removeUser(user.getUsername(), password);
+    User user = (User)session.getAttribute("currentUser");
+    boolean b = userService.removeUser(user.getUsername(), password);
     return b;
   }
   
   @RequestMapping(value = "/ad", method = RequestMethod.GET)
   @ResponseBody
   public String getAd(HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    if(user.getAccountType() == AccountType.Premium)
+    {
+      return "";
+    }
     return adService.randomAd().getImagePath();
   }
   
@@ -406,6 +417,8 @@ public class SpotifyController {
   @ResponseBody
   public void banUser(@RequestParam String username, HttpSession session){
     userService.banUser(username);
+    List<User> userList = userService.listAllUsers();  
+    session.setAttribute("userList",userList);
   }
   
    @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
@@ -428,4 +441,20 @@ public class SpotifyController {
        session.setAttribute("adList",ads);
     }
   }
+  @RequestMapping( value = "/followUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void followUser(@RequestParam String username, HttpSession session){
+    User user = (User)session.getAttribute("currentUser");
+    user = userService.followUser(user.getUsername(),  username);
+    session.setAttribute("currentUser",user);
+  }
+  @RequestMapping( value = "/adminDeleteUser", method = RequestMethod.POST)
+  @ResponseBody
+  public void adminDeleteUser(@RequestParam String username, HttpSession session){
+    User user = userService.getUser(username);
+    userService.adminDeleteUser(user);
+    List<User> userList = userService.listAllUsers();  
+    session.setAttribute("userList",userList);
+  }
+  
 }
