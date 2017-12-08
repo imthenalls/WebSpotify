@@ -1,22 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
-    <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
-    </div>
     <div id="mediaInfo" class="col-xs-8">
       <div class="row">
-        <span class="mediaType">Playlist</span>
-      </div>
-      <div class="row">
         <a href="#">
-          <h3 class="mediaName">Songs</h3>    
+          <h3 class="mediaName">Artists</h3>    
         </a>
-      </div>
-      <div class="row" id="mediaSpecs">
-        <span>
-          ${currentPlaylist.description}
-        </span>
       </div>
     </div>
   </div>
@@ -25,11 +14,11 @@
   <table class="table playlistTable">
     <tr>
       <th>Name</th>
-      <th>aaaa</th>
+      <th></th>
     </tr>
     <c:forEach items="${allArtists}" var="Artist">
         <tr class="tableRow">
-        <td><a href="#" onclick=viewArtist(${Artist.artistId})>${Artist.artistName}</a></td>
+        <td><a href="#" onclick="viewArtist(${Artist.artistId})">${Artist.artistName}</a></td>
          <c:choose>
              <c:when test="${currentUser.accountType == 'Admin'}">'
              <td>
@@ -39,7 +28,7 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick=adminRemoveArtist(${Artist.artistId})>Remove From artists</a></li>
+                        <li><a href="#" onclick="adminRemoveArtist(${Artist.artistId})">Remove From artists</a></li>
                     </ul>
                 </div>
              </td>
