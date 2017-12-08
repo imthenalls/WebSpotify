@@ -204,7 +204,14 @@ public class SpotifyController {
     }
     return new ModelAndView("redirect:/");
   }
-
+  @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+  public void addUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, 
+          @RequestParam String artist, HttpSession session) {
+    boolean isArtist = !(artist.equals("false"));
+    System.out.println("QQQQQQQQQQQQQQ"); 
+    userService.addUser(username, password, email, isArtist);
+  }
+  
   @RequestMapping(value = "/viewBrowse", method = RequestMethod.GET)
   public ModelAndView viewBrowse(HttpSession session) {
     if(session.getAttribute("currentUser") == null){

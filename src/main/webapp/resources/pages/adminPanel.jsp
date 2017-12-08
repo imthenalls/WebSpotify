@@ -30,5 +30,8 @@
     <li> 
         <a data-toggle="tab" href="#" onclick="viewAds()">Edit Ad list</a>
     </li>
+    <li> 
+        <a data-toggle="tab" href="#" onclick="adminViewAddUser()">Add User</a>
+    </li>
   </ul>
 </div>

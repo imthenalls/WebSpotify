@@ -1,16 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row" id="mediaPane">
   <div class="col-xs-12">
-    <div class="col-xs-2">
-      <img class="mediaPic" src="/resources/img/foo.jpg">
-    </div>
-    <div id="mediaInfo" class="col-xs-8">
-      <div class="row">
-        <span class="mediaType">Playlist</span>
-      </div>
       <div class="row">
         <a href="#">
-          <h3 class="mediaName">Songs</h3>    
+          <h3 class="mediaName">Unapproved Artists</h3>    
         </a>
       </div>
       <div class="row" id="mediaSpecs">
