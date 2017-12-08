@@ -15,6 +15,13 @@ $(document).ready(function(){
         viewProfile($(this).attr("username"));
       }
     }, '.viewUser');
+
+    $(document).on('click','#followUser', function(){
+      followUser();
+    });
+    $(document).on('click','#unfollowUser', function(){
+      unfollowUser();
+    });
     
     $(document).on({
       change: function(){
@@ -83,8 +90,62 @@ $(document).ready(function(){
       return false;
       }
     },'#moreUsers');
+    
+    $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("hi following");
+        viewFollowing();
+        return false;
+      }
+    },'#profileFollowing');
+    
+    $(document).on({
+      click: function(){
+        var name = $("#profilePane").attr("user");
+        console.log("HIIIIII");
+        viewFollowers();
+        return false;
+      }
+    },'#profileFollower');
 });
-
+function followUser(username){
+    $.ajax({
+    url: "/followUser",
+    type: "POST",
+    //Sends the necessary form parameters to the servlet
+    data:({
+     username: $("#viewed-username").html()
+    }),
+    success: function(){
+      console.log("Success following user ");
+      $("#center-pane").load("/resources/pages/profile.jsp");
+    },
+    error: function(){
+      console.log("Failure following user");
+    }
+  });
+}
+function unfollowUser(username){
+    $.ajax({
+    url: "/unfollowUser",
+    type: "POST",
+    //Sends the necessary form parameters to the servlet
+    data:({
+     username: $("#viewed-username").html()
+    }),
+    success: function(){
+      console.log("Success unfollowing user ");
+      $("#center-pane").load("/resources/pages/profile.jsp");
+    },
+    error: function(){
+      console.log("Failure unfollowing user");
+    }
+  });
+}
+function viewFollowers(){
+  
+}
 function uploadImage($files, handler) {
     console.log("upload function");
     // Reject big files
@@ -175,6 +236,40 @@ function viewProfile(username){
         },
         error: function(){
             console.log("View error");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function viewFollowing(){
+    $.ajax({
+        url: "viewFollowing",
+        type: "GET",
+
+        success:function(){
+          console.log("hey whats up following");
+            $("#profilePane").load("/resources/pages/followUsers.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing playlist");
+        }
+    });
+    return false; // Makes sure that the link isn't followed
+}
+
+function viewFollowers(){
+    $.ajax({
+        url: "viewFollowers",
+        type: "GET",
+
+        success:function(){
+          console.log("hey whats up followers");
+            $("#profilePane").load("/resources/pages/followUsers.jsp",function(){
+            });
+        },
+        error: function(){
+            console.log("Error viewing playlist");
         }
     });
     return false; // Makes sure that the link isn't followed

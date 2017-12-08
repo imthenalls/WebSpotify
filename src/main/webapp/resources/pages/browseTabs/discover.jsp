@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container" id="browseDiscover">
   <div class="container-fluid">
     <h3>Discover Artists</h3>
@@ -5,6 +6,10 @@
       <div class="col-sm-3" style="height:380px;">
         <div class="albumCard">
           <a href="#" onclick="viewArtist(${discoverArtist.artistId})"><img src="${discoverArtist.imagePath}" alt="Image" class="img-responsive albumPic"></a>
+          <div class="albumOverlay">
+            <button id="discoverArt" class="fa fa-plus albumButton discovered " artistId="${discoverArtist.artistId}"></button>
+            <button class="fa fa-play albumButton"></button>
+          </div>
           <a href="#" onclick="viewArtist(${discoverArtist.artistId})"><h4>${discoverArtist.artistName}</h4></a>
         </div>
       </div>

@@ -132,14 +132,7 @@ public class SongController {
       Song song = songService.getSong(songId);
     }
   }
-  
-  @RequestMapping( value = "/top", method = RequestMethod.GET)
-  @ResponseBody
-  public void getTopSongs(HttpSession session){
-    List<Song> songs = songService.getTop50Songs();
-    session.setAttribute("allSongs", songs);
-  }
-  
+
   @RequestMapping( value = "/seeMore", method = RequestMethod.GET)
   @ResponseBody
   public void seeMore(HttpSession session){

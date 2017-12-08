@@ -11,24 +11,7 @@ $(document).ready(function(){
        followSong($(this).attr("songId"),$(this).attr("currentPage"));
      }  
     },'.followSong');
-    
-    $(document).on({
-      click: function(){
-        $.ajax({
-        url: "song/top",
-        type: "GET",
-        success:function(){
-          $("#center-pane").load("/resources/pages/topSongs.jsp",function(){
-                    console.log("Success unfollowing song");
-                });
-        },
-        error: function(){
-                console.log("Failure unfollowing song");
-        }
-      });
-      return false;
-          }
-    },'#topWorld');
+
     
     $(document).on({
       click: function(){
@@ -48,6 +31,29 @@ $(document).ready(function(){
       return false;
       }
     },'#moreSongs');
+    
+    $(document).on({
+      click: function(){
+        var artistId = $("#discoverArt").attr("artistId");
+        $.ajax({
+        url: "artist/discoverArtist",
+        type: "POST",
+        data: ({
+         artistId: artistId
+       }),
+        success:function(){
+          $("#center-pane").load("/resources/pages/browseTabs/discover.jsp",function(){
+                    console.log("Success view disocver");
+                });
+        },
+        error: function(){
+                console.log("Failure discoving");
+        }
+      });
+      return false;
+      }
+    },'.discovered');
+      //
     
 });
 

@@ -75,8 +75,10 @@ public class SongDAOHibernateImpl implements SongDAO{
   @Override
   public List<Song> getTop50() {
    Criteria c = sessionFactory.getCurrentSession().createCriteria(Song.class);
-    c.setMaxResults(50);
     c.addOrder(Order.desc("totalPlays"));
+    c.setMaxResults(50);
+    List<Song> songs = c.list();
+
     return c.list();  
   }
   

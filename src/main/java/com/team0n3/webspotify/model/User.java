@@ -94,6 +94,17 @@ public class User implements Serializable{
   @Column(name="accountType",nullable=false)
   @Enumerated(EnumType.STRING)
   private AccountType accountType;
+  
+  @ManyToMany(cascade={CascadeType.PERSIST, 
+        CascadeType.MERGE})
+  @JoinTable(
+    name="followuser",
+    joinColumns={@JoinColumn(name="username")},
+    inverseJoinColumns={@JoinColumn(name="followingUsername")})
+  private List<User> following;
+
+  @ManyToMany(mappedBy="following")
+  private List<User> followers;     
 
   public User() {
   }
@@ -110,6 +121,22 @@ public class User implements Serializable{
     accountType = AccountType.Free;
   }
 
+  public List<User> getFollowers() {
+    return followers;
+  }
+
+  public void setFollowers(List<User> followers) {
+    this.followers = followers;
+  }
+
+  public List<User> getFollowing() {
+    return following;
+  }
+
+  public void setFollowing(List<User> following) {
+    this.following = following;
+  }
+  
   public Collection<Song> getFollowedSongs() {
       return followedSongs;
   }
@@ -244,11 +271,20 @@ public class User implements Serializable{
     return false;
   }
   
-    public boolean isFollowingArtist(Artist artist){
+  public boolean isFollowingArtist(Artist artist){
     List<Artist> followedArtist = new ArrayList<>();
     followedArtist.addAll(followedArtists);
     for (Artist a : followedArtist) {
       if(a.getArtistId() == artist.getArtistId())
+        return true;
+    }
+    return false;
+  }
+  public boolean isFollowingUser(User user){
+    List<User> followedUser = new ArrayList<>();
+    followedUser.addAll(following);
+    for (User a : followedUser) {
+      if(a.getUsername().equals(user.getUsername()))
         return true;
     }
     return false;

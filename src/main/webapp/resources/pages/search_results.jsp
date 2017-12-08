@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <div id="search-pane">
   
     <div id="search-results-header" class="row"><h2>Search Results</h2></div>
@@ -11,7 +12,15 @@
         <div class="albumCard">
           <a href="#" onclick="viewArtist(${topResultArtist.artistId})"><img src="${topResultArtist.imagePath}" onerror="this.src='http://placehold.it/350x350'" alt="Image" class="img-responsive albumPic"></a>
           <div class="albumOverlay">     
-            <button class="fa fa-remove albumButton" onclick="unfollowArtist(${topResultArtist.artistId},'followedArtists.jsp')"></button>
+            <c:choose>
+              <c:when test="${currentUser.isFollowingArtist(topResultArtist)}">
+                <button class="fa fa-remove albumButton unfollowArtist" onclick="unfollowArtist(${topResultArtist.artistId},'search_results.jsp')"></button>
+              </c:when>
+              <c:otherwise>
+                <button class="fa fa-plus albumButton followArtist" artistId="${topResultArtist.artistId}" currentPage="${'search_results.jsp'}"></button>
+              </c:otherwise>
+            </c:choose>
+            
             <button class="fa fa-play albumButton"></button>
             </div>
         </div>
@@ -91,30 +100,52 @@
     </div>
 
     </div>
-    
+
     <div class="row"></div>
     <div id="search-song-results" class="row">
     <div id="song-search-results-header">
       <span class="search-header">Songs</span> <span class="search-text"> <a href="#" id="moreSongs">see more</a></span>
     </div>
         <table class="table songTable">
-            <thead>
-                <tr>
-                    <th>Song Name</th>
-                    <th>Artist</th>
-                    <th>Duration</th>
-                </tr>
-            </thead>
-            <tbody>
-              <c:forEach items="${songList}" var="song">
-                <tr class="song-row-search" albumId="${song.albumId.albumId}">
-                    <td>${song.title}</td>
-                    <td><a href="#" onclick="viewArtist(${song.artistId})">${song.artistId.artistName}</a></td>
-                    <td>${song.duration}</td>
-                </tr>
-              </c:forEach>
-            </tbody>
-        </table>
+      <c:forEach begin="0" end="9" varStatus="loop" items="${songList}" var="Song">
+        <tr class="tableRow">
+          <td class="col-md-2">
+              <a class="playHide">
+                  ${loop.index+1}
+              </a>        
+            <a href="#" onclick="playSong(${Song.songId},'artist',${loop.index})">
+              <i class="playShow fa fa-play fa-fw"></i>
+            </a>
+          </td>
+          <td class='col-md-4'><a href="#" onclick="viewAlbum(${Song.albumId.albumId})">${Song.title}</a></td>
+          <td class="col-md-1 text-right">
+            <fmt:formatNumber value="${(Song.duration/60) - ((Song.duration/60)%1)}" maxFractionDigits="0"/>:<fmt:formatNumber value="${Song.duration%60}" minIntegerDigits="2"/>
+          </td>
+          <td class="text-right col-md-1">
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-ellipsis-h songOptions" id="dropdownMenu1"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <c:choose>
+                  <c:when test="${currentUser.isFollowingSong(Song)}">
+                    <li><a href="#" songId="${Song.songId}" currentPage="artist.jsp" class="unfollowSong">Unfollow Song</a></li>
+                  </c:when>
+                  <c:otherwise>
+                    <li><a href="#" songId="${Song.songId}" currentPage="artist.jsp" class="followSong">Follow Song</a></li>
+                  </c:otherwise>
+                </c:choose>
+                <c:forEach items="${createdPlaylists}" var="Playlist">
+                  <li><a href="#" onclick="addSongToPlaylist(${Playlist.playlistID}, ${Song.songId})">${Playlist.playlistName}</a></li>
+                </c:forEach>
+              </ul>
+            </div>
+          </td>
+          <td class='col-md-1 text-right'>
+            ${Song.totalPlays}
+          </td>
+        </c:forEach>
+      </table>
     </div>
     <div id="search-playlist-results" class="row">
       <div id="playlist-search-results-header"><span class="search-header">Playlists</span> <span class="search-text"> <a href="#" id="morePlaylists">see more</a></span></div>
